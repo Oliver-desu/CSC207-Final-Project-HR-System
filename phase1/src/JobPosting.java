@@ -1,8 +1,10 @@
-package src;
+import login.SearchObject;
+
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 
-public class JobPosting {
+public class JobPosting implements SearchObject {
     private LocalDate postDate;
     private LocalDate closeDate;
     private int numPositions;
@@ -19,6 +21,8 @@ public class JobPosting {
         this.numPositions = numPositions;
         this.decidingProcess = new JobDecidingProcess();
 //        update allJobPostings
+//        Oliver to YiChun: there should be a new method to add new JobPosting to the entire collection. instead of
+//        adding it in the constructor.
     }
 
     public Company getCompany() {
@@ -39,15 +43,30 @@ public class JobPosting {
     void nextRound(List<Application> applications){}
 
     public List<JobPosting> getAllJobPostings(){
-//        return
         return null;
     }
 
     public List<Application> getNextRoundApplications(){
-//        return
         return null;
     }
 
+    @Override
+    public String getSearchValue1() {
+        return null;
+    }
 
+    @Override
+    public String getSearchValue2() {
+        return null;
+    }
 
+    @Override
+    public String getSearchValue3() {
+        return null;
+    }
+
+    @Override
+    public ActionListener getSelectAction() {
+        return null;
+    }
 }

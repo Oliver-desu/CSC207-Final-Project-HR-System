@@ -1,6 +1,9 @@
+import login.SearchObject;
+
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-public class Interview {
+public class Interview implements SearchObject {
 
     private enum Status {
         PASS,
@@ -73,5 +76,25 @@ public class Interview {
 
     public void failInterview() {
 
+    }
+
+    @Override
+    public String getSearchValue1() {
+        return null;
+    }
+
+    @Override
+    public String getSearchValue2() {
+        return null;
+    }
+
+    @Override
+    public String getSearchValue3() {
+        return null;
+    }
+
+    @Override
+    public ActionListener getSelectAction() {
+        return null;
     }
 }
