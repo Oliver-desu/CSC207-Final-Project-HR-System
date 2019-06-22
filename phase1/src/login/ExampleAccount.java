@@ -1,3 +1,5 @@
+package login;
+
 import javax.swing.*;
 
 public class ExampleAccount implements WindowObject{
