@@ -5,7 +5,7 @@ public class Application {
     private Applicant applicant;
     private LocalDate closeDate;
     private String status;
-    private Document douments;
+    private Document documents;
 
     public Application(JobPosting jobposting, Applicant applicant) {
         this.jobposting = jobposting;
