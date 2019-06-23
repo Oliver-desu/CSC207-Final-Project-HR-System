@@ -2,7 +2,7 @@ package login;
 
 import java.awt.event.ActionListener;
 
-interface SearchObject {
+public interface SearchObject {
     String getSearchValue1();
     String getSearchValue2();
     String getSearchValue3();

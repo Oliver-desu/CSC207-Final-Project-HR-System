@@ -1,6 +1,9 @@
+import login.SearchObject;
+
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Interviewer extends User {
+public class Interviewer extends User implements SearchObject {
 
     private static ArrayList<Interviewer> allInterviewers = new ArrayList<Interviewer>();
     private Company company;
@@ -39,6 +42,23 @@ public class Interviewer extends User {
         return null;
     }
 
+    @Override
+    public ActionListener getSelectAction() {
+        return null;
+    }
 
+    @Override
+    public String getSearchValue3() {
+        return null;
+    }
 
+    @Override
+    public String getSearchValue2() {
+        return null;
+    }
+
+    @Override
+    public String getSearchValue1() {
+        return null;
+    }
 }

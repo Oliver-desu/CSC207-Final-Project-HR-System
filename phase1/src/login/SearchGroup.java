@@ -3,7 +3,7 @@ package login;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-interface SearchGroup {
+public interface SearchGroup {
     ArrayList<SearchObject> getSearchObjects();
     String getSearchKey1();
     String getSearchKey2();

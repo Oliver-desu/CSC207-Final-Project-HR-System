@@ -1,11 +1,16 @@
+import login.SearchObject;
+
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
-public class Application {
+import java.util.ArrayList;
+
+public class Application implements SearchObject {
 
     private JobPosting jobposting;
     private Applicant applicant;
     private LocalDate closeDate;
     private String status;
-    private Document douments;
+    private ArrayList<Document> documents;
 
     public Application(JobPosting jobposting, Applicant applicant) {
         this.jobposting = jobposting;
@@ -20,8 +25,8 @@ public class Application {
 
     }
 
-    public void setDocument(Document documents) {
-        this.documents = documents;
+    public void addDocument(Document document) {
+        this.documents.add(document);
     }
 
     public JobPosting getJobPosting() {
@@ -33,15 +38,31 @@ public class Application {
     }
 
     public String shortForm() {
-
+        return null;
     }
 
     public String detailForm() {
-
+        return null;
     }
 
+    @Override
+    public String getSearchValue1() {
+        return null;
+    }
 
+    @Override
+    public String getSearchValue2() {
+        return null;
+    }
 
+    @Override
+    public String getSearchValue3() {
+        return null;
+    }
 
+    @Override
+    public ActionListener getSelectAction() {
+        return null;
+    }
 }
 
