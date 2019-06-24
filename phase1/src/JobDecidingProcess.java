@@ -26,6 +26,21 @@ class JobDecidingProcess {
         return this.currentRound.equals(this.interviewRounds.get(this.interviewRounds.size() - 1));
     }
 
+    void addApplication(Application application) {
+        this.allApplications.add(application);
+        this.remainingApplications.add(application);
+    }
+
+    void withdrawApplication(Application application) {
+        this.remainingApplications.remove(application);
+    }
+
+    void withdrawApplication(List<Application> applications) {
+        for (Application application : applications) {
+            this.remainingApplications.remove(application);
+        }
+    }
+
     void addInterviews(Interview interview) {
         List<Interview> roundInterviews = this.interviews.get(interview.getRound());
         roundInterviews.add(interview);
@@ -40,11 +55,23 @@ class JobDecidingProcess {
         }
     }
 
-    List<Interview> getNextRoundInterviews() {
+    private String getNextRound() {
         int roundIndex = this.interviewRounds.indexOf(this.currentRound);
         if (roundIndex < this.interviewRounds.size() - 1) {
-            String nextRound = this.interviewRounds.get(roundIndex + 1);
-            return this.interviews.get(nextRound);
+            return this.interviewRounds.get(roundIndex + 1);
+        }
+        return null;
+    }
+
+    void setRound(List<Application> applications) {
+        for (Application application : applications) {
+            application.setStatus(this.currentRound);
+        }
+    }
+
+    List<Interview> getNextRoundInterviews() {
+        if (this.getNextRound() != null) {
+            return this.interviews.get(this.getNextRound());
         }
         return null;
     }
