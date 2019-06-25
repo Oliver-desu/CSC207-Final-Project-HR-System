@@ -1,18 +1,26 @@
 import login.SearchObject;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Interviewer extends User implements SearchObject {
 
     private static ArrayList<Interviewer> allInterviewers = new ArrayList<Interviewer>();
+    private String realName;
     private Company company;
     private ArrayList<Interview> interviews = new ArrayList<Interview>();
 
-    public Interviewer(String username, String password, Company company) {
-        super(username, password);
+    public Interviewer(String username, String password, LocalDate dateCreated, String realName, Company company) {
+        super(username, password, dateCreated);
+        this.realName = realName;
         this.company = company;
         allInterviewers.add(this);
+    }
+
+    public String getRealName() {
+        return this.realName;
     }
 
     public Company getCompany() {
@@ -35,7 +43,12 @@ public class Interviewer extends User implements SearchObject {
         return this.interviews.remove(interview);
     }
 
-    //    Unfinished methods:
+    //   TODO: Unfinished methods:
+
+    public HashMap<String, String> getAccount() {
+        HashMap<String, String> result = ((User) this).getAccount();
+        return result;
+    }
 
     @Override
     public String toString() {
