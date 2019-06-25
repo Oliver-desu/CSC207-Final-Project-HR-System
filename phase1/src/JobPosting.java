@@ -33,7 +33,7 @@ public class JobPosting implements SearchObject {
         this.decidingProcess = new JobDecidingProcess();
         this.requirement = requirement;
         addJobPostings(this);
-//        Oliver to YiChun: there should be a new method to add new JobPosting to the entire collection. instead of
+//        Oliver to YiChun: there should be a new method to add new Account to the entire collection. instead of
 //        adding it in the constructor.
     }
 
