@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 public class JobPosting implements SearchObject {
-    private enum Status {Posted, Closed, Filled;}
+    private enum Status {Posted, Closed, Filled}
 
     private LocalDate postDate;
     private LocalDate closeDate;
@@ -14,24 +14,27 @@ public class JobPosting implements SearchObject {
     private JobDecidingProcess decidingProcess;
     private Company company;
     private List<String> requirement;
+    private String id;
     private static List<JobPosting> allJobPostings = new ArrayList<>();
 
-    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement) {
+    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement,String id) {
         this.company = company;
         this.postDate = postDate;
         this.closeDate = closeDate;
         this.decidingProcess = new JobDecidingProcess();
         this.requirement = requirement;
+        this.id = id;
         addJobPostings(this);
     }
 
-    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, int numPositions) {
+    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, String id , int numPositions) {
         this.company = company;
         this.postDate = postDate;
         this.closeDate = closeDate;
         this.numPositions = numPositions;
         this.decidingProcess = new JobDecidingProcess();
         this.requirement = requirement;
+        this.id = id;
         addJobPostings(this);
 //        Oliver to YiChun: there should be a new method to add new Account to the entire collection. instead of
 //        adding it in the constructor.
@@ -66,6 +69,10 @@ public class JobPosting implements SearchObject {
 
     public Status getStatus() {
         return status;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getCurrentRound() {
