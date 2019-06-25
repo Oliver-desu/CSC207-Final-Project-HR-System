@@ -42,16 +42,16 @@ public class InterfaceTool {
     }
 
     static JPasswordField createPasswordField(int width, int height){
-        JPasswordField jPasswordField = new JPasswordField();
-        setDimension(jPasswordField,width, height);
-        return jPasswordField;
+        JPasswordField passwordField = new JPasswordField();
+        setDimension(passwordField,width, height);
+        return passwordField;
     }
 
     static JButton createButton(String text, int width, int height, ActionListener actionListener){
-        JButton jButton = new JButton(text);
-        setDimension(jButton, width, height);
-        jButton.addActionListener(actionListener);
-        return jButton;
+        JButton button = new JButton(text);
+        setDimension(button, width, height);
+        button.addActionListener(actionListener);
+        return button;
     }
 
     static JCheckBox createCheckBox(int size){
