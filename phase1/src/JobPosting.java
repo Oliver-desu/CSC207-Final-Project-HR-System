@@ -151,6 +151,18 @@ public class JobPosting implements SearchObject {
         allJobPostings.remove(jobPosting);
     }
 
+//    FileSystem:
+    HashMap<String, String> getAccount(){
+        HashMap<String, String>  map = new HashMap<>();
+        map.put("Company", "Company Name");  //change to company name
+        map.put("Job Title", "Job Title");
+        map.put("Post Date", this.postDate.toString());
+        map.put("Close Date", this.closeDate.toString());
+        map.put("Number of Positions", Integer.toString(this.numPositions));
+        map.put("Status", this.status.toString());
+        return map;
+    }
+
 
     // Unfinished:
     void setRounds(ArrayList<String> interviewRounds, int insertPos) {
