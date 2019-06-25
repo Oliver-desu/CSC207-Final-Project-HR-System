@@ -50,6 +50,17 @@ public class Application implements SearchObject {
         return null;
     }
 
+    // Oliver: Class Interview use below new methods. To resolve error. I added them.
+    // Please contact to Kerwin.
+    public String getApplicantRealName(){
+        return null;
+    }
+
+    public String getId(){
+        return null;
+    }
+
+
     @Override
     public String getSearchValue1() {
         return null;

@@ -21,7 +21,9 @@ public class Applicant extends  User implements SearchObject {
     private LocalDate lastAppliedDate;
 
 
-    public Applicant(String username, String password) {
+    public Applicant(String username, String password, LocalDate DateCreated) {
+        // Oliver: There is an unresolved error. I fixed by adding a parameter and a super call.
+        super(username, password, DateCreated);
         this.username = username;
         this.password = password;
 
