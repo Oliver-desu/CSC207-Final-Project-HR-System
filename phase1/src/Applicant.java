@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Applicant extends  User implements SearchObject {
-    private String username;
-    private String password;
+    private String realName;
     private List<Document> documents =new ArrayList<>();
     private List<Application> current_Applications = new ArrayList<>();
     private List<Application> past_Applications =new ArrayList<>();
@@ -22,32 +21,25 @@ public class Applicant extends  User implements SearchObject {
 
 
     public Applicant(String username, String password, LocalDate DateCreated) {
-        // Oliver: There is an unresolved error. I fixed by adding a parameter and a super call.
         super(username, password, DateCreated);
-        this.username = username;
-        this.password = password;
+
+    //getter and setters begin-------------------------------------------
+        //---------------------------------------------------------
 
     }
-    public String getUsername() {
-        return this.username;
+    public String getUsername() { return super.getUsername();
     }
-
-    public String getPassword() {
-        return this.password;
+    public String getPassword() { return super.getPassword();
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password) {  super.setPassword(password);
     }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String username) { super.setUsername(username);
     }
-
-    public boolean matchPassword(String password) {
-        return this.password.equals(password);
+    public boolean matchPassword(String password) {return super.getPassword().equals(password);
     }
-
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
     public List<Document> get_documents(){return  this.documents;}
 
     public List<Application> getCurrent_Applications(){return  this.current_Applications;}
@@ -55,6 +47,10 @@ public class Applicant extends  User implements SearchObject {
     public List<Application> getPast_Applications(){return  this.past_Applications;}
 
     public  List<Application> getAll_Applications(){return  this.all_Applications;}
+
+    //getter and setters end -------------------------------------------
+    //---------------------------------------------------------
+
 
     public void addInterviews(Interview a){interviews.add(a);}
 
