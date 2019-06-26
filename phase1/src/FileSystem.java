@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileSystem {
@@ -36,10 +37,10 @@ public class FileSystem {
     }
 
     private static File pathToFile(String directory, String id){
-        return Path.of(MAIN_DIR, directory, id).toFile();
+        return Paths.get(MAIN_DIR, directory, id).toFile();
     }
     private static File pathToFile(File directory, String file){
-        return Path.of(directory.toString(),file).toFile();
+        return Paths.get(directory.toString(),file).toFile();
     }
     private static File getAccount(File file){
         return pathToFile(file,ACCOUNT);
@@ -54,6 +55,17 @@ public class FileSystem {
         }
         return attributes;
     }
+    private static void writeAccount(File file, HashMap<String, String> account){}
+    private static ArrayList<String> readCollection(File file){
+        return null;
+    }
+    private static void writeCollection(File file, ArrayList<String> collections){}
+    private static void appendCollection(File file, String collection){}
+    private static String readDoc(File file){
+        return null;
+    }
+    private static void writeDoc(File file, String doc){}
+
 
     static File getApplicant(String username){
         return pathToFile(APPLICANTS, username);
