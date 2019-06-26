@@ -9,10 +9,16 @@ public class Application implements SearchObject {
     private JobPosting jobposting;
     private Applicant applicant;
     private LocalDate closeDate;
+    private String id;
     private String status;
     private ArrayList<Document> documents;
 
-    public Application(JobPosting jobposting, Applicant applicant) {
+    public Application(JobPosting jobposting, Applicant applicant, String id) {
+        this.jobposting = jobposting;
+        this.applicant = applicant;
+        this.id = id;
+    }
+    public Application(JobPosting jobposting, Applicant applicant){
         this.jobposting = jobposting;
         this.applicant = applicant;
     }
@@ -53,11 +59,11 @@ public class Application implements SearchObject {
     // Oliver: Class Interview use below new methods. To resolve error. I added them.
     // Please contact to Kerwin.
     public String getApplicantRealName(){
-        return null;
+        return this.applicant.getRealName();
     }
 
     public String getId(){
-        return null;
+        return this.id;
     }
 
 
