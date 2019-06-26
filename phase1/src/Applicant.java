@@ -40,6 +40,9 @@ public class Applicant extends  User implements SearchObject {
     public void setRealName(String realName) {
         this.realName = realName;
     }
+    public String getRealName(){
+        return this.realName;
+    }
     public List<Document> get_documents(){return  this.documents;}
 
     public List<Application> getCurrent_Applications(){return  this.current_Applications;}
