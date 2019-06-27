@@ -101,7 +101,7 @@ public class FileSystem {
     }
 
     private static String readDoc(File file) {
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -115,8 +115,8 @@ public class FileSystem {
     }
 
     private static void writeDoc(File file, String doc) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()))) {
-            bw.write(doc.toString());
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile()))) {
+            bufferedWriter.write(doc);
         } catch (IOException e) {
             e.printStackTrace();
         }
