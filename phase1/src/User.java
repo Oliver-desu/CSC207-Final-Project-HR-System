@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public abstract class User {
@@ -12,6 +13,13 @@ public abstract class User {
         this.password = password;
         this.dateCreated = dateCreated;
     }
+    public  User(HashMap<String, String> account){
+        this.username = account.get("Username");
+        this.password = account.get("Password");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(account.get("Date Created"), fmt);
+        this.dateCreated = date;    }
+
 
     public String getUsername() {
         return this.username;

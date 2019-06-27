@@ -3,10 +3,7 @@ import login.SearchObject;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Applicant extends  User implements SearchObject {
     private String realName;
@@ -21,12 +18,17 @@ public class Applicant extends  User implements SearchObject {
 
 
     public Applicant(String username, String password, LocalDate DateCreated) {
-        super(username, password, DateCreated);
+        super(username, password, DateCreated);}
+
+    public  Applicant(HashMap<String, String> account){
+        super(account);
+    }
 
     //getter and setters begin-------------------------------------------
         //---------------------------------------------------------
 
-    }
+
+
     public String getUsername() { return super.getUsername();
     }
     public String getPassword() { return super.getPassword();
@@ -40,6 +42,9 @@ public class Applicant extends  User implements SearchObject {
     public void setRealName(String realName) {
         this.realName = realName;
     }
+
+    public  String getRealName(){return  this.realName;}
+
     public List<Document> get_documents(){return  this.documents;}
 
     public List<Application> getCurrent_Applications(){return  this.current_Applications;}
@@ -48,31 +53,35 @@ public class Applicant extends  User implements SearchObject {
 
     public  List<Application> getAll_Applications(){return  this.all_Applications;}
 
+    public List<Interview> getInterviews(){return  interviews;}
+
+
+
     //getter and setters end -------------------------------------------
     //---------------------------------------------------------
 
 
     public void addInterviews(Interview a){interviews.add(a);}
 
-    public List<Interview> getInterviews(){return  interviews;}
+
 
     public List<JobPosting> viewJobs(ArrayList<JobPosting> a){return a;}
 
-    public  Application createApplication(JobPosting a){
-        Application b = new Application(a,this);
+    public  Application createApplication(JobPosting jobPosting){
+        Application b = new Application(jobPosting,this);
         this.all_Applications.add(b);
         return  b;
         //creat application with jobposing and return it
 
     }
-    public  void withdrawApplication(Application a){
-        a.setApplicant(null);
-        a.setJobposting(null);
+    public  void withdrawApplication(Application application){
+        application.setApplicant(null);
+        application.setJobposting(null);
         // set Applicant and Jobposting i order to withdraw
     }
 
-    public  void submitDocument(Document d){
-        this.documents.add(d);
+    public  void submitDocument(Document document){
+        this.documents.add(document);
     }
 
     public  boolean applicant_already_created(String username){
@@ -83,23 +92,25 @@ public class Applicant extends  User implements SearchObject {
         return false;
     }//to determine whether there is a user already
 
-    public Object get_application(String username){
+    public List<Application> get_application(String username){
         for (Applicant a:allApplicants
              ) {if(a.getUsername().equals(username)){return a.getAll_Applications();}
 
         }
-        return "No such User";
 
+        return  new ArrayList<>();
+        //return a List with all applications in it   , and if username dose not exits return a empty list
     }
 
     public List<Document> getDocument(){return  this.documents;}
-    public  Object getCV(){
+    public  Document getCV(){
         for (Document a:documents
         ) {if(a.get_CV_or_not()){return a;}
 
         }
         Document d = new Document();
         return d;
+        //return CV   , and if CV dose not exits return a empty Document.
     }
 
     public Document  getCoverLetter(){
@@ -109,6 +120,11 @@ public class Applicant extends  User implements SearchObject {
         }
         Document d = new Document();
         return d;
+        //return CV   , and if Coverletter dose not exits return a empty Document.
+    }
+
+    public HashMap<String, String> getAccount() {
+        return  super.getAccount();
     }
 
 
