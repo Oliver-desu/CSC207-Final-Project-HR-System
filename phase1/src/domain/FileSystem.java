@@ -1,3 +1,5 @@
+package domain;
+
 import java.io.*;
 import java.util.*;
 import java.nio.file.Paths;
@@ -23,7 +25,7 @@ public class FileSystem {
         System.out.println(readAccount(getAccount(getInterview("00003388"))));
         System.out.print("domain.Interviewer:   ");
         System.out.println(readAccount(getAccount(getInterviewer("biglist666"))));
-        System.out.print("JobPosting:   ");
+        System.out.print("domain.JobPosting:   ");
         System.out.println(readAccount(getAccount(getJobPosting("fishing327"))));
         System.out.print("domain.Company:   ");
         System.out.println(readAccount(getAccount(getCompany("StoryTeller"))));

@@ -1,5 +1,6 @@
 package domain;
 
+import domain.JobDecidingProcess;
 import login.SearchObject;
 
 import java.time.format.DateTimeFormatter;

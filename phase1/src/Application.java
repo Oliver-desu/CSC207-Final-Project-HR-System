@@ -1,3 +1,4 @@
+import domain.JobPosting;
 import login.SearchObject;
 
 import java.awt.event.ActionListener;
