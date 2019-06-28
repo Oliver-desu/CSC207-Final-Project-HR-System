@@ -1,6 +1,8 @@
 package login;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,7 +40,9 @@ public class Tool {
 
     static JLabel createTextLabel(String text, int width, int height){
         JLabel label=new JLabel(text);
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
         setDimension(label, width, height);
+        label.setBorder(BasicBorders.getButtonBorder());
         return label;
     }
     static JLabel createTextLabel(String text){
@@ -122,6 +126,17 @@ public class Tool {
         jFrame.add(createButton("Previous", width, height, previous));
         jFrame.add(createTextLabel(page));
         jFrame.add(createButton("Next", width, height, next));
+    }
+
+    public static JPanel createSearchLine(ArrayList<String> searchValues){
+        JPanel jPanel = new JPanel(new FlowLayout());
+        jPanel.setPreferredSize(new Dimension(450, 40));
+        jPanel.setBackground(Color.BLUE);
+        int width = 450/searchValues.size() - 5;
+        for (String value: searchValues){
+            jPanel.add(createTextLabel(value, width, 30));
+        }
+        return jPanel;
     }
 }
 
