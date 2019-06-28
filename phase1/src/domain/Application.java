@@ -31,6 +31,10 @@ public class Application implements SearchObject {
         this.status = status;
     }
 
+    public String getStatus(){
+        return this.status;
+    }
+
     public void setCloseDate() {
 
     }
