@@ -1,3 +1,5 @@
+package domain;
+
 import login.SearchObject;
 
 import java.time.format.DateTimeFormatter;
@@ -15,7 +17,7 @@ public class JobPosting implements SearchObject {
     private Company company;
     private List<String> requirement;
     private String id;
-//    private static List<JobPosting> allJobPostings = new ArrayList<>();
+//    private static List<domain.JobPosting> allJobPostings = new ArrayList<>();
 
     public JobPosting(HashMap<String, String> map, Company company, String id) {
         this.company = company;
@@ -89,7 +91,7 @@ public class JobPosting implements SearchObject {
         return this.decidingProcess.getCurrentRound();
     }
 
-//    public List<JobPosting> getAllJobPostings() {
+//    public List<domain.JobPosting> getAllJobPostings() {
 //        return allJobPostings;
 //    }
 
@@ -153,11 +155,11 @@ public class JobPosting implements SearchObject {
     }
 
     //    Static methods
-//    public static void addJobPostings(JobPosting jobPosting) {
+//    public static void addJobPostings(domain.JobPosting jobPosting) {
 //        allJobPostings.add(jobPosting);
 //    }
 
-//    public static void deleteJobPostings(JobPosting jobPosting) {
+//    public static void deleteJobPostings(domain.JobPosting jobPosting) {
 //        allJobPostings.remove(jobPosting);
 //    }
 
