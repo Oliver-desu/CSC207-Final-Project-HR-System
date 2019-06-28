@@ -1,3 +1,5 @@
+package domain;
+
 import login.SearchObject;
 
 import java.awt.event.ActionListener;

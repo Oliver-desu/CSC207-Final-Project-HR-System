@@ -1,12 +1,15 @@
+package domain;
+
+import domain.JobDecidingProcess;
 import login.SearchObject;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 public class JobPosting implements SearchObject {
     private enum Status {Posted, Closed, Filled}
-
     private LocalDate postDate;
     private LocalDate closeDate;
     private int numPositions = 1;
@@ -15,19 +18,29 @@ public class JobPosting implements SearchObject {
     private Company company;
     private List<String> requirement;
     private String id;
-    private static List<JobPosting> allJobPostings = new ArrayList<>();
+//    private static List<domain.JobPosting> allJobPostings = new ArrayList<>();
 
-    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement,String id) {
+    public JobPosting(HashMap<String, String> map, Company company, String id) {
+        this.company = company;
+        this.decidingProcess = new JobDecidingProcess();
+        this.id = id;
+        this.postDate = LocalDate.parse(map.get("Post Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.closeDate = LocalDate.parse(map.get("Close Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.requirement = new ArrayList<>(Arrays.asList(map.get("Requirement").split(",")));
+        this.numPositions = Integer.parseInt(map.get("Number of Positions"));
+    }
+
+    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, String id) {
         this.company = company;
         this.postDate = postDate;
         this.closeDate = closeDate;
         this.decidingProcess = new JobDecidingProcess();
         this.requirement = requirement;
         this.id = id;
-        addJobPostings(this);
+//        addJobPostings(this);
     }
 
-    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, String id , int numPositions) {
+    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, String id, int numPositions) {
         this.company = company;
         this.postDate = postDate;
         this.closeDate = closeDate;
@@ -35,7 +48,7 @@ public class JobPosting implements SearchObject {
         this.decidingProcess = new JobDecidingProcess();
         this.requirement = requirement;
         this.id = id;
-        addJobPostings(this);
+//        addJobPostings(this);
 //        Oliver to YiChun: there should be a new method to add new Account to the entire collection. instead of
 //        adding it in the constructor.
     }
@@ -79,9 +92,9 @@ public class JobPosting implements SearchObject {
         return this.decidingProcess.getCurrentRound();
     }
 
-    public List<JobPosting> getAllJobPostings() {
-        return allJobPostings;
-    }
+//    public List<domain.JobPosting> getAllJobPostings() {
+//        return allJobPostings;
+//    }
 
     public boolean isClosed() {
         return this.status == Status.Closed;
@@ -143,23 +156,24 @@ public class JobPosting implements SearchObject {
     }
 
     //    Static methods
-    public static void addJobPostings(JobPosting jobPosting) {
-        allJobPostings.add(jobPosting);
-    }
+//    public static void addJobPostings(domain.JobPosting jobPosting) {
+//        allJobPostings.add(jobPosting);
+//    }
 
-    public static void deleteJobPostings(JobPosting jobPosting) {
-        allJobPostings.remove(jobPosting);
-    }
+//    public static void deleteJobPostings(domain.JobPosting jobPosting) {
+//        allJobPostings.remove(jobPosting);
+//    }
 
-//    FileSystem:
-    HashMap<String, String> getAccount(){
-        HashMap<String, String>  map = new HashMap<>();
+    //    FileSystem:
+    HashMap<String, String> getAccount() {
+        HashMap<String, String> map = new HashMap<>();
         map.put("Company", "Company Name");  //change to company name
         map.put("Job Title", "Job Title");
         map.put("Post Date", this.postDate.toString());
         map.put("Close Date", this.closeDate.toString());
         map.put("Number of Positions", Integer.toString(this.numPositions));
         map.put("Status", this.status.toString());
+        map.put("Requirement", this.requirement.toString());
         return map;
     }
 

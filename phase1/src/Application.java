@@ -27,10 +27,6 @@ public class Application implements SearchObject {
         this.status = status;
     }
 
-    public String getStatus(){
-        return this.status;
-    }
-
     public void setCloseDate() {
 
     }
@@ -60,6 +56,8 @@ public class Application implements SearchObject {
         return null;
     }
 
+    // Oliver: Class Interview use below new methods. To resolve error. I added them.
+    // Please contact to Kerwin.
     public String getApplicantRealName(){
         return this.applicant.getRealName();
     }

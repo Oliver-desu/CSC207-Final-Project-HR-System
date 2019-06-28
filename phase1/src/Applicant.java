@@ -1,3 +1,5 @@
+import domain.Interview;
+import domain.User;
 import login.SearchObject;
 
 import java.awt.event.ActionListener;
@@ -5,7 +7,7 @@ import java.time.LocalDate;
 
 import java.util.*;
 
-public class Applicant extends  User implements SearchObject {
+public class Applicant extends User implements SearchObject {
     private String realName;
     private List<Document> documents =new ArrayList<>();
     private List<Application> current_Applications = new ArrayList<>();
