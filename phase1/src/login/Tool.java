@@ -5,21 +5,31 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class InterfaceTool {
-    static JFrame createInterface(String title, int width, int height){
-        // create interface with desired setting
-        JFrame newInterface = new JFrame(title);
-        newInterface.setSize(width,height);
-        newInterface.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);// exit code when close window
-        newInterface.setLocationRelativeTo(null);// window pop in the middle of screen
-        newInterface.setResizable(false); // window unstretchable
+public class Tool {
+    public static void main(String[] args) {
+        JFrame jFrame = new JFrame("ExampleMenu");
+        addSettings(jFrame);
+        JPanel jPanelL = new JPanel();
+        setDimension(jPanelL, 150,600);
+        jPanelL.setBackground(Color.black);
+        JPanel jPanelM = new JPanel();
+        setDimension(jPanelM, 650,600);
+        jPanelM.setBackground(Color.red);
+        JPanel jPanelR = new JPanel();
+        setDimension(jPanelR, 400,600);
+        jPanelR.setBackground(Color.blue);
+        jFrame.add(jPanelL);
+        jFrame.add(jPanelM);
+        jFrame.add(jPanelR);
+        jFrame.setVisible(true);
 
-        // flow layout
-        int gapWidth = width/20;
-        int gapHeight = gapWidth/4;
-        FlowLayout layout=new FlowLayout(FlowLayout.CENTER,gapWidth,gapHeight);
-        newInterface.setLayout(layout);
-        return newInterface;
+    }
+    static void addSettings(JFrame jFrame){
+        jFrame.setSize((1300), (650));
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);// exit code when close window
+        jFrame.setLocationRelativeTo(null);// window pop in the middle of screen
+        jFrame.setResizable(false); // window unstretchable
+        jFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5)); // flow layout
     }
 
     private static void setDimension(JComponent jComponent, int width, int height){
@@ -58,6 +68,15 @@ public class InterfaceTool {
         JCheckBox checkBox = new JCheckBox();
         setDimension(checkBox, size, size);
         return checkBox;
+    }
+
+    static JScrollPane createDescriptionArea(String text, int width, int height){
+        JTextArea textArea = new JTextArea(text);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        setDimension(scrollPane, width, height);
+        return scrollPane;
     }
 
     static void addUserInterface(JFrame jFrame, ActionListener account, ActionListener password, ActionListener logout){

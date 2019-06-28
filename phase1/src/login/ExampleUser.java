@@ -10,9 +10,10 @@ public class ExampleUser implements SearchGroup, WindowObject {
         user.getUI().setVisible(true);
     }
     public JFrame getUI(){
-        JFrame jFrame = InterfaceTool.createInterface("Some Title", 540, 700);
-        InterfaceTool.addUserInterface(jFrame,null, null,null);
-        InterfaceTool.addSearchInterface(jFrame,this, false);
+        JFrame jFrame = new JFrame("Some Title");
+        jFrame.setSize(540,700);
+        Tool.addUserInterface(jFrame,null, null,null);
+        Tool.addSearchInterface(jFrame,this, false);
         return jFrame;
     }
 
