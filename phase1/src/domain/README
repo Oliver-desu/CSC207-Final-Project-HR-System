@@ -1,0 +1,37 @@
+This package stores Classes that store information of an object and deal with them.
+
+Applicant(User):
+    Additional personal details.
+    Personal documents.
+    Past and ongoing Applications.
+    Past and ongoing Interviews.
+    Creating Applications for JobPostings.
+
+Application:
+    Application details(include a pointer to JobPosting and Applicant).
+    All interviews.
+
+Company:
+    Company details(include a pointer to HR).
+    All Interviewers.
+    All Applicants.
+
+HumanResources(User):
+    Additional personal details(include a pointer to Company).
+
+Interview:
+    Interview details(include a pointer to Interviewer and Application).
+
+Interviewer(User):
+    Additional personal details.
+    All Interviews.
+
+JobDecidingProcess:
+    All Applications.
+    All Interviews.
+
+JobPosting:
+    JobPosting details(include a pointer to Company and JobDecidingProcess).
+
+User:
+    Personal details.
