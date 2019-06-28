@@ -1,5 +1,5 @@
-import domain.Interview;
-import domain.User;
+package domain;
+
 import login.SearchObject;
 
 import java.awt.event.ActionListener;
@@ -69,7 +69,7 @@ public class Applicant extends User implements SearchObject {
 
     public List<JobPosting> viewJobs(ArrayList<JobPosting> a){return a;}
 
-    public  Application createApplication(JobPosting jobPosting){
+    public Application createApplication(JobPosting jobPosting){
         Application b = new Application(jobPosting,this);
         this.all_Applications.add(b);
         return  b;
@@ -79,7 +79,7 @@ public class Applicant extends User implements SearchObject {
     public  void withdrawApplication(Application application){
         application.setApplicant(null);
         application.setJobposting(null);
-        // set Applicant and Jobposting i order to withdraw
+        // set domain.Applicant and Jobposting i order to withdraw
     }
 
     public  void submitDocument(Document document){
@@ -105,24 +105,24 @@ public class Applicant extends User implements SearchObject {
     }
 
     public List<Document> getDocument(){return  this.documents;}
-    public  Document getCV(){
+    public Document getCV(){
         for (Document a:documents
         ) {if(a.get_CV_or_not()){return a;}
 
         }
         Document d = new Document();
         return d;
-        //return CV   , and if CV dose not exits return a empty Document.
+        //return CV   , and if CV dose not exits return a empty domain.Document.
     }
 
-    public Document  getCoverLetter(){
+    public Document getCoverLetter(){
         for (Document a:documents
         ) {if(!a.get_CV_or_not()){return a;}
 
         }
         Document d = new Document();
         return d;
-        //return CV   , and if Coverletter dose not exits return a empty Document.
+        //return CV   , and if Coverletter dose not exits return a empty domain.Document.
     }
 
     public HashMap<String, String> getAccount() {
