@@ -19,13 +19,13 @@ public class FileSystem {
     public static void main(String[] args) throws Exception {
         System.out.print("Applicant:    ");
         System.out.println(readAccount(getAccount(getApplicant("cheny402"))));
-        System.out.print("Interview:    ");
+        System.out.print("domain.Interview:    ");
         System.out.println(readAccount(getAccount(getInterview("00003388"))));
-        System.out.print("Interviewer:   ");
+        System.out.print("domain.Interviewer:   ");
         System.out.println(readAccount(getAccount(getInterviewer("biglist666"))));
         System.out.print("JobPosting:   ");
         System.out.println(readAccount(getAccount(getJobPosting("fishing327"))));
-        System.out.print("Company:   ");
+        System.out.print("domain.Company:   ");
         System.out.println(readAccount(getAccount(getCompany("StoryTeller"))));
         System.out.print("HR:   ");
         System.out.println(readAccount(getAccount(getHR("midterm57"))));

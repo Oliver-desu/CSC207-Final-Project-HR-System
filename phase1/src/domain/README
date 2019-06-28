@@ -1,6 +1,6 @@
 This package stores Classes that store information of an object and deal with them.
 
-Applicant(User):
+Applicant(domain.User):
     Additional personal details.
     Personal documents.
     Past and ongoing Applications.
@@ -11,18 +11,18 @@ Application:
     Application details(include a pointer to JobPosting and Applicant).
     All interviews.
 
-Company:
-    Company details(include a pointer to HR).
+domain.Company:
+    domain.Company details(include a pointer to HR).
     All Interviewers.
     All Applicants.
 
-HumanResources(User):
-    Additional personal details(include a pointer to Company).
+HumanResources(domain.User):
+    Additional personal details(include a pointer to domain.Company).
 
-Interview:
-    Interview details(include a pointer to Interviewer and Application).
+domain.Interview:
+    domain.Interview details(include a pointer to domain.Interviewer and Application).
 
-Interviewer(User):
+domain.Interviewer(domain.User):
     Additional personal details.
     All Interviews.
 
@@ -31,7 +31,7 @@ JobDecidingProcess:
     All Interviews.
 
 JobPosting:
-    JobPosting details(include a pointer to Company and JobDecidingProcess).
+    JobPosting details(include a pointer to domain.Company and JobDecidingProcess).
 
-User:
+domain.User:
     Personal details.

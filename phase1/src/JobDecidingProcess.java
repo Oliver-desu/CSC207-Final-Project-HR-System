@@ -1,3 +1,5 @@
+import domain.Interview;
+
 import java.util.*;
 
 class JobDecidingProcess {

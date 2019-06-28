@@ -1,3 +1,5 @@
+package domain;
+
 import login.SearchObject;
 
 import java.awt.event.ActionListener;
@@ -107,7 +109,7 @@ public class Interview implements SearchObject {
         result.put("Location", this.location);
         result.put("Duration", this.duration.toString());
         result.put("Applicant name", this.application.getApplicantRealName());
-        result.put("Interviewer name", this.interviewer.getRealName());
+        result.put("domain.Interviewer name", this.interviewer.getRealName());
         result.put("Job Posting id", this.jobPosting.getId());
         result.put("Application id", this.application.getId());
         result.put("Status", this.status.toString());
@@ -125,7 +127,7 @@ public class Interview implements SearchObject {
 
     public String toStringForStaff() {
         return this.toStringForApplicant() + "\n" +
-                "Interviewer: " + this.interviewer.getRealName() + "\n" +
+                "domain.Interviewer: " + this.interviewer.getRealName() + "\n" +
                 "Applicant: " + this.application.getApplicantRealName() + "\n" +
                 "Status: " + this.status + "\n" +
                 "Recommendation" + this.recommendation;

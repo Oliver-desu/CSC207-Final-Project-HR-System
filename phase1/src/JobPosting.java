@@ -1,3 +1,5 @@
+import domain.Company;
+import domain.Interview;
 import login.SearchObject;
 
 import java.time.format.DateTimeFormatter;
@@ -164,7 +166,7 @@ public class JobPosting implements SearchObject {
     //    FileSystem:
     HashMap<String, String> getAccount() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("Company", "Company Name");  //change to company name
+        map.put("domain.Company", "domain.Company Name");  //change to company name
         map.put("Job Title", "Job Title");
         map.put("Post Date", this.postDate.toString());
         map.put("Close Date", this.closeDate.toString());
