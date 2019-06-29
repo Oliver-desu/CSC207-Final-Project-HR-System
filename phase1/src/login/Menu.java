@@ -38,8 +38,8 @@ public class Menu extends JFrame {
         JPanel page2 = new JPanel();
         page2.setPreferredSize(PAGE_SIZE);
         page2.setBackground(Color.BLACK);
-        menu.addPage("page1", page1);
-        menu.addPage("page2", page2);
+        menu.newPage("page1").setBackground(Color.BLACK);
+        menu.newPage("page2").setBackground(Color.BLUE);
         menu.setVisible(true);
         menu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -62,14 +62,46 @@ public class Menu extends JFrame {
         add(infoPanel);
         titlePanel.setLayout(new FlowLayout());
         pagePanel.setLayout(pages);
+        newInfo().add(defaultInfo());
     }
 
-    void addPage(String title, JPanel page){
+    JPanel newPage(String title){
+        JPanel page = new JPanel(new FlowLayout());
+        page.setPreferredSize(PAGE_SIZE);
         titlePanel.add(Tool.createButton(title, MENU_BUTTON_SIZE, new SwitchPage(title)));
         pagePanel.add(page, title);
+        return page;
     }
 
-    private void showPage(String title){
+    void deletePage(int numPage){
+        int num = titlePanel.getComponentCount();
+        if(num != numPage) {
+            titlePanel.remove(num - 1);
+            pagePanel.remove(num - 1);
+        }
+    }
+
+    JPanel newInfo(){
+        deleteInfo();
+        JPanel info = new JPanel(new FlowLayout());
+        info.setPreferredSize(INFO_SIZE);
+        infoPanel.add(info);
+        return info;
+    }
+
+    void deleteInfo(){
+        if (infoPanel.getComponentCount() != 0){
+            infoPanel.remove(0);
+        }
+    }
+
+    JPanel defaultInfo(){
+        JPanel jPanel = new JPanel();
+        jPanel.setPreferredSize(INFO_SIZE);
+        return jPanel;
+    }
+
+    void showPage(String title){
         pages.show(pagePanel, title);
     }
 

@@ -1,6 +1,8 @@
 package login;
 
 import domain.Applicant;
+import domain.Interview;
+import domain.JobPosting;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 public class Tool {
     private static final Dimension SEARCH_PAGE_SIZE = new Dimension(650, 500);
     private static final Dimension SEARCH_BUTTON_SIZE = new Dimension(70, 30);
+    private static final Dimension REGULAR_BUTTON_SIZE = new Dimension(100, 40);
+    private static final Dimension REGULAR_DESCRIPTION_AREA_SIZE = new Dimension(400, 400);
+    private static final Dimension REGULAR_TEXT_FIELD_SIZE = new Dimension(200, 40);
     private static final Dimension INFO_LINE_SIZE = new Dimension(450, 40);
     private static final Dimension SEARCH_BUTTONS_AREA_SIZE = new Dimension(150, 40);
     private static final Dimension SEARCH_LINE_SIZE = new Dimension(650,40);
@@ -41,10 +46,14 @@ public class Tool {
         return new JLabel(text);
     }
 
-    static JTextField createTextField(int width, int height){
+    static JTextField createTextField(Dimension dimension){
         JTextField textField = new JTextField();
-        setDimension(textField, width, height);
+        textField.setPreferredSize(dimension);
         return textField;
+    }
+
+    static JTextField createTextField(){
+        return createTextField(REGULAR_TEXT_FIELD_SIZE);
     }
 
     static JPasswordField createPasswordField(int width, int height){
@@ -60,6 +69,10 @@ public class Tool {
         return button;
     }
 
+    static JButton createButton(String text, ActionListener actionListener){
+        return createButton(text, REGULAR_BUTTON_SIZE, actionListener);
+    }
+
     static JButton createSearchButton(String text, ActionListener actionListener){
         return createButton(text, SEARCH_BUTTON_SIZE, actionListener);
     }
@@ -70,16 +83,16 @@ public class Tool {
         return checkBox;
     }
 
-    static JScrollPane createDescriptionArea(String text, int width, int height){
+    static JScrollPane createDescriptionArea(String text){
         JTextArea textArea = new JTextArea(text);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
-        setDimension(scrollPane, width, height);
+        scrollPane.setPreferredSize(REGULAR_DESCRIPTION_AREA_SIZE);
         return scrollPane;
     }
 
-    public static JPanel createInfoLine(ArrayList<String> searchValues){
+    static JPanel createInfoLine(ArrayList<String> searchValues){
         JPanel jPanel = new JPanel(new FlowLayout());
         jPanel.setPreferredSize(INFO_LINE_SIZE);
         jPanel.setBackground(Color.BLUE);
@@ -89,12 +102,15 @@ public class Tool {
         }
         return jPanel;
     }
+    public static JPanel createInfoLine(SearchObject searchObject){
+        return createInfoLine(HRMenu.exampleGetSearchValues(searchObject));
+    }
 
 //    public static JPanel createInfoLine(SearchObject searchObject){
 //        return createInfoLine(searchObject.getSearchValues());
 //    }
 
-    public static JPanel createSearchButtonsArea(JButton button1){
+    static JPanel createSearchButtonsArea(JButton button1){
         JPanel buttons = new JPanel(new FlowLayout());
         buttons.setPreferredSize(SEARCH_BUTTONS_AREA_SIZE);
         buttons.add(button1);
@@ -102,13 +118,13 @@ public class Tool {
         return buttons;
     }
 
-    public static JPanel createSearchButtons(JButton button1, JButton button2){
+    static JPanel createSearchButtonsArea(JButton button1, JButton button2){
         JPanel buttons = createSearchButtonsArea(button1);
         buttons.add(button2);
         return buttons;
     }
 
-    public static JPanel createSearchLine(JPanel buttons, JPanel info){
+    static JPanel createSearchLine(JPanel buttons, JPanel info){
         JPanel line = new JPanel(new FlowLayout());
         line.setPreferredSize(SEARCH_LINE_SIZE);
         line.add(buttons);
@@ -116,7 +132,7 @@ public class Tool {
         return line;
     }
 
-    public static JScrollPane createSearchPage(ArrayList<JPanel> searchLines){
+    static JScrollPane createSearchPage(ArrayList<JPanel> searchLines){
         JPanel jPanel = new JPanel(new FlowLayout());
         int height = GAP;
         for (JPanel searchLine: searchLines ){

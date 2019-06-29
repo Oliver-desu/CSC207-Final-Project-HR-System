@@ -9,5 +9,6 @@ public interface SearchObject {
     String getSearchValue3();
     ActionListener getSelectAction();
 //    ArrayList<String> getSearchValues();
+//    String getDescription();
 
 }
