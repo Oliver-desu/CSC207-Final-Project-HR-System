@@ -1,5 +1,7 @@
 package login;
 
+import domain.Applicant;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicBorders;
@@ -8,30 +10,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Tool {
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame("ExampleMenu");
-        addSettings(jFrame);
-        JPanel jPanelL = new JPanel();
-        setDimension(jPanelL, 150,600);
-        jPanelL.setBackground(Color.black);
-        JPanel jPanelM = new JPanel();
-        setDimension(jPanelM, 650,600);
-        jPanelM.setBackground(Color.red);
-        JPanel jPanelR = new JPanel();
-        setDimension(jPanelR, 400,600);
-        jPanelR.setBackground(Color.blue);
-        jFrame.add(jPanelL);
-        jFrame.add(jPanelM);
-        jFrame.add(jPanelR);
-        jFrame.setVisible(true);
+    private static final Dimension SEARCH_PAGE_SIZE = new Dimension(650, 500);
+    private static final Dimension SEARCH_BUTTON_SIZE = new Dimension(70, 30);
+    private static final Dimension INFO_LINE_SIZE = new Dimension(450, 40);
+    private static final Dimension SEARCH_BUTTONS_AREA_SIZE = new Dimension(150, 40);
+    private static final Dimension SEARCH_LINE_SIZE = new Dimension(650,40);
+    private static final int SEARCH_LABEL_HEIGHT = 30;
+    private static final int GAP = 5;
 
-    }
+
+
     static void addSettings(JFrame jFrame){
-        jFrame.setSize((1300), (650));
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);// exit code when close window
         jFrame.setLocationRelativeTo(null);// window pop in the middle of screen
         jFrame.setResizable(false); // window unstretchable
-        jFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5)); // flow layout
     }
 
     private static void setDimension(JComponent jComponent, int width, int height){
@@ -61,11 +53,15 @@ public class Tool {
         return passwordField;
     }
 
-    static JButton createButton(String text, int width, int height, ActionListener actionListener){
+    static JButton createButton(String text, Dimension dimension, ActionListener actionListener){
         JButton button = new JButton(text);
-        setDimension(button, width, height);
+        button.setPreferredSize(dimension);
         button.addActionListener(actionListener);
         return button;
+    }
+
+    static JButton createSearchButton(String text, ActionListener actionListener){
+        return createButton(text, SEARCH_BUTTON_SIZE, actionListener);
     }
 
     static JCheckBox createCheckBox(int size){
@@ -83,60 +79,54 @@ public class Tool {
         return scrollPane;
     }
 
-    static void addUserInterface(JFrame jFrame, ActionListener account, ActionListener password, ActionListener logout){
-        int width = jFrame.getWidth()/4;
-        int height = (int)(width*0.4);
-        jFrame.add(createButton("Account", width, height, account));
-        jFrame.add(createButton("Edit Password", width, height, password));
-        jFrame.add(createButton("Logout", width, height, logout));
-    }
-
-    static void addSearchInterface(JFrame jFrame, SearchGroup group, boolean isButton){
-        getSearchHeading(jFrame, group);
-        getSearchBody(jFrame, group, isButton);
-        getSearchPage(jFrame, group.getPage(), group.toPreviousPage(), group.toNextPage());
-    }
-
-    private static void getSearchHeading(JFrame jFrame, SearchGroup group){
-        int width = jFrame.getWidth()/6;
-        int height = (int)(width*0.4);
-        jFrame.add(createTextLabel("Sort by:",width, height));
-        jFrame.add(createButton(group.getSearchKey1(),width,height,group.getSortAction1()));
-        jFrame.add(createButton(group.getSearchKey2(),width,height,group.getSortAction2()));
-        jFrame.add(createButton(group.getSearchKey3(),width,height,group.getSortAction3()));
-    }
-    private static void getSearchBody(JFrame jFrame, SearchGroup group, boolean isButton){
-        int width = jFrame.getWidth()/6;
-        int height = (int)(width*0.4);
-        ArrayList<SearchObject> searchObjects = group.getSearchObjects();
-        for (SearchObject searchObject: searchObjects){
-            if (isButton)jFrame.add(createButton(group.getSelectText(), width, height, searchObject.getSelectAction()));
-            else {
-                jFrame.add(createCheckBox(height));
-                jFrame.add(createTextLabel("",width/3, height));
-            }
-            jFrame.add(createTextLabel(searchObject.getSearchValue1(),width, height));
-            jFrame.add(createTextLabel(searchObject.getSearchValue2(),width, height));
-            jFrame.add(createTextLabel(searchObject.getSearchValue3(),width, height));
-        }
-    }
-    private static void getSearchPage(JFrame jFrame, String page, ActionListener previous, ActionListener next){
-        int width = jFrame.getWidth()/4;
-        int height = (int)(width*0.4);
-        jFrame.add(createButton("Previous", width, height, previous));
-        jFrame.add(createTextLabel(page));
-        jFrame.add(createButton("Next", width, height, next));
-    }
-
-    public static JPanel createSearchLine(ArrayList<String> searchValues){
+    public static JPanel createInfoLine(ArrayList<String> searchValues){
         JPanel jPanel = new JPanel(new FlowLayout());
-        jPanel.setPreferredSize(new Dimension(450, 40));
+        jPanel.setPreferredSize(INFO_LINE_SIZE);
         jPanel.setBackground(Color.BLUE);
-        int width = 450/searchValues.size() - 5;
+        int width = INFO_LINE_SIZE.width/searchValues.size() - GAP;
         for (String value: searchValues){
-            jPanel.add(createTextLabel(value, width, 30));
+            jPanel.add(createTextLabel(value, width, SEARCH_LABEL_HEIGHT));
         }
         return jPanel;
+    }
+
+//    public static JPanel createInfoLine(SearchObject searchObject){
+//        return createInfoLine(searchObject.getSearchValues());
+//    }
+
+    public static JPanel createSearchButtonsArea(JButton button1){
+        JPanel buttons = new JPanel(new FlowLayout());
+        buttons.setPreferredSize(SEARCH_BUTTONS_AREA_SIZE);
+        buttons.add(button1);
+        buttons.setBackground(Color.BLUE);
+        return buttons;
+    }
+
+    public static JPanel createSearchButtons(JButton button1, JButton button2){
+        JPanel buttons = createSearchButtonsArea(button1);
+        buttons.add(button2);
+        return buttons;
+    }
+
+    public static JPanel createSearchLine(JPanel buttons, JPanel info){
+        JPanel line = new JPanel(new FlowLayout());
+        line.setPreferredSize(SEARCH_LINE_SIZE);
+        line.add(buttons);
+        line.add(info);
+        return line;
+    }
+
+    public static JScrollPane createSearchPage(ArrayList<JPanel> searchLines){
+        JPanel jPanel = new JPanel(new FlowLayout());
+        int height = GAP;
+        for (JPanel searchLine: searchLines ){
+            jPanel.add(searchLine);
+            height += SEARCH_LINE_SIZE.height + GAP;
+        }
+        jPanel.setPreferredSize(new Dimension(SEARCH_PAGE_SIZE.width - 20, height));
+        JScrollPane jScrollPane = new JScrollPane(jPanel);
+        jScrollPane.setPreferredSize(SEARCH_PAGE_SIZE);
+        return jScrollPane;
     }
 }
 

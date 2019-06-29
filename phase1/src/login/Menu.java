@@ -6,6 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
+    private static final Dimension FRAME_SIZE = new Dimension(1250, 600);
+    private static final Dimension MENU_SIZE = new Dimension(150, 600);
+    private static final Dimension PAGE_SIZE = new Dimension(650, 600);
+    private static final Dimension INFO_SIZE = new Dimension(400, 600);
+    private static final Dimension MENU_BUTTON_SIZE = new Dimension(140, 60);
+
     private JPanel titlePanel = new JPanel();
     private JPanel pagePanel = new JPanel();
     private JPanel infoPanel = new JPanel();
@@ -27,10 +33,10 @@ public class Menu extends JFrame {
     public static void main(String[] args) {
         Menu menu = new Menu();
         JPanel page1 = new JPanel();
-        page1.setPreferredSize(new Dimension(650, 600));
+        page1.setPreferredSize(PAGE_SIZE);
         page1.setBackground(Color.BLUE);
         JPanel page2 = new JPanel();
-        page2.setPreferredSize(new Dimension(650, 600));
+        page2.setPreferredSize(PAGE_SIZE);
         page2.setBackground(Color.BLACK);
         menu.addPage("page1", page1);
         menu.addPage("page2", page2);
@@ -43,13 +49,13 @@ public class Menu extends JFrame {
     }
 
     private void setSize(){
-        setSize(1250, 650);
+        setSize(FRAME_SIZE);
         setLayout(new FlowLayout());
-        titlePanel.setPreferredSize(new Dimension(150, 600));
+        titlePanel.setPreferredSize(MENU_SIZE);
         titlePanel.setBackground(Color.white);
-        pagePanel.setPreferredSize(new Dimension(650, 600));
+        pagePanel.setPreferredSize(PAGE_SIZE);
         pagePanel.setBackground(Color.white);
-        infoPanel.setPreferredSize(new Dimension(400, 600));
+        infoPanel.setPreferredSize(INFO_SIZE);
         infoPanel.setBackground(Color.white);
         add(titlePanel);
         add(pagePanel);
@@ -59,7 +65,7 @@ public class Menu extends JFrame {
     }
 
     void addPage(String title, JPanel page){
-        titlePanel.add(Tool.createButton(title, 140, 60, new SwitchPage(title)));
+        titlePanel.add(Tool.createButton(title, MENU_BUTTON_SIZE, new SwitchPage(title)));
         pagePanel.add(page, title);
     }
 

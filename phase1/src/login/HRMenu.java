@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class HRMenu extends Menu {
     private HumanResource humanResource;
@@ -27,26 +28,21 @@ public class HRMenu extends Menu {
     }
 
     void createApplicantPage(){
-//        JPanel jPanel = new JPanel(new FlowLayout());
-//        JScrollPane jScrollPane = new JScrollPane(jPanel);
-//        jScrollPane.setPreferredSize(new Dimension(650,500));
-//        int height = 5;
-//        for (Applicant applicant: humanResource.getApplicants()){
-//            JPanel buttons = new JPanel(new FlowLayout());
-//            buttons.setPreferredSize(new Dimension(150, 40));
-//            buttons.add(Tool.createButton("view", 70,30, null));
-//            buttons.add(Tool.createButton("view", 70,30, null));
-//            buttons.setBackground(Color.BLUE);
-//            jPanel.add(buttons);
-//            jPanel.add(Tool.createSearchLine(applicant.getSearchValues()));
-//            height += 45;
+        ArrayList<JPanel> searchLines = new ArrayList<>();
+//        for (Applicant applicant: humanResource.getApplicants){
+//            searchLines.add(createSearchLine(applicant));
 //        }
-//        jPanel.setPreferredSize(new Dimension(630, height));
-//
-//        JPanel page = new JPanel(new FlowLayout());
-//        page.add(jScrollPane);
-//        addPage("All Applicants", page);
+        JPanel page = new JPanel(new FlowLayout());
+//        page.add(Tool.createSearchPage(searchLines));
+        addPage("All Applicants", page);
     }
+
+//    JPanel createSearchLine(Applicant applicant){
+//        JButton button = Tool.createSearchButton("view", null);
+//        JPanel buttons = Tool.createSearchButtonsArea(button);
+//        JPanel info = Tool.createInfoLine(applicant);
+//        return Tool.createSearchLine(buttons, info);
+//    }
 
 //    Todo: Copy Paste to Applicant.
 //    public ArrayList<String> getSearchValues(){
