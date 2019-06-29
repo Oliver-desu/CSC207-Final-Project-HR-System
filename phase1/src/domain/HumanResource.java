@@ -35,5 +35,8 @@ public class HumanResource extends User {
         return null;
     }
 
+    public ArrayList<Applicant> getApplicants(){
+        return null;
+    }
 
 }
