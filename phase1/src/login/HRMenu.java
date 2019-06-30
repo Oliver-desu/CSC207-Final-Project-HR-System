@@ -133,6 +133,21 @@ public class HRMenu extends Menu {
         return jPanel;
     }
 
+    @Override
+    JPanel createDefaultInfo() {
+        JPanel info = new JPanel();
+        String text = "Welcome to HRMenu!\n\n\n" +
+                "Click 'All Applicant' to see all applicant who apply to your company.\n" +
+                "   Each applicant is available to see its details.\n\n" +
+                "Click 'All JobPostings' to see all job postings in your company.\n" +
+                "   Ongoing job posting is available for edit.\n" +
+                "   For each ongoing job posting you can see its interviews in each round and start a new round.\n" +
+                "   To match a interview, you should go to current round.\n" +
+                "   To start a new round, you should make sure all interviews in current round is matched and completed.";
+        info.add(Tool.createDescriptionArea(text));
+        return info;
+    }
+
     private ArrayList<Applicant> exampleGetApplicants() {
         ArrayList<Applicant> list = new ArrayList<>();
         Applicant x = new Applicant("user", "pass", LocalDate.now());

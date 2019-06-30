@@ -98,7 +98,7 @@ public class Menu extends JFrame {
         infoPanel.updateUI();
     }
 
-    private JPanel createDefaultInfo() {
+    JPanel createDefaultInfo() {
         return new JPanel();
     }
 
