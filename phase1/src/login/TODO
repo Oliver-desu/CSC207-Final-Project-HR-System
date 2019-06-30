@@ -1,0 +1,9 @@
+/*humanResource.getJobPostings()*/
+/*humanResource.getApplicants()*/
+/* applicant.getDescription()*/
+/* jobPosting.getDescription()*/
+/*humanResource.getInterviewer(String)*/
+/* interview.getDescription()*/
+/*ArrayList<String> jobPosting.getRounds()*/
+/*jobPosting.getRoundInterviews(round)*/
+/*void interview.matchInterviewer(interviewer);*/
