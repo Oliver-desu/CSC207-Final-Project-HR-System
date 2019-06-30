@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
-    private static final Dimension FRAME_SIZE = new Dimension(1250, 600);
+    private static final Dimension FRAME_SIZE = new Dimension(1250, 650);
     private static final Dimension MENU_SIZE = new Dimension(150, 600);
     private static final Dimension PAGE_SIZE = new Dimension(650, 600);
     private static final Dimension INFO_SIZE = new Dimension(400, 600);
@@ -14,8 +14,9 @@ public class Menu extends JFrame {
 
     private JPanel titlePanel = new JPanel();
     private JPanel pagePanel = new JPanel();
-    private JPanel infoPanel = new JPanel();
+    JPanel infoPanel = new JPanel();
     private CardLayout pages = new CardLayout();
+    private int numPage;
 
     class SwitchPage implements ActionListener {
         private String title;
@@ -30,22 +31,26 @@ public class Menu extends JFrame {
         }
     }
 
+    Menu() {
+    }
+
+    Menu(int numPage) {
+        this.numPage = numPage;
+        setSize();
+    }
+
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        Menu menu = new Menu(2);
         JPanel page1 = new JPanel();
         page1.setPreferredSize(PAGE_SIZE);
         page1.setBackground(Color.BLUE);
         JPanel page2 = new JPanel();
         page2.setPreferredSize(PAGE_SIZE);
         page2.setBackground(Color.BLACK);
-        menu.newPage("page1").setBackground(Color.BLACK);
-        menu.newPage("page2").setBackground(Color.BLUE);
+        menu.addPage("page1", page1);
+        menu.addPage("page2", page2);
         menu.setVisible(true);
         menu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-
-    Menu(){
-        setSize();
     }
 
     private void setSize(){
@@ -62,47 +67,76 @@ public class Menu extends JFrame {
         add(infoPanel);
         titlePanel.setLayout(new FlowLayout());
         pagePanel.setLayout(pages);
-        newInfo().add(defaultInfo());
+        changeInfo(createDefaultInfo());
     }
 
-    JPanel newPage(String title){
-        JPanel page = new JPanel(new FlowLayout());
+    void addPage(String title, JPanel page) {
         page.setPreferredSize(PAGE_SIZE);
         titlePanel.add(Tool.createButton(title, MENU_BUTTON_SIZE, new SwitchPage(title)));
         pagePanel.add(page, title);
-        return page;
     }
 
-    void deletePage(int numPage){
+    void deletePage() {
         int num = titlePanel.getComponentCount();
         if(num != numPage) {
             titlePanel.remove(num - 1);
             pagePanel.remove(num - 1);
+            titlePanel.updateUI();
         }
     }
 
-    JPanel newInfo(){
-        deleteInfo();
-        JPanel info = new JPanel(new FlowLayout());
-        info.setPreferredSize(INFO_SIZE);
-        infoPanel.add(info);
-        return info;
+    void showPage(String title) {
+        pages.show(pagePanel, title);
     }
 
-    void deleteInfo(){
+    void changeInfo(JPanel info) {
         if (infoPanel.getComponentCount() != 0){
             infoPanel.remove(0);
         }
+        info.setPreferredSize(INFO_SIZE);
+        infoPanel.add(info);
+        infoPanel.updateUI();
     }
 
-    JPanel defaultInfo(){
-        JPanel jPanel = new JPanel();
-        jPanel.setPreferredSize(INFO_SIZE);
-        return jPanel;
+    private JPanel createDefaultInfo() {
+        return new JPanel();
     }
 
-    void showPage(String title){
-        pages.show(pagePanel, title);
+    class ViewDescription implements ActionListener {
+        private String text;
+        private boolean delete;
+
+        ViewDescription(String text, boolean delete) {
+            this.text = text;
+            this.delete = delete;
+        }
+
+        ViewDescription(String text) {
+            this.text = text;
+            this.delete = true;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (delete) deletePage();
+            JPanel info = new JPanel();
+            info.add(Tool.createDescriptionArea(text));
+            changeInfo(info);
+        }
+    }
+
+    class ReturnToInfo implements ActionListener {
+        private JPanel info;
+
+        ReturnToInfo(JPanel info) {
+            this.info = info;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            deletePage();
+            changeInfo(info);
+        }
     }
 
 
