@@ -31,6 +31,8 @@ public class HumanResource extends User {
         return result;
     }
 
+    public Interviewer getInterviewer(String name){return null;}
+
     @Override
     public String toString() {
         return null;
@@ -39,5 +41,7 @@ public class HumanResource extends User {
     public ArrayList<Applicant> getApplicants() {
         return null;
     }
+
+    public ArrayList<JobPosting> getJobPostings(){return null;}
 
 }

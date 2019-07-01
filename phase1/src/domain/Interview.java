@@ -4,6 +4,7 @@ import login.SearchObject;
 
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Interview implements SearchObject {
@@ -148,23 +149,16 @@ public class Interview implements SearchObject {
 
 //    TODO: Unfinished methods
 
+    public void match(Interviewer interviewer){}
+
+
     @Override
-    public String getSearchValue1() {
+    public ArrayList<String> getSearchValues() {
         return null;
     }
 
     @Override
-    public String getSearchValue2() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue3() {
-        return null;
-    }
-
-    @Override
-    public ActionListener getSelectAction() {
+    public String getInfo() {
         return null;
     }
 }

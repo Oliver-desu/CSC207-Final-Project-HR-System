@@ -17,6 +17,11 @@ public class Company {
         allCompanies.add(this);
     }
 
+    public Company(){
+        this.companyName = "unnamed";
+        allCompanies.add(this);
+    }
+
     //getters
     public String getCompanyName() { return companyName; }
 

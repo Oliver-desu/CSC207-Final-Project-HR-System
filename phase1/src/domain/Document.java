@@ -3,6 +3,7 @@ package domain;
 import login.SearchObject;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Document implements SearchObject {
     private  boolean CV_or_not;//if document is CV then this will be true
@@ -19,28 +20,14 @@ public class Document implements SearchObject {
 
     public String getContent(){return this.content;}
     public  boolean get_CV_or_not(){return CV_or_not;}
+
     @Override
-    public ActionListener getSelectAction() {
+    public ArrayList<String> getSearchValues() {
         return null;
     }
 
     @Override
-    public String getSearchValue3() {
+    public String getInfo() {
         return null;
-    }
-
-    @Override
-    public String getSearchValue2() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue1() {
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

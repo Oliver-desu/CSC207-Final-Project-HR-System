@@ -13,7 +13,7 @@ public class Application implements SearchObject {
     private LocalDate closeDate;
     private String id;
     private String status;
-    private ArrayList<Document> documents;
+    private ArrayList<Document> documents = new ArrayList<>();
 
     public Application(JobPosting jobposting, Applicant applicant, String id) {
         this.jobposting = jobposting;
@@ -74,22 +74,12 @@ public class Application implements SearchObject {
 
 
     @Override
-    public String getSearchValue1() {
+    public String getInfo() {
         return null;
     }
 
     @Override
-    public String getSearchValue2() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue3() {
-        return null;
-    }
-
-    @Override
-    public ActionListener getSelectAction() {
+    public ArrayList<String> getSearchValues() {
         return null;
     }
 }

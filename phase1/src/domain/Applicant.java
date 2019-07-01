@@ -131,25 +131,24 @@ public class Applicant extends User implements SearchObject {
         return  super.getAccount();
     }
 
+    // Below methods are collabarate with GUI. Please implement them as soon as possible.
+    // Do not change heading.
 
+    public ArrayList<Document> getDocuments(){return null;}
+
+    public ArrayList<Application> getApplications(){return null;}
+
+    public Application getApplication(String id){return null;}
+
+    public Document getDocument(String name){return null;}
 
     @Override
-    public ActionListener getSelectAction() {
+    public ArrayList<String> getSearchValues() {
         return null;
     }
 
     @Override
-    public String getSearchValue3() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue2() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue1() {
+    public String getInfo() {
         return null;
     }
 }

@@ -55,27 +55,12 @@ public class Interviewer extends User implements SearchObject {
     }
 
     @Override
-    public String toString() {
+    public ArrayList<String> getSearchValues() {
         return null;
     }
 
     @Override
-    public ActionListener getSelectAction() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue3() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue2() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue1() {
+    public String getInfo() {
         return null;
     }
 }

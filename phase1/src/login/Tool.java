@@ -1,11 +1,6 @@
 package login;
 
-import domain.Applicant;
-import domain.Interview;
-import domain.JobPosting;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionListener;

@@ -203,22 +203,12 @@ public class JobPosting implements SearchObject {
     }
 
     @Override
-    public String getSearchValue1() {
+    public String getInfo() {
         return null;
     }
 
     @Override
-    public String getSearchValue2() {
-        return null;
-    }
-
-    @Override
-    public String getSearchValue3() {
-        return null;
-    }
-
-    @Override
-    public ActionListener getSelectAction() {
+    public ArrayList<String> getSearchValues() {
         return null;
     }
 }
