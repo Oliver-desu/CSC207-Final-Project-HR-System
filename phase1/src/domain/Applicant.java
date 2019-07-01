@@ -142,6 +142,8 @@ public class Applicant extends User implements SearchObject {
 
     public Document getDocument(String name){return null;}
 
+    public void addApplication(Application application) {}
+
     @Override
     public ArrayList<String> getSearchValues() {
         return null;
