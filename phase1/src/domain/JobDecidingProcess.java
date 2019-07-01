@@ -57,6 +57,10 @@ class JobDecidingProcess {
         }
     }
 
+    List<String> getInterviewRounds(){
+        return this.interviewRounds;
+    }
+
     private String getNextRound() {
         int roundIndex = this.interviewRounds.indexOf(this.currentRound);
         if (roundIndex < this.interviewRounds.size() - 1) {
@@ -69,6 +73,10 @@ class JobDecidingProcess {
         for (Application application : applications) {
             application.setStatus(this.currentRound);
         }
+    }
+
+    List<Interview> getRoundInterviews(String round){
+        return this.interviews.get(round);
     }
 
     List<Interview> getNextRoundInterviews() {
@@ -89,6 +97,7 @@ class JobDecidingProcess {
     String getCurrentRound() {
         return currentRound;
     }
+
 
 }
 

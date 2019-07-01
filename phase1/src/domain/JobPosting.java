@@ -1,6 +1,5 @@
 package domain;
 
-import domain.JobDecidingProcess;
 import login.SearchObject;
 
 import java.time.format.DateTimeFormatter;
@@ -64,9 +63,14 @@ public class JobPosting implements SearchObject {
         }
     }
 
-    void setStatus(Status status) {
-        this.status = status;
+    void setClosed() {
+        this.status = Status.Closed;
     }
+
+    void setFilled(){
+        this.status = Status.Filled;
+    }
+
 
     public void setNumPositions(int numPositions) {
         this.numPositions = numPositions;
@@ -78,6 +82,14 @@ public class JobPosting implements SearchObject {
 
     public Company getCompany() {
         return company;
+    }
+
+    public String getDescription(){
+        return "Description"
+                + "Post Date: " + this.postDate.toString()
+                + "; Close Date: " + this.closeDate.toString()
+                + "; Requirements: " + this.requirement.toString()
+                + "; Number of Positions: " + this.numPositions;
     }
 
     public Status getStatus() {
@@ -164,7 +176,6 @@ public class JobPosting implements SearchObject {
 //        allJobPostings.remove(jobPosting);
 //    }
 
-    //    FileSystem:
     HashMap<String, String> getAccount() {
         HashMap<String, String> map = new HashMap<>();
         map.put("Company", "Company Name");  //change to company name
@@ -183,6 +194,14 @@ public class JobPosting implements SearchObject {
     }
 
     // GUI:
+    public List<Interview> getRoundInterviews(String round) {
+        return this.decidingProcess.getRoundInterviews(round);
+    }
+
+    public List<String> getInterviewRounds(){
+        return this.decidingProcess.getInterviewRounds();
+    }
+
     @Override
     public String getSearchValue1() {
         return null;
