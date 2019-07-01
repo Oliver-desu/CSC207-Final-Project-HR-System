@@ -13,8 +13,8 @@ public class Interviewer extends User implements SearchObject {
     private Company company;
     private ArrayList<Interview> interviews = new ArrayList<Interview>();
 
-    public Interviewer(String username, String password, LocalDate dateCreated, String realName, Company company) {
-        super(username, password, dateCreated);
+    public Interviewer(String username, String password, String realName, Company company) {
+        super(username, password);
         this.realName = realName;
         company.addInterviewers(this);
         this.company = company;

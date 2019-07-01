@@ -1,8 +1,8 @@
-/*humanResource.getJobPostings()*/
-/*humanResource.getApplicants()*/
+/*humanResourceCoordinator.getJobPostings()*/
+/*humanResourceCoordinator.getApplicants()*/
 /* applicant.getDescription()*/
 /* jobPosting.getDescription()*/
-/*humanResource.getInterviewer(String)*/
+/*humanResourceCoordinator.getInterviewer(String)*/
 /* interview.getDescription()*/
 /*ArrayList<String> jobPosting.getRounds()*/
 /*jobPosting.getRoundInterviews(round)*/

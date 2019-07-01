@@ -19,8 +19,8 @@ public class Applicant extends User implements SearchObject {
     private LocalDate lastAppliedDate;
 
 
-    public Applicant(String username, String password, LocalDate DateCreated) {
-        super(username, password, DateCreated);}
+    public Applicant(String username, String password) {
+        super(username, password);}
 
     public  Applicant(HashMap<String, String> account){
         super(account);

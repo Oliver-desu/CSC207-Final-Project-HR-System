@@ -150,7 +150,7 @@ public class HRMenu extends Menu {
 
     private ArrayList<Applicant> exampleGetApplicants() {
         ArrayList<Applicant> list = new ArrayList<>();
-        Applicant x = new Applicant("user", "pass", LocalDate.now());
+        Applicant x = new Applicant("user", "pass");
         for (int i = 0; i<30; i++) {
             list.add(x);
         }
@@ -200,7 +200,7 @@ public class HRMenu extends Menu {
     }
 
     private Interviewer exampleInterviewer() {
-        return new Interviewer("user", "pass", LocalDate.now(), "name", new Company("myCompany2"));
+        return new Interviewer("user", "pass", "name", new Company("myCompany2"));
     }
 
     private Application exampleApplication() {
@@ -208,7 +208,7 @@ public class HRMenu extends Menu {
     }
 
     private Applicant exampleApplicant() {
-        return new Applicant("username","pass",LocalDate.now());
+        return new Applicant("username","pass");
     }
 
     class EditJobPosting implements ActionListener {
