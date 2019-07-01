@@ -25,6 +25,8 @@ public class Application implements SearchObject {
     public Application(JobPosting jobposting, Applicant applicant){
         this.jobposting = jobposting;
         this.applicant = applicant;
+        Company company = jobposting.getCompany();
+        company.addApplicants(applicant);
     }
 
     public void setStatus(String status) {

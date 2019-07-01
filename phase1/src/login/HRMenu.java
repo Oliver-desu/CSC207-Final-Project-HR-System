@@ -10,14 +10,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HRMenu extends Menu {
-    private HumanResource humanResource;
+    private HumanResourceCoordinator humanResourceCoordinator;
     private static final int NUM_PAGE = 2;
     private static final Dimension ROUND_PANEL_SIZE = new Dimension(400, 150);
     private static final int ROUND_HEADING_HEIGHT = 50;
 
-    HRMenu(HumanResource humanResource){
+    HRMenu(HumanResourceCoordinator humanResourceCoordinator){
         super(NUM_PAGE);
-        this.humanResource = humanResource;
+        this.humanResourceCoordinator = humanResourceCoordinator;
         createApplicantSearchPage();
         createJobPostingSearchPage();
     }
@@ -41,8 +41,8 @@ public class HRMenu extends Menu {
         String username = "user";
         String password = "password";
         LocalDate localDate = LocalDate.now();
-        Company company = new Company();
-        HRMenu hrMenu = new HRMenu(new HumanResource(username, password, localDate, company));
+        Company company = new Company("myCompany");
+        HRMenu hrMenu = new HRMenu(new HumanResourceCoordinator(username, password, localDate, company));
         hrMenu.setVisible(true);
         hrMenu.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -50,7 +50,7 @@ public class HRMenu extends Menu {
     private void createApplicantSearchPage() {
         ArrayList<JPanel> searchLines = new ArrayList<>();
 
-        for (Applicant applicant: exampleGetApplicants()/*humanResource.getApplicants*/){
+        for (Applicant applicant: exampleGetApplicants()/*humanResourceCoordinator.getApplicants*/){
             searchLines.add(createSearchLine(applicant));
         }
         JPanel page = new JPanel();
@@ -61,7 +61,7 @@ public class HRMenu extends Menu {
 
     private void createJobPostingSearchPage() {
         ArrayList<JPanel> searchLines = new ArrayList<>();
-        for (JobPosting jobPosting: exampleGetJobPostings()/*humanResource.getJobPostings()*/){
+        for (JobPosting jobPosting: exampleGetJobPostings()/*humanResourceCoordinator.getJobPostings()*/){
             searchLines.add(createSearchLine(jobPosting));
         }
         JPanel page = new JPanel();
@@ -111,7 +111,7 @@ public class HRMenu extends Menu {
     private JPanel createSearchLine(Interview interview, JTextField interviewer) {
         JPanel buttons;
         if (true/*interview.isEmpty()*/){
-            MatchInterviewer match = new MatchInterviewer(interview, exampleInterviewer()/*humanResource.getInterviewer(interviewer.getText())*/);
+            MatchInterviewer match = new MatchInterviewer(interview, exampleInterviewer()/*humanResourceCoordinator.getInterviewer(interviewer.getText())*/);
             JButton button = Tool.createSearchButton("match", match);
             match.setButton(button);
             buttons = Tool.createSearchButtonsArea(button);
@@ -196,11 +196,11 @@ public class HRMenu extends Menu {
     private JobPosting exampleJobPosting() {
         ArrayList<String> requirements = new ArrayList<>();
         requirements.add("requirement1");
-        return new JobPosting(new Company(),LocalDate.now(),LocalDate.now(),requirements,"job id");
+        return new JobPosting(new Company("myCompany1"),LocalDate.now(),LocalDate.now(),requirements,"job id");
     }
 
     private Interviewer exampleInterviewer() {
-        return new Interviewer("user", "pass", LocalDate.now(), "name", new Company());
+        return new Interviewer("user", "pass", LocalDate.now(), "name", new Company("myCompany2"));
     }
 
     private Application exampleApplication() {
