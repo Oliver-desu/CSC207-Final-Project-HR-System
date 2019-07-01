@@ -10,14 +10,14 @@ import java.util.List;
 
 public class Applicant extends User implements SearchObject {
     private String realName;
-    private List<Document> documents =new ArrayList<>();
-    private List<Application> current_Applications = new ArrayList<>();
-    private List<Application> past_Applications =new ArrayList<>();
-    private List<Application> all_Applications =new ArrayList<>();
-    private  List<Interview> interviews =new ArrayList<>();
+    private ArrayList<Document> documents =new ArrayList<>();
+    private ArrayList<Application> current_Applications = new ArrayList<>();
+    private ArrayList<Application> past_Applications =new ArrayList<>();
+    private ArrayList<Application> all_Applications =new ArrayList<>();
+    private  ArrayList<Interview> interviews =new ArrayList<>();
     private static List<Applicant>allApplicants =new ArrayList<>();
-    private LocalDate dateCreated;
-    private LocalDate lastAppliedDate;
+
+
 
 
     public Applicant(String username, String password, LocalDate DateCreated) {
@@ -32,32 +32,21 @@ public class Applicant extends User implements SearchObject {
         //---------------------------------------------------------
 
 
-
-    public String getUsername() { return super.getUsername();
-    }
-    public String getPassword() { return super.getPassword();
-    }
-    public void setPassword(String password) {  super.setPassword(password);
-    }
-    public void setUsername(String username) { super.setUsername(username);
-    }
-    public boolean matchPassword(String password) {return super.getPassword().equals(password);
-    }
     public void setRealName(String realName) {
         this.realName = realName;
     }
 
     public  String getRealName(){return  this.realName;}
 
-    public List<Document> get_documents(){return  this.documents;}
+    public ArrayList<Document> get_documents(){return  this.documents;}
 
-    public List<Application> getCurrent_Applications(){return  this.current_Applications;}
+    public ArrayList<Application> getCurrent_Applications(){return  this.current_Applications;}
 
-    public List<Application> getPast_Applications(){return  this.past_Applications;}
+    public ArrayList<Application> getPast_Applications(){return  this.past_Applications;}
 
-    public  List<Application> getAll_Applications(){return  this.all_Applications;}
+    public  ArrayList<Application> getApplications(){return  this.all_Applications;}
 
-    public List<Interview> getInterviews(){return  interviews;}
+    public ArrayList<Interview> getInterviews(){return  interviews;}
 
 
 
@@ -69,18 +58,24 @@ public class Applicant extends User implements SearchObject {
 
 
 
-    public List<JobPosting> viewJobs(ArrayList<JobPosting> a){return a;}
+    public List<JobPosting> viewAllJobs(ArrayList<JobPosting> allJobPosting){
+        return allJobPosting;}
 
     public Application createApplication(JobPosting jobPosting){
-        Application b = new Application(jobPosting,this);
-        this.all_Applications.add(b);
-        return  b;
+        Application application = new Application(jobPosting,this);
+        this.all_Applications.add(application);
+        return  application;
         //creat application with jobposing and return it
 
     }
     public  void withdrawApplication(Application application){
-        application.setApplicant(null);
-        application.setJobposting(null);
+        for (Application application1:all_Applications
+             ) {if(application1 == application){all_Applications.remove(application1);}
+
+        }
+        application.getJobPosting().withdrawApplication(application);
+
+
         // set domain.Applicant and Jobposting i order to withdraw
     }
 
@@ -89,16 +84,16 @@ public class Applicant extends User implements SearchObject {
     }
 
     public  boolean applicant_already_created(String username){
-        for (Applicant a:allApplicants
-        ) {if(a.getUsername().equals(username)){return true;}
+        for (Applicant applicant:allApplicants
+        ) {if(applicant.getUsername().equals(username)){return true;}
 
         }
         return false;
     }//to determine whether there is a user already
 
-    public List<Application> get_application(String username){
-        for (Applicant a:allApplicants
-             ) {if(a.getUsername().equals(username)){return a.getAll_Applications();}
+    public ArrayList<Application> get_applications(String username){
+        for (Applicant applicant:allApplicants
+             ) {if(applicant.getUsername().equals(username)){return applicant.getApplications();}
 
         }
 
@@ -106,43 +101,56 @@ public class Applicant extends User implements SearchObject {
         //return a List with all applications in it   , and if username dose not exits return a empty list
     }
 
-    public List<Document> getDocument(){return  this.documents;}
+    public ArrayList<Document> getDocuments(){return  this.documents;}
     public Document getCV(){
-        for (Document a:documents
-        ) {if(a.get_CV_or_not()){return a;}
+        for (Document doc:documents
+        ) {if(doc.get_CV_or_not()){return doc;}
 
         }
-        Document d = new Document();
-        return d;
+        return new Document("");
         //return CV   , and if CV dose not exits return a empty domain.Document.
     }
 
     public Document getCoverLetter(){
-        for (Document a:documents
-        ) {if(!a.get_CV_or_not()){return a;}
-
+        for (Document cv:documents
+        ) {if(!cv.get_CV_or_not()){return cv;}
         }
-        Document d = new Document();
-        return d;
+        return new Document("");
         //return CV   , and if Coverletter dose not exits return a empty domain.Document.
     }
 
+    public Document getDocument(String name){
+        for (Document doc:documents
+             ) {if(doc.getNameOfDocument().equals(name)){return doc;}
+
+        }
+        return  null;
+    }
+
     public HashMap<String, String> getAccount() {
+
         return  super.getAccount();
     }
 
     // Below methods are collabarate with GUI. Please implement them as soon as possible.
     // Do not change heading.
 
-    public ArrayList<Document> getDocuments(){return null;}
 
-    public ArrayList<Application> getApplications(){return null;}
 
-    public Application getApplication(String id){return null;}
 
-    public Document getDocument(String name){return null;}
 
-    public void addApplication(Application application) {}
+    public Application getApplication(String id){
+        for (Application application: all_Applications
+             ) {if(application.getId().equals(id)){return  application;}
+
+        }
+        return   null;
+    }
+
+
+    public void addApplication(Application application) {
+        all_Applications.add(application);
+    }
 
     @Override
     public ArrayList<String> getSearchValues() {
