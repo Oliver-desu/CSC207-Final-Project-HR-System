@@ -1,101 +1,74 @@
 package domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 class JobDecidingProcess {
-    private List<Application> allApplications;
-    private List<Application> remainingApplications;
-    private List<String> interviewRounds;
-    private Map<String, List<Interview>> interviews;
-    private String currentRound;
+    private HashMap<Applicant, Application> allApplications = new HashMap<>();
+    private ArrayList<String> interviewRounds;
+    private HashMap<String, ArrayList<Interview>> interviews = new HashMap<>();
+    private int currentRound;
 
-    JobDecidingProcess() {
-        this.allApplications = new ArrayList<>();
-        this.remainingApplications = new ArrayList<>();
-        this.interviewRounds = new ArrayList<>();
-        this.interviews = new HashMap<>();
-    }
-
-    void setRounds(List<String> interviewRounds) {
+    JobDecidingProcess(ArrayList<String> interviewRounds) {
         this.interviewRounds = interviewRounds;
-    }
-
-    void setCurrentRound(String currentRound) {
-        this.currentRound = currentRound;
+        for (String round : interviewRounds) {
+            interviews.put(round, new ArrayList<>());
+        }
     }
 
     boolean checkLastRound() {
-        return this.currentRound.equals(this.interviewRounds.get(this.interviewRounds.size() - 1));
+        return currentRound == interviewRounds.size();
     }
 
     void addApplication(Application application) {
-        this.allApplications.add(application);
-        this.remainingApplications.add(application);
+//        this.allApplications.put(application.getApplicant(), application);
     }
 
     void withdrawApplication(Application application) {
-        this.remainingApplications.remove(application);
+        allApplications.remove(application);
     }
 
-    void withdrawApplication(List<Application> applications) {
-        for (Application application : applications) {
-            this.remainingApplications.remove(application);
+    private void newInterview(Application application) {
+        interviews.get(getCurrentRound()).add(new Interview(application));
+    }
+
+    void nextRound() {
+        currentRound += 1;
+        for (Application application : getPassApplications()) {
+            newInterview(application);
         }
     }
 
-    void addInterviews(Interview interview) {
-        List<Interview> roundInterviews = this.interviews.get(interview.getRound());
-        roundInterviews.add(interview);
-        this.interviews.put(interview.getRound(), roundInterviews);
-    }
-
-    void addInterviews(ArrayList<Interview> interviews) {
-        for (Interview interview : interviews) {
-            List<Interview> roundInterviews = this.interviews.get(interview.getRound());
-            roundInterviews.add(interview);
-            this.interviews.put(interview.getRound(), roundInterviews);
+    private ArrayList<Application> getPassApplications() {
+        ArrayList<Application> applications = new ArrayList<>();
+        for (Interview interview : getRoundInterviews(getCurrentRound())) {
+            if (interview.isPass()) applications.add(interview.getApplication());
         }
+        return applications;
     }
 
-    List<String> getInterviewRounds(){
+    ArrayList<String> getInterviewRounds() {
         return this.interviewRounds;
     }
 
     private String getNextRound() {
-        int roundIndex = this.interviewRounds.indexOf(this.currentRound);
-        if (roundIndex < this.interviewRounds.size() - 1) {
-            return this.interviewRounds.get(roundIndex + 1);
-        }
-        return null;
+        return interviewRounds.get(currentRound + 1);
     }
 
-    void setRound(List<Application> applications) {
-        for (Application application : applications) {
-            application.setStatus(this.currentRound);
-        }
-    }
-
-    List<Interview> getRoundInterviews(String round){
+    ArrayList<Interview> getRoundInterviews(String round) {
         return this.interviews.get(round);
     }
 
-    List<Interview> getNextRoundInterviews() {
-        if (this.getNextRound() != null) {
-            return this.interviews.get(this.getNextRound());
-        }
-        return null;
-    }
-
-    List<Application> getAllApplications() {
-        return allApplications;
-    }
-
-    List<Application> getRemainingApplications() {
-        return remainingApplications;
+    ArrayList<Application> getAllApplications() {
+        return new ArrayList<>(allApplications.values());
     }
 
     String getCurrentRound() {
-        return currentRound;
+        return interviewRounds.get(currentRound);
+    }
+
+    boolean hasApplicant(Applicant applicant) {
+        return allApplications.containsKey(applicant);
     }
 
 

@@ -2,7 +2,6 @@ package domain;
 
 import login.SearchObject;
 
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,6 +110,10 @@ public class Interview implements SearchObject {
 
     public boolean isFinished() {
         return this.status == Status.PASS || this.status == Status.REJECT;
+    }
+
+    public boolean isPass() {
+        return this.status == Status.PASS;
     }
 
     public boolean isEmpty() {

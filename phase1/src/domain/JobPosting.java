@@ -2,10 +2,11 @@ package domain;
 
 import login.SearchObject;
 
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class JobPosting implements SearchObject {
     private enum Status {Posted, Closed, Filled}
@@ -15,52 +16,34 @@ public class JobPosting implements SearchObject {
     private Status status = Status.Posted;
     private JobDecidingProcess decidingProcess;
     private Company company;
-    private List<String> requirement;
+    private ArrayList<String> requirements;
     private String id;
 //    private static List<domain.JobPosting> allJobPostings = new ArrayList<>();
 
-    public JobPosting(HashMap<String, String> map, Company company, String id) {
-        this.company = company;
-        this.decidingProcess = new JobDecidingProcess();
-        this.id = id;
-        this.postDate = LocalDate.parse(map.get("Post Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.closeDate = LocalDate.parse(map.get("Close Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.requirement = new ArrayList<>(Arrays.asList(map.get("Requirement").split(",")));
-        this.numPositions = Integer.parseInt(map.get("Number of Positions"));
+    public JobPosting(HashMap<String, String> account) {
+        this.postDate = LocalDate.parse(account.get("Post Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.closeDate = LocalDate.parse(account.get("Close Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.requirements = new ArrayList<>(Arrays.asList(account.get("Requirement").split(",")));
+        this.numPositions = Integer.parseInt(account.get("Number of Positions"));
     }
 
-    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, String id) {
+    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, String id) {
         this.company = company;
         this.postDate = postDate;
         this.closeDate = closeDate;
-        this.decidingProcess = new JobDecidingProcess();
-        this.requirement = requirement;
         this.id = id;
-//        addJobPostings(this);
     }
 
-    public JobPosting(Company company, LocalDate postDate, LocalDate closeDate, List<String> requirement, String id, int numPositions) {
-        this.company = company;
-        this.postDate = postDate;
-        this.closeDate = closeDate;
-        this.numPositions = numPositions;
-        this.decidingProcess = new JobDecidingProcess();
-        this.requirement = requirement;
+    public void setId(String id) {
         this.id = id;
-//        addJobPostings(this);
-//        Oliver to YiChun: there should be a new method to add new Account to the entire collection. instead of
-//        adding it in the constructor.
     }
 
-    public void setRequirement(List<String> requiredDocument) {
-        this.requirement = requiredDocument;
+    public ArrayList<String> getRequirement() {
+        return requirements;
     }
 
-    void setRounds(List<String> interviewRounds) {
-        this.decidingProcess.setRounds(interviewRounds);
-        if (!interviewRounds.isEmpty()) {
-            this.decidingProcess.setCurrentRound(interviewRounds.get(0));
-        }
+    public void setRequirement(ArrayList<String> requiredDocument) {
+        this.requirements = requiredDocument;
     }
 
     void setClosed() {
@@ -71,25 +54,17 @@ public class JobPosting implements SearchObject {
         this.status = Status.Filled;
     }
 
-
     public void setNumPositions(int numPositions) {
         this.numPositions = numPositions;
     }
 
-    public List<String> getRequirement() {
-        return requirement;
+    //    Methods for HR:
+    public ArrayList<Application> getAllApplications() {
+        return this.decidingProcess.getAllApplications();
     }
 
     public Company getCompany() {
         return company;
-    }
-
-    public String getDescription(){
-        return "Description"
-                + "Post Date: " + this.postDate.toString()
-                + "; Close Date: " + this.closeDate.toString()
-                + "; Requirements: " + this.requirement.toString()
-                + "; Number of Positions: " + this.numPositions;
     }
 
     public Status getStatus() {
@@ -116,42 +91,20 @@ public class JobPosting implements SearchObject {
         return this.status == Status.Filled;
     }
 
-    //    Methods for HR:
-    public List<Application> getAllApplications() {
-        return this.decidingProcess.getAllApplications();
-    }
-
-    public List<Application> getRemainingApplications() {
-        return this.decidingProcess.getRemainingApplications();
-    }
-
-    public List<Interview> getNextRoundInterviews() {
-        return this.decidingProcess.getNextRoundInterviews();
+    HashMap<String, String> getAccount() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("Company", "Company Name");  //change to company name
+        map.put("Job Title", "Job Title");
+        map.put("Post Date", this.postDate.toString());
+        map.put("Close Date", this.closeDate.toString());
+        map.put("Number of Positions", Integer.toString(this.numPositions));
+        map.put("Status", this.status.toString());
+        map.put("Requirement", this.requirements.toString());
+        return map;
     }
 
     public boolean checkLastRound() {
         return this.decidingProcess.checkLastRound();
-    }
-
-    public void addInterviews(Interview interview) {
-        this.decidingProcess.addInterviews(interview);
-    }
-
-    public void addInterviews(ArrayList<Interview> interviews) {
-        this.decidingProcess.addInterviews(interviews);
-    }
-
-    // Methods for Applicant:
-    @Override
-    public String toString() {
-        return "Post Date: " + this.postDate.toString()
-                + "; Close Date: " + this.closeDate.toString()
-                + "; Requirements: " + this.requirement.toString()
-                + "; Number of Positions: " + this.numPositions;
-    }
-
-    public void setNextRound(List<Application> applications) {
-        this.decidingProcess.setRound(applications);
     }
 
     //    Method for System:
@@ -163,10 +116,6 @@ public class JobPosting implements SearchObject {
         this.decidingProcess.withdrawApplication(application);
     }
 
-    public void withdrawApplication(List<Application> applications) {
-        this.decidingProcess.withdrawApplication(applications);
-    }
-
     //    Static methods
 //    public static void addJobPostings(domain.JobPosting jobPosting) {
 //        allJobPostings.add(jobPosting);
@@ -176,39 +125,43 @@ public class JobPosting implements SearchObject {
 //        allJobPostings.remove(jobPosting);
 //    }
 
-    HashMap<String, String> getAccount() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("Company", "Company Name");  //change to company name
-        map.put("Job Title", "Job Title");
-        map.put("Post Date", this.postDate.toString());
-        map.put("Close Date", this.closeDate.toString());
-        map.put("Number of Positions", Integer.toString(this.numPositions));
-        map.put("Status", this.status.toString());
-        map.put("Requirement", this.requirement.toString());
-        return map;
+    public void nextRound() {
+        decidingProcess.nextRound();
     }
 
-
-    // Unfinished:
-    void setRounds(ArrayList<String> interviewRounds, int insertPos) {
+    public boolean isValidApplication(Application application) {
+//        return decidingProcess.hasApplicant(application.getApplicant());
+        return true;
     }
 
     // GUI:
-    public List<Interview> getRoundInterviews(String round) {
+    public ArrayList<Interview> getRoundInterviews(String round) {
         return this.decidingProcess.getRoundInterviews(round);
     }
 
-    public List<String> getInterviewRounds(){
+    public ArrayList<String> getInterviewRounds() {
         return this.decidingProcess.getInterviewRounds();
+    }
+
+    public void setInterviewRounds(ArrayList<String> interviewRounds) {
+        decidingProcess = new JobDecidingProcess(interviewRounds);
     }
 
     @Override
     public String getInfo() {
-        return null;
+        return "Description"
+                + "Post Date: " + this.postDate.toString()
+                + "; Close Date: " + this.closeDate.toString()
+                + "; Requirements: " + this.requirements.toString()
+                + "; Number of Positions: " + this.numPositions;
     }
 
     @Override
     public ArrayList<String> getSearchValues() {
-        return null;
+        ArrayList<String> searchValues = new ArrayList<>();
+        searchValues.add(id);
+        searchValues.add(postDate.toString());
+        searchValues.add(closeDate.toString());
+        return searchValues;
     }
 }
