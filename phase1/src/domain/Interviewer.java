@@ -49,6 +49,8 @@ public class Interviewer extends User implements SearchObject {
 
     public HashMap<String, String> getAccount() {
         HashMap<String, String> result = ((User) this).getAccount();
+        result.put("Real name", this.realName);
+        result.put("Company name", this.company.getCompanyName());
         return result;
     }
 

@@ -27,6 +27,7 @@ public class HumanResource extends User {
 
     public HashMap<String, String> getAccount() {
         HashMap<String, String> result = ((User) this).getAccount();
+        result.put("Company name", this.company.getCompanyName());
         return result;
     }
 

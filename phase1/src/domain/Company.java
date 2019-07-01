@@ -1,16 +1,13 @@
 package domain;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Company {
-    private ArrayList<HumanResource> HumanResourceCoordinators = new ArrayList<>();
-
 
     private static ArrayList<Company> allCompanies = new ArrayList<>();
     private String companyName;
-
-    public Company() {
-    }
+    private HumanResource humanResource;
     private ArrayList<Interviewer> interviewers = new ArrayList<>();
     private ArrayList<JobPosting> jobPostings = new ArrayList<>();
     private ArrayList<Applicant> applicants = new ArrayList<>();
@@ -23,24 +20,28 @@ public class Company {
     //getters
     public String getCompanyName() { return companyName; }
 
-    public ArrayList<HumanResource> getHumanResourceCoordinators() {
-        return HumanResourceCoordinators;
+    public HumanResource getHumanResource() {
+        return this.humanResource;
     }
 
     public ArrayList<Interviewer> getInterviewers() {
-        return interviewers;
+        return this.interviewers;
     }
 
     public ArrayList<JobPosting> getJobPostings() {
-        return jobPostings;
+        return this.jobPostings;
+    }
+
+    public static ArrayList<Company> getAllCompanies() {
+        return allCompanies;
     }
 
 
 //setters
 
 
-    public void addCoordinators(HumanResource newCoordinator) {
-        HumanResourceCoordinators.add(newCoordinator);
+    public void setHumanResource(HumanResource humanResource) {
+        this.humanResource = humanResource;
     }
 
     public void addInterviewers(Interviewer newInterviewer) {

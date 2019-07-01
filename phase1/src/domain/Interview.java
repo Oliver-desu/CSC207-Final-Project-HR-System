@@ -11,7 +11,8 @@ public class Interview implements SearchObject {
     private enum Status {
         PASS,
         REJECT,
-        PENDING
+        PENDING,
+        EMPTY
     }
 
     private static int idNumber = 0;
@@ -23,7 +24,7 @@ public class Interview implements SearchObject {
     private Interviewer interviewer;
     private Application application;
     private String round;
-    private Status status = Status.PENDING;
+    private Status status = Status.EMPTY;
     private String recommendation = "The interviewer has not updated recommendation.";
 
     public Interview(LocalDate date, String location, Double duration, JobPosting jobPosting, Interviewer interviewer,
@@ -37,6 +38,10 @@ public class Interview implements SearchObject {
         this.application = application;
         this.round = round;
         idNumber ++;
+    }
+
+    public Interview(Application application) {
+        this.application = application;
     }
 
     public int getId() {
@@ -87,6 +92,10 @@ public class Interview implements SearchObject {
         Interview.idNumber = idNumber;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public void setRecommandation(String recommendation) {
         this.recommendation = recommendation;
     }
@@ -100,7 +109,11 @@ public class Interview implements SearchObject {
     }
 
     public boolean isFinished() {
-        return this.status != Status.PENDING;
+        return this.status == Status.PASS || this.status == Status.REJECT;
+    }
+
+    public boolean isEmpty() {
+        return this.status == Status.EMPTY;
     }
 
     public HashMap<String, String> getAccount() {
