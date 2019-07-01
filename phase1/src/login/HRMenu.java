@@ -15,7 +15,7 @@ public class HRMenu extends Menu {
     private static final Dimension ROUND_PANEL_SIZE = new Dimension(400, 150);
     private static final int ROUND_HEADING_HEIGHT = 50;
 
-    HRMenu(HumanResource humanResource){
+    HRMenu(HumanResource humanResource) {
         super(NUM_PAGE);
         this.humanResource = humanResource;
         createApplicantSearchPage();
@@ -50,7 +50,7 @@ public class HRMenu extends Menu {
     private void createApplicantSearchPage() {
         ArrayList<JPanel> searchLines = new ArrayList<>();
 
-        for (Applicant applicant: exampleGetApplicants()/*humanResource.getApplicants*/){
+        for (Applicant applicant : exampleGetApplicants()/*humanResource.getApplicants*/) {
             searchLines.add(createSearchLine(applicant));
         }
         JPanel page = new JPanel();
@@ -61,7 +61,7 @@ public class HRMenu extends Menu {
 
     private void createJobPostingSearchPage() {
         ArrayList<JPanel> searchLines = new ArrayList<>();
-        for (JobPosting jobPosting: exampleGetJobPostings()/*humanResource.getJobPostings()*/){
+        for (JobPosting jobPosting : exampleGetJobPostings()/*humanResource.getJobPostings()*/) {
             searchLines.add(createSearchLine(jobPosting));
         }
         JPanel page = new JPanel();
@@ -196,7 +196,7 @@ public class HRMenu extends Menu {
     private JobPosting exampleJobPosting() {
         ArrayList<String> requirements = new ArrayList<>();
         requirements.add("requirement1");
-        return new JobPosting(new Company(),LocalDate.now(),LocalDate.now(),requirements,"job id");
+        return new JobPosting(new Company(), LocalDate.now(), LocalDate.now(), requirements, "job id");
     }
 
     private Interviewer exampleInterviewer() {
@@ -208,7 +208,7 @@ public class HRMenu extends Menu {
     }
 
     private Applicant exampleApplicant() {
-        return new Applicant("username","pass",LocalDate.now());
+        return new Applicant("username", "pass", LocalDate.now());
     }
 
     class EditJobPosting implements ActionListener {

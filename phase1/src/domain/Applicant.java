@@ -4,8 +4,9 @@ import login.SearchObject;
 
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Applicant extends User implements SearchObject {
     private String realName;
@@ -20,7 +21,8 @@ public class Applicant extends User implements SearchObject {
 
 
     public Applicant(String username, String password, LocalDate DateCreated) {
-        super(username, password, DateCreated);}
+        super(username, password, DateCreated);
+    }
 
     public  Applicant(HashMap<String, String> account){
         super(account);

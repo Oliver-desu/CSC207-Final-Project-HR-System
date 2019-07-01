@@ -1,0 +1,50 @@
+Applicant:
+
+    coding style.
+    attribute dateCreated is already exist in parent class.
+    allApplicant may be redundant, can determined by calculation.
+    List type should change to ArrayList for convenience.
+    lastAppliedDate may be redundant, can determined by calculations.
+    getter setter of parent class is redundant. there is inheritance property.
+
+    coding content.
+    withdrawApplication. never set pointer to null.
+    viewJobs. cannot understand by its heading.
+
+    naming convention.
+    variable name should in form variableName, no underscore, no abc.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.
+
+    design.
+    may want to design getDocument and getApplication by specific doc name and specific jobPosting.
+
+Application:
+
+    coding style.
+    closeDate seems unnecessary. looks like depend on jobPosting.
+
+    naming convention.
+    jobPosting. be careful of capitalize the second head letter.
+    variable name should in form variableName, no underscore, no abc.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.
+
+JobDeciding Process:
+
+    coding style.
+    new variable initialize can be at defining line.
+    List type should change to ArrayList for convenience. Map should be HashMap.
+
+    naming conventions.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.
+
+    design.
+    to make currentRound an int seems more convenient.
+
+JobPosting:
+
+    coding style.
+    may want to add a new method for 3 constructors in common use.
+    List type should change to ArrayList for convenience. Map should be HashMap.
+
+    naming conventions.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.

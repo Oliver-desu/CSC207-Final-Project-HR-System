@@ -1,7 +1,5 @@
 package domain;
 
-import domain.Applicant;
-import domain.Document;
 import login.SearchObject;
 
 import java.awt.event.ActionListener;

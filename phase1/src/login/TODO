@@ -7,3 +7,8 @@
 /*ArrayList<String> jobPosting.getRounds()*/
 /*jobPosting.getRoundInterviews(round)*/
 /*void interview.matchInterviewer(interviewer);*/
+/*interview.isEmpty()*/
+
+All Search Objects.
+ArrayList<String> getSearchValues();
+String getDescription();
