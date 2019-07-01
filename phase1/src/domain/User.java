@@ -10,10 +10,10 @@ public abstract class User {
     private String password;
     private LocalDate dateCreated;
 
-    public User(String username, String password) {
+    public User(String username, String password, LocalDate dateCreated) {
         this.username = username;
         this.password = password;
-        this.dateCreated = LocalDate.now();
+        this.dateCreated = dateCreated;
     }
     public  User(HashMap<String, String> account){
         this.username = account.get("Username");

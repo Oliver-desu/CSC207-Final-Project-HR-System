@@ -9,16 +9,16 @@ import java.util.HashMap;
 
 public class Interviewer extends User implements SearchObject {
 
+    private static ArrayList<Interviewer> allInterviewers = new ArrayList<Interviewer>();
     private String realName;
     private Company company;
     private ArrayList<Interview> interviews = new ArrayList<Interview>();
 
-    public Interviewer(String username, String password, String realName, Company company) {
-        super(username, password);
+    public Interviewer(String username, String password, LocalDate dateCreated, String realName, Company company) {
+        super(username, password, dateCreated);
         this.realName = realName;
-        company.addInterviewers(this);
         this.company = company;
-
+        allInterviewers.add(this);
     }
 
     public String getRealName() {
@@ -33,6 +33,9 @@ public class Interviewer extends User implements SearchObject {
         return this.interviews;
     }
 
+    public static ArrayList<Interviewer> getAllInterviewers() {
+        return allInterviewers;
+    }
 
     public void addInterview(Interview interview) {
         this.interviews.add(interview);

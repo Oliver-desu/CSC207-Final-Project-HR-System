@@ -1,9 +1,14 @@
-/*humanResourceCoordinator.getJobPostings()*/
-/*humanResourceCoordinator.getApplicants()*/
+/*humanResource.getJobPostings()*/
+/*humanResource.getApplicants()*/
 /* applicant.getDescription()*/
 /* jobPosting.getDescription()*/
-/*humanResourceCoordinator.getInterviewer(String)*/
+/*humanResource.getInterviewer(String)*/
 /* interview.getDescription()*/
 /*ArrayList<String> jobPosting.getRounds()*/
 /*jobPosting.getRoundInterviews(round)*/
 /*void interview.matchInterviewer(interviewer);*/
+/*interview.isEmpty()*/
+
+All Search Objects.
+ArrayList<String> getSearchValues();
+String getDescription();

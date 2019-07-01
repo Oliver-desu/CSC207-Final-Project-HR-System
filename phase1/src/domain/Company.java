@@ -3,10 +3,14 @@ package domain;
 import java.util.ArrayList;
 
 public class Company {
+    private ArrayList<HumanResource> HumanResourceCoordinators = new ArrayList<>();
+
 
     private static ArrayList<Company> allCompanies = new ArrayList<>();
     private String companyName;
-    private ArrayList<HumanResourceCoordinator> HumanResourceCoordinators = new ArrayList<>();
+
+    public Company() {
+    }
     private ArrayList<Interviewer> interviewers = new ArrayList<>();
     private ArrayList<JobPosting> jobPostings = new ArrayList<>();
     private ArrayList<Applicant> applicants = new ArrayList<>();
@@ -19,7 +23,9 @@ public class Company {
     //getters
     public String getCompanyName() { return companyName; }
 
-    public ArrayList<HumanResourceCoordinator> getHumanResourceCoordinators() { return HumanResourceCoordinators; }
+    public ArrayList<HumanResource> getHumanResourceCoordinators() {
+        return HumanResourceCoordinators;
+    }
 
     public ArrayList<Interviewer> getInterviewers() {
         return interviewers;
@@ -33,7 +39,7 @@ public class Company {
 //setters
 
 
-    public void addCoordinators(HumanResourceCoordinator newCoordinator) {
+    public void addCoordinators(HumanResource newCoordinator) {
         HumanResourceCoordinators.add(newCoordinator);
     }
 
@@ -51,6 +57,7 @@ public class Company {
 
 
 }
+
 
 
 
