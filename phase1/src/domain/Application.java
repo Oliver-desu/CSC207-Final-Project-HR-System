@@ -2,26 +2,23 @@ package domain;
 
 import login.SearchObject;
 
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Application implements SearchObject {
 
-    private JobPosting jobposting;
+    private JobPosting jobPosting;
     private Applicant applicant;
-    private LocalDate closeDate;
     private String id;
     private String status;
     private ArrayList<Document> documents = new ArrayList<>();
 
     public Application(JobPosting jobposting, Applicant applicant, String id) {
-        this.jobposting = jobposting;
+        this.jobPosting = jobposting;
         this.applicant = applicant;
         this.id = id;
     }
     public Application(JobPosting jobposting, Applicant applicant){
-        this.jobposting = jobposting;
+        this.jobPosting = jobposting;
         this.applicant = applicant;
     }
 
@@ -33,13 +30,10 @@ public class Application implements SearchObject {
         return this.status;
     }
 
-    public void setCloseDate() {
-
-    }
 
     public  void setApplicant(Applicant a){this.applicant = a;}
 
-    public  void setJobposting(JobPosting a){this.jobposting= a;}
+    public  void setJobposting(JobPosting a){this.jobPosting= a;}
 
 
     public void addDocument(Document document) {
@@ -47,7 +41,7 @@ public class Application implements SearchObject {
     }
 
     public JobPosting getJobPosting() {
-        return this.jobposting;
+        return this.jobPosting;
     }
 
     public ArrayList<Document> getDocument(){
