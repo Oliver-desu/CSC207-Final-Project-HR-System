@@ -196,7 +196,7 @@ public class HRMenu extends Menu {
     private JobPosting exampleJobPosting() {
         ArrayList<String> requirements = new ArrayList<>();
         requirements.add("requirement1");
-        return new JobPosting(new Company(), LocalDate.now(), LocalDate.now(), requirements, "job id");
+        return new JobPosting(new Company(), LocalDate.now(), LocalDate.now(), "job id");
     }
 
     private Interviewer exampleInterviewer() {
