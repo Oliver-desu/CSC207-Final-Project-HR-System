@@ -30,10 +30,14 @@ public class Application implements SearchObject {
         return this.status;
     }
 
+    public Applicant getApplicant(){
+        return this.applicant;
+    }
+
 
     public  void setApplicant(Applicant a){this.applicant = a;}
 
-    public  void setJobposting(JobPosting a){this.jobPosting= a;}
+    public  void setJobPosting(JobPosting a){this.jobPosting= a;}
 
 
     public void addDocument(Document document) {
