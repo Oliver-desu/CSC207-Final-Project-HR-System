@@ -144,6 +144,10 @@ public class Test {
             interview.setId(Integer.toString(interviews.size()));
             interview.setInterviewer(tempInterviewers.get(rand.nextInt(tempInterviewers.size())));
             interview.setDate(currentDate.plusDays(rand.nextInt(10)));
+            interview.setLocation("U of T");
+            interview.setDuration(1.0);
+            interview.setJobPosting(jobPosting);
+            interview.setRound(jobPosting.getCurrentRound());
             interviews.add(interview);
             interview.getApplication().getApplicant().addInterviews(interview);
         }
