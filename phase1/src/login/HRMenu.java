@@ -22,7 +22,7 @@ public class HRMenu extends Menu {
     }
 
     public static void main(String[] args) {
-        Test.mainLoop(1000, 10, 3000, 50, 50);
+        Test.mainLoop(1000, 1, 30, 5, 42);
         Test.showAllInstances();
         HRMenu hrMenu = new HRMenu(Test.getRandomHumanResource());
         hrMenu.setVisible(true);
@@ -80,7 +80,7 @@ public class HRMenu extends Menu {
     private JPanel createSearchLine(JobPosting jobPosting) {
         JPanel buttons;
         JButton button1 = Tool.createSearchButton("view", new ViewDescription(jobPosting.getInfo()));
-        if (!jobPosting.isClosed() && !jobPosting.isFilled()) {
+        if (jobPosting.isClosed()) {
             JButton button2 = Tool.createSearchButton("edit", new EditJobPosting(jobPosting));
             buttons = Tool.createSearchButtonsArea(button1, button2);
         }else{

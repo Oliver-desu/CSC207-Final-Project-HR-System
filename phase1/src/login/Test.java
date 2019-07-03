@@ -206,11 +206,19 @@ public class Test {
             int j = rand.nextInt(100);
             Company company = companies.get(rand.nextInt(companies.size()));
             if (j < 5) {
-                addApplications(3);
+                addApplications(10);
             } else if (j < 15) {
-                addApplications(2);
-            } else if (j < 45) {
+                addApplications(8);
+            } else if (j < 30) {
+                addApplications(4);
+            } else if (j < 80) {
                 addApplications(1);
+            }
+            j = rand.nextInt(100);
+            if (j < 15) {
+                addJobPostingsForCompany(company, 5);
+            } else if (j < 30) {
+                addJobPostingsForCompany(company, 3);
             } else if (j < 50) {
                 addJobPostingsForCompany(company, 1);
             }
