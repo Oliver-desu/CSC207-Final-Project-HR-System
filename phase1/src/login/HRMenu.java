@@ -190,7 +190,7 @@ public class HRMenu extends Menu {
 
     private Interview exampleInterview() {
         return new Interview(LocalDate.now(),"loc", 30.0,exampleJobPosting(),exampleInterviewer(),
-                exampleApplication(),"round");
+                exampleApplication(),"round", "1");
     }
 
     private JobPosting exampleJobPosting() {

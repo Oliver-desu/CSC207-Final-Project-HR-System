@@ -42,15 +42,27 @@ public class JobPosting implements SearchObject {
         return requirements;
     }
 
+    public int getNumPositions() {
+        return numPositions;
+    }
+
+    public LocalDate getPostDate() {
+        return postDate;
+    }
+
+    public LocalDate getCloseDate() {
+        return closeDate;
+    }
+
     public void setRequirement(ArrayList<String> requiredDocument) {
         this.requirements = requiredDocument;
     }
 
-    void setClosed() {
+    public void setClosed() {
         this.status = Status.Closed;
     }
 
-    void setFilled(){
+    public void setFilled(){
         this.status = Status.Filled;
     }
 
@@ -82,6 +94,10 @@ public class JobPosting implements SearchObject {
 //    public List<domain.JobPosting> getAllJobPostings() {
 //        return allJobPostings;
 //    }
+
+    public boolean isOpen() {
+        return this.status == Status.Posted;
+    }
 
     public boolean isClosed() {
         return this.status == Status.Closed;
@@ -129,9 +145,8 @@ public class JobPosting implements SearchObject {
         decidingProcess.nextRound();
     }
 
-    public boolean isValidApplication(Application application) {
-//        return decidingProcess.hasApplicant(application.getApplicant());
-        return true;
+    public boolean isValidApplicant(Applicant applicant) {
+        return !decidingProcess.hasApplicant(applicant);
     }
 
     public void updateJobPosting(LocalDate currentDate) {
@@ -141,29 +156,27 @@ public class JobPosting implements SearchObject {
     }
 
     public boolean canStartNextRound() {
-        ArrayList<Interview> interviews = getRoundInterviews(getCurrentRound());
-        for (Interview interview: interviews) {
-            if (!interview.isFinished()) {
-                return false;
+        if (this.isClosed()) {
+            ArrayList<Interview> interviews = this.getRoundInterviews(this.getCurrentRound());
+            for (Interview interview: interviews) {
+                if (!interview.isFinished()) {
+                    return false;
+                }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
+
     }
 
-    public ArrayList<Application> getRemainingApplications() {
-        ArrayList<Interview> interviews = getRoundInterviews(getCurrentRound());
-        ArrayList<Application> applications = getAllApplications();
-        for (Interview interview: interviews) {
-            if (interview.isReject()) {
-                applications.remove(interview.getApplication());
-            }
-        }
-        return applications;
+    public ArrayList<Application> getPassApplications() {
+        return this.decidingProcess.getPassApplications();
     }
 
     public boolean canHire() {
-        return  this.canStartNextRound() &&
-                (this.isFinalRound() || this.getRemainingApplications().size() == this.numPositions);
+        return  this.isClosed() && this.canStartNextRound() &&
+                (this.isFinalRound() || this.getPassApplications().size() <= this.numPositions);
     }
 
     // GUI:

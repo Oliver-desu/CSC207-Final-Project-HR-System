@@ -15,8 +15,7 @@ public class Interview implements SearchObject {
         EMPTY
     }
 
-    private static int idNumber = 0;
-    private int id;
+    private String id;
     private LocalDate date;
     private String location;
     private Double duration;
@@ -28,8 +27,8 @@ public class Interview implements SearchObject {
     private String recommendation = "The interviewer has not updated recommendation.";
 
     public Interview(LocalDate date, String location, Double duration, JobPosting jobPosting, Interviewer interviewer,
-                     Application application, String round) {
-        this.id = idNumber;
+                     Application application, String round, String id) {
+        this.id = id;
         this.date = date;
         this.location = location;
         this.duration = duration;
@@ -37,19 +36,16 @@ public class Interview implements SearchObject {
         this.interviewer = interviewer;
         this.application = application;
         this.round = round;
-        idNumber ++;
     }
 
     public Interview(Application application) {
         this.application = application;
     }
 
-    public int getId() {
-        return this.id;
-    }
+    // getter
 
-    public static int getIdNumber() {
-        return idNumber;
+    public String getId() {
+        return this.id;
     }
 
     public LocalDate getDate() {
@@ -88,16 +84,47 @@ public class Interview implements SearchObject {
         return this.recommendation;
     }
 
-    public static void setIdNumber(int idNumber) {
-        Interview.idNumber = idNumber;
+    // setter
+
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setInterviewer(Interviewer interviewer) {
+        this.interviewer = interviewer;
+    }
+
+    public void setJobPosting(JobPosting jobPosting) {
+        this.jobPosting = jobPosting;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setRound(String round) {
+        this.round = round;
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }
 
-    public void setRecommandation(String recommendation) {
+    public void setRecommendation(String recommendation) {
         this.recommendation = recommendation;
+    }
+
+    public void pendingInterview() {
+        this.status = Status.PENDING;
     }
 
     public void passInterview() {

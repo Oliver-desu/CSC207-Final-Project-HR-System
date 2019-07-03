@@ -7,7 +7,7 @@ class JobDecidingProcess {
     private HashMap<Applicant, Application> allApplications = new HashMap<>();
     private ArrayList<String> interviewRounds;
     private HashMap<String, ArrayList<Interview>> interviews = new HashMap<>();
-    private int currentRound;
+    private int currentRound = -1;
 
     JobDecidingProcess(ArrayList<String> interviewRounds) {
         this.interviewRounds = interviewRounds;
@@ -17,11 +17,11 @@ class JobDecidingProcess {
     }
 
     boolean isFinalRound() {
-        return currentRound == interviewRounds.size();
+        return currentRound == interviewRounds.size()-1;
     }
 
     void addApplication(Application application) {
-//        this.allApplications.put(application.getApplicant(), application);
+        this.allApplications.put(application.getApplicant(), application);
     }
 
     void withdrawApplication(Application application) {
@@ -33,18 +33,25 @@ class JobDecidingProcess {
     }
 
     void nextRound() {
-        currentRound += 1;
-        for (Application application : getPassApplications()) {
-            newInterview(application);
+        ArrayList<Application> passApplications = getPassApplications();
+        currentRound ++;
+        for (Application application : passApplications) {
+            this.newInterview(application);
         }
     }
 
-    private ArrayList<Application> getPassApplications() {
-        ArrayList<Application> applications = new ArrayList<>();
-        for (Interview interview : getRoundInterviews(getCurrentRound())) {
-            if (interview.isPass()) applications.add(interview.getApplication());
+    ArrayList<Application> getPassApplications() {
+        if (currentRound < 0) {
+            return new ArrayList<>(this.allApplications.values());
+        } else {
+            ArrayList<Application> applications = new ArrayList<>();
+            for (Interview interview : getRoundInterviews(getCurrentRound())) {
+                if (!interview.isReject()) {
+                    applications.add(interview.getApplication());
+                }
+            }
+            return applications;
         }
-        return applications;
     }
 
     ArrayList<String> getInterviewRounds() {
@@ -56,7 +63,11 @@ class JobDecidingProcess {
     }
 
     ArrayList<Interview> getRoundInterviews(String round) {
-        return this.interviews.get(round);
+        if (round.equals("")) {
+            return new ArrayList<>();
+        } else {
+            return this.interviews.get(round);
+        }
     }
 
     ArrayList<Application> getAllApplications() {
@@ -64,7 +75,11 @@ class JobDecidingProcess {
     }
 
     String getCurrentRound() {
-        return interviewRounds.get(currentRound);
+        if (currentRound < 0) {
+            return "";
+        } else {
+            return interviewRounds.get(currentRound);
+        }
     }
 
     boolean hasApplicant(Applicant applicant) {
