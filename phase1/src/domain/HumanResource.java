@@ -38,9 +38,17 @@ public class HumanResource extends User {
         return result;
     }
 
-//   TODO: Unfinished methods:
+    public Interviewer getInterviewer(String realName){
+        ArrayList<Interviewer> interviewers = this.company.getInterviewers();
+        for (Interviewer interviewer: interviewers) {
+            if (realName.equals(interviewer.getRealName())) {
+                return interviewer;
+            }
+        }
+        return null;
+    }
 
-    public Interviewer getInterviewer(String name){return null;}
+//   TODO: Unfinished methods:
 
     @Override
     public String toString() {

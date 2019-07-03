@@ -134,6 +134,33 @@ public class JobPosting implements SearchObject {
         return true;
     }
 
+    public void updateJobPosting(LocalDate currentDate) {
+        if (!this.isFilled() && currentDate.isAfter(this.closeDate)) {
+            this.setClosed();
+        }
+    }
+
+    public boolean canStartNextRound() {
+        ArrayList<Interview> interviews = getRoundInterviews(getCurrentRound());
+        for (Interview interview: interviews) {
+            if (!interview.isFinished()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public ArrayList<Application> getRemainingApplications() {
+        ArrayList<Interview> interviews = getRoundInterviews(getCurrentRound());
+        ArrayList<Application> applications = getAllApplications();
+        for (Interview interview: interviews) {
+            if (interview.isReject()) {
+                applications.remove(interview.getApplication());
+            }
+        }
+        return applications;
+    }
+
     // GUI:
     public ArrayList<Interview> getRoundInterviews(String round) {
         return this.decidingProcess.getRoundInterviews(round);
