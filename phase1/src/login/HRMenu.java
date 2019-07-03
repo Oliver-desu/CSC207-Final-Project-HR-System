@@ -22,7 +22,8 @@ public class HRMenu extends Menu {
     }
 
     public static void main(String[] args) {
-        Test.mainLoop(1000, 1, 30, 5, 42);
+        Test.mainLoop(1000, 5, 30, 3, 100,
+                80);
         Test.showAllInstances();
         HRMenu hrMenu = new HRMenu(Test.getRandomHumanResource());
         hrMenu.setVisible(true);
@@ -80,7 +81,7 @@ public class HRMenu extends Menu {
     private JPanel createSearchLine(JobPosting jobPosting) {
         JPanel buttons;
         JButton button1 = Tool.createSearchButton("view", new ViewDescription(jobPosting.getInfo()));
-        if (jobPosting.isClosed()) {
+        if (jobPosting.isClosed() || jobPosting.isFilled()) {
             JButton button2 = Tool.createSearchButton("edit", new EditJobPosting(jobPosting));
             buttons = Tool.createSearchButtonsArea(button1, button2);
         }else{
@@ -98,7 +99,7 @@ public class HRMenu extends Menu {
             match.setButton(button);
             buttons = Tool.createSearchButtonsArea(button);
         }else {
-            JButton button = Tool.createSearchButton("view", new ViewDescription(interview.getInfo()));
+            JButton button = Tool.createSearchButton("view", new ViewDescription(interview.getInfo(),false));
             buttons = Tool.createSearchButtonsArea(button);
         }
         JPanel info = Tool.createInfoLine(interview);

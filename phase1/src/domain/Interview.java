@@ -197,6 +197,6 @@ public class Interview implements SearchObject {
 
     @Override
     public String getInfo() {
-        return toStringForApplicant();
+        return toStringForStaff();
     }
 }

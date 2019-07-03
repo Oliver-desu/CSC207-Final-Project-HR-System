@@ -109,7 +109,7 @@ public class Test {
         int size = jobPostings.size();
         for (int i=size; i<size+num; i++) {
             JobPosting jobPosting = new JobPosting(company, currentDate, currentDate.plusDays(40), Integer.toString(i));
-            jobPosting.setNumPositions(1 + rand.nextInt(2));
+            jobPosting.setNumPositions(1 + rand.nextInt(1));
             jobPosting.setInterviewRounds(
                     new ArrayList<>(List.of("Phone", "In-person 1", "In-person 2", "In-person 3"))
             );
@@ -143,7 +143,7 @@ public class Test {
             interview.pendingInterview();
             interview.setId(Integer.toString(interviews.size()));
             interview.setInterviewer(tempInterviewers.get(rand.nextInt(tempInterviewers.size())));
-            interview.setDate(currentDate.plusDays(rand.nextInt(10)));
+            interview.setDate(currentDate.plusDays(5 + rand.nextInt(5)));
             interview.setLocation("U of T");
             interview.setDuration(1.0);
             interview.setJobPosting(jobPosting);
@@ -153,7 +153,8 @@ public class Test {
         }
     }
 
-    private static void initialize(int applicantNum, int companyNum, int interviewerNum, int jobPostingNum) {
+    private static void initialize(int applicantNum, int companyNum, int interviewerNum, int jobPostingNum,
+                                   int applicationNum) {
         addApplicants(applicantNum);
         addCompanies(companyNum);
         for (Company company: companies) {
@@ -161,6 +162,7 @@ public class Test {
             addInterviewersForCompany(company, interviewerNum);
             addJobPostingsForCompany(company, jobPostingNum);
         }
+        addApplications(applicationNum);
     }
 
     private static void updateJobPostings() {
@@ -183,47 +185,49 @@ public class Test {
         }
     }
 
-    private static void updateInterviews() {
+    private static void updateInterviews(int passRateInPercentage) {
         Random rand = new Random();
         for (Interview interview: interviews) {
             if (interview.getDate().equals(currentDate)) {
-                if (rand.nextInt(2) == 0) {
+                if (rand.nextInt(101) <= passRateInPercentage) {
                     interview.passInterview();
+                    interview.setRecommendation("Congrats!");
                 } else {
                     interview.failInterview();
+                    interview.setRecommendation("You suck!");
                 }
             }
         }
     }
 
     private static void newDayUpdate() {
-        updateInterviews();
+        updateInterviews(70);
         updateJobPostings();
     }
 
     public static void mainLoop(int initApplicantNum, int initCompanyNum, int initInterviewerNum, int initJobPostingNum,
-                                int numDayPass) {
+                                int initApplicationNum, int numDayPass) {
         Random rand = new Random();
-        initialize(initApplicantNum, initCompanyNum, initInterviewerNum, initJobPostingNum);
+        initialize(initApplicantNum, initCompanyNum, initInterviewerNum, initJobPostingNum, initApplicationNum);
         for (int i=0; i<=numDayPass; i++) {
             currentDate = currentDate.plusDays(1);
             int j = rand.nextInt(100);
             Company company = companies.get(rand.nextInt(companies.size()));
             if (j < 5) {
-                addApplications(10);
+                addApplications(30);
             } else if (j < 15) {
-                addApplications(8);
+                addApplications(20);
             } else if (j < 30) {
-                addApplications(4);
+                addApplications(10);
             } else if (j < 80) {
-                addApplications(1);
+                addApplications(5);
             }
             j = rand.nextInt(100);
             if (j < 15) {
                 addJobPostingsForCompany(company, 5);
             } else if (j < 30) {
                 addJobPostingsForCompany(company, 3);
-            } else if (j < 50) {
+            } else if (j < 60) {
                 addJobPostingsForCompany(company, 1);
             }
             newDayUpdate();
@@ -253,7 +257,8 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        mainLoop(10, 3, 5, 1, 365);
+        mainLoop(10, 3, 5, 1, 20,
+                365);
         showAllInstances();
     }
 

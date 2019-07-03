@@ -206,7 +206,7 @@ public class JobPosting implements SearchObject {
         ArrayList<String> searchValues = new ArrayList<>();
         searchValues.add(id);
         searchValues.add(postDate.toString());
-        searchValues.add(closeDate.toString());
+        searchValues.add(status.toString());
         return searchValues;
     }
 }
