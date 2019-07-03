@@ -34,8 +34,48 @@ public class Test {
 
     private static void addApplicants(int num) {
         int size = applicants.size();
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Oliver");
+        names.add("Kerwin");
+        names.add("ZhangYiChun");
+        names.add("Bai");
+        names.add("Sharon");
+        names.add("JZ");
+        names.add("StoryTeller");
+        names.add("Hint");
+        names.add("Topology");
+        names.add("EasyFinal");
+        names.add("RetakeMidterm");
+        names.add("CSC207");
+        names.add("Apple");
+        names.add("Ball");
+        names.add("Cat");
+        names.add("Dog");
+        names.add("Economy");
+        names.add("Failed");
+        names.add("GoodGame");
+        names.add("HelpMe");
+        names.add("IntelliJ");
+        names.add("Jack");
+        names.add("KerwinAgain");
+        names.add("Loser");
+        names.add("Mystery");
+        names.add("None");
+        names.add("Oops");
+        names.add("Pupa");
+        names.add("QQ");
+        names.add("RetakeMidtermOnceMore");
+        names.add("StoryTellerAgain");
+        names.add("Teller");
+        names.add("UFO");
+        names.add("Wow");
+        names.add("XXX");
+        names.add("YourFather");
+        names.add("ZooKeeper");
+        names.add("Applicant39");
+        names.add("Applicant40");
         for (int i=size; i<size+num; i++) {
-            applicants.add(new Applicant(Integer.toString(i), Integer.toString(i), currentDate));
+            applicants.add(new Applicant(names.get(i / 40), Integer.toString(i), currentDate));
         }
     }
 

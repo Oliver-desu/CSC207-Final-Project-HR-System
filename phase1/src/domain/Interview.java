@@ -188,11 +188,15 @@ public class Interview implements SearchObject {
 
     @Override
     public ArrayList<String> getSearchValues() {
-        return null;
+        ArrayList<String> searchValues = new ArrayList<>();
+        searchValues.add(status.toString());
+        searchValues.add(jobPosting.getId());
+        searchValues.add(application.getApplicantRealName());
+        return searchValues;
     }
 
     @Override
     public String getInfo() {
-        return null;
+        return toStringForApplicant();
     }
 }

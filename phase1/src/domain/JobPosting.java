@@ -195,10 +195,10 @@ public class JobPosting implements SearchObject {
     @Override
     public String getInfo() {
         return "Description"
-                + "Post Date: " + this.postDate.toString()
-                + "; Close Date: " + this.closeDate.toString()
-                + "; Requirements: " + this.requirements.toString()
-                + "; Number of Positions: " + this.numPositions;
+                + "\nPost Date: " + this.postDate.toString()
+                + "\nClose Date: " + this.closeDate.toString()
+//                + "\nRequirements: " + this.requirements.toString()
+                + "\nNumber of Positions: " + this.numPositions;
     }
 
     @Override

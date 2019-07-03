@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HRMenu extends Menu {
@@ -22,27 +21,10 @@ public class HRMenu extends Menu {
         createJobPostingSearchPage();
     }
 
-    static ArrayList<String> exampleGetSearchValues(SearchObject searchObject) {
-        String string = "value";
-
-        if (searchObject instanceof Interview) {
-            string = "interview";
-        } else if (searchObject instanceof JobPosting) {
-            string = "jobPosting";
-        }
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add(string);
-        strings.add(string);
-        strings.add(string);
-        return strings;
-    }
-
     public static void main(String[] args) {
-        String username = "user";
-        String password = "password";
-        LocalDate localDate = LocalDate.now();
-        Company company = new Company();
-        HRMenu hrMenu = new HRMenu(new HumanResource(username, password, localDate, company));
+        Test.mainLoop(1000, 10, 3000, 50, 50);
+        Test.showAllInstances();
+        HRMenu hrMenu = new HRMenu(Test.getRandomHumanResource());
         hrMenu.setVisible(true);
         hrMenu.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -50,7 +32,7 @@ public class HRMenu extends Menu {
     private void createApplicantSearchPage() {
         ArrayList<JPanel> searchLines = new ArrayList<>();
 
-        for (Applicant applicant : exampleGetApplicants()/*humanResource.getApplicants*/) {
+        for (Applicant applicant : humanResource.getApplicants()) {
             searchLines.add(createSearchLine(applicant));
         }
         JPanel page = new JPanel();
@@ -61,7 +43,7 @@ public class HRMenu extends Menu {
 
     private void createJobPostingSearchPage() {
         ArrayList<JPanel> searchLines = new ArrayList<>();
-        for (JobPosting jobPosting : exampleGetJobPostings()/*humanResource.getJobPostings()*/) {
+        for (JobPosting jobPosting : humanResource.getJobPostings()) {
             searchLines.add(createSearchLine(jobPosting));
         }
         JPanel page = new JPanel();
@@ -97,7 +79,7 @@ public class HRMenu extends Menu {
 
     private JPanel createSearchLine(JobPosting jobPosting) {
         JPanel buttons;
-        JButton button1 = Tool.createSearchButton("view", new ViewDescription("No Description"/* jobPosting.getDescription*/));
+        JButton button1 = Tool.createSearchButton("view", new ViewDescription(jobPosting.getInfo()));
         if (!jobPosting.isClosed() && !jobPosting.isFilled()) {
             JButton button2 = Tool.createSearchButton("edit", new EditJobPosting(jobPosting));
             buttons = Tool.createSearchButtonsArea(button1, button2);
@@ -110,13 +92,13 @@ public class HRMenu extends Menu {
 
     private JPanel createSearchLine(Interview interview, JTextField interviewer) {
         JPanel buttons;
-        if (true/*interview.isEmpty()*/){
-            MatchInterviewer match = new MatchInterviewer(interview, exampleInterviewer()/*humanResource.getInterviewer(interviewer.getText())*/);
+        if (interview.isEmpty()) {
+            MatchInterviewer match = new MatchInterviewer(interview, humanResource.getInterviewer(interviewer.getText()));
             JButton button = Tool.createSearchButton("match", match);
             match.setButton(button);
             buttons = Tool.createSearchButtonsArea(button);
         }else {
-            JButton button = Tool.createSearchButton("view", new ViewDescription("No Description"/* interview.getDescription*/));
+            JButton button = Tool.createSearchButton("view", new ViewDescription(interview.getInfo()));
             buttons = Tool.createSearchButtonsArea(button);
         }
         JPanel info = Tool.createInfoLine(interview);
@@ -127,7 +109,7 @@ public class HRMenu extends Menu {
         JPanel jPanel = new JPanel();
         jPanel.setPreferredSize(ROUND_PANEL_SIZE);
         jPanel.add(Tool.createTextLabel("Interview Rounds:", ROUND_PANEL_SIZE.width, ROUND_HEADING_HEIGHT));
-        for (String round: exampleGetRounds()/*jobPosting.getRounds()*/){
+        for (String round : jobPosting.getInterviewRounds()) {
             jPanel.add(Tool.createButton(round, new ViewRound(jobPosting, round)));
         }
         return jPanel;
@@ -148,69 +130,6 @@ public class HRMenu extends Menu {
         return info;
     }
 
-    private ArrayList<Applicant> exampleGetApplicants() {
-        ArrayList<Applicant> list = new ArrayList<>();
-        Applicant x = new Applicant("user", "pass", LocalDate.now());
-        for (int i = 0; i<30; i++) {
-            list.add(x);
-        }
-        return list;
-    }
-
-    private ArrayList<String> exampleGetRounds() {
-        ArrayList<String> rounds = new ArrayList<>();
-        rounds.add("Interview1");
-        rounds.add("Interview2");
-        rounds.add("Interview3");
-        rounds.add("Interview4");
-        return rounds;
-    }
-
-    // Todo: Below methods are all temporary.
-
-    private ArrayList<JobPosting> exampleGetJobPostings() {
-        ArrayList<JobPosting> jobPostings = new ArrayList<>();
-        for (int i = 0; i<30; i++) {
-            jobPostings.add(exampleJobPosting());
-        }
-        return jobPostings;
-    }
-
-    private String exampleGetDescription() {
-        return "This is a description.";
-    }
-
-    private ArrayList<Interview> exampleGetRoundInterviews(String round) {
-        ArrayList<Interview> interviews = new ArrayList<>();
-        for (int i = 0; i<30; i++) {
-            interviews.add(exampleInterview());
-        }
-        return interviews;
-    }
-
-    private Interview exampleInterview() {
-        return new Interview(LocalDate.now(),"loc", 30.0,exampleJobPosting(),exampleInterviewer(),
-                exampleApplication(),"round", "1");
-    }
-
-    private JobPosting exampleJobPosting() {
-        ArrayList<String> requirements = new ArrayList<>();
-        requirements.add("requirement1");
-        return new JobPosting(new Company(), LocalDate.now(), LocalDate.now(), "job id");
-    }
-
-    private Interviewer exampleInterviewer() {
-        return new Interviewer("user", "pass", LocalDate.now(), "name", new Company());
-    }
-
-    private Application exampleApplication() {
-        return new Application(exampleJobPosting(),exampleApplicant());
-    }
-
-    private Applicant exampleApplicant() {
-        return new Applicant("username", "pass", LocalDate.now());
-    }
-
     class EditJobPosting implements ActionListener {
         private JobPosting jobPosting;
 
@@ -222,7 +141,7 @@ public class HRMenu extends Menu {
         public void actionPerformed(ActionEvent e) {
             deletePage();
             JPanel info = new JPanel();
-            info.add(Tool.createDescriptionArea(exampleGetDescription()/*jobPosting.getDescription()*/));
+            info.add(Tool.createDescriptionArea(jobPosting.getInfo()));
             info.add(createRoundPanel(jobPosting));
             changeInfo(info);
         }
@@ -241,9 +160,9 @@ public class HRMenu extends Menu {
         public void actionPerformed(ActionEvent e) {
             deletePage();
             String title = jobPosting.getId();
-            ArrayList<Interview> interviews = exampleGetRoundInterviews(round)/*jobPosting.getRoundInterviews(round)*/;
-//            boolean current = jobPosting.getCurrentRound().equals(round);
-            createRoundViewPage(title, interviews, true/*current*/);
+            ArrayList<Interview> interviews = jobPosting.getRoundInterviews(round);
+            boolean current = jobPosting.getCurrentRound().equals(round);
+            createRoundViewPage(title, interviews, current);
             showPage(title);
         }
     }
@@ -267,7 +186,7 @@ public class HRMenu extends Menu {
             /* interview.matchInterviewer(interviewer);*/
             button.setText("view");
             button.removeActionListener(this);
-            button.addActionListener(new ViewDescription("just matched"/*interview.getDescription()*/, false));
+            button.addActionListener(new ViewDescription(interview.getInfo(), false));
             button.doClick();
         }
     }

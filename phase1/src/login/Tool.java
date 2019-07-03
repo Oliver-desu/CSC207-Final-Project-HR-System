@@ -1,5 +1,7 @@
 package login;
 
+import domain.Applicant;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
@@ -97,13 +99,26 @@ public class Tool {
         }
         return jPanel;
     }
-    public static JPanel createInfoLine(SearchObject searchObject){
-        return createInfoLine(HRMenu.exampleGetSearchValues(searchObject));
-    }
 
-//    public static JPanel createInfoLine(SearchObject searchObject){
-//        return createInfoLine(searchObject.getSearchValues());
-//    }
+    public static JPanel createInfoLine(SearchObject searchObject){
+        ArrayList<String> searchValues = new ArrayList<>();
+        try {
+            return createInfoLine(searchObject.getSearchValues());
+        } catch (Exception e) {
+            if (searchObject instanceof Applicant) {
+                searchValues.add("I");
+                searchValues.add("am");
+                searchValues.add(((Applicant) searchObject).getUsername());
+                return createInfoLine(searchValues);
+            } else {
+                searchValues.add("What");
+                searchValues.add("The");
+                searchValues.add("Heck");
+                return createInfoLine(searchValues);
+            }
+        }
+
+    }
 
     static JPanel createSearchButtonsArea(JButton button1){
         JPanel buttons = new JPanel(new FlowLayout());
