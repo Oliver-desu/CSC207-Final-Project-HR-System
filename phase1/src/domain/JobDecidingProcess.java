@@ -16,7 +16,7 @@ class JobDecidingProcess {
         }
     }
 
-    boolean checkLastRound() {
+    boolean isFinalRound() {
         return currentRound == interviewRounds.size();
     }
 

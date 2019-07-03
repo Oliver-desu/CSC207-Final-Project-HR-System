@@ -103,8 +103,8 @@ public class JobPosting implements SearchObject {
         return map;
     }
 
-    public boolean checkLastRound() {
-        return this.decidingProcess.checkLastRound();
+    public boolean isFinalRound() {
+        return this.decidingProcess.isFinalRound();
     }
 
     //    Method for System:
@@ -159,6 +159,11 @@ public class JobPosting implements SearchObject {
             }
         }
         return applications;
+    }
+
+    public boolean canHire() {
+        return  this.canStartNextRound() &&
+                (this.isFinalRound() || this.getRemainingApplications().size() == this.numPositions);
     }
 
     // GUI:
