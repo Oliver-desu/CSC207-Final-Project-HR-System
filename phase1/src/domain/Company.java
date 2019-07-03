@@ -1,6 +1,5 @@
 package domain;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Company {
@@ -35,6 +34,10 @@ public class Company {
 
     public ArrayList<JobPosting> getJobPostings() {
         return this.jobPostings;
+    }
+
+    public ArrayList<Applicant> getApplicants() {
+        return this.applicants;
     }
 
     public static ArrayList<Company> getAllCompanies() {

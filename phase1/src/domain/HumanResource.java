@@ -23,13 +23,22 @@ public class HumanResource extends User {
         return this.company;
     }
 
-//   TODO: Unfinished methods:
+
+    public ArrayList<Applicant> getApplicants() {
+        return this.company.getApplicants();
+    }
+
+    public ArrayList<JobPosting> getJobPostings(){
+        return this.company.getJobPostings();
+    }
 
     public HashMap<String, String> getAccount() {
         HashMap<String, String> result = ((User) this).getAccount();
         result.put("Company name", this.company.getCompanyName());
         return result;
     }
+
+//   TODO: Unfinished methods:
 
     public Interviewer getInterviewer(String name){return null;}
 
@@ -38,10 +47,5 @@ public class HumanResource extends User {
         return null;
     }
 
-    public ArrayList<Applicant> getApplicants() {
-        return null;
-    }
-
-    public ArrayList<JobPosting> getJobPostings(){return null;}
 
 }

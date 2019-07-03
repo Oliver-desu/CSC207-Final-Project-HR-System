@@ -116,6 +116,10 @@ public class Interview implements SearchObject {
         return this.status == Status.PASS;
     }
 
+    public boolean isReject() {
+        return this.status == Status.REJECT;
+    }
+
     public boolean isEmpty() {
         return this.status == Status.EMPTY;
     }
