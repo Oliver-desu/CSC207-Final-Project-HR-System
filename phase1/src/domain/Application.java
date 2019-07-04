@@ -39,7 +39,6 @@ public class Application implements SearchObject {
 
     public  void setJobPosting(JobPosting a){this.jobPosting= a;}
 
-
     public void addDocument(Document document) {
         this.documents.add(document);
     }

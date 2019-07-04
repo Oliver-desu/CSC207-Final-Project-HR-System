@@ -75,7 +75,9 @@ public class Test {
         names.add("Applicant39");
         names.add("Applicant40");
         for (int i=size; i<size+num; i++) {
-            applicants.add(new Applicant(names.get(i / 40), Integer.toString(i), currentDate));
+            Applicant applicant = new Applicant(Integer.toString(i), Integer.toString(i), currentDate);
+            applicant.setRealName(names.get(i / 40));
+            applicants.add(applicant);
         }
     }
 
