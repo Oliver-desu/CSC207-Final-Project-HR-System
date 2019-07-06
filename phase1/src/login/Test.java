@@ -112,9 +112,12 @@ public class Test {
         for (int i=size; i<size+num; i++) {
             JobPosting jobPosting = new JobPosting(company, currentDate, currentDate.plusDays(40), Integer.toString(i));
             jobPosting.setNumPositions(1 + rand.nextInt(1));
-            jobPosting.setInterviewRounds(
-                    new ArrayList<>(List.of("Phone", "In-person 1", "In-person 2", "In-person 3"))
-            );
+            ArrayList<String> rounds = new ArrayList<>();
+            rounds.add("Phone");
+            rounds.add("In-person 1");
+            rounds.add("In-person 2");
+            rounds.add("In-person 3");
+            jobPosting.setInterviewRounds(rounds);
             company.addJobPostings(jobPosting);
             jobPostings.add(jobPosting);
         }
