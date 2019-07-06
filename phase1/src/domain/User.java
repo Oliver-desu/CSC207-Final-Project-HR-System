@@ -59,4 +59,9 @@ public abstract class User {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "User name: " + this.username + "\n" +
+                "Date Created: " + this.password;
+    }
 }

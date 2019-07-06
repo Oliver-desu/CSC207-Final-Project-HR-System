@@ -45,14 +45,14 @@ public class Interviewer extends User implements SearchObject {
         return this.interviews.remove(interview);
     }
 
-    //   TODO: Unfinished methods:
-
     public HashMap<String, String> getAccount() {
         HashMap<String, String> result = ((User) this).getAccount();
         result.put("Real name", this.realName);
         result.put("Company name", this.company.getCompanyName());
         return result;
     }
+
+    //   TODO: Unfinished methods:
 
     @Override
     public ArrayList<String> getSearchValues() {

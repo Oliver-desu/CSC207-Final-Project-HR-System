@@ -48,11 +48,10 @@ public class HumanResource extends User {
         return null;
     }
 
-//   TODO: Unfinished methods:
-
     @Override
     public String toString() {
-        return null;
+        return ((User) this).toString() + "\n" +
+                "Company name: " + this.company.getCompanyName();
     }
 
 
