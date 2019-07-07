@@ -4,21 +4,108 @@ import login.SearchObject;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
-public class JobPosting implements SearchObject {
-    private enum Status {Posted, Closed, Filled}
+public class JobPosting implements Observer {
+
+//implements SearchObject
+
+
+    //private enum Status {Posted, Closed, Filled}
+    private String position;
     private LocalDate postDate;
     private LocalDate closeDate;
     private int numPositions = 1;
-    private Status status = Status.Posted;
-    private JobDecidingProcess decidingProcess;
+    //private Status status = Status.Posted;
+    //private JobDecidingProcess decidingProcess;
     private Company company;
     private ArrayList<String> requirements;
-    private String id;
-//    private static List<domain.JobPosting> allJobPostings = new ArrayList<>();
+    private ArrayList<Applicant> remainingApplicants;
+    private JobPostingState currentSate;
+    //private String id;
+    //private static List<domain.JobPosting> allJobPostings = new ArrayList<>();
+
+
+    public JobPosting(String position, LocalDate closeDate, Company company, ArrayList<String> requirements) {
+
+        this.position = position;
+        this.closeDate = closeDate;
+        this.company = company;
+        this.requirements = requirements;
+        //initialize other attributes
+    }
+
+
+    //Set states
+    public void setToOpen(LocalDate date) {
+    }
+
+    public void setToWaitingForNextRound() {
+    }
+
+    public void setToUnfilledForNextRound() {
+    }
+
+    public void setTofilled() {
+    }
+
+    public void setToUnfilled() {
+    }
+
+
+    //methods for observer(I'll implement later
+    public void update(Observable o, Object arg){
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
 
     public JobPosting(HashMap<String, String> account) {
         this.postDate = LocalDate.parse(account.get("Post Date"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -210,3 +297,4 @@ public class JobPosting implements SearchObject {
         return searchValues;
     }
 }
+*/
