@@ -4,14 +4,57 @@ import login.SearchObject;
 
 import java.util.ArrayList;
 
-public class Application implements SearchObject {
+public class Application {
+    //implements SearchObject
 
     private JobPosting jobPosting;
+    private ArrayList<Interviewer> interviews;
     private Applicant applicant;
-    private String id;
-    private String status;
+    //private String id;
+    private String status; //"incomplete"(default), "submitted", rejected", "hired"
     private ArrayList<Document> documents = new ArrayList<>();
 
+
+
+    public Application(JobPosting jobPosting, Applicant applicant) {
+        this.jobPosting = jobPosting;
+        this.applicant = applicant;
+        //initialize other attributes
+    }
+
+    public JobPosting getJobPosting() {
+        return jobPosting;
+    }
+
+    public ArrayList<Interviewer> getInterviews(String status) {
+       //status: "pass", upcoming"(default), "pending", "fail"
+    }
+
+    public Applicant getApplicant() {
+        return applicant;
+    }
+
+    public ArrayList<Document> getDocuments() {
+        return documents;
+    }
+
+    //status change
+
+    public void setToSubmitted(){}
+
+    public void setToRejected(){}
+
+    public void setToHired(){}
+}
+
+
+
+
+
+
+
+
+/*
     public Application(JobPosting jobposting, Applicant applicant, String id) {
         this.jobPosting = jobposting;
         this.applicant = applicant;
