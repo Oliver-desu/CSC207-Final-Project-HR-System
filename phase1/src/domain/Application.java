@@ -1,6 +1,6 @@
 package domain;
 
-import login.SearchObject;
+//import login.SearchObject;
 
 import java.util.ArrayList;
 
@@ -26,9 +26,16 @@ public class Application {
         return jobPosting;
     }
 
-    public ArrayList<Interviewer> getInterviews(String status) {
-       //status: "pass", upcoming"(default), "pending", "fail"
+    public ArrayList<Interviewer> getInterviews(String status){
+        //status: "pass", upcoming"(default), "pending", "fail"
+        //e.g. iterate through interviews and return the "pass" interviews
+
+        //delete theses after implementing
+        ArrayList<Interviewer> a = new ArrayList<>();
+        return a;
     }
+
+
 
     public Applicant getApplicant() {
         return applicant;
