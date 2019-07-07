@@ -3,20 +3,75 @@ package domain;
 import login.SearchObject;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-public class Applicant extends User implements SearchObject {
+public class Applicant implements Observer {
+        //extends User implements SearchObject
 
-    private String realName;
-    private ArrayList<Document> documents =new ArrayList<>();
-    private ArrayList<Application> currentApplications = new ArrayList<>();
-    private ArrayList<Application> pastApplications =new ArrayList<>();
+    //private String realName;
+    //private ArrayList<Document> documents =new ArrayList<>();
+    //private ArrayList<Application> currentApplications = new ArrayList<>();
+    //private ArrayList<Application> pastApplications =new ArrayList<>();
     private ArrayList<Application> applications =new ArrayList<>();
     private  ArrayList<Interview> interviews =new ArrayList<>();
     private static List<Applicant> allApplicants =new ArrayList<>();
+    private MyDocuments myDocs;
+    private boolean applying;
 
+
+    public Applicant(String username, String password, LocalDate DateCreated) {
+        //super(username, password, DateCreated);
+    }
+
+    public Applicant (String username, String password){}
+
+
+    public ArrayList<Application> getApplications(String status) {
+
+        //status: "incomplete"(default), "submitted", rejected", "hired"
+        //iterate through applications and return the "status" applications
+        return applications;//delete this later
+    }
+
+
+    public void addApplication(Application application){}
+
+    public void removeApplication(Application application){}
+
+    public void applyJob(JobPosting jobPosting){}
+    //this create new application and add to applicant's List
+
+
+    public void getMyDocuments() {
+
+        //returns ArrayList<Document>
+    }
+
+
+
+    //I'll implement this later
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
     public Applicant(String username, String password, LocalDate DateCreated) {
         super(username, password, DateCreated);
@@ -172,6 +227,6 @@ public class Applicant extends User implements SearchObject {
     }
 }
 
-
+*/
 
 
