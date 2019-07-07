@@ -1,0 +1,46 @@
+Attributes.txt always has ALL THE ATTRIBUTES
+ToString class always has ALL THE CLASSES
+<User>ToString class always has ALL THE SCENARIOS for that user
+Every type of User has its own class <User>ToString
+
+In any scenario, if you want to include all of its attributes, call ToString.getCLASSNAME() to get all the attributes
+of that class as a List of String
+
+
+
+If you want to add a scenario for a type of User:
+
+    Step 1: go to the toString class for that user (i.e. InterviewerToString for Interviewer, and etc)
+    Step 2: create a class with the name of that scenario
+    Step 3: copy paste the content from other scenario method
+    Step 4: rewrite the value for validAttributes (those values decide what attributes can be seen)
+    Step 5: double check that you can only write attributes from Attributes.txt for each class
+
+
+If you want to add an attribute:
+
+    Step 1: check if the attribute is included in the Attributes.txt, if not, add that attribute to it
+    Step 2: go to ToString class, add the attribute to its CLASS
+    Step 3: check if the attribute is included in the template method that accept the class, if not, add that attribute
+            to it along with an example or a method for calling that attribute
+    Step 4: for all the user types, find the scenarios you want that attribute to be shown and add that to the
+            corresponding value in validAttributes
+
+
+If you want to add a class:
+
+    Step 1: go to Attributes.txt and add that class, along with all the attributes associated with that class
+    Step 2: go to ToString class, add that class as a static attribute with name CLASSNAME that includes all of its
+            attributes and add a getter method
+    Step 3: add a template method that accepts that class, finish the method with the same structure with other
+            template methods
+    Step 3: for all the user types, find the scenarios you want that attribute to be shown and add that to the
+            validAttributes along with proper attributes
+
+
+If you want to add a type of User:
+
+    Step 1: the new User is a class, so first finish the steps in "If you want to add a class"
+    Step 2: create a new class <User>ToString
+    Step 3: copy paste the getAttributes method from other <User>ToString class
+    Step 4: add different scenarios for that User, with the same structure as the ones in other <User>ToString class

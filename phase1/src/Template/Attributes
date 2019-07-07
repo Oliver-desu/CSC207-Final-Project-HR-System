@@ -1,0 +1,80 @@
+Company:
+    Company name
+    Company id ???
+    Number of interviewers
+    Number of current job postings
+    Number of all job postings
+    Number of applicants currently applied
+
+
+User:
+    Username
+    Password ???
+    Date created
+
+
+Applicant:
+    <User>
+    Real name
+    Applicant id ???
+    Number of documents
+    Number of upcoming interviews
+    Number of current applications
+    Number of all applications
+
+
+HumanResource:
+    <User>
+    HumanResource id ???
+    Company name
+
+
+Interviewer:
+    <User>
+    Interviewer id ???
+    Real name
+    Company name
+    Number of upcoming interviews
+
+
+JobPosting:
+    JobPosting id
+    Date posted
+    Date closed
+    Current status
+    Number of positions
+    Rounds of interviews
+    Company name
+    Requirements
+    Number of all applicants
+    Number of remaining applicants
+    Current round
+
+
+Application:
+    Applicant real name
+    JobPosting id
+    Documents
+    Application id ???
+
+
+Interview:
+    Interview id ???
+    Date
+    Location
+    Duration
+    Applicant real name
+    Interviewer real name
+    JobPosting id
+    Application id ???
+    Round
+    Status
+    Recommendation
+
+
+Document:
+    Document id
+    Applicant id
+    Applicant real name
+    Document name
+    Content ???
