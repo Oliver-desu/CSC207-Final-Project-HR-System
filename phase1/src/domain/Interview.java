@@ -5,9 +5,61 @@ import login.SearchObject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
-public class Interview implements SearchObject {
+public class Interview extends Observable {
+    //implements SearchObject
 
+    //private String id;
+    private LocalDate date;
+    //private String location;
+    //private Double duration;
+    private JobPosting jobPosting;
+    private Interviewer interviewer;
+    private Application application;
+    //private String round;
+    //private Status status = Status.EMPTY;
+    private String status; //"pass", upcoming"(default), "pending", "fail"
+    private String recommendation = "The interviewer has not updated recommendation.";
+
+
+    public Interview(LocalDate date, JobPosting jobPosting, Interviewer interviewer, Applicant applicant) {
+        this.date = date;
+        this.jobPosting = jobPosting;
+        this.interviewer = interviewer;
+        //initialize other variables, get application from applicant
+        //addObserver (I'll write this later
+    }
+
+    public void setToPass(){};
+
+    public void setToPending(){};
+
+    public void setToFail(){};
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+
+    //I'll implement this later
+    @Override
+    public void notifyObservers(Object arg) {
+        super.notifyObservers(arg);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+    /*
     private enum Status {
         PASS,
         REJECT,
@@ -15,16 +67,7 @@ public class Interview implements SearchObject {
         EMPTY
     }
 
-    private String id;
-    private LocalDate date;
-    private String location;
-    private Double duration;
-    private JobPosting jobPosting;
-    private Interviewer interviewer;
-    private Application application;
-    private String round;
-    private Status status = Status.EMPTY;
-    private String recommendation = "The interviewer has not updated recommendation.";
+
 
     public Interview(LocalDate date, String location, Double duration, JobPosting jobPosting, Interviewer interviewer,
                      Application application, String round, String id) {
@@ -200,3 +243,4 @@ public class Interview implements SearchObject {
         return toStringForStaff();
     }
 }
+*/

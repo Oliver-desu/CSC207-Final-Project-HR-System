@@ -26,13 +26,17 @@ public class Applicant implements Observer {
     public Applicant (String username, String password){}
 
 
-    public ArrayList<Application> getApplications(String status) {
+    public ArrayList<Application> getApplications(JobPosting status) {
 
         //status: "incomplete"(default), "submitted", rejected", "hired"
         //iterate through applications and return the "status" applications
         return applications;//delete this later
     }
 
+
+    public void getApplication(JobPosting j){
+
+    } //this returns a application
 
     public void addApplication(Application application){}
 
