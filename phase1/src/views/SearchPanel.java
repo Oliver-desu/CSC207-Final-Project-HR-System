@@ -5,9 +5,9 @@ import java.awt.*;
 import java.util.HashMap;
 
 // 2
-public class SearchPanel extends JPanel {
+public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder {
 
-    private JTextField textField = new JTextField("Job title, Keywords, or Company");
+    private JTextField keyword = new JTextField("Job title, Keywords, or Company");
     private JButton search = new JButton("Search");
     private JButton apply = new JButton("Apply Now");
 
@@ -18,9 +18,9 @@ public class SearchPanel extends JPanel {
         Dimension buttonSize = new Dimension(width / 3, height / 2);
         Dimension textFieldSize = new Dimension(width - 20, height / 3);
 
-        // add textField
-        textField.setPreferredSize(textFieldSize);
-        add(textField);
+        // add keyword
+        keyword.setPreferredSize(textFieldSize);
+        add(keyword);
 
         // add two buttons
         search.setPreferredSize(buttonSize);
@@ -29,14 +29,16 @@ public class SearchPanel extends JPanel {
         add(apply);
     }
 
-    HashMap<String, JButton> getButtons() {
+    public HashMap<String, JButton> getButtons() {
         HashMap<String, JButton> buttons = new HashMap<>();
         buttons.put(search.getText(), search);
         buttons.put(apply.getText(), apply);
         return buttons;
     }
 
-    public JTextField getTextField() {
-        return textField;
+    public HashMap<String, JTextField> getTextFields() {
+        HashMap<String, JTextField> textFields = new HashMap<>();
+        textFields.put("Keyword", keyword);
+        return textFields;
     }
 }

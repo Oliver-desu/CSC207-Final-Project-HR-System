@@ -22,13 +22,14 @@ public class ViewFrame extends JFrame {
     private HashMap<String, JButton> buttons = new HashMap<>();
     private HashMap<Part, JList<String>> lists = new HashMap<>();
     private HashMap<String, JTextField> textFields = new HashMap<>();
+    private HashMap<String, JComboBox<String>> boxes = new HashMap<>();
 
     void addActionListener(String buttonText, ActionListener listener) {
         buttons.get(buttonText).addActionListener(listener);
     }
 
-    String getSelectedValue(String part) {
-        JList<String> list = lists.get(Part.valueOf(part));
+    String getSelectedValue(Part part) {
+        JList<String> list = lists.get(part);
         return list.getSelectedValue();
     }
 
@@ -43,20 +44,20 @@ public class ViewFrame extends JFrame {
         }
     }
 
-    void hidePart(String part) {
-        ViewComponent component = components.get(Part.valueOf(part));
+    void hidePart(Part part) {
+        ViewComponent component = components.get(part);
         component.setVisible(false);
     }
 
-    void showPart(String part) {
-        ViewComponent component = components.get(Part.valueOf(part));
+    void showPart(Part part) {
+        ViewComponent component = components.get(part);
         component.setVisible(true);
     }
 
-    void setListContent(String part, String[] content) {
-        JList<String> list = lists.get(Part.valueOf(part));
+    void setListContent(Part part, String[] content) {
+        JList<String> list = lists.get(part);
         list.setListData(content);
     }
 
-    private enum Part {LEFT, RIGHT, LOGIN, SEARCH, MAIN, MENU, BUTTON, LIST_LEFT, LIST_RIGHT, INFO, BOX}
+    public enum Part {LEFT, RIGHT, LOGIN, SEARCH, MAIN, MENU, BUTTON, LIST_LEFT, LIST_RIGHT, INFO, BOX}
 }

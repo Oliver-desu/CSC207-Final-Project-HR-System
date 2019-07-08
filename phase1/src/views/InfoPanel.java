@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 // 3(3)
-public class InfoArea extends JPanel {
+public class InfoPanel extends JPanel {
 
     private static final Font FONT = new Font("Times New Roman", Font.PLAIN, 20);
     private static final int GAP = 20;
@@ -13,7 +13,7 @@ public class InfoArea extends JPanel {
     private JTextArea workspace = new JTextArea();
     private boolean hasWorkspace;
 
-    InfoArea(Dimension dimension) {
+    InfoPanel(Dimension dimension) {
         setup(dimension, hasWorkspace);
     }
 
@@ -51,6 +51,10 @@ public class InfoArea extends JPanel {
 
     void setInfo(String info) {
         infoArea.setText(info);
+    }
+
+    void editInfoArea() {
+        infoArea.setEditable(true);
     }
 
     String getWorkspaceText() {
