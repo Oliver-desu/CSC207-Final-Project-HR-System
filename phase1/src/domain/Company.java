@@ -1,70 +1,86 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Company {
+    private  String companyName;
+    private  HashMap<JobPostingState,ArrayList<JobPosting>> JobPostings;
+    private  HumanResource hr;
+    private  ArrayList<Interviewer> interviewers;
 
-    private static ArrayList<Company> allCompanies = new ArrayList<>();
-    private String companyName;
-    private HumanResource humanResource;
-    private ArrayList<Interviewer> interviewers = new ArrayList<>();
-    private ArrayList<JobPosting> jobPostings = new ArrayList<>();
-    private ArrayList<Applicant> applicants = new ArrayList<>();
+
+
 
     public Company(String companyName){
         this.companyName = companyName;
-        allCompanies.add(this);
+        this.hr = new HumanResource(this);
     }
 
-    public Company(){
-        this.companyName = "unnamed";
-        allCompanies.add(this);
-    }
+
 
     //getters
     public String getCompanyName() { return companyName; }
 
-    public HumanResource getHumanResource() {
-        return this.humanResource;
+    public HumanResource getHr() {
+        return hr;
     }
 
     public ArrayList<Interviewer> getInterviewers() {
-        return this.interviewers;
+        return interviewers;
     }
 
-    public ArrayList<JobPosting> getJobPostings() {
-        return this.jobPostings;
+    public ArrayList<JobPosting> getJobPostings(JobPostingState key) {
+        return this.JobPostings.get(key);
     }
 
-    public ArrayList<Applicant> getApplicants() {
-        return this.applicants;
+    //setters
+
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public static ArrayList<Company> getAllCompanies() {
-        return allCompanies;
+    public void setHr(HumanResource hr) {
+        this.hr = hr;
     }
 
-
-//setters
-
-
-    public void setHumanResource(HumanResource humanResource) {
-        this.humanResource = humanResource;
+    public void setInterviews(ArrayList<Interviewer> interviewers) {
+        this.interviewers = interviewers;
     }
 
-    public void addInterviewers(Interviewer newInterviewer) {
-        interviewers.add(newInterviewer);
+    public void setJobPostings(HashMap<JobPostingState, ArrayList<JobPosting>> jobPostings) {
+        JobPostings = jobPostings;
+    }
+    // end ---------------------------
+
+    public  void removeHRCoords(User user){
+        // need to be done
+    }
+    public void addInterviewer(Interviewer interviewer){
+        interviewers.add(interviewer);
+    }
+    public  void removeInterviewer(Interviewer interviewer){
+        interviewers.remove(interviewer);
     }
 
-    public void addJobPostings(JobPosting newJobPosting) {
-        jobPostings.add(newJobPosting);
+    public void addJobPosting(JobPostingState key){
+        JobPostings.put(key,null);
     }
+    public  void addValueToArraylistInHashmap(HashMap<Object,ArrayList> map,Object key, Object value ){
 
-    public void addApplicants (Applicant newApplicant) {
-        applicants.add(newApplicant);
+        try {ArrayList v = map.get(key);
+
+            v.add(value);
+            map.put(key,v);}
+        catch (ClassCastException e){
+            System.out.println("try the right type");
+        }
+
     }
+    public  void closeJobPosting(JobPosting job){
 
-
+    }
 }
 
 
