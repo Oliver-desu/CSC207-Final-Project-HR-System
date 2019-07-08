@@ -4,51 +4,87 @@ import login.SearchObject;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.HashMap;
+
 
 public class Applicant implements Observer {
-        //extends User implements SearchObject
+    private HashMap<Document, ArrayList<Application>> myDocs;
+    private HashMap<ApplicationState, ArrayList<Application>> applications;
 
-    //private String realName;
-    //private ArrayList<Document> documents =new ArrayList<>();
-    //private ArrayList<Application> currentApplications = new ArrayList<>();
-    //private ArrayList<Application> pastApplications =new ArrayList<>();
-    private ArrayList<Application> applications =new ArrayList<>();
-    private  ArrayList<Interview> interviews =new ArrayList<>();
-    private static List<Applicant> allApplicants =new ArrayList<>();
-    private MyDocuments myDocs;
-    private boolean applying;
+    public Applicant{
+        this.myDocs = new HashMap<>;
+        this.applications = new HashMap<>;
+        this.application.put(INCOMPLETE, new ArrayList<>());
+        this.application.put(WAITING_FOR_NEXT_ROUND, new ArrayList<>());
+        this.application.put(INTERVIEWING, new ArrayList<>());
+        this.application.put(PENDING, new ArrayList<>());
+        this.application.put(REJECTED, new ArrayList<>());
+        this.application.put(HIRED, new ArrayList<>());
 
-
-    public Applicant(String username, String password, LocalDate DateCreated) {
-        //super(username, password, DateCreated);
     }
 
-    public Applicant (String username, String password){}
-
-
     public ArrayList<Application> getApplications(JobPosting status) {
+        ArrayList<Application> app = new ArrayList();
+        for (ApplicationState apps: this.applications.keySet()){
+            
+        }
 
         //status: "incomplete"(default), "submitted", rejected", "hired"
         //iterate through applications and return the "status" applications
-        return applications;//delete this later
+       // return applications;//delete this later
     }
 
 
-    public void getApplication(JobPosting j){
+    public Application getApplication(JobPosting j){
+
 
     } //this returns a application
 
-    public void addApplication(Application application){}
+    public void addApplication(Application application){
 
-    public void removeApplication(Application application){}
+    }
 
-    public void applyJob(JobPosting jobPosting){}
+    public void checkActive(){
+
+    }
+
+    //public void removeApplication(Application application){}
+
+    public void applyJob(JobPosting jobPosting){
+
+    }
     //this create new application and add to applicant's List
 
 
-    public void getMyDocuments() {
+    public ArrayList<Document> getMyDocuments() {
+        ArrayList<Document> myDoc = new ArrayList<>();
+        for (Document doc: this.myDocs.keySet()){
+            myDoc.add(doc);
+        }
+        return myDoc;
 
         //returns ArrayList<Document>
+    }
+
+    public void addToMyDoc(String content, String name){
+
+    }
+
+    public void removeFromMyDoc(Document d){
+        for (Document doc: this.myDocs.keySet()){
+            myDocs.remove(d);
+        }
+
+    }
+
+    public void dropApplication(Application app){
+        for (ArrayList<Application> apps: this.applications.values()){
+            apps.remove(app);
+        }
+        for (ArrayList<Application> apps: this.myDocs.values()){
+            apps.remove(app);
+        }
+
     }
 
 
@@ -62,7 +98,24 @@ public class Applicant implements Observer {
 
 
 
+//extends User implements SearchObject
 
+//private String realName;
+//private ArrayList<Document> documents =new ArrayList<>();
+//private ArrayList<Application> currentApplications = new ArrayList<>();
+//private ArrayList<Application> pastApplications =new ArrayList<>();
+//private ArrayList<Application> applications =new ArrayList<>();
+//private  ArrayList<Interview> interviews =new ArrayList<>();
+//private static List<Applicant> allApplicants =new ArrayList<>();
+//private MyDocuments myDocs;
+//private boolean applying;
+
+
+//public Applicant(String username, String password, LocalDate DateCreated) {
+//super(username, password, DateCreated);
+//}
+
+//public Applicant (String username, String password){}
 
 
 
