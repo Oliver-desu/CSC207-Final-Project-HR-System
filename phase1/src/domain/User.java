@@ -1,27 +1,28 @@
 package domain;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-
 public abstract class User {
 
     private String username;
     private String password;
-    private LocalDate dateCreated;
+    private Object type;
 
-    public User(String username, String password, LocalDate dateCreated) {
+    public enum UserType {Applicant, HumanResource, Interviewer}
+
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.dateCreated = dateCreated;
+        this.type = new Applicant();//todo
     }
-    public  User(HashMap<String, String> account){
-        this.username = account.get("Username");
-        this.password = account.get("Password");
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(account.get("Date Created"), fmt);
-        this.dateCreated = date;    }
 
+    public User(String username, String password, UserType position, Company company) {
+        if(position == UserType.HumanResource){
+            this.type = new HumanResource(company);
+        }else if(position == UserType.Interviewer){
+            this.type = new Interviewer(company); //todo
+        }
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return this.username;
@@ -30,9 +31,8 @@ public abstract class User {
     public String getPassword() {
         return this.password;
     }
-
-    public LocalDate getDateCreated() {
-        return this.dateCreated;
+    public Object getUserType(){
+        return this.type;
     }
 
     public void setPassword(String password) {
@@ -41,22 +41,6 @@ public abstract class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setDateCreated(LocalDate dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public boolean matchPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    public HashMap<String, String> getAccount() {
-        HashMap<String, String> result = new HashMap<String, String>();
-        result.put("Username", this.username);
-        result.put("Password", this.password);
-        result.put("Date Created", this.dateCreated.toString());
-        return result;
     }
 
     @Override
