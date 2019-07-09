@@ -1,21 +1,22 @@
 package views.components.boxes;
 
-import views.components.ComboBoxPanel;
+import views.interfaces.ButtonHolder;
+import views.interfaces.ComboBoxHolder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-class HRBoxPanel extends ComboBoxPanel {
+public class HRBoxPanel extends JPanel implements ButtonHolder, ComboBoxHolder {
     private JComboBox<String> interviewerBox = new JComboBox<>();
     private JButton match = new JButton("Match Interview");
     private JButton back = new JButton("Back");
 
-    HRBoxPanel(Dimension dimension) {
-        super(dimension);
+    public HRBoxPanel(Dimension dimension) {
+        setup(dimension, dimension.height * 3 / 4);
     }
 
-    protected void setup() {
+    private void setup(Dimension dimension, int height) {
         // sizes
         Dimension boxSize = new Dimension(dimension.width / 2, height);
         Dimension buttonSize = new Dimension(dimension.width / 5, height);
@@ -44,10 +45,5 @@ class HRBoxPanel extends ComboBoxPanel {
         HashMap<String, JComboBox<String>> boxes = new HashMap<>();
         boxes.put("Interviewer Box", interviewerBox);
         return boxes;
-    }
-
-    @Override
-    public void update() {
-
     }
 }

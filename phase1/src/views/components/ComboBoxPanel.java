@@ -1,5 +1,9 @@
 package views.components;
 
+import views.components.boxes.ApplicantIncompleteBoxPanel;
+import views.components.boxes.ApplicantInterviewingBoxPanel;
+import views.components.boxes.HRBoxPanel;
+import views.components.boxes.InterviewerBoxPanel;
 import views.interfaces.ButtonHolder;
 import views.interfaces.ComboBoxHolder;
 import views.interfaces.TextFieldHolder;
@@ -9,35 +13,60 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-// 3(4)
-public abstract class ComboBoxPanel extends JPanel implements ViewComponent, ButtonHolder, TextFieldHolder, ComboBoxHolder {
+public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHolder, ComboBoxHolder, ButtonHolder {
 
-    protected Dimension dimension;
-    protected int height;
+    private View view = View.HR;
+    private CardLayout cardLayout = new CardLayout();
+    private HashMap<String, JPanel> cards = new HashMap<>();
 
-    protected ComboBoxPanel(Dimension dimension) {
-        this.dimension = dimension;
-        this.height = dimension.height * 3 / 4;
-        setup();
+    ComboBoxPanel(Dimension dimension) {
+        setup(dimension);
     }
 
-    protected abstract void setup();
+    private void setup(Dimension dimension) {
+        setLayout(cardLayout);
+        setPreferredSize(dimension);
 
-    @Override
-    abstract public void update();
+        addCard(new ApplicantIncompleteBoxPanel(dimension), View.APPLICANT_INCOMPLETE.toString());
+        addCard(new ApplicantInterviewingBoxPanel(dimension), View.APPLICANT_INTERVIEWING.toString());
+        addCard(new HRBoxPanel(dimension), View.HR.toString());
+        addCard(new InterviewerBoxPanel(dimension), View.INTERVIEWER.toString());
+    }
 
-    @Override
-    public HashMap<String, JComboBox<String>> getBoxes() {
-        return new HashMap<>();
+    private void addCard(JPanel card, String key) {
+        cards.put(key, card);
+        add(card, key);
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 
     @Override
-    public HashMap<String, JButton> getButtons() {
-        return new HashMap<>();
+    public void update() {
+        cardLayout.show(this, view.toString());
     }
 
     @Override
     public HashMap<String, JTextField> getTextFields() {
-        return new HashMap<>();
+        JPanel card = cards.get(view.toString());
+        if (card instanceof TextFieldHolder) return ((TextFieldHolder) card).getTextFields();
+        throw new Error("No TextFields");
     }
+
+    @Override
+    public HashMap<String, JButton> getButtons() {
+        JPanel card = cards.get(view.toString());
+        if (card instanceof ButtonHolder) return ((ButtonHolder) card).getButtons();
+        throw new Error("No Buttons");
+    }
+
+    @Override
+    public HashMap<String, JComboBox<String>> getBoxes() {
+        JPanel card = cards.get(view.toString());
+        if (card instanceof ComboBoxHolder) return ((ComboBoxHolder) card).getBoxes();
+        throw new Error("No Boxes");
+    }
+
+    public enum View {HR, INTERVIEWER, APPLICANT_INTERVIEWING, APPLICANT_INCOMPLETE}
 }

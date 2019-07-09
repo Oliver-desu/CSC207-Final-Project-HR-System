@@ -1,22 +1,16 @@
 package views.components.boxes;
 
-import views.components.ComboBoxPanel;
-
+import javax.swing.*;
 import java.awt.*;
 
-public class ApplicantIncompleteBoxPanel extends ComboBoxPanel {
+// Todo.
+public class ApplicantIncompleteBoxPanel extends JPanel {
 
-    ApplicantIncompleteBoxPanel(Dimension dimension) {
-        super(dimension);
+    public ApplicantIncompleteBoxPanel(Dimension dimension) {
+        setup(dimension, dimension.height * 3 / 4);
     }
 
-    @Override
-    protected void setup() {
-
-    }
-
-    @Override
-    public void update() {
+    private void setup(Dimension dimension, int height) {
 
     }
 }

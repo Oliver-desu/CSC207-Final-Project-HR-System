@@ -1,20 +1,20 @@
 package views.components.boxes;
 
-import views.components.ComboBoxPanel;
+import views.interfaces.ComboBoxHolder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class ApplicantInterviewingBoxPanel extends ComboBoxPanel {
+public class ApplicantInterviewingBoxPanel extends JPanel implements ComboBoxHolder {
     private static final String[] INTERVIEW_TYPES = new String[]{"UPCOMING", "PENDING", "PAST"};
-    private JComboBox<String> typeBox = new JComboBox<>();
+    private JComboBox<String> typeBox = new JComboBox<>(INTERVIEW_TYPES);
 
-    ApplicantInterviewingBoxPanel(Dimension dimension) {
-        super(dimension);
+    public ApplicantInterviewingBoxPanel(Dimension dimension) {
+        setup(dimension, dimension.height * 3 / 4);
     }
 
-    protected void setup() {
+    private void setup(Dimension dimension, int height) {
         setLayout(new FlowLayout());
         setPreferredSize(dimension);
         Dimension size = new Dimension(dimension.width / 4, height);
@@ -27,10 +27,5 @@ public class ApplicantInterviewingBoxPanel extends ComboBoxPanel {
         HashMap<String, JComboBox<String>> boxes = new HashMap<>();
         boxes.put("Type Box", typeBox);
         return boxes;
-    }
-
-    @Override
-    public void update() {
-
     }
 }
