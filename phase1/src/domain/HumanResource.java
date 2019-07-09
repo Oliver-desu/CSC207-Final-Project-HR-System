@@ -6,17 +6,19 @@ import java.util.HashMap;
 
 public class HumanResource {
 
-    private HashMap<String, ArrayList<JobPosting>> responsibleFor;
+    private HashMap<JobPosting.JobPostingState, ArrayList<JobPosting>> responsibleFor;
     private Company company;
 
     HumanResource(Company company) {
         this.company = company;
         this.responsibleFor = new HashMap<>();
-        this.responsibleFor.put("open", new ArrayList<>());
-        this.responsibleFor.put("interviewing", new ArrayList<>());
-        this.responsibleFor.put("waiting for next round", new ArrayList<>());
-        this.responsibleFor.put("filled", new ArrayList<>());
-        this.responsibleFor.put("unfilled", new ArrayList<>());
+        for (JobPosting.JobPostingState state: JobPosting.JobPostingState.values()) {
+            this.responsibleFor.put(state, new ArrayList<>());
+        }
+    }
+
+    Company getCompany() {
+        return this.company;
     }
 
     String postJob(ArrayList<Object> objects) {
@@ -24,7 +26,7 @@ public class HumanResource {
         if (objects.size() < 4) {
             message = "Please fill all fields.";
         } else {
-             JobPosting jobPosting = new JobPosting(objects);
+             JobPosting jobPosting = new JobPosting(objects, this);
              responsibleFor.get(jobPosting.getCurrentState()).add(jobPosting);
              message = "Job posted.";
         }
@@ -43,8 +45,8 @@ public class HumanResource {
         application.addInterview(interview);
         application.setState("interviewing");
         String message;
-        if (jobPosting.getCurrentState().equals("waitingForNextRound")) {
-            jobPosting.fromWaitingForRound();
+        if (jobPosting.getCurrentState().equals(JobPosting.JobPostingState.WAITING_FOR_NEXT_ROUND)) {
+            jobPosting.fromWaitingForNextRound();
             message = "interview created";
         } else {
             message = "can't match interview at this stage";
@@ -54,12 +56,12 @@ public class HumanResource {
 
     void hire(JobPosting jobPosting, Applicant applicant) {
         jobPosting.removeApplicant(applicant);
-        jobPosting.addApplicant(applicant, "hired");
+        jobPosting.addApplicant(applicant, ApplicationState.HIRED);
     }
 
     void reject(JobPosting jobPosting, Applicant applicant) {
         jobPosting.removeApplicant(applicant);
-        jobPosting.addApplicant(applicant, "rejected");
+        jobPosting.addApplicant(applicant, ApplicationState.REJECTED);
     }
 
 }
