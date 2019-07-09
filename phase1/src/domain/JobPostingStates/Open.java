@@ -3,7 +3,6 @@ package domain.JobPostingStates;
 import domain.Application;
 import domain.JobPosting;
 
-import java.time.LocalDate;
 
 public class Open implements JobPostingState {
 
@@ -13,30 +12,33 @@ public class Open implements JobPostingState {
         this.jobPosting = jobPosting;
     }
 
+
     @Override
     public String getStatus() {
         return "open";
     }
 
     @Override
-    public void receiveApplication(Application ap) {
-
-
+    public void receiveApplication(Application application) {
+       jobPosting.getApplications().get("waiting for next round").add(application);
     }
 
     @Override
-    public String hire(Application ap) {
-        return null;
+    public String hire(Application application) {
+        return "You can not hire an applicant at this state";
     }
 
     @Override
-    public String reject(Application ap) {
-        return null;
+    public String reject(Application application) {
+        jobPosting.removeApplicant(application);
+        return "successfully reject" + application.getApplicantName();
     }
 }
-//
+
+/*
     void fromOpen() {
         if (this.closeDate.isAfter(LocalDate.now())) {
             this.checkRemainingApplicants();
         }
     }
+*/
