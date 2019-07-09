@@ -2,97 +2,42 @@ package views.components;
 
 import views.interfaces.ButtonHolder;
 import views.interfaces.ComboBoxHolder;
+import views.interfaces.TextFieldHolder;
+import views.interfaces.ViewComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
 // 3(4)
-public class ComboBoxPanel extends JPanel {
+public abstract class ComboBoxPanel extends JPanel implements ViewComponent, ButtonHolder, TextFieldHolder, ComboBoxHolder {
 
-    class HRBoxPanel extends JPanel implements ComboBoxHolder, ButtonHolder {
-        private JComboBox<String> interviewerBox = new JComboBox<>();
-        private JButton match = new JButton("Match Interview");
-        private JButton back = new JButton("Back");
+    protected Dimension dimension;
+    protected int height;
 
-        HRBoxPanel(Dimension dimension, int height) {
-            setup(dimension, height);
-        }
-
-        void setup(Dimension dimension, int height) {
-            // sizes
-            Dimension boxSize = new Dimension(dimension.width / 2, height);
-            Dimension buttonSize = new Dimension(dimension.width / 5, height);
-            interviewerBox.setPreferredSize(boxSize);
-            match.setPreferredSize(buttonSize);
-            back.setPreferredSize(buttonSize);
-
-            // panel settings
-            setLayout(new FlowLayout());
-            setPreferredSize(dimension);
-            add(interviewerBox);
-            add(match);
-            add(back);
-        }
-
-        @Override
-        public HashMap<String, JButton> getButtons() {
-            HashMap<String, JButton> buttons = new HashMap<>();
-            buttons.put(match.getText(), match);
-            buttons.put(back.getText(), back);
-            return buttons;
-        }
-
-        @Override
-        public HashMap<String, JComboBox<String>> getBoxes() {
-            HashMap<String, JComboBox<String>> boxes = new HashMap<>();
-            boxes.put("Interviewer Box", interviewerBox);
-            return boxes;
-        }
+    protected ComboBoxPanel(Dimension dimension) {
+        this.dimension = dimension;
+        this.height = dimension.height * 3 / 4;
+        setup();
     }
 
-    class InterviewerBoxPanel extends JPanel implements ComboBoxHolder, ButtonHolder {
-        private final String[] DECISIONS = new String[]{"PASS", "REJECT"};
-        private JComboBox<String> decisionBox = new JComboBox<>(DECISIONS);
-        private JButton recommendation = new JButton("Give Recommendation");
+    protected abstract void setup();
 
-        InterviewerBoxPanel(Dimension dimension, int height) {
-            setup(dimension, height);
-        }
+    @Override
+    abstract public void update();
 
-        void setup(Dimension dimension, int height) {
-            // size
-            Dimension size = new Dimension(dimension.width / 4, height);
-            decisionBox.setPreferredSize(size);
-            recommendation.setPreferredSize(size);
-
-            // panel settings
-            setLayout(new FlowLayout(FlowLayout.LEFT));
-            setPreferredSize(dimension);
-            add(recommendation);
-            add(decisionBox);
-        }
-
-        @Override
-        public HashMap<String, JButton> getButtons() {
-            HashMap<String, JButton> buttons = new HashMap<>();
-            buttons.put(recommendation.getText(), recommendation);
-            return buttons;
-        }
-
-        @Override
-        public HashMap<String, JComboBox<String>> getBoxes() {
-            HashMap<String, JComboBox<String>> boxes = new HashMap<>();
-            boxes.put("Decision Box", decisionBox);
-            return boxes;
-        }
+    @Override
+    public HashMap<String, JComboBox<String>> getBoxes() {
+        return new HashMap<>();
     }
 
-    class ApplicantIncompleteBoxPanel extends JPanel {
-
+    @Override
+    public HashMap<String, JButton> getButtons() {
+        return new HashMap<>();
     }
 
-    class ApplicantInterviewingBoxPanel extends JPanel {
-
+    @Override
+    public HashMap<String, JTextField> getTextFields() {
+        return new HashMap<>();
     }
 }

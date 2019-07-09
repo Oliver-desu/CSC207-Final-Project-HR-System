@@ -1,13 +1,14 @@
 package views.components;
 
 import views.interfaces.ButtonHolder;
+import views.interfaces.ViewComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
 // 5(2)
-public class ButtonPanel extends JPanel implements ButtonHolder {
+public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
     private static final int MAX_BUTTON_NUM = 4;
     private static final String[] HR_BUTTONS = new String[]{
             "Post Job", "View Applicants", "Hire", "Reject"
@@ -15,9 +16,13 @@ public class ButtonPanel extends JPanel implements ButtonHolder {
     private static final String[] APPLICANT_BUTTONS = new String[]{"Drop Application"};
     private HashMap<String, JButton> buttons;
 
+    private Dimension dimension;
+    private Type type;
+
     ButtonPanel(Dimension dimension, Type type) {
-        if (type == Type.APPLICANT) setup(dimension, APPLICANT_BUTTONS);
-        else if (type == Type.HR) setup(dimension, HR_BUTTONS);
+        this.dimension = dimension;
+        this.type = type;
+        update();
     }
 
     private void setup(Dimension dimension, String[] buttonNames) {
@@ -42,4 +47,9 @@ public class ButtonPanel extends JPanel implements ButtonHolder {
 
     enum Type {APPLICANT, HR}
 
+    @Override
+    public void update() {
+        if (type == Type.APPLICANT) setup(dimension, APPLICANT_BUTTONS);
+        else if (type == Type.HR) setup(dimension, HR_BUTTONS);
+    }
 }
