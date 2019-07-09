@@ -22,4 +22,12 @@ public class Interviewing implements JobPostingState {
     public String reject(Application ap) {
         return null;
     }
+
+/*
+    void fromInterviewing() {
+        if (this.hasNextRound()) {
+            this.checkRemainingApplicants();
+        }
+    }
 }
+*/

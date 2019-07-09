@@ -1,25 +1,13 @@
 package domain.JobPostingStates;
 
-import domain.Application;
+
+import domain.JobPosting;
+
+
 
 public class Pending implements JobPostingState {
-    @Override
-    public String getStatus() {
-        return null;
-    }
 
-    @Override
-    public void receiveApplication(Application ap) {
+    private JobPosting jobPosting;
 
-    }
-
-    @Override
-    public String hire(Application ap) {
-        return null;
-    }
-
-    @Override
-    public String reject(Application ap) {
-        return null;
-    }
 }
+

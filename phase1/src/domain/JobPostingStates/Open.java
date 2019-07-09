@@ -1,6 +1,7 @@
 package domain.JobPostingStates;
 
 import domain.Application;
+import domain.Interviewer;
 import domain.JobPosting;
 
 
@@ -18,10 +19,6 @@ public class Open implements JobPostingState {
         return "open";
     }
 
-    @Override
-    public void receiveApplication(Application application) {
-       jobPosting.getApplications().get("waiting for next round").add(application);
-    }
 
     @Override
     public String hire(Application application) {
@@ -30,9 +27,15 @@ public class Open implements JobPostingState {
 
     @Override
     public String reject(Application application) {
-        jobPosting.removeApplicant(application);
+        jobPosting.removeApplication(application);
         return "successfully reject" + application.getApplicantName();
     }
+
+    @Override
+    public String matchInterview(Application application, Interviewer interviewer) {
+        return "Can't match Interview at this state";
+    }
+
 }
 
 /*

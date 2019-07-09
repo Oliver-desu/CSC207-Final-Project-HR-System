@@ -9,6 +9,16 @@ public class WaitingForNextRound implements JobPostingState {
         return null;
     }
 
+    void fromWaitingForNextRound() {
+        this.unmatchedApplicants --;
+        if (this.unmatchedApplicants == 0) {
+            this.currentState = JobPostingState.INTERVIEWING;
+        }
+    }
+
+
+
+
     @Override
     public void receiveApplication(Application ap) {
 
