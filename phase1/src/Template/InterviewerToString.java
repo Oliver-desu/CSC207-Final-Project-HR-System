@@ -70,19 +70,6 @@ public class InterviewerToString {
     }
 
     public static void main(String[] args) {
-        Company company = new Company();
-        Applicant applicant = new Applicant("1", "1", LocalDate.now());
-        JobPosting jobPosting = new JobPosting(company, LocalDate.now(), LocalDate.now(), "1");
-        Application application = new Application(jobPosting, applicant);
-
-        System.out.println(setRecommendation(company));
-        System.out.println(setRecommendation(applicant));
-        System.out.println(setRecommendation(new HumanResource("1", "1", LocalDate.now(), company)));
-        System.out.println(setRecommendation(new Interviewer("1", "1", LocalDate.now(), "1", company)));
-        System.out.println(setRecommendation(jobPosting));
-        System.out.println(setRecommendation(application));
-        System.out.println(setRecommendation(new Interview(application)));
-        System.out.println(setRecommendation(new Document("1")));
     }
 
 }
