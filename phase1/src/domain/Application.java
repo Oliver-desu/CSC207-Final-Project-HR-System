@@ -3,28 +3,52 @@ package domain;
 //import login.SearchObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Application {
     //implements SearchObject
-
-    private JobPosting jobPosting;
-    private ArrayList<Interviewer> interviews;
+    public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
     private Applicant applicant;
-    //private String id;
-    private String status; //"incomplete"(default), "submitted", rejected", "hired"
-    private ArrayList<Document> documents = new ArrayList<>();
+    private ArrayList<Document> attachedDocuments;
+    private JobPosting jobPosting;
+    private HashMap<Interview.InterviewState,ArrayList<Interview>> interviews;
 
 
 
     public Application(JobPosting jobPosting, Applicant applicant) {
         this.jobPosting = jobPosting;
         this.applicant = applicant;
-        //initialize other attributes
     }
-
+    // getters
     public JobPosting getJobPosting() {
         return jobPosting;
     }
+
+    public ArrayList getInterview(Interview.InterviewState key ){
+        return interviews.get(key);
+    }
+
+    public Applicant getApplicant() {
+        return applicant;
+    }
+
+
+
+    public  void attchToApplication(Document document){
+        attachedDocuments.add(document);
+    }
+
+    public  ArrayList getAttachedDocuments(){
+        return attachedDocuments;
+    }
+
+    public  void addInterview(Interview interview){
+            ArrayList<Interview> oddinterviews = interviews.get(interview.getState());
+            oddinterviews.add(interview);
+            interviews.put(interview.getState(),oddinterviews);
+    }
+
+
 
     public ArrayList<Interviewer> getInterviews(String status){
         //status: "pass", upcoming"(default), "pending", "fail"
@@ -37,13 +61,7 @@ public class Application {
 
 
 
-    public Applicant getApplicant() {
-        return applicant;
-    }
 
-    public ArrayList<Document> getDocuments() {
-        return documents;
-    }
 
     //status change
 
