@@ -56,12 +56,12 @@ public class HumanResource {
 
     void hire(JobPosting jobPosting, Applicant applicant) {
         jobPosting.removeApplicant(applicant);
-        jobPosting.addApplicant(applicant, ApplicationState.HIRED);
+        jobPosting.addApplicant(applicant, Application.ApplicationState.HIRED);
     }
 
     void reject(JobPosting jobPosting, Applicant applicant) {
         jobPosting.removeApplicant(applicant);
-        jobPosting.addApplicant(applicant, ApplicationState.REJECTED);
+        jobPosting.addApplicant(applicant, Application.ApplicationState.REJECTED);
     }
 
 }

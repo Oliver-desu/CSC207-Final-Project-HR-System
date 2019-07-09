@@ -52,7 +52,15 @@ public class JobPosting implements Observer {
         }
     }
 
-     public JobPostingState getCurrentState() {
+    public Company getCompany() {
+        return this.company;
+    }
+
+    public String getPosition() {
+        return this.position;
+    }
+
+    public JobPostingState getCurrentState() {
         return this.currentState;
      }
 
@@ -138,20 +146,20 @@ public class JobPosting implements Observer {
     }
 
     //Set states
-    public void setToOpen(LocalDate date) {
-    }
-
-    public void setToWaitingForNextRound() {
-    }
-
-    public void setToUnfilledForNextRound() {
-    }
-
-    public void setTofilled() {
-    }
-
-    public void setToUnfilled() {
-    }
+//    public void setToOpen(LocalDate date) {
+//    }
+//
+//    public void setToWaitingForNextRound() {
+//    }
+//
+//    public void setToUnfilledForNextRound() {
+//    }
+//
+//    public void setTofilled() {
+//    }
+//
+//    public void setToUnfilled() {
+//    }
 
 
     //methods for observer(I'll implement later

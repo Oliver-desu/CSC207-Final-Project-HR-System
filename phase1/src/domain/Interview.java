@@ -8,39 +8,69 @@ import java.util.HashMap;
 import java.util.Observable;
 
 public class Interview extends Observable {
-    //implements SearchObject
 
-    //private String id;
+    public enum InterviewState {
+        UPCOMING,
+        PENDING,
+        PAST
+    }
+
     private LocalDate date;
-    //private String location;
-    //private Double duration;
     private JobPosting jobPosting;
     private Interviewer interviewer;
     private Application application;
-    //private String round;
-    //private Status status = Status.EMPTY;
-    private String status; //"pass", upcoming"(default), "pending", "fail"
-    private String recommendation = "The interviewer has not updated recommendation.";
+    private InterviewState state;
+    private boolean result;
 
 
     public Interview(LocalDate date, JobPosting jobPosting, Interviewer interviewer, Applicant applicant) {
         this.date = date;
         this.jobPosting = jobPosting;
         this.interviewer = interviewer;
-        //initialize other variables, get application from applicant
+        this.application = applicant.getApplication(jobPosting);
+        this.state = InterviewState.UPCOMING;
         //addObserver (I'll write this later
     }
 
-    public void setToPass(){};
-
-    public void setToPending(){};
-
-    public void setToFail(){};
-
     public LocalDate getDate() {
-        return date;
+        return this.date;
     }
 
+    public InterviewState getState() {
+        return this.state;
+    }
+
+    public void setResult(String result) {
+        this.state = InterviewState.PAST;
+        application.addInterview(this, InterviewState.PAST);
+        if (result.equals("PASS")) {
+            this.result = true;
+            this.application.getApplicant().addApplication(this.application, Application.ApplicationState.PENDING);
+        } else if (result.equals("REJECT")) {
+            this.result = false;
+            this.application.getApplicant().addApplication(this.application, Application.ApplicationState.REJECTED);
+        }
+    }
+
+    public void checkIfPending() {
+        if (LocalDate.now().isAfter(this.date)) {
+            state = InterviewState.PENDING;
+            this.interviewer.addInterview(this, InterviewState.PENDING);
+            this.application.addInterview(this, InterviewState.PENDING);
+        }
+    }
+
+    // TODO: 2019-07-08 toString method
+    @Override
+    public String toString() {
+//        return "Date: " + this.date + "\n" +
+//                "Company: " + this.jobPosting.getCompany().getCompanyName() + "\n" +
+//                "Job position: " + this.jobPosting.getPosition() + "\n" +
+//                "Interviewer: " + this.interviewer.getName() + "\n" +
+//                "Applicant: " + this.application.getApplicant().getName() + "\n" +
+//                "State: " + this.state;
+        return null;
+    }
 
     //I'll implement this later
     @Override
