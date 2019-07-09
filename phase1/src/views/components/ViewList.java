@@ -16,10 +16,9 @@ public class ViewList extends JList<String> implements ViewComponent {
     private static final String[] INTERVIEWER_LIST = new String[]{
             "UPCOMING", "WAITING_FOR_RESULT", "PAST"
     };
-    private Type type;
+    private Type type = Type.OTHER;
 
-    ViewList(String type, Dimension dimension) {
-        this.type = Type.valueOf(type);
+    public ViewList(Dimension dimension) {
         setPreferredSize(dimension);
     }
 
@@ -30,9 +29,9 @@ public class ViewList extends JList<String> implements ViewComponent {
         else if (type == Type.INTERVIEWER) setListData(INTERVIEWER_LIST);
     }
 
-    public void setType(String type) {
-        this.type = Type.valueOf(type);
+    public void setType(Type type) {
+        this.type = type;
     }
 
-    private enum Type {HR, INTERVIEWER, APPLICANT, OTHER}
+    public enum Type {HR, INTERVIEWER, APPLICANT, OTHER}
 }

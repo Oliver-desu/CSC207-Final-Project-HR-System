@@ -19,7 +19,7 @@ public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHol
     private CardLayout cardLayout = new CardLayout();
     private HashMap<String, JPanel> cards = new HashMap<>();
 
-    ComboBoxPanel(Dimension dimension) {
+    public ComboBoxPanel(Dimension dimension) {
         setup(dimension);
     }
 

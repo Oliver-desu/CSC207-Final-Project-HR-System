@@ -14,15 +14,18 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
             "Post Job", "View Applicants", "Hire", "Reject"
     };
     private static final String[] APPLICANT_BUTTONS = new String[]{"Drop Application"};
-    private HashMap<String, JButton> buttons;
+    private HashMap<String, JButton> buttons = new HashMap<>();
 
     private Dimension dimension;
-    private Type type;
+    private View view = View.HR;
 
-    ButtonPanel(Dimension dimension, Type type) {
+    public ButtonPanel(Dimension dimension) {
         this.dimension = dimension;
-        this.type = type;
         update();
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 
     private void setup(Dimension dimension, String[] buttonNames) {
@@ -45,11 +48,11 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
         return buttons;
     }
 
-    enum Type {APPLICANT, HR}
-
     @Override
     public void update() {
-        if (type == Type.APPLICANT) setup(dimension, APPLICANT_BUTTONS);
-        else if (type == Type.HR) setup(dimension, HR_BUTTONS);
+        if (view == View.APPLICANT) setup(dimension, APPLICANT_BUTTONS);
+        else if (view == View.HR) setup(dimension, HR_BUTTONS);
     }
+
+    public enum View {APPLICANT, HR}
 }

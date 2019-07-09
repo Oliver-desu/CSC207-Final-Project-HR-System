@@ -15,7 +15,7 @@ public class InfoPanel extends JPanel implements ViewComponent {
     private JTextArea workspace = new JTextArea();
     private boolean hasWorkspace;
 
-    InfoPanel(Dimension dimension) {
+    public InfoPanel(Dimension dimension) {
         setup(dimension, hasWorkspace);
     }
 
@@ -25,7 +25,7 @@ public class InfoPanel extends JPanel implements ViewComponent {
         updateUI();
     }
 
-    void addWorkspace() {
+    public void addWorkspace() {
         hasWorkspace = true;
         setup(getSize(), hasWorkspace);
     }
@@ -47,19 +47,19 @@ public class InfoPanel extends JPanel implements ViewComponent {
         }
     }
 
-    String getInfo() {
+    public String getInfo() {
         return infoArea.getText();
     }
 
-    void setInfo(String info) {
+    public void setInfo(String info) {
         infoArea.setText(info);
     }
 
-    void editInfoArea() {
+    public void editInfoArea() {
         infoArea.setEditable(true);
     }
 
-    String getWorkspaceText() {
+    public String getWorkspaceText() {
         if (hasWorkspace) return workspace.getText();
         else throw new Error("Workspace not exist!");
     }
