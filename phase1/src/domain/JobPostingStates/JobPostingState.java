@@ -1,4 +1,6 @@
-package domain;
+package domain.JobPostingStates;
+
+import domain.Application;
 
 public interface JobPostingState {
 
