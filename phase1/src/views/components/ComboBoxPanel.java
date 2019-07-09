@@ -1,7 +1,6 @@
 package views.components;
 
 import views.components.boxes.ApplicantIncompleteBoxPanel;
-import views.components.boxes.ApplicantInterviewingBoxPanel;
 import views.components.boxes.HRBoxPanel;
 import views.components.boxes.InterviewerBoxPanel;
 import views.interfaces.ButtonHolder;
@@ -27,8 +26,8 @@ public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHol
         setLayout(cardLayout);
         setPreferredSize(dimension);
 
+//        addCard(new ApplicantInterviewingBoxPanel(dimension), View.APPLICANT_INTERVIEWING.toString());
         addCard(new ApplicantIncompleteBoxPanel(dimension), View.APPLICANT_INCOMPLETE.toString());
-        addCard(new ApplicantInterviewingBoxPanel(dimension), View.APPLICANT_INTERVIEWING.toString());
         addCard(new HRBoxPanel(dimension), View.HR.toString());
         addCard(new InterviewerBoxPanel(dimension), View.INTERVIEWER.toString());
     }
@@ -68,5 +67,6 @@ public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHol
         throw new Error("No Boxes");
     }
 
-    public enum View {HR, INTERVIEWER, APPLICANT_INTERVIEWING, APPLICANT_INCOMPLETE}
+    // abandoned Applicant Interviewing.
+    public enum View {HR, INTERVIEWER, /* APPLICANT_INTERVIEWING */, APPLICANT_INCOMPLETE}
 }

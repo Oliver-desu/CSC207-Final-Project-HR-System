@@ -13,7 +13,7 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
     private static final String[] HR_BUTTONS = new String[]{
             "Post Job", "View Applicants", "Hire", "Reject"
     };
-    private static final String[] APPLICANT_BUTTONS = new String[]{"Drop Application"};
+    private static final String[] APPLICANT_BUTTONS = new String[]{"Drop Application", "Submit Application"};
     private HashMap<String, JButton> buttons = new HashMap<>();
 
     private Dimension dimension;
