@@ -14,6 +14,7 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
             "Post Job", "View Applicants", "Hire", "Reject"
     };
     private static final String[] APPLICANT_BUTTONS = new String[]{"Drop Application", "Submit Application"};
+    private static final String[] LOGIN_BUTTONS = new String[]{"Sign In", "Create new Account"};
     private HashMap<String, JButton> buttons = new HashMap<>();
 
     private Dimension dimension;
@@ -54,5 +55,5 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
         else if (view == View.HR) setup(dimension, HR_BUTTONS);
     }
 
-    public enum View {APPLICANT, HR}
+    public enum View {APPLICANT, HR, LOGIN}
 }
