@@ -1,0 +1,22 @@
++++ July 8th +++
+
+Unfinished:
+    Login Class
+    ApplicantIncompleteBoxPanel(One particular view of #3(4))
+    MainPanel(settings and interface functions)
+    One Irregular look of Main Page(HR post job #3), not decided the relationship with MainPanel yet, may not call it MainPanel
+
+    Connection between ViewFrame and four main components:
+    MenuPanel(A view list, not decided whether to be a class), Login, Search, Main
+
+    The size and showing part is not composed yet.
+    But other classes, if you want to check one by one, is able to visualize.
+
+For Controller use:
+    desired "The View" is ViewFrame.
+    You can add listener with specified its button name and get some basic information form ViewFrame.
+
+    Since the class cannot be to big.
+    You can call ViewFrame.getMain to use other support methods in Main.
+    Those methods in main is not quite typical so I have comments their.
+
