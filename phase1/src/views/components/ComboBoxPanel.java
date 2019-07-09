@@ -1,4 +1,7 @@
-package views;
+package views.components;
+
+import views.interfaces.ButtonHolder;
+import views.interfaces.ComboBoxHolder;
 
 import javax.swing.*;
 import java.awt.*;

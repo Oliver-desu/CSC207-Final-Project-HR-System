@@ -1,4 +1,4 @@
-package views;
+package views.interfaces;
 
 import javax.swing.*;
 import java.util.HashMap;

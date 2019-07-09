@@ -1,5 +1,7 @@
 package views;
 
+import views.interfaces.ViewComponent;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

@@ -1,4 +1,7 @@
-package views;
+package views.panels;
+
+import views.interfaces.ButtonHolder;
+import views.interfaces.TextFieldHolder;
 
 import javax.swing.*;
 import java.awt.*;
