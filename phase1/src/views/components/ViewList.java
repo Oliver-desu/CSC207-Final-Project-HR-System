@@ -1,10 +1,12 @@
 package views.components;
 
+import views.interfaces.ViewComponent;
+
 import javax.swing.*;
 import java.awt.*;
 
 // Panel 3(1), 3(2), 5
-public class ViewList extends JList<String> {
+public class ViewList extends JList<String> implements ViewComponent {
     private static final String[] HR_LIST = new String[]{
             "OPEN", "INTERVIEWING", "WAITING_FOR_NEXT_ROUND", "PENDING", "FILLED", "UNFILLED"
     };
@@ -21,7 +23,7 @@ public class ViewList extends JList<String> {
         setPreferredSize(dimension);
     }
 
-    void update() {
+    public void update() {
         // show list depend on different type.
         if (type == Type.HR) setListData(HR_LIST);
         else if (type == Type.APPLICANT) setListData(APPLICANT_LIST);

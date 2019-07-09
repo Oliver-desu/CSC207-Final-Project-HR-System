@@ -1,10 +1,12 @@
 package views.components;
 
+import views.interfaces.ViewComponent;
+
 import javax.swing.*;
 import java.awt.*;
 
 // 3(3)
-public class InfoPanel extends JPanel {
+public class InfoPanel extends JPanel implements ViewComponent {
 
     private static final Font FONT = new Font("Times New Roman", Font.PLAIN, 20);
     private static final int GAP = 20;
@@ -17,7 +19,7 @@ public class InfoPanel extends JPanel {
         setup(dimension, hasWorkspace);
     }
 
-    void update() {
+    public void update() {
         infoArea.updateUI();
         workspace.updateUI();
         updateUI();
