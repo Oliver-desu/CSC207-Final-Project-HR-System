@@ -2,22 +2,28 @@ package domain;
 
 //import login.SearchObject;
 
+import oldVersion.Document;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Application {
     //implements SearchObject
+
     public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
+
+    private String applicantName;
     private Applicant applicant;
     private ArrayList<Document> attachedDocuments;
     private JobPosting jobPosting;
     private HashMap<Interview.InterviewState,ArrayList<Interview>> interviews;
-
+    private String applicantName;
 
 
     public Application(JobPosting jobPosting, Applicant applicant) {
         this.jobPosting = jobPosting;
         this.applicant = applicant;
+        applicantName = applicant.getName();
     }
     // getters
     public JobPosting getJobPosting() {
@@ -32,7 +38,9 @@ public class Application {
         return applicant;
     }
 
-
+    public String getApplicantName() {
+        return applicantName;
+    }
 
     public  void attchToApplication(Document document){
         attachedDocuments.add(document);

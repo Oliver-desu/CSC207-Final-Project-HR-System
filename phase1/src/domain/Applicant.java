@@ -11,7 +11,10 @@ public class Applicant implements Observer {
     private HashMap<Document, ArrayList<Application>> myDocs;
     private HashMap<ApplicationState, ArrayList<Application>> applications;
 
-    public Applicant{
+    private String name;
+
+    public Applicant(String name){
+        this.name = name;
         this.myDocs = new HashMap<>;
         this.applications = new HashMap<>;
         this.application.put(INCOMPLETE, new ArrayList<>());
@@ -21,6 +24,10 @@ public class Applicant implements Observer {
         this.application.put(REJECTED, new ArrayList<>());
         this.application.put(HIRED, new ArrayList<>());
 
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ArrayList<Application> getApplications(JobPosting status) {
@@ -191,7 +198,7 @@ public class Applicant implements Observer {
             }
         }
         return new Document("");
-        //return CV   , and if Coverletter dose not exits return a empty domain.Document.
+        //return CV   , and if Coverletter dose not exits return a empty oldVersion.Document.
     }
 
     public Document getDocument(String name){
@@ -261,7 +268,7 @@ public class Applicant implements Observer {
             }
         }
         return new Document("");
-        //return CV, and if CV dose not exits return a empty domain.Document.
+        //return CV, and if CV dose not exits return a empty oldVersion.Document.
     }
 
 

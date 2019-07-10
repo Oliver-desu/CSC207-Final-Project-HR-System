@@ -1,5 +1,7 @@
 package domain;
 
+import domain.JobPostingStates.JobPostingState;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
