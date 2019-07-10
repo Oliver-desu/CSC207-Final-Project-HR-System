@@ -41,6 +41,8 @@ public class TestController {
         mainPanel.setPartVisibility(MainPanel.Part.INFO_PANEL, true);
         mainPanel.setInfo("???");
 
+        // add a work space
+        mainPanel.addWorkspace();
 
         // remember to update
         view.update();

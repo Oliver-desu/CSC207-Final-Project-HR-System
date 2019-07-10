@@ -23,7 +23,7 @@ public class InterviewerBoxPanel extends JPanel implements ButtonHolder, ComboBo
         recommendation.setPreferredSize(size);
 
         // panel settings
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new FlowLayout(FlowLayout.CENTER));
         setPreferredSize(dimension);
         add(recommendation);
         add(decisionBox);

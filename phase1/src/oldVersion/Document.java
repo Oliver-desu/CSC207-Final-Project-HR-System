@@ -1,8 +1,6 @@
 package oldVersion;
 
-import login.SearchObject;
 
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Document implements SearchObject {

@@ -18,10 +18,12 @@ import java.util.HashMap;
 public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, ComboBoxHolder, TextFieldHolder {
 
     private static final Dimension PANEL_SIZE = ViewFrame.MAIN_PANEL_SIZE;
-    private static final Dimension WINDOW_SIZE = new Dimension(PANEL_SIZE.width / 4, PANEL_SIZE.height / 2);
-    private static final Dimension CONTROL_SIZE = new Dimension(PANEL_SIZE.width - 20, PANEL_SIZE.height / 6);
-    private ViewList leftList = new ViewList(WINDOW_SIZE);
-    private ViewList rightList = new ViewList(WINDOW_SIZE);
+    private static final int MAIN_HEIGHT = PANEL_SIZE.height * 3 / 5;
+    private static final Dimension LIST_SIZE = new Dimension(PANEL_SIZE.width / 5, MAIN_HEIGHT);
+    private static final Dimension WINDOW_SIZE = new Dimension(PANEL_SIZE.width / 2, MAIN_HEIGHT);
+    private static final Dimension CONTROL_SIZE = new Dimension(PANEL_SIZE.width - 20, PANEL_SIZE.height / 7);
+    private ViewList leftList = new ViewList(LIST_SIZE);
+    private ViewList rightList = new ViewList(LIST_SIZE);
     private InfoPanel infoPanel = new InfoPanel(WINDOW_SIZE);
     private ComboBoxPanel boxPanel = new ComboBoxPanel(CONTROL_SIZE);
     private ButtonPanel buttonPanel = new ButtonPanel(CONTROL_SIZE);
