@@ -22,9 +22,18 @@ class DocumentManager implements Serializable {
     }
 
     //todo: deal with exceptions in this class
-    String viewDocument(String fileName) {
+
+    String viewDocument(String fileName, String application) {
+        File file;
+        if (attachedDocuments.get(application).contains((file = allFiles.get(fileName)))) {
+            return getContent(file);
+        } else {
+            return "No such file exists.";
+        }
+    }
+
+    private String getContent(File file) {
 //        fileName is the full path of the file
-        File file = allFiles.get(fileName);
         StringBuilder content = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -54,15 +63,19 @@ class DocumentManager implements Serializable {
         }
     }
 
-    public String createNewDocument(String Filename, String content, String applicant) throws IOException {
-        File file = new File(Filename);
-        if (file.createNewFile()) {
-            writeDoc(file, content);
-            allFiles.put(Filename, file);
-            addToAllDocuments(applicant, file);
-            return "A document has been added to your documents.";
+    public String createNewDocument(String fileName, String content, String applicant) throws IOException {
+        if (allFiles.containsKey(fileName)) {
+            return "Please try another document name.";
         } else {
-            return "File already existed!";
+            File file = new File(fileName);
+            if (file.createNewFile()) {
+                writeDoc(file, content);
+                allFiles.put(fileName, file);
+                addToAllDocuments(applicant, file);
+                return "A document has been added to your documents.";
+            } else {
+                return "File already existed!";
+            }
         }
     }
 
