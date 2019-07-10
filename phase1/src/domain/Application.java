@@ -4,8 +4,12 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Application {
+public class Application extends Observable implements Observer {
+
+
     //implements SearchObject
     public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
     private  String Heading;  // contains applicant name, position
@@ -44,6 +48,10 @@ public class Application {
 
     public Applicant getApplicant() {
         return applicant;
+    }
+
+    public String getApplicantName() {
+        return this.applicant.getUsername();
     }
 
     // setters
@@ -116,9 +124,16 @@ public class Application {
     }
 
 
+    // TODO: 2019-07-10
+    public String attachToApplication(String fileName) {
+        return null;
+    }
 
 
+    @Override
+    public void update(Observable o, Object arg) {
 
+    }
 
 
 

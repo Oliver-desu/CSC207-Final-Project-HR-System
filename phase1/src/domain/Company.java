@@ -3,18 +3,16 @@ package domain;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Company extends  User{
-    private  String companyName;
-    private  HashMap<String,ArrayList<JobPosting>> JobPostings;
+    private String companyName;
+    private HashMap<String,ArrayList<JobPosting>> jobPostingsByState = new HashMap<>();
     // i will try to add limitation on this attribute
     ////Key: "open", "interviewing", "waiting for next round", "pending", "filled", "unfilled"
 
-    private  HashMap<String,ArrayList<JobPosting>> interviewers;
-
-    private  HashMap<String,ArrayList<Interview>> upcomingInterview;
-    private  HashMap<String,ArrayList<Interview>> waitingForResultInterviews;
+    private HashMap<String, ArrayList<JobPosting>> interviewers = new HashMap<>();
+    private HashMap<String, ArrayList<Interview>> upcomingInterviews = new HashMap<>();
+    private HashMap<String, ArrayList<Interview>> waitingForResultInterviews = new HashMap<>();
 
 
     public  Company(String username,String password){
@@ -24,11 +22,11 @@ public class Company extends  User{
     //getters
 
     public HashMap<String, ArrayList<JobPosting>> getJobPostings() {
-        return JobPostings;
+        return this.jobPostingsByState;
     }
 
-    public HashMap<String, ArrayList<Interview>> getUpcomingInterview() {
-        return upcomingInterview;
+    public HashMap<String, ArrayList<Interview>> getUpcomingInterviews() {
+        return upcomingInterviews;
     }
 
     public HashMap<String, ArrayList<Interview>> getWaitingForResultInterviews() {
@@ -36,7 +34,6 @@ public class Company extends  User{
     }
 
     public String getCompanyName() { return companyName; }
-
 
     public HashMap<String,ArrayList<JobPosting>> getInterviewers() {
         return interviewers;    }
@@ -49,17 +46,16 @@ public class Company extends  User{
         this.waitingForResultInterviews = waitingForResultInterviews;
     }
 
-    public void setUpcomingInterview(HashMap<String, ArrayList<Interview>> upcomingInterview) {
-        this.upcomingInterview = upcomingInterview;
+    public void setUpcomingInterviews(HashMap<String, ArrayList<Interview>> upcomingInterviews) {
+        this.upcomingInterviews = upcomingInterviews;
     }
 
     public void setInterviewers(HashMap<String, ArrayList<JobPosting>> interviewers) {
         this.interviewers = interviewers;
     }
 
-    public void setJobPostings(HashMap<String, ArrayList<JobPosting>> jobPostings) {
-        JobPostings = jobPostings;   }
-
+    public void setJobPostingsByState(HashMap<String, ArrayList<JobPosting>> jobPostings) {
+        this.jobPostingsByState = jobPostings;   }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
@@ -67,9 +63,15 @@ public class Company extends  User{
 
 
     // end ---------------------------
+    
+    public void moveJobPosting(JobPosting jobPosting, String moveTo) {
+        this.jobPostingsByState.get(jobPosting.getCurrentState().getStatus()).remove(jobPosting);
+        this.jobPostingsByState.get(moveTo).add(jobPosting);
+    }
+
     public  String assignInterview(String interviewer ,  Application application, LocalDate date){
         try {
-            Interview interview = new Interview(interviewer,application,date);
+            Interview interview = new Interview(interviewer, application, date, this);
 
         application.addInterview(interview);}
         catch (ClassCastException e){
@@ -78,22 +80,22 @@ public class Company extends  User{
         return  "Interview Matched";
     }
 
-    public  ArrayList findJobPostings(String state ){
-        return  JobPostings.get(state);
+    public  ArrayList findJobPostings(String state){
+        return  jobPostingsByState.get(state);
     }
 
     public  void  postJob(String hr ,ArrayList job){
             JobPosting jobPosting = new JobPosting(job,this);
-            JobPostingManager.addJobPostings(jobPosting);
-            ArrayList lst = JobPostings.get(hr);
+            JobPostingManager.addJobPosting(jobPosting);
+            ArrayList lst = jobPostingsByState.get(hr);
             lst.add(jobPosting);
-            JobPostings.put(hr,lst);// code smell
+            jobPostingsByState.put(hr,lst);// code smell
     }
 
 
     public  ArrayList<Interview>findUpcomingInterveiws( String interviewer){
 
-        return  upcomingInterview.get(interviewer);
+        return  upcomingInterviews.get(interviewer);
 
     }
 
@@ -104,15 +106,22 @@ public class Company extends  User{
 
 
     public  void  removeInterview(Interview interview){
-        String interviewer = interview.getinterviewer();
+        String interviewer = interview.getInterviewer();
         removeValueInArraylistInHashmap(waitingForResultInterviews,interviewer,interview);
 
     }
 
     public  void  moveInterview(Interview interview){
-        String interviewer = interview.getinterviewer();
+        String interviewer = interview.getInterviewer();
         removeValueInArraylistInHashmap(waitingForResultInterviews,interviewer,interview);
-        addValueToArraylistInHashmap(upcomingInterview,interviewer,interview);
+        addValueToArraylistInHashmap(upcomingInterviews,interviewer,interview);
+    }
+
+    public void addToUpcomingInterviews(Interview interview) {
+        if (!this.upcomingInterviews.containsKey(interview.getInterviewer())) {
+            this.upcomingInterviews.put(interview.getInterviewer(), new ArrayList<>());
+        }
+        this.upcomingInterviews.get(interview.getInterviewer()).add(interview);
     }
 
 
@@ -155,14 +164,9 @@ public class Company extends  User{
     public  void  removePost(String  hr, JobPosting job ){
 
     }
-    public static void addJobPosting(JobPosting job){
 
 
 
-
-
-
-    }
     public  void addValueToArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
 
         try {ArrayList v = map.get(key);
