@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
     private static final int MAX_BUTTON_NUM = 4;
     private static final String[] HR_BUTTONS = new String[]{
-            "Post Job", "View Applicants", "Hire", "Reject"
+            "Post Job", "View Applicants", "Hire"
     };
     private static final String[] APPLICANT_BUTTONS = new String[]{"Drop Application", "Submit Application"};
     private static final String[] LOGIN_BUTTONS = new String[]{"Sign In", "Create new Account"};
