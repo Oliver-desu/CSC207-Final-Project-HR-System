@@ -68,5 +68,5 @@ public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHol
     }
 
     // abandoned Applicant Interviewing.
-    public enum View {HR, INTERVIEWER, /* APPLICANT_INTERVIEWING */, APPLICANT_INCOMPLETE}
+    public enum View {HR, INTERVIEWER, /* APPLICANT_INTERVIEWING,*/ APPLICANT_INCOMPLETE}
 }

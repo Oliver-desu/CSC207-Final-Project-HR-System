@@ -1,36 +1,38 @@
 package domain.JobPostingStates;
 
-import domain.Application;
-import domain.JobPostingStates.JobPostingState;
+import domain.*;
+
+import java.time.LocalDate;
 
 public class WaitingForNextRound implements JobPostingState {
+
+    private JobPosting jobPosting;
+
+    public WaitingForNextRound(JobPosting jobPosting) {
+        jobPosting.setUnmatchedApplicants(jobPosting.getRemainingApplications().size());
+        this.jobPosting = jobPosting;
+    }
+
     @Override
     public String getStatus() {
-        return null;
+        return "waiting for next round";
     }
 
-    void fromWaitingForNextRound() {
-        this.unmatchedApplicants --;
-        if (this.unmatchedApplicants == 0) {
-            this.currentState = JobPostingState.INTERVIEWING;
-        }
-    }
-
-
-
-
-    @Override
-    public void receiveApplication(Application ap) {
-
-    }
 
     @Override
     public String hire(Application ap) {
-        return null;
+        return "You can not hire an applicant at this state.";
     }
 
+
     @Override
-    public String reject(Application ap) {
-        return null;
+    public String matchInterview(String interviewer, Application application, LocalDate date) {
+        this.jobPosting.decreaseUnmatchedApplicants();
+        this.jobPosting.getCompany().assignInterview(interviewer, application, date);
+        if (this.jobPosting.getUnmatchedApplicants() == 0) {
+            this.jobPosting.setCurrentState(new Interviewing(this.jobPosting));
+        }
+        return "Successfully created interview.";
     }
+
 }

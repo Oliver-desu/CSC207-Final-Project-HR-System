@@ -42,7 +42,7 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
         add(rightList);
         add(infoPanel);
         add(boxPanel);
-        add(boxPanel);
+        add(buttonPanel);
     }
 
     @Override
@@ -96,6 +96,20 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
         else if (part == Part.INFO_PANEL) infoPanel.setVisible(visibility);
         else if (part == Part.LEFT_LIST) leftList.setVisible(visibility);
         else if (part == Part.RIGHT_LIST) rightList.setVisible(visibility);
+    }
+
+    public void setListContent(boolean left, String[] content) {
+        if (left) leftList.setListData(content);
+        else rightList.setListData(content);
+    }
+
+    public String getListSelectedValue(boolean left) {
+        if (left) return leftList.getSelectedValue();
+        else return rightList.getSelectedValue();
+    }
+
+    public void switchPosting() {
+        // Todo
     }
 
     @Override

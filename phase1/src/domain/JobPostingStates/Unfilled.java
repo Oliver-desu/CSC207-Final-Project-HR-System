@@ -1,25 +1,31 @@
 package domain.JobPostingStates;
 
-import domain.Application;
+import domain.*;
+
+import java.time.LocalDate;
 
 public class Unfilled implements JobPostingState {
+
+    private JobPosting jobPosting;
+
+    public Unfilled(JobPosting jobPosting) {
+        this.jobPosting = jobPosting;
+    }
+
     @Override
     public String getStatus() {
-        return null;
+        return "unfilled";
     }
 
-    @Override
-    public void receiveApplication(Application ap) {
-
-    }
 
     @Override
     public String hire(Application ap) {
-        return null;
+        return "You can not hire an applicant at this state.";
     }
 
+
     @Override
-    public String reject(Application ap) {
-        return null;
+    public String matchInterview(String interviewer, Application application, LocalDate date) {
+        return "You can not match interview at this state.";
     }
 }
