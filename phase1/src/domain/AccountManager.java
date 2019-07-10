@@ -1,28 +1,29 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AccountManager{
+public class AccountManager implements Serializable {
 
-    private static HashMap<String, Company> companies = new HashMap<>();
-    private static HashMap<String, Applicant> applicants = new HashMap<>();
-    private static HashMap<String, ArrayList<String >> interviewers = new HashMap<>();
+    private HashMap<String, Company> companies = new HashMap<>();
+    private HashMap<String, Applicant> applicants = new HashMap<>();
+    private HashMap<String, ArrayList<String>> interviewers = new HashMap<>();
 
 
-    public static HashMap<String, Applicant> getApplicants() {
+    public HashMap<String, Applicant> getApplicants() {
         return applicants;
     }
 
-    public static HashMap<String, Company> getCompanies() {
+    public HashMap<String, Company> getCompanies() {
         return companies;
     }
 
-    public static boolean matchPassword(String password, User user) {
+    public boolean matchPassword(String password, User user) {
         return user.getPassword().equals(password);
     }
 
-    public static String matchPosition(String companyName, String interviewer) {
+    public String matchPosition(String companyName, String interviewer) {
         if (interviewers.get(companyName).contains(interviewer)) {
             return "You've logged in as an interviewer.";
         } else {
@@ -31,7 +32,7 @@ public class AccountManager{
         }
     }
 
-    public static User getUser(String userName, String userType) {
+    public User getUser(String userName, String userType) {
         if (userType.equals("applicant")) {
             return applicants.get(userName);
         } else if (userType.equals("company")) {
@@ -41,7 +42,7 @@ public class AccountManager{
         }
     }
 
-    public static String loginUser(String userName, String password, String userType) {
+    public String loginUser(String userName, String password, String userType) {
         User user = getUser(userName, userType);
         if (user == null || !matchPassword(password, user)) {
             return "Login failed. Wrong username or wrong password.";
@@ -50,7 +51,7 @@ public class AccountManager{
         }
     }
 
-    public static User registerUser(String userName, String password, String userType) {
+    public User registerUser(String userName, String password, String userType) {
         if (userType.equals("applicant") && !applicants.containsKey(userName)) {
             Applicant applicant = new Applicant(userName, password);
             applicants.put(userName, applicant);
@@ -65,7 +66,7 @@ public class AccountManager{
         }
     }
 
-    public static ArrayList<String> getInterviewers(String companyName) {
+    public ArrayList<String> getInterviewers(String companyName) {
         return interviewers.get(companyName);
     }
 

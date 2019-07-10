@@ -3,7 +3,9 @@ package domain;
 import views.ViewFrame;
 import views.panels.MainPanel;
 
-public class TheSystem {
+import java.io.Serializable;
+
+public class TheSystem implements Serializable {
 
     private static TheSystem ourInstance = new TheSystem();
     static DocumentManager documentManager;

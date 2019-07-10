@@ -1,10 +1,11 @@
 package domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Company extends  User{
+public class Company extends User implements Serializable {
 
     private String companyName;
     private HashMap<String, ArrayList<JobPosting>> jobPostingsByState = new HashMap<>();
@@ -57,7 +58,8 @@ public class Company extends  User{
     }
 
     public void setJobPostingsByState(HashMap<String, ArrayList<JobPosting>> jobPostings) {
-        this.jobPostingsByState = jobPostings;   }
+        this.jobPostingsByState = jobPostings;
+    }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
@@ -88,7 +90,7 @@ public class Company extends  User{
 
     public String postJob(ArrayList<Object> fromTextFiles){
         JobPosting jobPosting = new JobPosting(fromTextFiles,this);
-        JobPostingManager.addJobPosting(jobPosting);
+        TheSystem.jobPostingManager.addJobPosting(jobPosting);
         this.jobPostingsByState.get(jobPosting.getStatus()).add(jobPosting);
         return "Job posted.";
     }

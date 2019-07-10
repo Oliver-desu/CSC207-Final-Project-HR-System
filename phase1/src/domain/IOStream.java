@@ -13,23 +13,41 @@ class IOStream {
     }
 
     @SuppressWarnings("unchecked")
-    protected Map<String, Object> readFromFile() throws ClassNotFoundException, IOException {
+    protected Object readFromFile() throws ClassNotFoundException, IOException {
         InputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(this.filePath));
         ObjectInput input = new ObjectInputStream(bufferedInputStream);
 
-        Map<String, Object> map = (HashMap<String, Object>) input.readObject();
+        Object object = input.readObject();
         input.close();
         System.out.println("Objects are read into the system.");
-        return map;
+        return object;
     }
 
-    public void writeToFile(Map<String, Object> map) throws IOException {
+    public void writeToFile(Object object) throws IOException {
         OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(this.filePath));
         ObjectOutput output = new ObjectOutputStream(bufferedOutputStream);
 
-        output.writeObject(map);
+        output.writeObject(object);
         output.close();
         System.out.println("Objects are stored in ser file.");
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+//        AccountManager accountManager = new AccountManager();
+//        DocumentManager documentManger = new DocumentManager();
+//        JobPostingManager jobPostingManager = new JobPostingManager();
+
+        TheSystem theSystem = TheSystem.getInstance();
+        IOStream ioStream = new IOStream("Data.ser");
+//        store in the file
+        ioStream.writeToFile(theSystem);
+//        read from file
+        TheSystem system = (TheSystem) ioStream.readFromFile();
+        System.out.println(system.getClass());
+        System.out.println(system.accountManager.getClass());
+        System.out.println(system.jobPostingManager.getClass());
+        System.out.println(system.documentManager.getClass());
+
     }
 
 }

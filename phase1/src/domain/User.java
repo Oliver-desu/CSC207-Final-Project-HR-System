@@ -1,6 +1,8 @@
 package domain;
 
-public abstract class User {
+import java.io.Serializable;
+
+public abstract class User implements Serializable {
 
     private String username;
     private String password;

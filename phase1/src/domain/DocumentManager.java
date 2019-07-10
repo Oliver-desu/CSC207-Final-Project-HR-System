@@ -8,14 +8,11 @@ import java.util.HashMap;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-class DocumentManager {
+class DocumentManager implements Serializable {
     private HashMap<LocalDate, ArrayList<Applicant>> deleteAfterThirtyDays;
     private HashMap<String, ArrayList<File>> attachedDocuments;  //application to files
     private HashMap<String, ArrayList<File>> allDocuments;  // applicant to files
     private HashMap<String, File> allFiles;
-    private static DocumentManager documentManager = null;
-
-
 
     public DocumentManager() {
         deleteAfterThirtyDays = new HashMap<>();
@@ -23,7 +20,6 @@ class DocumentManager {
         allDocuments = new HashMap<>();
         allFiles = new HashMap<>();
     }
-
 
     //todo: deal with exceptions in this class
     String viewDocument(String fileName) {
@@ -59,7 +55,6 @@ class DocumentManager {
     }
 
     public String createNewDocument(String Filename, String content, String applicant) throws IOException {
-        boolean isExisted = false;
         File file = new File(Filename);
         if (file.createNewFile()) {
             writeDoc(file, content);
@@ -77,17 +72,17 @@ class DocumentManager {
         if (file.delete()) {
             return "File is deleted successfully";
         } else {
-            return"Failed to delete the document: " + fileName;
+            return "Failed to delete the document: " + fileName;
         }
     }
 
-    public void updateDocument(String fileName, String content) {
+    public String updateDocument(String fileName, String content) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(allFiles.get(fileName), false))) {
             bufferedWriter.write(content);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //写下return的string
+        return fileName + " is updated!";
     }
 
     public void deleteAllInactiveDocuments() {
@@ -98,7 +93,7 @@ class DocumentManager {
         }
     }
 
-    public void addToMap(String keyToAdd, File newValue, HashMap<String, ArrayList<File>> map) {
+    private void addToMap(String keyToAdd, File newValue, HashMap<String, ArrayList<File>> map) {
         if (map.containsKey(keyToAdd)) {
             map.get(keyToAdd).add(newValue);
         } else {
@@ -108,27 +103,25 @@ class DocumentManager {
         }
     }
 
-    public void addToAllDocuments(String Applicant, File file) {
+    void addToAllDocuments(String Applicant, File file) {
         addToMap(Applicant, file, this.allDocuments);
     }
 
-    public void addToAttachedDocuments(String Application, File file) {
-        addToMap(Application, file, this.attachedDocuments);
+    void addToAttachedDocuments(String Application, String fileName) {
+        addToMap(Application, allFiles.get(fileName), this.attachedDocuments);
     }
 
-
-
-    public void addToDeleteAfterThirtyDays(Applicant applicant) {
+    void addToDeleteAfterThirtyDays(Applicant applicant) {
         ArrayList<Applicant> applicants;
         if (deleteAfterThirtyDays.containsKey(LocalDate.now())) {
             applicants = deleteAfterThirtyDays.get(LocalDate.now());
         } else {
-            deleteAfterThirtyDays.put(LocalDate.now(), (applicants=new ArrayList<>()));
+            deleteAfterThirtyDays.put(LocalDate.now(), (applicants = new ArrayList<>()));
         }
         applicants.add(applicant);
     }
 
-    public void removeFromDeleteAfterThirtyDays(Applicant applicant) {
+    void removeFromDeleteAfterThirtyDays(Applicant applicant) {
         ArrayList<Applicant> lst;
         for (LocalDate addedDate : deleteAfterThirtyDays.keySet()) {
             if ((lst = deleteAfterThirtyDays.get(addedDate)).contains(applicant)) {

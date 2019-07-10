@@ -2,16 +2,15 @@ package domain;
 
 //import login.SearchObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Application extends Observable implements Observer {
+public class Application extends Observable implements Observer, Serializable {
 
 
-    //implements SearchObject
-//    public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
     private  String heading;  // contains applicant name, position
     private ArrayList<String> attachedDocuments;
     private JobPosting jobPosting;
@@ -19,7 +18,7 @@ public class Application extends Observable implements Observer {
     //Key: "upcoming", "waiting for result"
     private Applicant applicant;
     private  String currentState;
-    //one of "incomplete", "interviewing", "pending", "rejected", "hired"
+    //one of "incomplete", "forward", "pending", "rejected", "hired"
 
 
 
@@ -30,6 +29,10 @@ public class Application extends Observable implements Observer {
         this.attachedDocuments = new ArrayList<>();
         this.interviews = new HashMap<>();
         this.currentState = "incomplete";
+
+        this.addObserver(jobPosting);
+        this.addObserver(applicant);
+        applicant.addApplication(this);
     }
 
     // getters
@@ -73,6 +76,8 @@ public class Application extends Observable implements Observer {
 
     public void setCurrentState(String currentState) {
         this.currentState = currentState;
+        setChanged();
+        notifyObservers(currentState);
     }
 
     public void setHeading(String heading) {
@@ -94,29 +99,7 @@ public class Application extends Observable implements Observer {
     }
 
     public void addInterview(Interview interview){
-        addValueToArrayListInHashMap(interviews,interview.getCurrentState(),interview);
-     }
-
-    private  void addValueToArrayListInHashMap(HashMap<String,ArrayList<Interview>> map, String key, Object value ){
-
-        try {
-            ArrayList v = map.get(key);
-            v.add(value);
-        } catch (ClassCastException e){
-            System.out.println("try the right type");
-        }
-
-    }
-
-    private  void removeValueInArrayListInHashMap(HashMap<String,ArrayList<Interview>> map, String key, Object value ){
-
-        try {
-            ArrayList v = map.get(key);
-            v.remove(value);
-        } catch (ClassCastException e){
-            System.out.println("try the right type");
-        }
-
+        this.interviews.get(interview.getCurrentState()).add(interview);
     }
 
     public void dropApplication(){
@@ -125,20 +108,24 @@ public class Application extends Observable implements Observer {
     }
 
     public  void  moveInterview(Interview interview, String from, String to){
-        removeValueInArrayListInHashMap(interviews,from, interview);
-        addValueToArrayListInHashMap(interviews, to, interview);
+        this.interviews.get(from).remove(interview);
+        this.interviews.get(to).remove(interview);
     }
 
-
-    // TODO: 2019-07-10
     public String attachToApplication(String fileName) {
-        return null;
+        TheSystem.documentManager.addToAttachedDocuments(fileName, this.getHeading());
+        return "Document attached.";
     }
 
+    public void receiveInterviewResult(String result) {
+        this.currentState = result;
+        this.applicant.moveApplication(this, this.currentState);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
-
+        this.moveInterview((Interview) o, "pending", (String) arg);
+        this.receiveInterviewResult((String) arg);
     }
 
 
