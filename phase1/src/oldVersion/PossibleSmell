@@ -1,0 +1,51 @@
+Applicant:
+
+    coding style.
+    attribute dateCreated is already exist in parent class.//---updated
+    allApplicant may be redundant, can determined by calculation.//--- i think it might use in some where  in GUI
+        i will delete it in the end , if it is not been used.
+    List type should change to ArrayList for convenience.//---updated
+    lastAppliedDate may be redundant, can determined by calculations.//---updated
+    getter setter of parent class is redundant. there is inheritance property.// ---updated
+
+    coding content.
+    withdrawApplication. never set pointer to null. //--- not updated
+    viewJobs. cannot understand by its heading.//---updated to  viewAllJobs()
+
+    naming convention.
+    variable name should in form variableName, no underscore, no abc.//---updated
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.//---updated
+
+    design.
+    may want to design getDocument and getApplication by specific doc name and specific jobPosting.
+    //---updated
+Application:
+
+    coding style.
+    closeDate seems unnecessary. looks like depend on jobPosting.
+
+    naming convention.
+    jobPosting. be careful of capitalize the second head letter.
+    variable name should in form variableName, no underscore, no abc.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.
+
+JobDeciding Process:
+
+    coding style.
+    new variable initialize can be at defining line.
+    List type should change to ArrayList for convenience. Map should be HashMap.
+
+    naming conventions.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.
+
+    design.
+    to make currentRound an int seems more convenient.
+
+JobPosting:
+
+    coding style.
+    may want to add a new method for 3 constructors in common use.
+    List type should change to ArrayList for convenience. Map should be HashMap.
+
+    naming conventions.
+    take care of plural. if it is with s, it should involve an ArrayList, or, it should be single.

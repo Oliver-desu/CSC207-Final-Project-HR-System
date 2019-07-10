@@ -2,20 +2,22 @@ package views.panels;
 
 import views.interfaces.ButtonHolder;
 import views.interfaces.TextFieldHolder;
+import views.interfaces.ViewComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
 // 2
-public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder {
+public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder, ViewComponent {
 
     private JTextField keyword = new JTextField("Job title, Keywords, or Company");
     private JButton search = new JButton("Search");
     private JButton apply = new JButton("Apply Now");
 
-    SearchPanel(Dimension dimension) {
+    public SearchPanel(Dimension dimension) {
         setLayout(new FlowLayout());
+        setPreferredSize(dimension);
         int width = dimension.width;
         int height = dimension.height;
         Dimension buttonSize = new Dimension(width / 3, height / 2);
@@ -43,5 +45,10 @@ public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder
         HashMap<String, JTextField> textFields = new HashMap<>();
         textFields.put("Keyword", keyword);
         return textFields;
+    }
+
+    @Override
+    public void update() {
+        keyword.setText("");
     }
 }

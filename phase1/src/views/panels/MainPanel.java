@@ -15,7 +15,6 @@ import java.awt.*;
 import java.util.HashMap;
 
 // 3
-// Todo: setup, constructor, interfaces
 public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, ComboBoxHolder, TextFieldHolder {
 
     private static final Dimension PANEL_SIZE = ViewFrame.MAIN_PANEL_SIZE;
@@ -27,9 +26,23 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
     private ComboBoxPanel boxPanel = new ComboBoxPanel(CONTROL_SIZE);
     private ButtonPanel buttonPanel = new ButtonPanel(CONTROL_SIZE);
 
+    public MainPanel() {
+        setup();
+    }
+
     private void setup() {
+        // panel settings
+        setLayout(new FlowLayout());
+        setPreferredSize(PANEL_SIZE);
         leftList.setType(ViewList.Type.OTHER);
         rightList.setType(ViewList.Type.OTHER);
+
+        // add components
+        add(leftList);
+        add(rightList);
+        add(infoPanel);
+        add(boxPanel);
+        add(buttonPanel);
     }
 
     @Override
@@ -85,19 +98,36 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
         else if (part == Part.RIGHT_LIST) rightList.setVisible(visibility);
     }
 
+    public void setListContent(boolean left, String[] content) {
+        if (left) leftList.setListData(content);
+        else rightList.setListData(content);
+    }
+
+    public String getListSelectedValue(boolean left) {
+        if (left) return leftList.getSelectedValue();
+        else return rightList.getSelectedValue();
+    }
+
+    public void switchPosting() {
+        // Todo
+    }
+
     @Override
     public HashMap<String, JButton> getButtons() {
-        return null;
+        HashMap<String, JButton> buttons = new HashMap<>();
+        buttons.putAll(buttonPanel.getButtons());
+        buttons.putAll(boxPanel.getButtons());
+        return buttons;
     }
 
     @Override
     public HashMap<String, JTextField> getTextFields() {
-        return null;
+        return boxPanel.getTextFields();
     }
 
     @Override
     public HashMap<String, JComboBox<String>> getBoxes() {
-        return null;
+        return boxPanel.getBoxes();
     }
 
     public enum Part {LEFT_LIST, RIGHT_LIST, INFO_PANEL, BOX_PANEL, BUTTON_PANEL}

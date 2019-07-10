@@ -14,7 +14,7 @@ public class ViewList extends JList<String> implements ViewComponent {
             "INCOMPLETE", "PENDING", "INTERVIEWING", "REJECTED", "HIRED"
     };
     private static final String[] INTERVIEWER_LIST = new String[]{
-            "UPCOMING", "WAITING_FOR_RESULT", "PAST"
+            "UPCOMING", "WAITING_FOR_RESULT"
     };
     private Type type = Type.OTHER;
 
