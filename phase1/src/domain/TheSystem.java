@@ -2,20 +2,20 @@ package domain;
 
 import views.ViewFrame;
 
-public class System {
+public class TheSystem {
 
-    private static System ourInstance = new System();
+    private static TheSystem ourInstance = new TheSystem();
     private DocumentManager documentManager;
     private JobPostingManager jobPostingManager;
     private AccountManager accountManager;
 
 
 
-    public static System getInstance() {
+    public static TheSystem getInstance() {
         return ourInstance;
     }
 
-    private System() {
+    private TheSystem() {
         documentManager = new DocumentManager();
         jobPostingManager = new JobPostingManager();
         accountManager = new AccountManager();
@@ -23,13 +23,11 @@ public class System {
 
     public static void main(String[] args) {
 
-        System system = System.getInstance();
+        TheSystem system = TheSystem.getInstance();
         system.documentManager.deleteAllInactiveDocuments();
         system.jobPostingManager.closeJobPostings();
 
-        ViewFrame theView = new ViewFrame();
 
-        theView.setVisible(true);
 
     }
 
