@@ -32,8 +32,9 @@ class DocumentManager {
 
 
     //todo: deal with exceptions in this class
-    String viewDocument(File file) {
+    String viewDocument(String fileName) {
 //        fileName is the full path of the file
+        File file = allFiles.get(fileName);
         StringBuilder content = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -70,6 +71,7 @@ class DocumentManager {
             writeDoc(file, content);
             allFiles.put(Filename, file);
             addToAllDocuments(applicant, file);
+            System.out.println("A document has been added to your documents.");
         } else {
             System.out.println("File already existed!");
         }
@@ -119,25 +121,24 @@ class DocumentManager {
         addToMap(Application, file, this.attachedDocuments);
     }
 
+
+
     void addToDeleteAfterThirtyDays(Applicant applicant) {
         ArrayList<Applicant> applicants;
         if (deleteAfterThirtyDays.containsKey(LocalDate.now())) {
             applicants = deleteAfterThirtyDays.get(LocalDate.now());
-            applicants.add(applicant);
         } else {
-            applicants = new ArrayList<>();
-            applicants.add(applicant);
-            deleteAfterThirtyDays.put(LocalDate.now(), applicants);
+            deleteAfterThirtyDays.put(LocalDate.now(), (applicants=new ArrayList<>()));
         }
+        applicants.add(applicant);
     }
 
     void removeFromDeleteAfterThirtyDays(Applicant applicant) {
         ArrayList<Applicant> lst;
-        if (deleteAfterThirtyDays.containsValue(applicant)) {
-            for (LocalDate addedDate : deleteAfterThirtyDays.keySet()) {
-                if ((lst = deleteAfterThirtyDays.get(addedDate)).contains(applicant)) {
-                    lst.remove(applicant);
-                }
+        for (LocalDate addedDate : deleteAfterThirtyDays.keySet()) {
+            if ((lst = deleteAfterThirtyDays.get(addedDate)).contains(applicant)) {
+                lst.remove(applicant);
+                break;
             }
         }
     }
