@@ -11,8 +11,8 @@ public class Application extends Observable implements Observer {
 
 
     //implements SearchObject
-    public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
-    private  String Heading;  // contains applicant name, position
+//    public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
+    private  String heading;  // contains applicant name, position
     private ArrayList<String> attachedDocuments;
     private JobPosting jobPosting;
     private HashMap<String,ArrayList<Interview>> interviews;
@@ -23,21 +23,24 @@ public class Application extends Observable implements Observer {
 
 
 
-
-
-
     public Application(JobPosting jobPosting, Applicant applicant) {
         this.jobPosting = jobPosting;
         this.applicant = applicant;
+        this.heading = applicant.getUsername() + " -> " + jobPosting.getPosition();
+        this.attachedDocuments = new ArrayList<>();
+        this.interviews = new HashMap<>();
+        this.currentState = "incomplete";
     }
+
     // getters
     public JobPosting getJobPosting() {
         return jobPosting;
     }
 
     public String getHeading() {
-        return Heading;
+        return heading;
     }
+
     public  ArrayList getAttachedDocuments(){
         return attachedDocuments;
     }
@@ -52,6 +55,10 @@ public class Application extends Observable implements Observer {
 
     public String getApplicantName() {
         return this.applicant.getUsername();
+    }
+
+    public String getCurrentState() {
+        return this.currentState;
     }
 
     // setters
@@ -69,7 +76,7 @@ public class Application extends Observable implements Observer {
     }
 
     public void setHeading(String heading) {
-        Heading = heading;
+        this.heading = heading;
     }
 
     public void setInterviews(HashMap<String, ArrayList<Interview>> interviews) {
@@ -85,42 +92,41 @@ public class Application extends Observable implements Observer {
     public ArrayList<Interview> findInterviews(String key){
         return interviews.get(key);
     }
-     public void addInterview(Interview interview){
-        String currentState = interview.getCurrentState();
-        addValueToArraylistInHashmap(interviews,currentState,interview);
 
+    public void addInterview(Interview interview){
+        addValueToArrayListInHashMap(interviews,interview.getCurrentState(),interview);
      }
 
-    public  void addValueToArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
+    private  void addValueToArrayListInHashMap(HashMap<String,ArrayList<Interview>> map, String key, Object value ){
 
-        try {ArrayList v = map.get(key);
-
+        try {
+            ArrayList v = map.get(key);
             v.add(value);
-            map.put(key,v);}
-        catch (ClassCastException e){
+        } catch (ClassCastException e){
             System.out.println("try the right type");
         }
 
     }
-    public  void removeValueInArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
 
-        try {ArrayList v = map.get(key);
+    private  void removeValueInArrayListInHashMap(HashMap<String,ArrayList<Interview>> map, String key, Object value ){
 
+        try {
+            ArrayList v = map.get(key);
             v.remove(value);
-            map.put(key,v);}
-        catch (ClassCastException e){
+        } catch (ClassCastException e){
             System.out.println("try the right type");
         }
 
     }
-    public void  dropApplication(){
-        this.applicant.dropApplication(this);
-        this.jobPosting.receiveApplication(this);
+
+    public void dropApplication(){
+        this.applicant.removeApplication(this);
+        this.jobPosting.removeApplication(this);
     }
 
-    public  void  moveInterview(Interview interview,String from, String to){
-        removeValueInArraylistInHashmap(interviews,from,to);
-        addValueToArraylistInHashmap(interviews,to,interview);
+    public  void  moveInterview(Interview interview, String from, String to){
+        removeValueInArrayListInHashMap(interviews,from, interview);
+        addValueToArrayListInHashMap(interviews, to, interview);
     }
 
 
