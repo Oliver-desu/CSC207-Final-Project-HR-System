@@ -79,6 +79,7 @@ public class JobPosting implements Observer {
     public void receiveApplication(Application application) {
         this.applications.put(application.getHeading(), application);
         this.applicationsByJobPostingState.get("open").add(application);
+        this.unmatchedApplicants ++;
     }
 
     public Application findApplication(String heading) {

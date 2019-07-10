@@ -35,7 +35,7 @@ public class Interview extends Observable {
     @Override
     public String toString() {
         return "Interviewer: " + this.interviewer + "\n" +
-                "Applicant: " + this.application.getApplicant().getUserName() + "\n" +
+                "Applicant: " + this.application.getApplicantName() + "\n" +
                 "Date: " + this.date + "\n" +
                 "Current State: " + this.currentState;
     }
