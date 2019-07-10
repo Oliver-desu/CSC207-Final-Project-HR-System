@@ -16,27 +16,46 @@ import java.util.HashMap;
 
 public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, TextFieldHolder, ButtonHolder {
     // size settings
+    private static final int HORIZONTAL_GAP = 50;
     private static final int VERTICAL_GAP = 20;
     private static final int LEFT_WIDTH = 800;
     private static final int RIGHT_WIDTH = 130;
-    private static final int HORIZONTAL_GAP = 50;
     private static final int TOTAL_WIDTH = LEFT_WIDTH + RIGHT_WIDTH + HORIZONTAL_GAP * 3;
+
     private static final Dimension FRAME_SIZE = new Dimension(TOTAL_WIDTH, 640);
+    private static final Dimension LOGIN_PANEL_SIZE = new Dimension(LEFT_WIDTH, 160);
+    private static final Dimension SEARCH_PANEL_SIZE = new Dimension(LEFT_WIDTH, 100);
+    private static final Dimension MENU_LIST_SIZE = new Dimension(RIGHT_WIDTH, 350);
 
-    // sizes need to pass to components
-    public static final Dimension LOGIN_PANEL_SIZE = new Dimension(LEFT_WIDTH, 160);
-    public static final Dimension SEARACH_PANEL_SIZE = new Dimension(LEFT_WIDTH, 100);
+    // For easy modifying reason, let MainPanel get access to its size.
     public static final Dimension MAIN_PANEL_SIZE = new Dimension(LEFT_WIDTH, 300);
-    public static final Dimension MENU_LIST_SIZE = new Dimension(RIGHT_WIDTH, 350);
 
-    private HashMap<Part, JList<String>> lists;
-
-    private LoginPanel loginPanel;
-    private SearchPanel searchPanel;
-    private MainPanel mainPanel;
-    private ViewList menuList;
+    private LoginPanel loginPanel = new LoginPanel(LOGIN_PANEL_SIZE);
+    private SearchPanel searchPanel = new SearchPanel(SEARCH_PANEL_SIZE);
+    private MainPanel mainPanel = new MainPanel();
+    private ViewList menuList = new ViewList(MENU_LIST_SIZE);
 
     public ViewFrame() {
+        setup();
+        update();
+    }
+
+    private void setup() {
+        // basic settings
+        setTitle("Phase 1 Project");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, 0));
+        setSize(FRAME_SIZE);
+
+        // left side setup
+        JPanel left = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, VERTICAL_GAP));
+        left.add(loginPanel);
+        left.add(searchPanel);
+        left.add(mainPanel);
+
+        // add components
+        add(left);
+        add(menuList);
     }
 
     public void addActionListener(String buttonText, ActionListener listener) {
@@ -44,9 +63,8 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
         buttons.get(buttonText).addActionListener(listener);
     }
 
-    public String getSelectedValue(Part part) {
-        JList<String> list = lists.get(part);
-        return list.getSelectedValue();
+    public String getMenuSelectedValue() {
+        return menuList.getSelectedValue();
     }
 
     public String getText(String fieldName) {
@@ -66,13 +84,27 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
         component.setVisible(visibility);
     }
 
-    public void setListContent(Part part, String[] content) {
-        JList<String> list = lists.get(part);
-        list.setListData(content);
+    public void setMenuType(ViewList.Type type) {
+        menuList.setType(type);
     }
 
     public MainPanel getMainPanel() {
         return new MainPanel();
+    }
+
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public void setBoxContent(String boxName, String[] content) {
+        JComboBox<String> box = getBoxes().get(boxName);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(content);
+        box.setModel(model);
+    }
+
+    public String getBoxSelectedValue(String boxName) {
+        JComboBox<String> box = getBoxes().get(boxName);
+        return (String) box.getSelectedItem();
     }
 
     public enum Part {LOGIN, SEARCH, MAIN, MENU}

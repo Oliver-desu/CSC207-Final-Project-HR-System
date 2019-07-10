@@ -98,6 +98,20 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
         else if (part == Part.RIGHT_LIST) rightList.setVisible(visibility);
     }
 
+    public void setListContent(boolean left, String[] content) {
+        if (left) leftList.setListData(content);
+        else rightList.setListData(content);
+    }
+
+    public String getListSelectedValue(boolean left) {
+        if (left) return leftList.getSelectedValue();
+        else return rightList.getSelectedValue();
+    }
+
+    public void switchPosting() {
+
+    }
+
     @Override
     public HashMap<String, JButton> getButtons() {
         HashMap<String, JButton> buttons = new HashMap<>();
