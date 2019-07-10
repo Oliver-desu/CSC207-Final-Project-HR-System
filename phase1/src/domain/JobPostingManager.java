@@ -25,12 +25,10 @@ public class JobPostingManager {
     }
 
     private void addToOpenJobPostings(JobPosting jobPosting) {
-        if (jobPosting.getCurrentState().equals(null)) { //todo: change to open state(need to check open  in other two?)
-            String position;
-            ArrayList<JobPosting> lst = openJobPostings.get(position = jobPosting.getPosition());
-            lst.add(jobPosting);
-            openJobPostings.put(position, lst);
-        }
+        String position;
+        ArrayList<JobPosting> lst = openJobPostings.get(position = jobPosting.getPosition());
+        lst.add(jobPosting);
+        openJobPostings.put(position, lst);
     }
 
     private void addToJobPostingsByCompany(JobPosting jobPosting) {
@@ -73,6 +71,17 @@ public class JobPostingManager {
             return openJobPostings.get(position);
         }
         return null; // return null if no such key
+    }
+
+    void closeJobPosting() {
+        for(LocalDate closeDate: jobPostingsByCloseDate.keySet()){
+            if(closeDate.compareTo(LocalDate.now()) <0){
+                //        todo
+//        set the state of  all JobPostings in its value to new WaitingForNextRound(jp).
+
+            }
+        }
+
     }
 
 }
