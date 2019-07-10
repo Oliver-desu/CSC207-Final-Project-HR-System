@@ -1,87 +1,114 @@
 package domain;
 
+import domain.JobPostingStates.WaitingForNextRound;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JobPostingManager {
-    //    HashMap<Company, HashMap<String, JobPosting>> jobPostings;  //(String) position -> (JobPosting) jobPosting
-    private HashMap<String, ArrayList<JobPosting>> openJobPostings;
-    private HashMap<String, ArrayList<JobPosting>> jobPostingsByCompany;
-    private HashMap<LocalDate, ArrayList<JobPosting>> jobPostingsByCloseDate;
-    private static JobPostingManager jm = null;
+public class JobPostingManager{
 
-    private JobPostingManager() {
-        this.openJobPostings = new HashMap<>();
-        this.jobPostingsByCompany = new HashMap<>();
-        this.jobPostingsByCloseDate = new HashMap<>();
-    }
+    private static HashMap<String, JobPosting> jobPostings = new HashMap<>();
+    private static HashMap<String, ArrayList<JobPosting>> jobPostingsByPosition = new HashMap<>();
+    private static HashMap<String, ArrayList<JobPosting>> jobPostingsByCompany = new HashMap<>();
+    private static HashMap<LocalDate, ArrayList<JobPosting>> jobPostingsByCloseDate = new HashMap<>();
 
-    public static JobPostingManager getInstance() {
-        if (jm == null) {
-            jm = new JobPostingManager();
+
+    public static void addToJobPostingsByPosition(JobPosting jobPosting) {
+        if (!jobPostingsByPosition.containsKey(jobPosting.getPosition())) {
+            jobPostingsByPosition.put(jobPosting.getPosition(), new ArrayList<>());
         }
-        return jm;
-    }
+        jobPostingsByPosition.get(jobPosting.getPosition()).add(jobPosting);    }
 
-    private void addToOpenJobPostings(JobPosting jobPosting) {
-        String position;
-        ArrayList<JobPosting> lst = openJobPostings.get(position = jobPosting.getPosition());
-        lst.add(jobPosting);
-        openJobPostings.put(position, lst);
-    }
-
-    private void addToJobPostingsByCompany(JobPosting jobPosting) {
-        String company = jobPosting.getCompany().getCompanyName();
-        ArrayList<JobPosting> lst = new ArrayList<>();
-        if (jobPostingsByCompany.containsKey(company)) {
-            lst = jobPostingsByCompany.get(company);
+    public static void addToJobPostingsByCompany(JobPosting jobPosting) {
+        if (!jobPostingsByCompany.containsKey(jobPosting.getCompany().getCompanyName())) {
+            jobPostingsByCompany.put(jobPosting.getCompany().getCompanyName(), new ArrayList<>());
         }
-        lst.add(jobPosting);
-        this.jobPostingsByCompany.put(company, lst);
+        jobPostingsByCompany.get(jobPosting.getCompany().getCompanyName()).add(jobPosting);
     }
 
-    //    todo:handle duplicate
-    private void addToJobPostingsByCloseDate(JobPosting jobPosting) {
-        LocalDate closeDate = jobPosting.getCloseDate();
-        ArrayList<JobPosting> lst = new ArrayList<>();
-        if (jobPostingsByCloseDate.containsKey(closeDate)) {
-            lst = jobPostingsByCloseDate.get(closeDate);
+    public static void addToJobPostingsByCloseDate(JobPosting jobPosting) {
+        if (!jobPostingsByCloseDate.containsKey(jobPosting.getCloseDate())) {
+            jobPostingsByCloseDate.put(jobPosting.getCloseDate(), new ArrayList<>());
         }
-        lst.add(jobPosting);
-        this.jobPostingsByCloseDate.put(closeDate, lst);
+        jobPostingsByCloseDate.get(jobPosting.getCloseDate()).add(jobPosting);
     }
 
-    void addJobPostings(JobPosting jobPosting) {
-        addToOpenJobPostings(jobPosting);
+    public static void addJobPosting(JobPosting jobPosting) {
+        jobPostings.put(jobPosting.getId(), jobPosting);
+        addToJobPostingsByPosition(jobPosting);
         addToJobPostingsByCompany(jobPosting);
         addToJobPostingsByCloseDate(jobPosting);
-        //if one position in this company already exist, does it need be able to add numPosition? (set a method changeJobPosting)
     }
 
-    ArrayList<JobPosting> searchByCompany(String company) {
-        if (jobPostingsByCompany.containsKey(company)) {
-            return jobPostingsByCompany.get(company);
+    public static void removeFromJobPostingsByPosition(JobPosting jobPosting) {
+        jobPostingsByPosition.get(jobPosting.getPosition()).remove(jobPosting);
+        if (jobPostingsByPosition.get(jobPosting.getPosition()).isEmpty()) {
+            jobPostingsByPosition.remove(jobPosting.getPosition());
         }
-        return null; //return null if no such key exist
     }
 
-    ArrayList<JobPosting> searchByPosition(String position) {
-        if (openJobPostings.containsKey(position)) {
-            return openJobPostings.get(position);
+    public static void removeFromJobPostingsByCompany(JobPosting jobPosting) {
+        jobPostingsByCompany.get(jobPosting.getCompany().getCompanyName()).remove(jobPosting);
+        if (jobPostingsByCompany.get(jobPosting.getCompany().getCompanyName()).isEmpty()) {
+            jobPostingsByCompany.remove(jobPosting.getCompany().getCompanyName());
         }
-        return null; // return null if no such key
     }
 
-    void closeJobPosting() {
-        for(LocalDate closeDate: jobPostingsByCloseDate.keySet()){
-            if(closeDate.compareTo(LocalDate.now()) <0){
-                //        todo
-//        set the state of  all JobPostings in its value to new WaitingForNextRound(jp).
+    public JobPosting findJobPosting(String id) {
+        return jobPostings.get(id);
+    }
 
+    public ArrayList<JobPosting> searchByPosition(String position) {
+        return jobPostingsByPosition.get(position);
+    }
+
+    public ArrayList<JobPosting> searchByCompany(String company) {
+        return jobPostingsByCompany.get(company);
+    }
+
+    public void closeJobPostings() {
+        for (LocalDate date: jobPostingsByCloseDate.keySet()) {
+            if (date.isBefore(LocalDate.now())) {
+                ArrayList<JobPosting> jobPostings = jobPostingsByCloseDate.remove(date);
+                for (JobPosting jobPosting: jobPostings) {
+                    jobPosting.setCurrentState(new WaitingForNextRound(jobPosting));
+                    removeFromJobPostingsByPosition(jobPosting);
+                    removeFromJobPostingsByCompany(jobPosting);
+                }
             }
         }
-
     }
+
+
+
+
+
+
+
+
+
+
+
+
+//    HashMap<Company, HashMap<String, JobPosting>> jobPostings;  //(String) position -> (JobPosting) jobPosting
+//
+//    void addJobPostings(JobPosting jobPosting){
+//        //todo:implement
+//        Company company = jobPosting.getCompany();
+//        //if one position in this company already exist, does it need be able to add numPosition?
+//    }
+//
+//    ArrayList<JobPosting> searchByCompany(Company company){
+//        return new ArrayList<>(jobPostings.get(company).values());
+//    }
+//
+//    ArrayList<JobPosting> searchByPosition(String position){
+//        ArrayList<JobPosting> lst = new ArrayList<>();
+//        for(Company company: jobPostings.keySet()){
+//            lst.add(jobPostings.get(company).get(position));
+//        }
+//        return lst;
+//    }
 
 }
