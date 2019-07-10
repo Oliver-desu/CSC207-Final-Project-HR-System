@@ -1,14 +1,11 @@
 package domain;
 
-
-import domain.JobPostingStates.JobPostingState;
-import domain.JobPostingStates.Open;
+import domain.JobPostingStates.*;
 
 import java.time.LocalDate;
 import java.util.*;
 
 public class JobPosting implements Observer {
-
 
 
     private String position;
@@ -17,132 +14,116 @@ public class JobPosting implements Observer {
     private LocalDate postDate;
     private LocalDate closeDate;
     private ArrayList<String> requirements;
-
     private JobPostingState currentState;
-    private int numOfRounds = 0;
-    private int unmatchedApplicants = 0;
-
-    private HashMap<ApplicationState, ArrayList<Application>> applications;
-    private ArrayList<Interviewer> interviewers;
-
-    private HumanResource humanResource;
+    private int numOfRounds;
+    private int unmatchedApplicants;
+    private int numOfHired;
+    private HashMap<String, Application> remainingApplications;
 
 
-    public JobPosting(ArrayList<Object> objects, Company company) {
-        position = (String) objects.get(0);
-        numOfPositions = (Integer) objects.get(1);
-        requirements = (ArrayList<String>) objects.get(2);
-        closeDate = (LocalDate) objects.get(3);
-        postDate = LocalDate.now();
-        this.company = company
-        //this.humanResource = humanResource;
+    public JobPosting(ArrayList<Object> fromTextFileds, Company company) {
+        this.position = (String) fromTextFileds.get(0);
+        this.numOfPositions = (Integer) fromTextFileds.get(1);
+        this.requirements = (ArrayList<String>) fromTextFileds.get(2);
+        this.closeDate = (LocalDate) fromTextFileds.get(3);
+        this.company = company;
 
-
-        currentState = new Open(this);
-        applications = new HashMap<ApplicationState, ArrayList<Application>>();
-        interviewers = new ArrayList<Interviewer>();
+        this.postDate = LocalDate.now();
+        this.currentState = new Open(this);
+        this.numOfRounds = 0;
+        this.unmatchedApplicants = 0;
+        this.numOfHired = 0;
+        this.remainingApplications = new HashMap<>();
     }
 
+    public Company getCompany() {
+        return this.company;
+    }
 
     public JobPostingState getCurrentState() {
         return this.currentState;
-     }
+    }
+
+    public LocalDate getCloseDate() {
+        return this.closeDate;
+    }
+
+    public int getUnmatchedApplicants() {
+        return this.unmatchedApplicants;
+    }
+
+    public int getNumOfHired() {
+        return this.numOfHired;
+    }
+
+    public int getNumOfPositions() {
+        return this.numOfPositions;
+    }
+
+    public int getNumOfRounds() {
+        return this.numOfRounds;
+    }
+
+    public ArrayList<Application> getRemainingApplications() {
+        return (ArrayList<Application>) this.remainingApplications.values();
+    }
+
+    public String getPosition() {
+        return this.position;
+    }
+
+    public LocalDate getPostDate() {
+        return this.postDate;
+    }
+
+    public ArrayList<String> getRequirements() {
+        return this.requirements;
+    }
+
+    public void setUnmatchedApplicants(int unmatchedApplicants) {
+        this.unmatchedApplicants = unmatchedApplicants;
+    }
 
     public void setCurrentState(JobPostingState currentState) {
         this.currentState = currentState;
     }
 
-    public HashMap<ApplicationState, ArrayList<Application>> getApplications() {
-        return applications;
+    public void addNumOfRounds() {
+        this.numOfRounds ++;
     }
 
-
-     public void removeApplication(Application application) {
-        applications.get("waiting for next round").remove(application);
-        }
-
-     public void receiveApplication(Application application) {
-        applications.get("waiting for next round").add(application);
+    public void addNumOfHired() {
+        this.numOfHired ++;
     }
 
-    public ArrayList<Application> findApplications(ApplicationState state) {
-        return applications.get(state);
+    public void decreaseUnmatchedApplicants() {
+        this.unmatchedApplicants --;
     }
 
-
-     public void moveApplication(Application application, String moveFrom, String moveTo){
-        applications.get(moveFrom).remove(application);
-        applications.get(moveTo).add(application);
-
-
-     }
-
-
-
-    //5 methods in JobPostingState
-    public String getStatus(){
-        return currentState.getStatus();
+    public void removeApplication(Application application) {
+        this.remainingApplications.remove(application.getHeading());
     }
 
-
-    public String hire(Application ap){
-        return currentState.hire(ap);
+    public void receiveApplication(Application application) {
+        this.remainingApplications.put(application.getHeading(), application);
+        this.unmatchedApplicants ++;
     }
 
-    public String reject(Application ap){
-        return currentState.reject(ap);
-
+    public Application findApplication(String heading) {
+        return this.remainingApplications.get(heading);
     }
 
-
-
-
-
-
-
-     /*
-
-        for (Application.ApplicationState state: Application.ApplicationState.values()) {
-            this.applicants.put(state, new ArrayList<>());
-        }
-        this.interviews = new HashMap<Interview.InterviewState, ArrayList<Interview>>();
-        for (Interview.InterviewState state: Interview.InterviewState.values()) {
-            this.interviews.put(state, new ArrayList<>());
-        }
+    public String hire(Application application) {
+        return this.currentState.hire(application);
     }
-    */
 
+    public String getStatus() {
+        return this.currentState.getStatus();
+    }
 
-
-
-
-
-
-
-    boolean hasNextRound() {
-        if (this.numOfRounds == 4) {
-            this.currentState = JobPostingState.PENDING;
-            return false;
-        } else {
-            this.numOfRounds ++;
-            return true;
-        }
-     }
-
-     void checkRemainingApplicants() {
-        ArrayList<Applicant> remainingApplicants = applicants.get(Application.ApplicationState.WAITING_FOR_NEXT_ROUND);
-        if (this.numOfPositions > remainingApplicants.size()) {
-            this.currentState = JobPostingState.PENDING;
-            for (Applicant applicant: remainingApplicants) {
-                this.applicants.get(Application.ApplicationState.WAITING_FOR_NEXT_ROUND).remove(applicant);
-                this.applicants.get(Application.ApplicationState.PENDING).add(applicant);
-            }
-        } else {
-            this.currentState = JobPostingState.WAITING_FOR_NEXT_ROUND;
-        }
-     }
-
-
+    public String matchInterview(Application application, String interviewer, LocalDate date) {
+        return this.currentState.matchInterview(interviewer, application, date);
+    }
 
     @Override
     public String toString() {
@@ -158,17 +139,283 @@ public class JobPosting implements Observer {
     }
 
 
-
-
     //methods for observer(I'll implement later
-    public void update(Observable o, Object arg){}
+    public void update(Observable o, Object arg){
+    }
 
+
+
+
+    //    public enum JobPostingState {
+//            OPEN,
+//            INTERVIEWING,
+//            WAITING_FOR_NEXT_ROUND,
+//            PENDING,
+//            FILLED,
+//            UNFILLED
+//    }
+
+//    public JobPosting(ArrayList<Object> objects, HumanResource humanResource) {
+//        this.position = (String) objects.get(0);
+//        this.numOfPositions = (Integer) objects.get(1);
+//        this.requirements = (ArrayList<String>) objects.get(2);
+//        this.closeDate = (LocalDate) objects.get(3);
+//        this.humanResource = humanResource;
+//        this.company = humanResource.getCompany();
+//
+//        this.postDate = LocalDate.now();
+//        this.currentState = JobPostingState.OPEN;
+//        this.numOfRounds = 0;
+//        this.unmatchedApplicants = 0;
+//
+//        this.applicants = new HashMap<Application.ApplicationState, ArrayList<Applicant>>();
+//        for (Application.ApplicationState state: Application.ApplicationState.values()) {
+//            this.applicants.put(state, new ArrayList<>());
+//        }
+//        this.interviews = new HashMap<Interview.InterviewState, ArrayList<Interview>>();
+//        for (Interview.InterviewState state: Interview.InterviewState.values()) {
+//            this.interviews.put(state, new ArrayList<>());
+//        }
+//    }
+//
+//    public Company getCompany() {
+//        return this.company;
+//    }
+//
+//    public String getPosition() {
+//        return this.position;
+//    }
+//
+//    public JobPostingState getCurrentState() {
+//        return this.currentState;
+//     }
+//
+//     public ArrayList<Applicant> getApplicants(Application.ApplicationState state) {
+//        return this.applicants.get(state);
+//     }
+//
+//     void addApplicant(Applicant applicant) {
+//        this.applicants.get(Application.ApplicationState.WAITING_FOR_NEXT_ROUND).add(applicant);
+//     }
+//
+//     void addApplicant(Applicant applicant, Application.ApplicationState state) {
+//        this.applicants.get(state).add(applicant);
+//     }
+//
+//     void removeApplicant(Applicant applicant) {
+//        for (ArrayList<Applicant> tempApplicants: this.applicants.values()) {
+//            tempApplicants.remove(applicant);
+//        }
+//     }
+//
+//     boolean hasNextRound() {
+//        if (this.numOfRounds == 4) {
+//            this.currentState = JobPostingState.PENDING;
+//            return false;
+//        } else {
+//            this.numOfRounds ++;
+//            return true;
+//        }
+//     }
+//
+//     void checkRemainingApplicants() {
+//        ArrayList<Applicant> remainingApplicants = applicants.get(Application.ApplicationState.WAITING_FOR_NEXT_ROUND);
+//        if (this.numOfPositions > remainingApplicants.size()) {
+//            this.currentState = JobPostingState.PENDING;
+//            for (Applicant applicant: remainingApplicants) {
+//                this.applicants.get(Application.ApplicationState.WAITING_FOR_NEXT_ROUND).remove(applicant);
+//                this.applicants.get(Application.ApplicationState.PENDING).add(applicant);
+//            }
+//        } else {
+//            this.currentState = JobPostingState.WAITING_FOR_NEXT_ROUND;
+//        }
+//     }
+//
+//     void fromOpen() {
+//        if (this.closeDate.isAfter(LocalDate.now())) {
+//            this.checkRemainingApplicants();
+//        }
+//     }
+//
+//     void fromWaitingForNextRound() {
+//        this.unmatchedApplicants --;
+//        if (this.unmatchedApplicants == 0) {
+//            this.currentState = JobPostingState.INTERVIEWING;
+//        }
+//     }
+//
+//     void fromInterviewing() {
+//        if (this.hasNextRound()) {
+//            this.checkRemainingApplicants();
+//        }
+//     }
+//
+//     void fromPending() {
+//        if (applicants.get(Application.ApplicationState.HIRED) < this.numOfPositions) {
+//            this.currentState = JobPostingState.UNFILLED;
+//        } else {
+//            this.currentState = JobPostingState.FILLED;
+//        }
+//     }
+//
+//    @Override
+//    public String toString() {
+//        StringBuilder s = new StringBuilder();
+//        for (String requirement: this.requirements) {
+//            s.append(requirement);
+//        }
+//        return "Position: " + this.position + "\n" +
+//                "Number of positions: " + this.numOfPositions + "\n" +
+//                "Post date: " + this.postDate + "\n" +
+//                "Close date: " + this.closeDate + "\n" +
+//                "Requirements: " + "\n" + s.toString() + "\n";
+//    }
+
+    //Set states
+//    public void setToOpen(LocalDate date) {
+//    }
+//
+//    public void setToWaitingForNextRound() {
+//    }
+//
+//    public void setToUnfilledForNextRound() {
+//    }
+//
+//    public void setTofilled() {
+//    }
+//
+//    public void setToUnfilled() {
+//    }
 
 }
 
 
 
 
+// HumanResource -----------------------------------------------------------------------------------------------------
+//public class HumanResource {
+//
+//    private HashMap<JobPosting.JobPostingState, ArrayList<JobPosting>> responsibleFor;
+//    private Company company;
+//
+//    HumanResource(Company company) {
+//        this.company = company;
+//        this.responsibleFor = new HashMap<>();
+//        for (JobPosting.JobPostingState state: JobPosting.JobPostingState.values()) {
+//            this.responsibleFor.put(state, new ArrayList<>());
+//        }
+//    }
+//
+//    Company getCompany() {
+//        return this.company;
+//    }
+//
+//    String postJob(ArrayList<Object> objects) {
+//        String message;
+//        if (objects.size() < 4) {
+//            message = "Please fill all fields.";
+//        } else {
+//            JobPosting jobPosting = new JobPosting(objects, this);
+//            responsibleFor.get(jobPosting.getCurrentState()).add(jobPosting);
+//            message = "Job posted.";
+//        }
+//        return message;
+//    }
+//
+//    void removePost(JobPosting jobPosting) {
+//        for (ArrayList<JobPosting> jobPostings: this.responsibleFor.values()) {
+//            jobPostings.remove(jobPosting);
+//        }
+//    }
+//
+//    String matchInterview(JobPosting jobPosting, Application application, Interviewer interviewer, LocalDate date) {
+//        Interview interview = new Interview(date, jobPosting, interviewer, application.getApplicant());
+//        interviewer.addInterview(interview);
+//        application.addInterview(interview);
+//        application.setState("interviewing");
+//        String message;
+//        if (jobPosting.getCurrentState().equals(JobPosting.JobPostingState.WAITING_FOR_NEXT_ROUND)) {
+//            jobPosting.fromWaitingForNextRound();
+//            message = "interview created";
+//        } else {
+//            message = "can't match interview at this stage";
+//        }
+//        return message;
+//    }
+//
+//    void hire(JobPosting jobPosting, Applicant applicant) {
+//        jobPosting.removeApplicant(applicant);
+//        jobPosting.addApplicant(applicant, Application.ApplicationState.HIRED);
+//    }
+//
+//    void reject(JobPosting jobPosting, Applicant applicant) {
+//        jobPosting.removeApplicant(applicant);
+//        jobPosting.addApplicant(applicant, Application.ApplicationState.REJECTED);
+//    }
+//
+//}
+
+
+
+
+
+
+
+// Old version HumanResource ------------------------------------------------------------------------------------------
+
+
+//public class HumanResource extends User {
+
+//    private static ArrayList<HumanResource> allHumanResources = new ArrayList<HumanResource>();
+//    private Company company;
+//
+//    public HumanResource(String username, String password, LocalDate dateCreated, Company company) {
+//        super(username, password, dateCreated);
+//        this.company = company;
+//        allHumanResources.add(this);
+//    }
+//
+//    public static ArrayList<HumanResource> getAllHumanResources() {
+//        return allHumanResources;
+//    }
+//
+//    public Company getCompany() {
+//        return this.company;
+//    }
+//
+//
+//    public ArrayList<Applicant> getApplicants() {
+//        return this.company.getApplicants();
+//    }
+//
+//    public ArrayList<JobPosting> getJobPostings(){
+//        return this.company.getJobPostings();
+//    }
+//
+//    public HashMap<String, String> getAccount() {
+//        HashMap<String, String> result = ((User) this).getAccount();
+//        result.put("Company name", this.company.getCompanyName());
+//        return result;
+//    }
+//
+//    public Interviewer getInterviewer(String realName){
+//        ArrayList<Interviewer> interviewers = this.company.getInterviewers();
+//        for (Interviewer interviewer: interviewers) {
+//            if (realName.equals(interviewer.getRealName())) {
+//                return interviewer;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return ((User) this).toString() + "\n" +
+//                "Company name: " + this.company.getCompanyName();
+//    }
+//
+//
+//}
 
 
 
@@ -207,7 +454,7 @@ public class JobPosting implements Observer {
 
 
 
-
+// Old version JobPosting ---------------------------------------------------------------------------------------------
 
 
 

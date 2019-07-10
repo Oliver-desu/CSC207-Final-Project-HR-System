@@ -18,7 +18,7 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
     private HashMap<String, JButton> buttons = new HashMap<>();
 
     private Dimension dimension;
-    private View view = View.HR;
+    private View view = View.LOGIN;
 
     public ButtonPanel(Dimension dimension) {
         this.dimension = dimension;
@@ -31,10 +31,12 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
 
     private void setup(Dimension dimension, String[] buttonNames) {
         // panel settings
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new FlowLayout(FlowLayout.CENTER));
         setPreferredSize(dimension);
 
         // add buttons
+        buttons.clear();
+        removeAll();
         Dimension buttonSize = new Dimension(dimension.width / (MAX_BUTTON_NUM + 1), dimension.height * 3 / 4);
         for (String buttonName : buttonNames) {
             JButton button = new JButton(buttonName);
@@ -53,6 +55,7 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
     public void update() {
         if (view == View.APPLICANT) setup(dimension, APPLICANT_BUTTONS);
         else if (view == View.HR) setup(dimension, HR_BUTTONS);
+        else if (view == View.LOGIN) setup(dimension, LOGIN_BUTTONS);
     }
 
     public enum View {APPLICANT, HR, LOGIN}

@@ -1,7 +1,8 @@
 package domain.JobPostingStates;
 
-import domain.Application;
-import domain.Interviewer;
+import domain.*;
+
+import java.time.LocalDate;
 
 public interface JobPostingState {
 
@@ -9,7 +10,5 @@ public interface JobPostingState {
 
     String hire(Application ap);
 
-    String reject(Application ap);
-
-    String matchInterview(Application application, Interviewer interviewer);
+    String matchInterview(String interviewer, Application application, LocalDate date);
 }

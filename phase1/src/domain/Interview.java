@@ -10,17 +10,42 @@ public class Interview extends Observable {
     private Application application;
     private LocalDate date;
     private String currentState;
+    private String heading;
+    private Company company;
 
-    public Interview(String interviewer, Application application, LocalDate date) {
+    public Interview(String interviewer, Application application, LocalDate date, Company company) {
         this.interviewer = interviewer;
         this.application = application;
         this.date = date;
         this.currentState = "upcoming";
+        this.heading = interviewer + ", " + application.getApplicantName() + " at " + date;
+        this.company = company;
+        company.addToUpcomingInterviews(this);
         this.addObserver(application);
     }
 
     public LocalDate getDate() {
         return this.date;
+    }
+
+    public String getHeading() {
+        return this.heading;
+    }
+
+    public Company getCompany() {
+        return this.company;
+    }
+
+    public Application getApplication() {
+        return this.application;
+    }
+
+    public String getCurrentState() {
+        return this.currentState;
+    }
+
+    public String getInterviewer() {
+        return this.interviewer;
     }
 
     public String giveRecommendation(String result) {
