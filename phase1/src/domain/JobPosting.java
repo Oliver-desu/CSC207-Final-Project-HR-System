@@ -21,11 +21,11 @@ public class JobPosting implements Observer {
     private HashMap<String, Application> remainingApplications;
 
 
-    public JobPosting(ArrayList<Object> fromTextFileds, Company company) {
-        this.position = (String) fromTextFileds.get(0);
-        this.numOfPositions = (Integer) fromTextFileds.get(1);
-        this.requirements = (ArrayList<String>) fromTextFileds.get(2);
-        this.closeDate = (LocalDate) fromTextFileds.get(3);
+    public JobPosting(ArrayList<Object> fromTextFiles, Company company) {
+        this.position = (String) fromTextFiles.get(0);
+        this.numOfPositions = (Integer) fromTextFiles.get(1);
+        this.requirements = (ArrayList<String>) fromTextFiles.get(2);
+        this.closeDate = (LocalDate) fromTextFiles.get(3);
         this.company = company;
 
         this.postDate = LocalDate.now();

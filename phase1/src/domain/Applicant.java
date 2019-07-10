@@ -22,7 +22,7 @@ public class Applicant extends User implements Observer {
         this.applicationsByState.put("rejected", new ArrayList<>());
         this.applicationsByState.put("hired", new ArrayList<>());
 
-        DocumentManager.getInstance().addToDeleteAfterThirtyDays(LocalDate.now(), this);
+        DocumentManager.getInstance().addToDeleteAfterThirtyDays(this);
     }
 
     public ArrayList<Application> getApplications(String key) {
