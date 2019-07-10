@@ -11,7 +11,7 @@ import java.util.HashMap;
 // 2
 public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder, ViewComponent {
 
-    private JTextField keyword = new JTextField("Job title, Keywords, or Company");
+    private JTextField keyword = new JTextField();
     private JButton search = new JButton("Search");
     private JButton apply = new JButton("Apply Now");
 
@@ -49,6 +49,6 @@ public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder
 
     @Override
     public void update() {
-        keyword.setText("");
+        keyword.setText("Job title, Keywords, or Company");
     }
 }
