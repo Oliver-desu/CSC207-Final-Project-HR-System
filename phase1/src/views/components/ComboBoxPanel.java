@@ -3,6 +3,7 @@ package views.components;
 import views.components.boxes.ApplicantIncompleteBoxPanel;
 import views.components.boxes.HRBoxPanel;
 import views.components.boxes.InterviewerBoxPanel;
+import views.components.boxes.PostingBoxPanel;
 import views.interfaces.ButtonHolder;
 import views.interfaces.ComboBoxHolder;
 import views.interfaces.TextFieldHolder;
@@ -30,6 +31,7 @@ public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHol
         addCard(new ApplicantIncompleteBoxPanel(dimension), View.APPLICANT_INCOMPLETE.toString());
         addCard(new HRBoxPanel(dimension), View.HR.toString());
         addCard(new InterviewerBoxPanel(dimension), View.INTERVIEWER.toString());
+        addCard(new PostingBoxPanel(), View.POSTING.toString());
     }
 
     private void addCard(JPanel card, String key) {
@@ -68,5 +70,5 @@ public class ComboBoxPanel extends JPanel implements ViewComponent, TextFieldHol
     }
 
     // abandoned Applicant Interviewing.
-    public enum View {HR, INTERVIEWER, /* APPLICANT_INTERVIEWING,*/ APPLICANT_INCOMPLETE}
+    public enum View {HR, INTERVIEWER, /* APPLICANT_INTERVIEWING,*/ APPLICANT_INCOMPLETE, POSTING}
 }

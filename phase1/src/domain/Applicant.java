@@ -1,39 +1,36 @@
 package domain;
 
-import login.SearchObject;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.HashMap;
 
 
-public class Applicant implements Observer {
+public class Applicant extends User implements Observer {
+
     private HashMap<String, ArrayList<Application>> applicationsByState;
     private HashMap<String, Application> applications;
 
-    public Applicant{
-        this.applicationsByState = new HashMap<String, ArrayList<Application>>();
-        this.applications = new HashMap<String, Application>();
+
+    public Applicant (String username, String password){
+        super(username, password);
+        this.applicationsByState = new HashMap<>();
+        this.applications = new HashMap<>();
         this.applicationsByState.put("incomplete", new ArrayList<>());
-        this.applicationsByState.put("waiting_for_next_round", new ArrayList<>());
         this.applicationsByState.put("interviewing", new ArrayList<>());
         this.applicationsByState.put("pending", new ArrayList<>());
         this.applicationsByState.put("rejected", new ArrayList<>());
         this.applicationsByState.put("hired", new ArrayList<>());
 
+        DocumentManager.getInstance().addToDeleteAfterThirtyDays(this);
     }
 
     public ArrayList<Application> getApplications(String key) {
-        for (String app: this.applicationsByState.keySet()){
-            return this.applicationsByState.get(app);
-        }
+        return this.applicationsByState.get(key);
     }
 
-
     public Application getApplication(String key){
-        for (String app: this.applications.keySet()){
-            return this.applications.get(key);
-        }
+        return this.applications.get(key);
     } //this returns a application
 
     public void addApplication(Application application){
@@ -42,19 +39,17 @@ public class Applicant implements Observer {
     }
 
     public void moveApplication(Application app, String state){
-        if (state.equals("rejected")||state.equals("hired")){
+        if (state.equals("rejected") || state.equals("hired")){
             this.checkActive();
         }
     }
 
     public void checkActive(){
-        int r = 0;
-        r += this.applicationsByState.get("interviewing").size();
-        r += this.applicationsByState.get("pending").size();
-        if(r>0){
-            DocumentManager.removeFromDeleteAfterThirtyDays(this);
-        } else if(r==0){
-            
+        int r = this.applicationsByState.get("interviewing").size() + this.applicationsByState.get("pending").size();
+        if (r > 0){
+            DocumentManager.getInstance().removeFromDeleteAfterThirtyDays(this);
+        } else {
+            DocumentManager.getInstance().addToDeleteAfterThirtyDays(this);
         }
 
     }
@@ -71,13 +66,8 @@ public class Applicant implements Observer {
 
 
     public void removeApplication(Application app){
-        for (ArrayList<Application> apps: this.applicationsByState.values()){
-            this.applicationsByState.remove(app);
-        }
-        for (Application apps: this.applications.values()){
-            this.applications.remove(app);
-        }
-
+        this.applications.remove(app.getHeading());
+        this.applicationsByState.get(app.getCurrentState()).remove(app);
     }
 
 

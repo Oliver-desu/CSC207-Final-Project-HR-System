@@ -37,6 +37,7 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
 
     public ViewFrame() {
         setup();
+        init();
         update();
     }
 
@@ -57,6 +58,12 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
         // add components
         add(left);
         add(menuList);
+    }
+
+    private void init() {
+        setPartVisibility(ViewFrame.Part.MAIN, false);
+        setPartVisibility(ViewFrame.Part.MENU, false);
+        setVisible(true);
     }
 
     public void addActionListener(String buttonText, ActionListener listener) {
@@ -83,6 +90,12 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
     public void setPartVisibility(Part part, boolean visibility) {
         ViewComponent component = getViewComponents().get(part);
         component.setVisible(visibility);
+    }
+
+    public void setAllVisibility(boolean visibility) {
+        for (ViewComponent component : getViewComponents().values()) {
+            component.setVisible(visibility);
+        }
     }
 
     public void setMenuType(ViewList.Type type) {

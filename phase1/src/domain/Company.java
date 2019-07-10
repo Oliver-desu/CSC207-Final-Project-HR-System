@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Company extends  User{
+
     private String companyName;
-    private HashMap<String,ArrayList<JobPosting>> jobPostingsByState = new HashMap<>();
+    private HashMap<String, ArrayList<JobPosting>> jobPostingsByState = new HashMap<>();
     // i will try to add limitation on this attribute
     ////Key: "open", "interviewing", "waiting for next round", "pending", "filled", "unfilled"
 
@@ -36,7 +37,8 @@ public class Company extends  User{
     public String getCompanyName() { return companyName; }
 
     public HashMap<String,ArrayList<JobPosting>> getInterviewers() {
-        return interviewers;    }
+        return interviewers;
+    }
 
 
     //setters
@@ -69,52 +71,46 @@ public class Company extends  User{
         this.jobPostingsByState.get(moveTo).add(jobPosting);
     }
 
-    public  String assignInterview(String interviewer ,  Application application, LocalDate date){
+    public String assignInterview(String interviewer, Application application, LocalDate date){
         try {
             Interview interview = new Interview(interviewer, application, date, this);
-
-        application.addInterview(interview);}
+            application.addInterview(interview);
+        }
         catch (ClassCastException e){
             return  "not matched";
         }
         return  "Interview Matched";
     }
 
-    public  ArrayList findJobPostings(String state){
-        return  jobPostingsByState.get(state);
+    public ArrayList<JobPosting> findJobPostings(String state){
+        return jobPostingsByState.get(state);
     }
 
-    public  void  postJob(String hr ,ArrayList job){
-            JobPosting jobPosting = new JobPosting(job,this);
-            JobPostingManager.addJobPosting(jobPosting);
-            ArrayList lst = jobPostingsByState.get(hr);
-            lst.add(jobPosting);
-            jobPostingsByState.put(hr,lst);// code smell
-    }
-
-
-    public  ArrayList<Interview>findUpcomingInterveiws( String interviewer){
-
-        return  upcomingInterviews.get(interviewer);
-
-    }
-
-    public  ArrayList<Interview>WaitingForResultInterviews( String interviewer){
-        return  waitingForResultInterviews.get(interviewer);
-
+    public String postJob(ArrayList<Object> fromTextFiles){
+        JobPosting jobPosting = new JobPosting(fromTextFiles,this);
+        JobPostingManager.addJobPosting(jobPosting);
+        this.jobPostingsByState.get(jobPosting.getStatus()).add(jobPosting);
+        return "Job posted.";
     }
 
 
-    public  void  removeInterview(Interview interview){
+    public ArrayList<Interview> findUpcomingInterveiws(String interviewer){
+        return upcomingInterviews.get(interviewer);
+    }
+
+    public ArrayList<Interview> findWaitingForResultInterviews(String interviewer){
+        return waitingForResultInterviews.get(interviewer);
+    }
+
+    public void removeInterview(Interview interview){
         String interviewer = interview.getInterviewer();
-        removeValueInArraylistInHashmap(waitingForResultInterviews,interviewer,interview);
-
+        this.removeFromWaitingForResultInterviews(interview);
     }
 
-    public  void  moveInterview(Interview interview){
+    public void moveInterview(Interview interview){
         String interviewer = interview.getInterviewer();
-        removeValueInArraylistInHashmap(waitingForResultInterviews,interviewer,interview);
-        addValueToArraylistInHashmap(upcomingInterviews,interviewer,interview);
+        this.removeFromWaitingForResultInterviews(interview);
+        this.addToWaitingForResultInterviews(interview);
     }
 
     public void addToUpcomingInterviews(Interview interview) {
@@ -122,6 +118,27 @@ public class Company extends  User{
             this.upcomingInterviews.put(interview.getInterviewer(), new ArrayList<>());
         }
         this.upcomingInterviews.get(interview.getInterviewer()).add(interview);
+    }
+
+    public void removeFromUpcomingInterviews(Interview interview) {
+        this.upcomingInterviews.get(interview.getInterviewer()).remove(interview);
+        if (this.upcomingInterviews.get(interview.getInterviewer()).isEmpty()) {
+            this.upcomingInterviews.remove(interview.getInterviewer());
+        }
+    }
+
+    public void addToWaitingForResultInterviews(Interview interview) {
+        if (!this.waitingForResultInterviews.containsKey(interview.getInterviewer())) {
+            this.waitingForResultInterviews.put(interview.getInterviewer(), new ArrayList<>());
+        }
+        this.waitingForResultInterviews.get(interview.getInterviewer()).add(interview);
+    }
+
+    public void removeFromWaitingForResultInterviews(Interview interview) {
+        this.waitingForResultInterviews.remove(interview.getInterviewer()).remove(interview);
+        if (this.waitingForResultInterviews.get(interview.getInterviewer()).isEmpty()) {
+            this.waitingForResultInterviews.remove(interview.getInterviewer());
+        }
     }
 
 
@@ -164,33 +181,6 @@ public class Company extends  User{
     public  void  removePost(String  hr, JobPosting job ){
 
     }
-
-
-
-    public  void addValueToArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
-
-        try {ArrayList v = map.get(key);
-
-            v.add(value);
-            map.put(key,v);}
-        catch (ClassCastException e){
-            System.out.println("try the right type");
-        }
-
-    }
-    public  void removeValueInArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
-
-        try {ArrayList v = map.get(key);
-
-            v.remove(value);
-            map.put(key,v);}
-        catch (ClassCastException e){
-            System.out.println("try the right type");
-        }
-
-    }
-
-
 
 }
 
