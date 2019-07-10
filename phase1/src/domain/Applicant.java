@@ -22,7 +22,7 @@ public class Applicant extends User implements Observer {
         this.applicationsByState.put("rejected", new ArrayList<>());
         this.applicationsByState.put("hired", new ArrayList<>());
 
-        DocumentManager.getInstance().addToDeleteAfterThirtyDays(this);
+        TheSystem.documentManager.addToDeleteAfterThirtyDays(this);
     }
 
     public ArrayList<Application> getApplications(String key) {
@@ -47,9 +47,9 @@ public class Applicant extends User implements Observer {
     public void checkActive(){
         int r = this.applicationsByState.get("interviewing").size() + this.applicationsByState.get("pending").size();
         if (r > 0){
-            DocumentManager.getInstance().removeFromDeleteAfterThirtyDays(this);
+            TheSystem.documentManager.removeFromDeleteAfterThirtyDays(this);
         } else {
-            DocumentManager.getInstance().addToDeleteAfterThirtyDays(this);
+            TheSystem.documentManager.addToDeleteAfterThirtyDays(this);
         }
 
     }

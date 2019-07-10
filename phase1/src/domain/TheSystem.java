@@ -1,13 +1,14 @@
 package domain;
 
 import views.ViewFrame;
+import views.panels.MainPanel;
 
 public class TheSystem {
 
     private static TheSystem ourInstance = new TheSystem();
-    private DocumentManager documentManager;
-    private JobPostingManager jobPostingManager;
-    private AccountManager accountManager;
+    static DocumentManager documentManager;
+    static JobPostingManager jobPostingManager;
+    static AccountManager accountManager;
 
 
 
@@ -26,6 +27,11 @@ public class TheSystem {
         TheSystem system = TheSystem.getInstance();
         system.documentManager.deleteAllInactiveDocuments();
         system.jobPostingManager.closeJobPostings();
+
+        ViewFrame view = new ViewFrame();
+        MainPanel mainPanel = view.getMainPanel();
+
+
 
 
 
