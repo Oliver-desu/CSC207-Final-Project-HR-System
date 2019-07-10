@@ -85,6 +85,12 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
         component.setVisible(visibility);
     }
 
+    public void setAllVisibility(boolean visibility) {
+        for (ViewComponent component : getViewComponents().values()) {
+            component.setVisible(visibility);
+        }
+    }
+
     public void setMenuType(ViewList.Type type) {
         menuList.setType(type);
     }
