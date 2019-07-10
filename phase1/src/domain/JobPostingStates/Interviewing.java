@@ -1,28 +1,34 @@
 package domain.JobPostingStates;
 
-import domain.Application;
+import domain.*;
+
+import java.time.LocalDate;
 
 public class Interviewing implements JobPostingState {
+
+    private JobPosting jobPosting;
+
+    public Interviewing(JobPosting jobPosting) {
+        this.jobPosting = jobPosting;
+    }
+
     @Override
     public String getStatus() {
-        return null;
+        return "interviewing";
     }
 
-    @Override
-    public void receiveApplication(Application ap) {
-
-    }
 
     @Override
     public String hire(Application ap) {
-        return null;
+        return "You can not hire an applicant at this state.";
     }
+
 
     @Override
-    public String reject(Application ap) {
-        return null;
+    public String matchInterview(String interviewer, Application application, LocalDate date) {
+        return "You can not match interview at this state.";
     }
-
+}
 /*
     void fromInterviewing() {
         if (this.hasNextRound()) {

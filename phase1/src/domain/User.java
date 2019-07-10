@@ -4,24 +4,12 @@ public abstract class User {
 
     private String username;
     private String password;
-    private Object type;
 
-    public enum UserType {Applicant, HumanResource, Interviewer}
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.type = new Applicant();//todo
-    }
 
-    public User(String username, String password, UserType position, Company company) {
-        if(position == UserType.HumanResource){
-            this.type = new HumanResource(company);
-        }else if(position == UserType.Interviewer){
-            this.type = new Interviewer(company); //todo
-        }
-        this.username = username;
-        this.password = password;
     }
 
     public String getUsername() {
@@ -30,9 +18,6 @@ public abstract class User {
 
     public String getPassword() {
         return this.password;
-    }
-    public Object getUserType(){
-        return this.type;
     }
 
     public void setPassword(String password) {
@@ -46,6 +31,6 @@ public abstract class User {
     @Override
     public String toString() {
         return "User name: " + this.username + "\n" +
-                "Date Created: " + this.password;
+                "Password: " + this.password;
     }
 }

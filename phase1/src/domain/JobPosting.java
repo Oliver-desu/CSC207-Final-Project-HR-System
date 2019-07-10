@@ -17,8 +17,8 @@ public class JobPosting implements Observer {
     private JobPostingState currentState;
     private int numOfRounds;
     private int unmatchedApplicants;
-    private HashMap<String, Application> applications;
-    private HashMap<String, ArrayList<Application>> applicationsByJobPostingState;
+    private int numOfHired;
+    private HashMap<String, Application> remainingApplications;
 
 
     public JobPosting(ArrayList<Object> fromTextFileds, Company company) {
@@ -32,15 +32,19 @@ public class JobPosting implements Observer {
         this.currentState = new Open(this);
         this.numOfRounds = 0;
         this.unmatchedApplicants = 0;
-        this.applications = new HashMap<>();
+        this.numOfHired = 0;
+        this.remainingApplications = new HashMap<>();
 
-        this.applicationsByJobPostingState = new HashMap<>();
-        this.applicationsByJobPostingState.put("open", new ArrayList<>());
-        this.applicationsByJobPostingState.put("waiting for next round", new ArrayList<>());
-        this.applicationsByJobPostingState.put("interviewing", new ArrayList<>());
-        this.applicationsByJobPostingState.put("pending", new ArrayList<>());
-        this.applicationsByJobPostingState.put("filled", new ArrayList<>());
-        this.applicationsByJobPostingState.put("unfilled", new ArrayList<>());
+        JobPostingManager.addJobPosting(this);
+        this.currentState = new Open(this);
+    }
+
+    public String getId() {
+        return this.company.getCompanyName() + " + " + this.getPosition() + " + " + this.postDate;
+    }
+
+    public Company getCompany() {
+        return this.company;
     }
 
     public JobPostingState getCurrentState() {
@@ -55,44 +59,78 @@ public class JobPosting implements Observer {
         return this.unmatchedApplicants;
     }
 
+    public int getNumOfHired() {
+        return this.numOfHired;
+    }
+
+    public int getNumOfPositions() {
+        return this.numOfPositions;
+    }
+
     public int getNumOfRounds() {
         return this.numOfRounds;
+    }
+
+    public ArrayList<Application> getRemainingApplications() {
+        return (ArrayList<Application>) this.remainingApplications.values();
+    }
+
+    public String getPosition() {
+        return this.position;
+    }
+
+    public LocalDate getPostDate() {
+        return this.postDate;
+    }
+
+    public ArrayList<String> getRequirements() {
+        return this.requirements;
     }
 
     public void setUnmatchedApplicants(int unmatchedApplicants) {
         this.unmatchedApplicants = unmatchedApplicants;
     }
 
-    public void setNumOfRounds(int numOfRounds) {
-        this.numOfRounds = numOfRounds;
+    public void setCurrentState(JobPostingState state) {
+        this.getCompany().moveJobPosting(this, state.getStatus());
+        this.currentState = state;
     }
 
-    public void setCurrentState(JobPostingState currentState) {
-        this.currentState = currentState;
+    public void addNumOfRounds() {
+        this.numOfRounds ++;
+    }
+
+    public void addNumOfHired() {
+        this.numOfHired ++;
+    }
+
+    public void decreaseUnmatchedApplicants() {
+        this.unmatchedApplicants --;
     }
 
     public void removeApplication(Application application) {
-        this.applications.remove(application.getHeading());
-        this.applicationsByJobPostingState.get(application.getCurrentState()).remove(application);
+        this.remainingApplications.remove(application.getHeading());
     }
 
     public void receiveApplication(Application application) {
-        this.applications.put(application.getHeading(), application);
-        this.applicationsByJobPostingState.get("open").add(application);
+        this.remainingApplications.put(application.getHeading(), application);
         this.unmatchedApplicants ++;
     }
 
     public Application findApplication(String heading) {
-        return this.applications.get(heading);
+        return this.remainingApplications.get(heading);
     }
 
-    public ArrayList<Application> findApplications(String applicationState) {
-        return this.applicationsByJobPostingState.get(applicationState);
+    public String hire(Application application) {
+        return this.currentState.hire(application);
     }
 
-    public void moveApplication(Application application, String moveTo) {
-        this.applicationsByJobPostingState.get(application.getCurrentState()).remove(application);
-        this.applicationsByJobPostingState.get(moveTo).add(application);
+    public String getStatus() {
+        return this.currentState.getStatus();
+    }
+
+    public String matchInterview(Application application, String interviewer, LocalDate date) {
+        return this.currentState.matchInterview(interviewer, application, date);
     }
 
     @Override
