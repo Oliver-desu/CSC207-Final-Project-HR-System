@@ -23,7 +23,7 @@ public class Pending implements JobPostingState {
 
     @Override
     public String hire(Application application) {
-        application.setToHired();
+        application.setCurrentState("hired");
         this.jobPosting.removeApplication(application);
         this.jobPosting.addNumOfHired();
 
