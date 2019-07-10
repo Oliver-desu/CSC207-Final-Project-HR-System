@@ -90,7 +90,7 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
     }
 
     public MainPanel getMainPanel() {
-        return new MainPanel();
+        return mainPanel;
     }
 
     public void showMessage(String message) {

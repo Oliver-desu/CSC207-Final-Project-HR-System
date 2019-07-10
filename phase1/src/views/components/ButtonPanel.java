@@ -35,6 +35,8 @@ public class ButtonPanel extends JPanel implements ButtonHolder, ViewComponent {
         setPreferredSize(dimension);
 
         // add buttons
+        buttons.clear();
+        removeAll();
         Dimension buttonSize = new Dimension(dimension.width / (MAX_BUTTON_NUM + 1), dimension.height * 3 / 4);
         for (String buttonName : buttonNames) {
             JButton button = new JButton(buttonName);

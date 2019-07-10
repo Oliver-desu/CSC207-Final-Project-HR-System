@@ -109,7 +109,7 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
     }
 
     public void switchPosting() {
-
+        // Todo
     }
 
     @Override
