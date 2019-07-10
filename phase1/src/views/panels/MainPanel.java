@@ -42,7 +42,7 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
         add(rightList);
         add(infoPanel);
         add(boxPanel);
-        add(boxPanel);
+        add(buttonPanel);
     }
 
     @Override

@@ -49,6 +49,7 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
 
         // left side setup
         JPanel left = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, VERTICAL_GAP));
+        left.setPreferredSize(new Dimension(LEFT_WIDTH, FRAME_SIZE.height));
         left.add(loginPanel);
         left.add(searchPanel);
         left.add(mainPanel);

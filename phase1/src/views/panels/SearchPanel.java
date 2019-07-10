@@ -17,6 +17,7 @@ public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder
 
     public SearchPanel(Dimension dimension) {
         setLayout(new FlowLayout());
+        setPreferredSize(dimension);
         int width = dimension.width;
         int height = dimension.height;
         Dimension buttonSize = new Dimension(width / 3, height / 2);
