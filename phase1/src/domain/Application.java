@@ -2,36 +2,48 @@ package domain;
 
 //import login.SearchObject;
 
-import oldVersion.Document;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Application {
+public class Application extends Observable implements Observer {
+
+
     //implements SearchObject
-
     public enum ApplicationState{INCOMPLETE, WAITING_FOR_NEXT_ROUND, INTERVIEWING, PENDING, REJECTED, HIRED };
-
-    private String applicantName;
-    private Applicant applicant;
-    private ArrayList<Document> attachedDocuments;
+    private  String Heading;  // contains applicant name, position
+    private ArrayList<String> attachedDocuments;
     private JobPosting jobPosting;
-    private HashMap<Interview.InterviewState,ArrayList<Interview>> interviews;
-    private String applicantName;
+    private HashMap<String,ArrayList<Interview>> interviews;
+    //Key: "upcoming", "waiting for result"
+    private Applicant applicant;
+    private  String currentState;
+    //one of "incomplete", "interviewing", "pending", "rejected", "hired"
+
+
+
+
 
 
     public Application(JobPosting jobPosting, Applicant applicant) {
         this.jobPosting = jobPosting;
         this.applicant = applicant;
-        applicantName = applicant.getName();
     }
     // getters
     public JobPosting getJobPosting() {
         return jobPosting;
     }
 
-    public ArrayList getInterview(Interview.InterviewState key ){
-        return interviews.get(key);
+    public String getHeading() {
+        return Heading;
+    }
+    public  ArrayList getAttachedDocuments(){
+        return attachedDocuments;
+    }
+
+    public HashMap<String, ArrayList<Interview>> getInterviews() {
+        return interviews;
     }
 
     public Applicant getApplicant() {
@@ -39,33 +51,91 @@ public class Application {
     }
 
     public String getApplicantName() {
-        return applicantName;
+        return this.applicant.getUsername();
     }
 
-    public  void attchToApplication(Document document){
-        attachedDocuments.add(document);
+    // setters
+
+    public void setApplicant(Applicant applicant) {
+        this.applicant = applicant;
     }
 
-    public  ArrayList getAttachedDocuments(){
-        return attachedDocuments;
+    public void setAttachedDocuments(ArrayList<String> attachedDocuments) {
+        this.attachedDocuments = attachedDocuments;
     }
 
-    public  void addInterview(Interview interview){
-            ArrayList<Interview> oddinterviews = interviews.get(interview.getState());
-            oddinterviews.add(interview);
-            interviews.put(interview.getState(),oddinterviews);
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
+    }
+
+    public void setHeading(String heading) {
+        Heading = heading;
+    }
+
+    public void setInterviews(HashMap<String, ArrayList<Interview>> interviews) {
+        this.interviews = interviews;
+    }
+
+    public void setJobPosting(JobPosting jobPosting) {
+        this.jobPosting = jobPosting;
+    }
+
+    //------end
+
+    public ArrayList<Interview> findInterviews(String key){
+        return interviews.get(key);
+    }
+     public void addInterview(Interview interview){
+        String currentState = interview.getCurrentState();
+        addValueToArraylistInHashmap(interviews,currentState,interview);
+
+     }
+
+    public  void addValueToArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
+
+        try {ArrayList v = map.get(key);
+
+            v.add(value);
+            map.put(key,v);}
+        catch (ClassCastException e){
+            System.out.println("try the right type");
+        }
+
+    }
+    public  void removeValueInArraylistInHashmap(HashMap<String,ArrayList<Interview>> map,String key, Object value ){
+
+        try {ArrayList v = map.get(key);
+
+            v.remove(value);
+            map.put(key,v);}
+        catch (ClassCastException e){
+            System.out.println("try the right type");
+        }
+
+    }
+    public void  dropApplication(){
+        this.applicant.dropApplication(this);
+        this.jobPosting.receiveApplication(this);
+    }
+
+    public  void  moveInterview(Interview interview,String from, String to){
+        removeValueInArraylistInHashmap(interviews,from,to);
+        addValueToArraylistInHashmap(interviews,to,interview);
     }
 
 
-
-    public ArrayList<Interviewer> getInterviews(String status){
-        //status: "pass", upcoming"(default), "pending", "fail"
-        //e.g. iterate through interviews and return the "pass" interviews
-
-        //delete theses after implementing
-        ArrayList<Interviewer> a = new ArrayList<>();
-        return a;
+    // TODO: 2019-07-10
+    public String attachToApplication(String fileName) {
+        return null;
     }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+
+
 
 
 

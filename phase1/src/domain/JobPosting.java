@@ -34,6 +34,13 @@ public class JobPosting implements Observer {
         this.unmatchedApplicants = 0;
         this.numOfHired = 0;
         this.remainingApplications = new HashMap<>();
+
+        JobPostingManager.addJobPosting(this);
+        this.currentState = new Open(this);
+    }
+
+    public String getId() {
+        return this.company.getCompanyName() + " + " + this.getPosition() + " + " + this.postDate;
     }
 
     public Company getCompany() {
@@ -84,8 +91,9 @@ public class JobPosting implements Observer {
         this.unmatchedApplicants = unmatchedApplicants;
     }
 
-    public void setCurrentState(JobPostingState currentState) {
-        this.currentState = currentState;
+    public void setCurrentState(JobPostingState state) {
+        this.getCompany().moveJobPosting(this, state.getStatus());
+        this.currentState = state;
     }
 
     public void addNumOfRounds() {
