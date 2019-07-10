@@ -2,53 +2,54 @@ package domain;
 
 import domain.JobPostingStates.WaitingForNextRound;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JobPostingManager{
+public class JobPostingManager implements Serializable {
 
-    private static HashMap<String, JobPosting> jobPostings = new HashMap<>();
-    private static HashMap<String, ArrayList<JobPosting>> jobPostingsByPosition = new HashMap<>();
-    private static HashMap<String, ArrayList<JobPosting>> jobPostingsByCompany = new HashMap<>();
-    private static HashMap<LocalDate, ArrayList<JobPosting>> jobPostingsByCloseDate = new HashMap<>();
+    private HashMap<String, JobPosting> jobPostings = new HashMap<>();
+    private HashMap<String, ArrayList<JobPosting>> jobPostingsByPosition = new HashMap<>();
+    private HashMap<String, ArrayList<JobPosting>> jobPostingsByCompany = new HashMap<>();
+    private HashMap<LocalDate, ArrayList<JobPosting>> jobPostingsByCloseDate = new HashMap<>();
 
 
-    public static void addToJobPostingsByPosition(JobPosting jobPosting) {
+    public void addToJobPostingsByPosition(JobPosting jobPosting) {
         if (!jobPostingsByPosition.containsKey(jobPosting.getPosition())) {
             jobPostingsByPosition.put(jobPosting.getPosition(), new ArrayList<>());
         }
         jobPostingsByPosition.get(jobPosting.getPosition()).add(jobPosting);    }
 
-    public static void addToJobPostingsByCompany(JobPosting jobPosting) {
+    public void addToJobPostingsByCompany(JobPosting jobPosting) {
         if (!jobPostingsByCompany.containsKey(jobPosting.getCompany().getCompanyName())) {
             jobPostingsByCompany.put(jobPosting.getCompany().getCompanyName(), new ArrayList<>());
         }
         jobPostingsByCompany.get(jobPosting.getCompany().getCompanyName()).add(jobPosting);
     }
 
-    public static void addToJobPostingsByCloseDate(JobPosting jobPosting) {
+    public void addToJobPostingsByCloseDate(JobPosting jobPosting) {
         if (!jobPostingsByCloseDate.containsKey(jobPosting.getCloseDate())) {
             jobPostingsByCloseDate.put(jobPosting.getCloseDate(), new ArrayList<>());
         }
         jobPostingsByCloseDate.get(jobPosting.getCloseDate()).add(jobPosting);
     }
 
-    public static void addJobPosting(JobPosting jobPosting) {
+    public void addJobPosting(JobPosting jobPosting) {
         jobPostings.put(jobPosting.getId(), jobPosting);
         addToJobPostingsByPosition(jobPosting);
         addToJobPostingsByCompany(jobPosting);
         addToJobPostingsByCloseDate(jobPosting);
     }
 
-    public static void removeFromJobPostingsByPosition(JobPosting jobPosting) {
+    public void removeFromJobPostingsByPosition(JobPosting jobPosting) {
         jobPostingsByPosition.get(jobPosting.getPosition()).remove(jobPosting);
         if (jobPostingsByPosition.get(jobPosting.getPosition()).isEmpty()) {
             jobPostingsByPosition.remove(jobPosting.getPosition());
         }
     }
 
-    public static void removeFromJobPostingsByCompany(JobPosting jobPosting) {
+    public void removeFromJobPostingsByCompany(JobPosting jobPosting) {
         jobPostingsByCompany.get(jobPosting.getCompany().getCompanyName()).remove(jobPosting);
         if (jobPostingsByCompany.get(jobPosting.getCompany().getCompanyName()).isEmpty()) {
             jobPostingsByCompany.remove(jobPosting.getCompany().getCompanyName());

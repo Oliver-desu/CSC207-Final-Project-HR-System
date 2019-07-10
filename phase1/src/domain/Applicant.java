@@ -1,12 +1,13 @@
 package domain;
 
-
-import java.time.LocalDate;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class Applicant extends User implements Observer {
+public class Applicant extends User implements Observer, Serializable {
 
     private HashMap<String, ArrayList<Application>> applicationsByState;
     private HashMap<String, Application> applications;
@@ -38,10 +39,9 @@ public class Applicant extends User implements Observer {
         this.applicationsByState.get("incomplete").add(application);
     }
 
-    public void moveApplication(Application app, String state){
-        if (state.equals("rejected") || state.equals("hired")){
-            this.checkActive();
-        }
+    public void moveApplication(Application application, String state) {
+        this.applicationsByState.get(application.getCurrentState()).remove(application);
+        this.applicationsByState.get(state).add(application);
     }
 
     public void checkActive(){
@@ -75,7 +75,8 @@ public class Applicant extends User implements Observer {
     //I'll implement this later
     @Override
     public void update(Observable o, Object arg) {
-
+        this.moveApplication((Application) o, (String) arg);
+        checkActive();
     }
 }
 

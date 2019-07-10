@@ -1,11 +1,16 @@
 package domain;
 
-import domain.JobPostingStates.*;
+import domain.JobPostingStates.JobPostingState;
+import domain.JobPostingStates.Open;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
-public class JobPosting implements Observer {
+public class JobPosting implements Observer, Serializable {
 
 
     private String position;
@@ -35,7 +40,7 @@ public class JobPosting implements Observer {
         this.numOfHired = 0;
         this.remainingApplications = new HashMap<>();
 
-        JobPostingManager.addJobPosting(this);
+        TheSystem.jobPostingManager.addJobPosting(this);
         this.currentState = new Open(this);
     }
 
@@ -146,9 +151,12 @@ public class JobPosting implements Observer {
                 "Requirements: " + "\n" + s.toString() + "\n";
     }
 
-
-    //methods for observer(I'll implement later
+    @Override
     public void update(Observable o, Object arg){
+        Application application = (Application) o;
+        if (!application.getCurrentState().equals("forward")) {
+            this.remainingApplications.remove(application.getHeading());
+        }
     }
 
 

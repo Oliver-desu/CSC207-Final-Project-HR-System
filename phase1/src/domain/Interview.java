@@ -1,10 +1,11 @@
 package domain;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Observable;
 
-public class Interview extends Observable {
+public class Interview extends Observable implements Serializable {
 
     private String interviewer;
     private Application application;
@@ -65,17 +66,15 @@ public class Interview extends Observable {
                 "Current State: " + this.currentState;
     }
 
-
-    // TODO: 2019-07-09
-
-    //I'll implement this later
     @Override
     public void notifyObservers(Object arg) {
         super.notifyObservers(arg);
     }
 
-    public void update(String result) {
-
+    public void update(String state) {
+        this.currentState = state;
+        setChanged();
+        notifyObservers(state);
     }
 
 
