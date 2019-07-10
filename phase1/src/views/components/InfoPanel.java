@@ -8,7 +8,7 @@ import java.awt.*;
 // 3(3)
 public class InfoPanel extends JPanel implements ViewComponent {
 
-    private static final Font FONT = new Font("Times New Roman", Font.PLAIN, 20);
+    private static final Font FONT = new Font("Times New Roman", Font.PLAIN, 15);
     private static final int GAP = 20;
 
     private JTextArea infoArea = new JTextArea();
@@ -36,9 +36,10 @@ public class InfoPanel extends JPanel implements ViewComponent {
         setPreferredSize(dimension);
 
         // setup components
+        removeAll();
         Dimension newDimension;
         if (hasWorkspace) {
-            newDimension = new Dimension(dimension.width - GAP, dimension.height / 3);
+            newDimension = new Dimension(dimension.width - GAP, (dimension.height - GAP) / 2);
             textAreaSetup(infoArea, newDimension, false);
             textAreaSetup(workspace, newDimension, true);
         } else {

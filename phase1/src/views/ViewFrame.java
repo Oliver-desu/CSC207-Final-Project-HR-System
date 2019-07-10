@@ -22,13 +22,13 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
     private static final int RIGHT_WIDTH = 130;
     private static final int TOTAL_WIDTH = LEFT_WIDTH + RIGHT_WIDTH + HORIZONTAL_GAP * 3;
 
-    private static final Dimension FRAME_SIZE = new Dimension(TOTAL_WIDTH, 640);
+    private static final Dimension FRAME_SIZE = new Dimension(TOTAL_WIDTH, 740);
     private static final Dimension LOGIN_PANEL_SIZE = new Dimension(LEFT_WIDTH, 160);
-    private static final Dimension SEARCH_PANEL_SIZE = new Dimension(LEFT_WIDTH, 100);
+    private static final Dimension SEARCH_PANEL_SIZE = new Dimension(LEFT_WIDTH, 80);
     private static final Dimension MENU_LIST_SIZE = new Dimension(RIGHT_WIDTH, 350);
 
     // For easy modifying reason, let MainPanel get access to its size.
-    public static final Dimension MAIN_PANEL_SIZE = new Dimension(LEFT_WIDTH, 300);
+    public static final Dimension MAIN_PANEL_SIZE = new Dimension(LEFT_WIDTH, 400);
 
     private LoginPanel loginPanel = new LoginPanel(LOGIN_PANEL_SIZE);
     private SearchPanel searchPanel = new SearchPanel(SEARCH_PANEL_SIZE);

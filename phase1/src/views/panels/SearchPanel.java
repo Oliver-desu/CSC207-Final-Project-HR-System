@@ -20,7 +20,7 @@ public class SearchPanel extends JPanel implements ButtonHolder, TextFieldHolder
         setPreferredSize(dimension);
         int width = dimension.width;
         int height = dimension.height;
-        Dimension buttonSize = new Dimension(width / 3, height / 2);
+        Dimension buttonSize = new Dimension(width / 5, height / 2);
         Dimension textFieldSize = new Dimension(width - 20, height / 3);
 
         // add keyword
