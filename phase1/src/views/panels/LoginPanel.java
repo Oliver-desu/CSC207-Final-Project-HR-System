@@ -4,13 +4,14 @@ import views.components.ButtonPanel;
 import views.interfaces.ButtonHolder;
 import views.interfaces.ComboBoxHolder;
 import views.interfaces.TextFieldHolder;
+import views.interfaces.ViewComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
 // 1
-public class LoginPanel extends JPanel implements ButtonHolder, TextFieldHolder, ComboBoxHolder {
+public class LoginPanel extends JPanel implements ButtonHolder, TextFieldHolder, ComboBoxHolder, ViewComponent {
 
     private static final String[] INPUTS = new String[]{"Username", "Company Name", "Password"};
     private static final String[] BOX_TYPES = new String[]{"Company", "Applicant"};
@@ -82,5 +83,12 @@ public class LoginPanel extends JPanel implements ButtonHolder, TextFieldHolder,
         HashMap<String, JComboBox<String>> boxes = new HashMap<>();
         boxes.put(BOX_NAME, type);
         return boxes;
+    }
+
+    @Override
+    public void update() {
+        for (JTextField textField : textFields.values()) {
+            textField.setText("");
+        }
     }
 }
