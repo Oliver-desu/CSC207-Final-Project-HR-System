@@ -8,81 +8,74 @@ import java.util.HashMap;
 
 
 public class Applicant implements Observer {
-    private HashMap<Document, ArrayList<Application>> myDocs;
-    private HashMap<ApplicationState, ArrayList<Application>> applications;
+    private HashMap<String, ArrayList<Application>> applicationsByState;
+    private HashMap<String, Application> applications;
 
     public Applicant{
-        this.myDocs = new HashMap<>;
-        this.applications = new HashMap<>;
-        this.application.put(INCOMPLETE, new ArrayList<>());
-        this.application.put(WAITING_FOR_NEXT_ROUND, new ArrayList<>());
-        this.application.put(INTERVIEWING, new ArrayList<>());
-        this.application.put(PENDING, new ArrayList<>());
-        this.application.put(REJECTED, new ArrayList<>());
-        this.application.put(HIRED, new ArrayList<>());
+        this.applicationsByState = new HashMap<String, ArrayList<Application>>();
+        this.applications = new HashMap<String, Application>();
+        this.applicationsByState.put("incomplete", new ArrayList<>());
+        this.applicationsByState.put("waiting_for_next_round", new ArrayList<>());
+        this.applicationsByState.put("interviewing", new ArrayList<>());
+        this.applicationsByState.put("pending", new ArrayList<>());
+        this.applicationsByState.put("rejected", new ArrayList<>());
+        this.applicationsByState.put("hired", new ArrayList<>());
 
     }
 
-    public ArrayList<Application> getApplications(JobPosting status) {
-        ArrayList<Application> app = new ArrayList();
-        for (ApplicationState apps: this.applications.keySet()){
-            
+    public ArrayList<Application> getApplications(String key) {
+        for (String app: this.applicationsByState.keySet()){
+            return this.applicationsByState.get(app);
         }
-
-        //status: "incomplete"(default), "submitted", rejected", "hired"
-        //iterate through applications and return the "status" applications
-       // return applications;//delete this later
     }
 
 
-    public Application getApplication(JobPosting j){
-
-
+    public Application getApplication(String key){
+        for (String app: this.applications.keySet()){
+            return this.applications.get(key);
+        }
     } //this returns a application
 
     public void addApplication(Application application){
+        this.applications.put(application.getHeading(), application);
+        this.applicationsByState.get("incomplete").add(application);
+    }
 
+    public void moveApplication(Application app, String state){
+        if (state.equals("rejected")||state.equals("hired")){
+            this.checkActive();
+        }
     }
 
     public void checkActive(){
+        int r = 0;
+        r += this.applicationsByState.get("interviewing").size();
+        r += this.applicationsByState.get("pending").size();
+        if(r>0){
+            DocumentManager.removeFromDeleteAfterThirtyDays(this);
+        } else if(r==0){
+            
+        }
 
     }
 
     //public void removeApplication(Application application){}
 
-    public void applyJob(JobPosting jobPosting){
-
+    public void applyJob(JobPosting jp, Applicant applicant){
+        Application app = new Application(jp, applicant);
+        this.applicationsByState.get("incomplete").add(app);
+        this.applications.put(app.getHeading(), app);
     }
     //this create new application and add to applicant's List
 
 
-    public ArrayList<Document> getMyDocuments() {
-        ArrayList<Document> myDoc = new ArrayList<>();
-        for (Document doc: this.myDocs.keySet()){
-            myDoc.add(doc);
+
+    public void removeApplication(Application app){
+        for (ArrayList<Application> apps: this.applicationsByState.values()){
+            this.applicationsByState.remove(app);
         }
-        return myDoc;
-
-        //returns ArrayList<Document>
-    }
-
-    public void addToMyDoc(String content, String name){
-
-    }
-
-    public void removeFromMyDoc(Document d){
-        for (Document doc: this.myDocs.keySet()){
-            myDocs.remove(d);
-        }
-
-    }
-
-    public void dropApplication(Application app){
-        for (ArrayList<Application> apps: this.applications.values()){
-            apps.remove(app);
-        }
-        for (ArrayList<Application> apps: this.myDocs.values()){
-            apps.remove(app);
+        for (Application apps: this.applications.values()){
+            this.applications.remove(app);
         }
 
     }
