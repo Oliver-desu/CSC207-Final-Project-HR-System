@@ -7,26 +7,12 @@ import java.io.Serializable;
 
 public class TheSystem implements Serializable {
 
-    private static TheSystem ourInstance = new TheSystem();
-    static DocumentManager documentManager;
-    static JobPostingManager jobPostingManager;
-    static AccountManager accountManager;
-
-
-
-    public static TheSystem getInstance() {
-        return ourInstance;
-    }
-
-    private TheSystem() {
-        documentManager = new DocumentManager();
-        jobPostingManager = new JobPostingManager();
-        accountManager = new AccountManager();
-    }
+    private DocumentManager documentManager = new DocumentManager();
+    private JobPostingManager jobPostingManager = new JobPostingManager();
+    private AccountManager accountManager = new AccountManager();
 
     public static void main(String[] args) {
-
-        TheSystem system = TheSystem.getInstance();
+        TheSystem system = new TheSystem();
         system.documentManager.deleteAllInactiveDocuments();
         system.jobPostingManager.closeJobPostings();
 

@@ -10,6 +10,7 @@ import views.panels.MainPanel;
 import views.panels.SearchPanel;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -73,6 +74,10 @@ public class ViewFrame extends JFrame implements ViewComponent, ComboBoxHolder, 
 
     public String getMenuSelectedValue() {
         return menuList.getSelectedValue();
+    }
+
+    public void addListSelectionListener(ListSelectionListener listener) {
+        menuList.addListSelectionListener(listener);
     }
 
     public String getText(String fieldName) {

@@ -11,6 +11,7 @@ import views.interfaces.TextFieldHolder;
 import views.interfaces.ViewComponent;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -54,6 +55,11 @@ public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, Co
         infoPanel.update();
         boxPanel.update();
         buttonPanel.update();
+    }
+
+    public void addListSelectionListener(boolean left, ListSelectionListener listener) {
+        if (left) leftList.addListSelectionListener(listener);
+        else rightList.addListSelectionListener(listener);
     }
 
     // choose desired combination of boxes
