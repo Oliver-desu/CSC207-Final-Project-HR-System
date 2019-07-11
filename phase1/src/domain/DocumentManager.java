@@ -99,10 +99,18 @@ class DocumentManager implements Serializable {
     }
 
     public void deleteAllInactiveDocuments() {
+        ArrayList<Applicant> applicants = new ArrayList<>();
         for (LocalDate addedDate : deleteAfterThirtyDays.keySet()) {
             if (DAYS.between(addedDate, LocalDate.now()) > 30) {
+                applicants.addAll(deleteAfterThirtyDays.get(addedDate));
                 deleteAfterThirtyDays.remove(addedDate);
             }
+        }
+        for (Applicant applicant : applicants) {
+            for (File file : allDocuments.get(applicant.getUsername())) {
+                file.delete();
+            }
+            allDocuments.remove(applicant.getUsername());
         }
     }
 

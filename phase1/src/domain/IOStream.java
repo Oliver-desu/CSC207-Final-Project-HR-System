@@ -1,8 +1,6 @@
 package domain;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 class IOStream {
     private String filePath;
@@ -33,12 +31,8 @@ class IOStream {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-//        AccountManager accountManager = new AccountManager();
-//        DocumentManager documentManger = new DocumentManager();
-//        JobPostingManager jobPostingManager = new JobPostingManager();
-
         TheSystem theSystem = TheSystem.getInstance();
-        IOStream ioStream = new IOStream("Data.ser");
+        IOStream ioStream = new IOStream("phase1/Data.ser");
 //        store in the file
         ioStream.writeToFile(theSystem);
 //        read from file
