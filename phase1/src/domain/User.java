@@ -18,9 +18,6 @@ public abstract class User implements Serializable {
         return this.username;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -35,4 +32,13 @@ public abstract class User implements Serializable {
         return "User name: " + this.username + "\n" +
                 "Password: " + this.password;
     }
+
+
+
+    public boolean matchPassword(String password) {
+        return (this.password == password);
+    }
+
+
+
 }
