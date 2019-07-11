@@ -15,7 +15,7 @@ public class LoginPanel extends JPanel implements ButtonHolder, TextFieldHolder,
 
     private static final String[] INPUTS = new String[]{"Username", "Company Name", "Password"};
     private static final String[] BOX_TYPES = new String[]{"Company", "Applicant"};
-    private static final String BOX_NAME = "Type";
+    private static final String BOX_NAME = "Login Type";
 
     private HashMap<String, JTextField> textFields = new HashMap<>();
     private JComboBox<String> type = new JComboBox<>(BOX_TYPES);
