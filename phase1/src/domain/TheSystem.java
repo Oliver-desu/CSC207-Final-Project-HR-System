@@ -25,11 +25,7 @@ public class TheSystem implements Serializable {
         system.documentManager.deleteAllInactiveDocuments();
         system.jobPostingManager.closeJobPostings();
 
-        ViewFrame view = new ViewFrame();
-        MainPanel mainPanel = view.getMainPanel();
-
-
-
+        new TheFrame();
 
 
     }
