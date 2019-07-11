@@ -13,9 +13,9 @@ public class ExampleFrame extends JFrame {
     private User currentUser;
 
     private UserPanel userPanel = new UserPanel();
-    private MainPanel applicantPanel = new MainPanel();
-    private MainPanel hrPanel = new MainPanel();
-    private MainPanel interviewerPanel = new MainPanel();
+    private MainPanel applicantPanel = new ApplicantMainPanel();
+    private MainPanel hrPanel = new HRMainPanel();
+    private MainPanel interviewerPanel = new InterviewerMainPanel();
 
     private Panel panelContainer = new Panel();
     private CardLayout cardLayout = new CardLayout();
