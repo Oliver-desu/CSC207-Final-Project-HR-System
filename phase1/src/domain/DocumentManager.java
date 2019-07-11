@@ -114,22 +114,28 @@ class DocumentManager implements Serializable {
         }
     }
 
-    private void addToMap(String keyToAdd, File newValue, HashMap<String, ArrayList<File>> map) {
+    private String addToMap(String keyToAdd, File newValue, HashMap<String, ArrayList<File>> map) {
+        String message = "Document attached!";
         if (map.containsKey(keyToAdd)) {
-            map.get(keyToAdd).add(newValue);
+            if (!map.get(keyToAdd).contains(newValue)) {
+                map.get(keyToAdd).add(newValue);
+            } else {
+                message = "The document already exists.";
+            }
         } else {
             ArrayList<File> values = new ArrayList<>();
             values.add(newValue);
             map.put(keyToAdd, values);
         }
+        return message;
     }
 
-    void addToAllDocuments(String Applicant, File file) {
-        addToMap(Applicant, file, this.allDocuments);
+    String addToAllDocuments(String Applicant, File file) {
+        return addToMap(Applicant, file, this.allDocuments);
     }
 
-    void addToAttachedDocuments(String Application, String fileName) {
-        addToMap(Application, allFiles.get(fileName), this.attachedDocuments);
+    String addToAttachedDocuments(String Application, String fileName) {
+        return addToMap(Application, allFiles.get(fileName), this.attachedDocuments);
     }
 
     void addToDeleteAfterThirtyDays(Applicant applicant) {
