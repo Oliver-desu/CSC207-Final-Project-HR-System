@@ -13,9 +13,9 @@ public class ExampleFrame extends JFrame {
     private User currentUser;
 
     private UserPanel userPanel = new UserPanel();
-    private MainPanel applicantPanel = new ApplicantMainPanel();
-    private MainPanel hrPanel = new HRMainPanel();
-    private MainPanel interviewerPanel = new InterviewerMainPanel();
+    private MainPanel applicantPanel;
+    private MainPanel hrPanel;
+    private MainPanel interviewerPanel;
 
     private Panel panelContainer = new Panel();
     private CardLayout cardLayout = new CardLayout();
@@ -46,7 +46,7 @@ public class ExampleFrame extends JFrame {
 
 
         UserPanel() {
-            //Todo: setup components, add components
+            //Todo: setup components, add components to userPanel
 
             //ActionListener 里panel switch
             login.addActionListener(new LoginListener());
@@ -64,12 +64,20 @@ public class ExampleFrame extends JFrame {
                 } else {
                     currentUser = user;
                     if (user instanceof Applicant) {
+
+                        applicantPanel = new ApplicantMainPanel(currentUser);
                         applicantPanel.setVisible(true);
                         JOptionPane.showMessageDialog(applicantPanel, "You've log in as a new Applicant");
+
                     } else if (position.getSelectedItem() == "Human Resource Department") {
+
+                        hrPanel = new HRMainPanel(currentUser);
                         hrPanel.setVisible(true);
                         JOptionPane.showMessageDialog(hrPanel, "You've log in Human Resource Panel.");
+
                     } else {
+
+                        interviewerPanel = new InterviewerMainPanel(currentUser);
                         interviewer.setVisible(true);
                         String m = system.accountManager.matchInterviewer(companyName.getText(), interviewer.getText());
                         JOptionPane.showMessageDialog(interviewerPanel, m);

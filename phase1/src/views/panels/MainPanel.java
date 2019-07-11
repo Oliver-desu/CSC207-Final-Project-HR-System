@@ -1,5 +1,6 @@
 package views.panels;
 
+import domain.User;
 import views.ViewFrame;
 import views.components.ButtonPanel;
 import views.components.ComboBoxPanel;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 
 // 3
 public class MainPanel extends JPanel implements ViewComponent, ButtonHolder, ComboBoxHolder, TextFieldHolder {
+
+
 
     private static final Dimension PANEL_SIZE = ViewFrame.MAIN_PANEL_SIZE;
     private static final int MAIN_HEIGHT = PANEL_SIZE.height * 3 / 5;
