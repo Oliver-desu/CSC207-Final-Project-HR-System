@@ -11,19 +11,12 @@ public class AccountManager implements Serializable {
     private HashMap<String, ArrayList<String>> interviewers = new HashMap<>();
 
 
-    public HashMap<String, Applicant> getApplicants() {
-        return applicants;
+    public Applicant getApplicant(String username) {
+        return applicants.get(username);
     }
 
-    public HashMap<String, Company> getCompanies() {
-        return companies;
-    }
 
-    public boolean matchPassword(String password, User user) {
-        return user.getPassword().equals(password);
-    }
-
-    public String matchPosition(String companyName, String interviewer) {
+    public String matchInterviewer(String companyName, String interviewer) {
         if (interviewers.get(companyName).contains(interviewer)) {
             return "You've logged in as an interviewer.";
         } else {
@@ -34,7 +27,7 @@ public class AccountManager implements Serializable {
 
     public User getUser(String userName, String userType) {
         if (userType.equals("applicant")) {
-            return applicants.get(userName);
+            return getApplicant(userName);
         } else if (userType.equals("company")) {
             return companies.get(userName);
         } else {
@@ -42,14 +35,10 @@ public class AccountManager implements Serializable {
         }
     }
 
-    public String loginUser(String userName, String password, String userType) {
-        User user = getUser(userName, userType);
-        if (user == null || !matchPassword(password, user)) {
-            return "Login failed. Wrong username or wrong password.";
-        } else {
-            return "You've logged in.";
-        }
+    public ArrayList<String> getInterviewers(String companyName) {
+        return interviewers.get(companyName);
     }
+
 
     public User registerUser(String userName, String password, String userType) {
         if (userType.equals("applicant") && !applicants.containsKey(userName)) {
@@ -66,13 +55,6 @@ public class AccountManager implements Serializable {
         }
     }
 
-    public ArrayList<String> getInterviewers(String companyName) {
-        return interviewers.get(companyName);
-    }
-
-    public void addInterviewer(String companyName, String interviewer) {
-        interviewers.get(companyName).add(interviewer);
-    }
 
 
 

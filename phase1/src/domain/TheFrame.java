@@ -6,6 +6,7 @@ package domain;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.*;
 import javax.swing.*;
 
 /**
@@ -58,21 +59,31 @@ public class TheFrame extends JFrame {
 
 
 
+    private void registerActionPerformed(ActionEvent e) {
 
+        User user = system.accountManager.registerUser(username.getText(), password.getText(), (String) userType.getSelectedItem());
 
+        if (user == null) {
+            JOptionPane.showMessageDialog(userPanel, "user already exists, please log in");
+        } else {
+            currentUser = user;
+            if (user instanceof Applicant) {
+                applicantPanel.setVisible(true);
+                JOptionPane.showMessageDialog(applicantPanel, "You've log in as a new Applicant");
+            } else if (position.getSelectedItem() == "Human Resource Department") {
+                hrPanel.setVisible(true);
+                JOptionPane.showMessageDialog(hrPanel,  "You've log in Human Resource Panel.");
+            } else {
+                interviewer.setVisible(true);
+                String m = system.accountManager.matchInterviewer(companyName.getText(), interviewer.getText());
+                JOptionPane.showMessageDialog(interviewerPanel, m);
+            }
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    private void refeisterActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
 
 
 
@@ -86,16 +97,16 @@ public class TheFrame extends JFrame {
         label1 = new JLabel();
         label2 = new JLabel();
         label3 = new JLabel();
-        userType = new JComboBox(userTypes);
+        userType = new JComboBox();
         newCompany = new JRadioButton();
         label4 = new JLabel();
         logIn = new JButton();
-        refeister = new JButton();
+        register = new JButton();
         companyName = new JTextField();
         password = new JTextField();
         username = new JTextField();
         label5 = new JLabel();
-        position = new JComboBox(positions);
+        position = new JComboBox();
         interviewer = new JTextField();
         label6 = new JLabel();
         hrPanel = new JPanel();
@@ -110,13 +121,13 @@ public class TheFrame extends JFrame {
 
             //======== panelContainer ========
             {
-                panelContainer.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-                . swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing
-                . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-                Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-                ) ,panelContainer. getBorder( )) ); panelContainer. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-                public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName (
-                ) )) throw new RuntimeException( ); }} );
+                panelContainer.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+                . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
+                . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
+                awt .Font .BOLD ,12 ), java. awt. Color. red) ,panelContainer. getBorder( )) )
+                ; panelContainer. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+                ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+                ;
                 panelContainer.setLayout(new CardLayout());
 
                 //======== userPanel ========
@@ -159,10 +170,14 @@ public class TheFrame extends JFrame {
                     userPanel.add(logIn);
                     logIn.setBounds(new Rectangle(new Point(160, 400), logIn.getPreferredSize()));
 
-                    //---- refeister ----
-                    refeister.setText("register");
-                    userPanel.add(refeister);
-                    refeister.setBounds(345, 395, 98, 38);
+                    //---- register ----
+                    register.setText("register");
+                    register.addActionListener(e -> {
+			refeisterActionPerformed(e);
+			registerActionPerformed(e);
+		});
+                    userPanel.add(register);
+                    register.setBounds(345, 395, 98, 38);
                     userPanel.add(companyName);
                     companyName.setBounds(145, 180, 500, 30);
                     userPanel.add(password);
@@ -302,7 +317,7 @@ public class TheFrame extends JFrame {
     private JRadioButton newCompany;
     private JLabel label4;
     private JButton logIn;
-    private JButton refeister;
+    private JButton register;
     private JTextField companyName;
     private JTextField password;
     private JTextField username;

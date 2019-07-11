@@ -1,5 +1,7 @@
 package domain;
 
+import oldVersion.TheFrame2;
+
 import java.io.Serializable;
 
 public class TheSystem implements Serializable {
