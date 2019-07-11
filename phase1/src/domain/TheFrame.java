@@ -14,22 +14,58 @@ import javax.swing.*;
 public class TheFrame extends JFrame {
 
     TheSystem system = TheSystem.getInstance();
+    private User currentUser;
+    String[] userTypes = {"company","applicant"};
+    String[] positions = {"interviewer","human resource"};
 
     public TheFrame() {
         initComponents();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("System");
+        cardLayout.show(panelContainer, "userCard");
     }
+
+
+
 
     private void logInActionPerformed(ActionEvent e) {
-        if (e.getSource() == logIn){
-            system.accountManager.loginUser(username.getText(),password.getText(),userType.getSelectedItem());
+        User user = system.accountManager.getUser(username.getText(),(String)userType.getSelectedItem());
 
+        if (user == null) {
+            JOptionPane.showMessageDialog(userPanel, "user not found");
+        } else if (user.matchPassword(password.getText())) {
+            userPanel.setVisible(false);
+            this.currentUser = user;
 
+            if (user instanceof Applicant) {
+                applicantPanel.setVisible(true);
+                String m = "You've log in as an Applicant";
+                JOptionPane.showMessageDialog(applicantPanel, m);
+            } else if (position.getSelectedItem() == "Human Resource Department") {
+                hrPanel.setVisible(true);
+                String m = "You've log in Human Resource Panel.";
+                JOptionPane.showMessageDialog(hrPanel, m);
+            } else {
+                interviewer.setVisible(true);
+                String m = system.accountManager.matchInterviewer(companyName.getText(), interviewer.getText());
+                JOptionPane.showMessageDialog(interviewerPanel, m);
+            }
+        } else {
+            JOptionPane.showMessageDialog(userPanel, "wrong password");
         }
-        cardLayout.show(panelContainer, "userCard");
+
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,7 +86,7 @@ public class TheFrame extends JFrame {
         label1 = new JLabel();
         label2 = new JLabel();
         label3 = new JLabel();
-        userType = new JComboBox();
+        userType = new JComboBox(userTypes);
         newCompany = new JRadioButton();
         label4 = new JLabel();
         logIn = new JButton();
@@ -58,24 +94,29 @@ public class TheFrame extends JFrame {
         companyName = new JTextField();
         password = new JTextField();
         username = new JTextField();
+        label5 = new JLabel();
+        position = new JComboBox(positions);
+        interviewer = new JTextField();
+        label6 = new JLabel();
         hrPanel = new JPanel();
         interviewerPanel = new JPanel();
         applicantPanel = new JPanel();
 
         //======== theFrame ========
         {
+            theFrame.setVisible(true);
             Container theFrameContentPane = theFrame.getContentPane();
             theFrameContentPane.setLayout(null);
 
             //======== panelContainer ========
             {
-                panelContainer.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-                swing.border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border
-                .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
-                ,java.awt.Font.BOLD,12),java.awt.Color.red),panelContainer. getBorder
-                ()));panelContainer. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-                .beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
-                ();}});
+                panelContainer.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
+                . swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing
+                . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
+                Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
+                ) ,panelContainer. getBorder( )) ); panelContainer. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
+                public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName (
+                ) )) throw new RuntimeException( ); }} );
                 panelContainer.setLayout(new CardLayout());
 
                 //======== userPanel ========
@@ -116,18 +157,32 @@ public class TheFrame extends JFrame {
 			logInActionPerformed(e);
 		});
                     userPanel.add(logIn);
-                    logIn.setBounds(new Rectangle(new Point(155, 295), logIn.getPreferredSize()));
+                    logIn.setBounds(new Rectangle(new Point(160, 400), logIn.getPreferredSize()));
 
                     //---- refeister ----
                     refeister.setText("register");
                     userPanel.add(refeister);
-                    refeister.setBounds(375, 295, 98, 38);
+                    refeister.setBounds(345, 395, 98, 38);
                     userPanel.add(companyName);
                     companyName.setBounds(145, 180, 500, 30);
                     userPanel.add(password);
                     password.setBounds(140, 75, 500, 30);
                     userPanel.add(username);
                     username.setBounds(140, 35, 500, 30);
+
+                    //---- label5 ----
+                    label5.setText("position");
+                    userPanel.add(label5);
+                    label5.setBounds(35, 275, 110, 30);
+                    userPanel.add(position);
+                    position.setBounds(new Rectangle(new Point(150, 275), position.getPreferredSize()));
+                    userPanel.add(interviewer);
+                    interviewer.setBounds(355, 280, 140, 25);
+
+                    //---- label6 ----
+                    label6.setText("name");
+                    userPanel.add(label6);
+                    label6.setBounds(305, 275, 110, 30);
 
                     {
                         // compute preferred size
@@ -148,6 +203,7 @@ public class TheFrame extends JFrame {
 
                 //======== hrPanel ========
                 {
+                    hrPanel.setVisible(false);
                     hrPanel.setLayout(null);
 
                     {
@@ -169,6 +225,7 @@ public class TheFrame extends JFrame {
 
                 //======== interviewerPanel ========
                 {
+                    interviewerPanel.setVisible(false);
                     interviewerPanel.setLayout(null);
 
                     {
@@ -190,6 +247,7 @@ public class TheFrame extends JFrame {
 
                 //======== applicantPanel ========
                 {
+                    applicantPanel.setVisible(false);
                     applicantPanel.setLayout(null);
 
                     {
@@ -248,9 +306,13 @@ public class TheFrame extends JFrame {
     private JTextField companyName;
     private JTextField password;
     private JTextField username;
+    private JLabel label5;
+    private JComboBox position;
+    private JTextField interviewer;
+    private JLabel label6;
     private JPanel hrPanel;
     private JPanel interviewerPanel;
     private JPanel applicantPanel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-    //ToDo:private CardLayout cardLayout;
+    private CardLayout cardLayout;
 }

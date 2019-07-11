@@ -1,8 +1,5 @@
 package domain;
 
-import views.ViewFrame;
-import views.panels.MainPanel;
-
 import java.io.Serializable;
 
 public class TheSystem implements Serializable {
@@ -26,6 +23,7 @@ public class TheSystem implements Serializable {
         system.jobPostingManager.closeJobPostings();
 
         new TheFrame();
+
 
 
     }
