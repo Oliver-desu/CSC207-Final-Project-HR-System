@@ -20,9 +20,14 @@ public class Example {
         JobPosting jobPosting = new JobPosting("sales",3,closeDate,requirements,company);
         File document;
         Application application = new Application(jobPosting, applicant);
+        Interview interview = new Interview("interviewer1",application, LocalDate.now(),company);
 
 
-        //how to login or register: see code in ExampleFrame
+        /*
+        how to login or register: see code in ExampleFrame
+        every time TheSystem runs, DocumentManager will delete find the files in deleteAfterThirtyDays.
+        JobPostingManager will close expired jobPostings.
+         */
         //----------------------------------After an applicant login----------------------------------------------------------------------------
 
         //1. how to apply for a jobPosting
@@ -56,42 +61,52 @@ public class Example {
         //10. how to summit a incomplete application
         application.submitApplication();
 
-        //11. how to see the list of interviews of an application
+        //11. how to see the list of interviews of an application (upcoming, pending, rejected, forward)
+        application.findInterviews("upcoming");
+
+        //12. how to view the details of an interview --> ToString method in Interview
 
 
-        //Todo: 11. how to view the details of an interview
-
-        //Todo: 12. how to get the list of upcoming/past? interviews
 
 
         //------------------------After the human resource department of a company login------------------------------------------------
-        //Todo: how to get the list of applications of a particular state
-        // (State: open/interviewing/waiting for next round/pending/filed/unfilled)
+        //1. how to get the list of jobPostings of a particular state
+             //State: interviewing, waitingForNextRound, Unfilled, Pending, Open, Filled
+        company.findJobPostings("interviewing");
 
-        //Todo: 1. how to show the detail of a jobPosting
+        //2. how to get the list of applications of a jobPosting
+        jobPosting.getRemainingApplications();
 
-        //Todo: 2. how to show the list of remaining applications of a jobPosting
+        //3. how to show the detail of a jobPosting--> ToString method in JobPosting
 
-        //Todo: 3. how to show the list of documents attached to an application
+        //4. how to show the list of documents attached to an application
+        application.getAttachedDocuments();
 
-        //Todo: 4. how to show the content of a document(same as Applicant(4))
+        //5. how to show the content of a document(same as Applicant(4))
 
-        //Todo: 5. how to get the list of interviewers of an company
+        //6. how to get the list of interviewers of an company
+        company.getInterviewers();
 
-        //Todo: 6. how to match an application and an interviewer
+        //7. how to match an application and an interviewer
         //  (i.e create a interview and notify the applicant and the interviewer)
+        jobPosting.matchInterview(application,"interviewer1",LocalDate.now());
 
-        //Todo: 7. how to post a job
+        //8. how to post a job
+        company.postJob(new ArrayList<Object>());
 
-        //Todo: 8. how to hire a applicant (i.e. change an application's state to hired)
+        //9. how to hire a applicant (i.e. change an application's state to hired)
+        jobPosting.hire(application);
 
         //--------------------------After an interviewer of a company login-----------------------------------------------------------------
 
-        //Todo: 1. how to get the list of interviews of a particular state (State: upcoming/waiting fot result?)
+        //1.how to get the list of upcoming/waitingForResult interviews assigner to an interviewer
+        company.findUpcomingInterveiws("interviewer2");
+        company.findWaitingForResultInterviews("interviewer2");
 
-        //Todo: 2. how to show interview details
+        //2. how to show interview details --> ToString method in Interview
 
-        //Todo: 3. how to give recommendation to a interview (i.e. forward/reject an application)
+        //3. how to give recommendation to a interview (i.e. forward/reject an application)
+        interview.giveRecommendation("forward");
 
 
     }
