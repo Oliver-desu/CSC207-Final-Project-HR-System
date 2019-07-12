@@ -29,6 +29,7 @@ public class Application extends Observable implements Observer, Serializable {
         this.attachedDocuments = new ArrayList<>();
         this.interviews = new HashMap<>();
         this.currentState = "incomplete";
+        this.heading = applicant.getUsername() + jobPosting.getPosition();
 
         this.addObserver(jobPosting);
         this.addObserver(applicant);
@@ -80,9 +81,6 @@ public class Application extends Observable implements Observer, Serializable {
         notifyObservers(currentState);
     }
 
-    public void setHeading(String heading) {
-        this.heading = heading;
-    }
 
     public void setInterviews(HashMap<String, ArrayList<Interview>> interviews) {
         this.interviews = interviews;
@@ -113,9 +111,11 @@ public class Application extends Observable implements Observer, Serializable {
     }
 
     public String attachToApplication(String fileName) {
-        TheSystem.documentManager.addToAttachedDocuments(fileName, this.getHeading());
+
+        TheSystem.documentManager.addToAttachedDocuments(fileName, this.heading);
         return "Document attached.";
     }
+
 
     public void receiveInterviewResult(String result) {
         this.currentState = result;
@@ -128,19 +128,11 @@ public class Application extends Observable implements Observer, Serializable {
         this.receiveInterviewResult((String) arg);
     }
 
+    //Todo:
+    public void submitApplication(){}
 
 
 
-
-
-
-    //status change
-
-    public void setToSubmitted(){}
-
-    public void setToRejected(){}
-
-    public void setToHired(){}
 }
 
 

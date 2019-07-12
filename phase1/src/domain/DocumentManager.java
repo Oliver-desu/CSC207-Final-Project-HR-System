@@ -130,15 +130,15 @@ class DocumentManager implements Serializable {
         return message;
     }
 
-    String addToAllDocuments(String Applicant, File file) {
+    public String addToAllDocuments(String Applicant, File file) {
         return addToMap(Applicant, file, this.allDocuments);
     }
 
-    String addToAttachedDocuments(String Application, String fileName) {
+    public String addToAttachedDocuments(String Application, String fileName) {
         return addToMap(Application, allFiles.get(fileName), this.attachedDocuments);
     }
 
-    void addToDeleteAfterThirtyDays(Applicant applicant) {
+    public void addToDeleteAfterThirtyDays(Applicant applicant) {
         ArrayList<Applicant> applicants;
         if (deleteAfterThirtyDays.containsKey(LocalDate.now())) {
             applicants = deleteAfterThirtyDays.get(LocalDate.now());
@@ -148,7 +148,7 @@ class DocumentManager implements Serializable {
         applicants.add(applicant);
     }
 
-    void removeFromDeleteAfterThirtyDays(Applicant applicant) {
+    public void removeFromDeleteAfterThirtyDays(Applicant applicant) {
         ArrayList<Applicant> lst;
         for (LocalDate addedDate : deleteAfterThirtyDays.keySet()) {
             if ((lst = deleteAfterThirtyDays.get(addedDate)).contains(applicant)) {
@@ -157,5 +157,9 @@ class DocumentManager implements Serializable {
             }
         }
     }
+    //Todo: this add file to attachedDocuments and all documents,
+    // then return a String "documentAttached" or "document already exists"
+    public void attachDocument(String fileName, String applicationHeading){};
+
 
 }

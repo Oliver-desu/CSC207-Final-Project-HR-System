@@ -26,11 +26,11 @@ public class JobPosting implements Observer, Serializable {
     private HashMap<String, Application> remainingApplications;
 
 
-    public JobPosting(ArrayList<Object> fromTextFiles, Company company) {
-        this.position = (String) fromTextFiles.get(0);
-        this.numOfPositions = (Integer) fromTextFiles.get(1);
-        this.requirements = (ArrayList<String>) fromTextFiles.get(2);
-        this.closeDate = (LocalDate) fromTextFiles.get(3);
+    public JobPosting(String position, int numOfPositions,LocalDate closeDate, ArrayList<String> requirements, Company company) {
+        this.position = position;
+        this.numOfPositions = numOfPositions;
+        this.requirements =requirements;
+        this.closeDate = closeDate;
         this.company = company;
 
         this.postDate = LocalDate.now();

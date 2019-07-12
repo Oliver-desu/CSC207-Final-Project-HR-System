@@ -56,8 +56,8 @@ public class Applicant extends User implements Observer, Serializable {
 
     //public void removeApplication(Application application){}
 
-    public void applyJob(JobPosting jp, Applicant applicant){
-        Application app = new Application(jp, applicant);
+    public void applyJob(JobPosting jp){
+        Application app = new Application(jp, this);
         this.applicationsByState.get("incomplete").add(app);
         this.applications.put(app.getHeading(), app);
     }
@@ -71,14 +71,31 @@ public class Applicant extends User implements Observer, Serializable {
     }
 
 
-
-    //I'll implement this later
     @Override
     public void update(Observable o, Object arg) {
         this.moveApplication((Application) o, (String) arg);
         checkActive();
     }
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -95,11 +112,7 @@ public class Applicant extends User implements Observer, Serializable {
 //private boolean applying;
 
 
-//public Applicant(String username, String password, LocalDate DateCreated) {
-//super(username, password, DateCreated);
-//}
 
-//public Applicant (String username, String password){}
 
 
 
