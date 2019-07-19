@@ -8,6 +8,7 @@ import gui.view.UserMenu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
@@ -45,6 +46,13 @@ public abstract class Scenario extends JPanel {
         frame.setSize(new Dimension(1000, 600));
         frame.add(scenario);
         frame.setVisible(true);
+        scenario.addButton("123", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        scenario.setOutputText("456");
     }
 
     private void basicSetup() {
@@ -70,7 +78,7 @@ public abstract class Scenario extends JPanel {
         leftFilterPanel.setup(LIST_SIZE);
         rightFilterPanel.setup(LIST_SIZE);
         if (mode == LayoutMode.REGULAR) {
-            outputInfoPanel.setPreferredSize(OUTPUT_SIZE);
+            outputInfoPanel.setup(OUTPUT_SIZE);
             inputInfoPanel.setPreferredSize(REGULAR_INPUT_SIZE);
         } else if (mode == LayoutMode.REGISTER) {
             makeUnavailable(outputInfoPanel);

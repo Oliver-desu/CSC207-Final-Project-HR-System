@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 public class ButtonPanel extends JPanel {
 
+    private static final int MAX_BUTTON_NUM = 5;
     private static final int HORIZONTAL_GAP = 5;
     private static final int VERTICAL_GAP = 5;
     private Dimension buttonSize;
@@ -21,16 +22,16 @@ public class ButtonPanel extends JPanel {
     public void setup(Dimension dimension) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
-        Dimension buttonSize = new Dimension(getWidth() / 5 - HORIZONTAL_GAP,
-                getHeight() - VERTICAL_GAP);
+        Dimension buttonSize = new Dimension(dimension.width / MAX_BUTTON_NUM - HORIZONTAL_GAP,
+                dimension.height - VERTICAL_GAP * 2);
         setButtonSize(buttonSize);
     }
 
     public void addButton(String buttonName, ActionListener listener) {
+        if (getComponentCount() >= MAX_BUTTON_NUM) return;
         JButton button = new JButton(buttonName);
         button.setPreferredSize(getButtonSize());
         button.addActionListener(listener);
         add(button);
-        updateUI();
     }
 }

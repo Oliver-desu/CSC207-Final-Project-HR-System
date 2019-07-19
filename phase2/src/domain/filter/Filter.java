@@ -4,13 +4,17 @@ import java.util.ArrayList;
 
 public class Filter<T> {
 
-    private ArrayList<T> results;
-
-    public Filter() {
-
-    }
+    private ArrayList<T> filterContent;
+    private ArrayList<T> results = new ArrayList<>();
 
     public void setFilterContent(ArrayList<T> filterContent) {
+        this.filterContent = filterContent;
+        filter();
+    }
+
+    // Todo: implement actual filter in future.
+    private void filter() {
+        if (filterContent != null) results = filterContent;
     }
 
     public T getSelectedItem(int index) {
