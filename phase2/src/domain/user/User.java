@@ -1,4 +1,4 @@
 package domain.user;
 
-public class HR {
+class User {
 }
