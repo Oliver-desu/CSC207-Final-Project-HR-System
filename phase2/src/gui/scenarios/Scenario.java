@@ -8,10 +8,21 @@ import gui.panels.OutputInfoPanel;
 import gui.view.UserMenu;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-public abstract class Scenario {
+public abstract class Scenario extends JPanel {
+    private static final int HORIZONTAL_GAP = 5;
+    private static final int VERTICAL_GAP = 5;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 500;
+
+    private static final Dimension LIST_SIZE = new Dimension(WIDTH / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+    private static final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+    private static final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
+    private static final Dimension REGISTER_INPUT_SIZE = OUTPUT_SIZE;
+    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
 
     private UserMenu userMenu;
     private FilterPanel leftFilterPanel = new FilterPanel();
@@ -22,14 +33,55 @@ public abstract class Scenario {
 
     Scenario(UserMenu userMenu, LayoutMode mode) {
         setUserMenu(userMenu);
+        basicSetup();
         if (mode == LayoutMode.REGULAR) initRegularLayout();
         else if (mode == LayoutMode.REGISTER) initRegisterLayout();
     }
 
+    public static void main(String[] args) {
+        Scenario scenario = new Scenario(new UserMenu(), LayoutMode.REGULAR) {
+        };
+        scenario.showColor();
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(new Dimension(1000, 600));
+        frame.add(scenario);
+        frame.setVisible(true);
+    }
+
+    private void basicSetup() {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
+        add(leftFilterPanel);
+        add(rightFilterPanel);
+        add(outputInfoPanel);
+        add(inputInfoPanel);
+        add(buttonPanel);
+    }
+
+    private void showColor() {
+        setBackground(Color.WHITE);
+        leftFilterPanel.setBackground(Color.BLACK);
+        rightFilterPanel.setBackground(Color.RED);
+        outputInfoPanel.setBackground(Color.BLUE);
+        inputInfoPanel.setBackground(Color.darkGray);
+        buttonPanel.setBackground(Color.GREEN);
+    }
+
     private void initRegularLayout() {
+        leftFilterPanel.setPreferredSize(LIST_SIZE);
+        rightFilterPanel.setPreferredSize(LIST_SIZE);
+        outputInfoPanel.setPreferredSize(OUTPUT_SIZE);
+        inputInfoPanel.setPreferredSize(REGULAR_INPUT_SIZE);
+        buttonPanel.setPreferredSize(BUTTON_PANEL_SIZE);
     }
 
     private void initRegisterLayout() {
+        leftFilterPanel.setPreferredSize(LIST_SIZE);
+        rightFilterPanel.setPreferredSize(LIST_SIZE);
+        makeUnavailable(outputInfoPanel);
+        inputInfoPanel.setPreferredSize(REGISTER_INPUT_SIZE);
+        buttonPanel.setPreferredSize(BUTTON_PANEL_SIZE);
     }
 
     protected void updateFilter(boolean left) {
@@ -49,7 +101,7 @@ public abstract class Scenario {
         else if (part == ScenarioPart.BUTTON) makeUnavailable(buttonPanel);
     }
 
-    protected HashMap<String, String> getInputMap() {
+    protected HashMap<String, String> getInputInfoMap() {
         return inputInfoPanel.getInfoMap();
     }
 
