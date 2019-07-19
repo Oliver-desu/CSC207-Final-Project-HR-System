@@ -1,4 +1,4 @@
 package domain.user;
 
-public class Applicant {
+public class Applicant extends User {
 }
