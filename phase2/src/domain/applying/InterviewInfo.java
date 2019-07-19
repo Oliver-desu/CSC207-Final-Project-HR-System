@@ -1,32 +1,37 @@
 package domain.applying;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 class InterviewInfo {
 
     private String interviewerId;
-    private LocalDate time;
+    private LocalDateTime time;
     private String location;
     private int duration;
 
 
-    public InterviewInfo() {
-
+    public InterviewInfo(HashMap<String, String> values) {
+        this.interviewerId = values.get("interviewerId");
+        this.time = LocalDateTime.parse(values.get("time"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.location = values.get("location");
+        this.duration = Integer.parseInt(values.get("duration"));
     }
 
     public String getInterviewerId() {
-        return null;
+        return this.interviewerId;
     }
 
-    public LocalDate getTime() {
-        return null;
+    public LocalDateTime getTime() {
+        return this.time;
     }
 
     public String getLocation() {
-        return null;
+        return this.location;
     }
 
     public int getDuration() {
-        return 0;
+        return this.duration;
     }
 }

@@ -10,53 +10,51 @@ public class Interview {
     }
 
     private Application application;
-    private String interviewId;
+    private String interviewerId;
     private InterviewStatus status;
     private String recommendation;
+    private InterviewInfo interviewInfo;
 
 
-    public Interview() {
-
+    public Interview(Application application) {
+        this.application = application;
     }
 
     public Application getApplication() {
-        return null;
+        return this.application;
     }
 
     public String getInterviewId() {
-        return null;
+        return this.interviewerId;
     }
 
     public InterviewStatus getStatus() {
-        return null;
+        return this.status;
     }
 
     public String getRecommendation() {
-        return null;
+        return this.recommendation;
     }
 
     public void setRecommendation(String recommendation) {
-
+        this.recommendation = recommendation;
     }
 
-    public void match(InterviewInfo interviewInfo) {
-
+    public void match(String interviewerId, InterviewInfo interviewInfo) {
+        this.interviewerId = interviewerId;
+        this.interviewInfo = interviewInfo;
     }
 
     public void setPass() {
-
+        this.status = InterviewStatus.PASS;
     }
 
     public void setFail() {
-
+        this.status = InterviewStatus.FAIL;
     }
 
-    public String toString(Object object) {
-        return null;
-    }
-
-    private void updateApplication() {
-
-    }
+//    private void updateApplication() {
+//
+//    }
 
 }

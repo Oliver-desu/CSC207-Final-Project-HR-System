@@ -89,9 +89,9 @@ public class Company extends User implements Serializable {
     }
 
     public String postJob(ArrayList<Object> fromTextFiles){
-        JobPosting jobPosting = new JobPosting(fromTextFiles,this);
-        TheSystem.jobPostingManager.addJobPosting(jobPosting);
-        this.jobPostingsByState.get(jobPosting.getStatus()).add(jobPosting);
+//        JobPosting jobPosting = new JobPosting(fromTextFiles,this);
+//        TheSystem.jobPostingManager.addJobPosting(jobPosting);
+//        this.jobPostingsByState.get(jobPosting.getStatus()).add(jobPosting);
         return "Job posted.";
     }
 

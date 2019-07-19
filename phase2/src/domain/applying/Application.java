@@ -1,5 +1,8 @@
 package domain.applying;
 
+import domain.job.JobPosting;
+import domain.storage.JobPool;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,56 +22,73 @@ public class Application {
     private ApplicationStatus status;
 
 
-    public Application() {
-
+    public Application(HashMap<String, String> values) {
+        this.interviews = new HashMap<>();
+        this.applicationId = values.get("applicationId");
+        this.jobPostingId = values.get("jobPostingId");
+        this.documentManager = new DocumentManager();
+        this.status = ApplicationStatus.DRAFT;
     }
 
     public HashMap<String, Interview> getInterviewMap() {
-        return null;
+        return this.interviews;
     }
 
     public ArrayList<Interview> getInterviews() {
-        return null;
+        return (ArrayList<Interview>) this.interviews.values();
     }
 
     public Interview getInterviewByRound(String round) {
-        return null;
+        return this.interviews.get(round);
     }
 
     public String getApplicationId() {
-        return null;
+        return this.applicationId;
     }
 
     public String getJobPostingId() {
-        return null;
+        return this.jobPostingId;
     }
 
     public DocumentManager getDocumentManager() {
-        return null;
+        return this.documentManager;
     }
 
     public ApplicationStatus getStatus() {
-        return null;
+        return this.status;
+    }
+
+    public void setStatus(ApplicationStatus status) {
+        this.status = status;
     }
 
     public void addInterview(String round, Interview interview) {
-
+        this.interviews.put(round, interview);
     }
 
     public void apply() {
+        this.setStatus(ApplicationStatus.PENDING);
+        JobPosting jobPosting = JobPool.getJobPosting(this.jobPostingId);
+        jobPosting.applicationSubmit(this);
+    }
 
+    public boolean cancel() {
+        if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
+            this.setStatus(ApplicationStatus.DRAFT);
+            JobPosting jobPosting = JobPool.getJobPosting(this.jobPostingId);
+            jobPosting.applicationCancel(this);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void hired() {
-
+        this.setStatus(ApplicationStatus.HIRE);
     }
 
     public void rejected() {
-
-    }
-
-    public void cancel() {
-
+        this.setStatus(ApplicationStatus.REJECTED);
     }
 
 }
