@@ -40,11 +40,11 @@ public class JobPosting {
     }
 
     public Application getApplication(String applicationId) {
-        return null;
+        return this.applications.get(applicationId);
     }
 
     public InterviewRound getCurrentInterviewRound() {
-        return null;
+        return this.interviewRounds.get(this.currRound);
     }
 
     public ArrayList<InterviewRound> getAllInterviewRounds() {
@@ -52,19 +52,22 @@ public class JobPosting {
     }
 
     public JobPostingStatus getStatus() {
-        return null;
+        return this.status;
     }
 
     public JobInfo getJobInfo() {
-        return null;
+        return this.jobInfo;
     }
 
     public String getJobId() {
-        return null;
+        return this.jobInfo.getId();
     }
 
-
     public void addInterviewRound(InterviewRound interviewRound) {
+    }
+
+    public boolean isOpen() {
+        return this.status.equals(JobPostingStatus.OPEN);
     }
 
     public void start() {

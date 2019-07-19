@@ -2,6 +2,7 @@ package domain.user;
 
 import domain.applying.Interview;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,23 +13,28 @@ public class Interviewer extends User {
     private ArrayList<Interview> upcomingInterviews;
 
 
-    public Interviewer() {
-
+    public Interviewer(String username, String password, String companyId, LocalDate dateCreated) {
+        super(username, password, dateCreated);
+        this.companyId = companyId;
     }
 
     public ArrayList<Interview> getUpcomingInterviews() {
-        return null;
+        return this.upcomingInterviews;
     }
 
     public ArrayList<Interview> getPastInterviews() {
-        return null;
+        return this.pastInterviews;
     }
 
     public ArrayList<Interview> getAllInterviews() {
-        return null;
+        ArrayList<Interview> allInterviews = new ArrayList<>();
+        allInterviews.addAll(this.pastInterviews);
+        allInterviews.addAll(this.upcomingInterviews);
+        return allInterviews;
     }
 
     public void addInterview(Interview interview) {
+//        add to upcoming interviews?
 
     }
 
