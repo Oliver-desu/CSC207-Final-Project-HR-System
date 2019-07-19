@@ -5,22 +5,18 @@ import java.util.HashMap;
 
 public class CompanyPool {
 
-    private HashMap<String, Company> companies;
+    private static HashMap<String, Company> companies = new HashMap<>();
 
 
-    public CompanyPool() {
-
-    }
-
-    public ArrayList<Company> getCompanies() {
+    public static ArrayList<Company> getCompanies() {
         return null;
     }
 
-    public Company getCompany(String id) {
+    public static Company getCompany(String id) {
         return null;
     }
 
-    public void addCompany(String id, Company company) {
+    public static void addCompany(String id, Company company) {
 
     }
 

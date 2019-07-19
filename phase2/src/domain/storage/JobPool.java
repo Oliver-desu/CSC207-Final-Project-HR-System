@@ -7,26 +7,22 @@ import java.util.HashMap;
 
 public class JobPool {
 
-    private HashMap<String, JobPosting> jobPostings;
+    private static HashMap<String, JobPosting> jobPostings = new HashMap<>();
 
 
-    public JobPool() {
-
-    }
-
-    public ArrayList<JobPosting> getOpenJobPostings() {
+    public static ArrayList<JobPosting> getOpenJobPostings() {
         return null;
     }
 
-    public ArrayList<JobPosting> getJobPostings() {
+    public static ArrayList<JobPosting> getJobPostings() {
         return null;
     }
 
-    public JobPosting getJobPosting(String id) {
+    public static JobPosting getJobPosting(String id) {
         return null;
     }
 
-    public void addJobPosting(String id, JobPosting jobPosting) {
+    public static void addJobPosting(String id, JobPosting jobPosting) {
 
     }
 }
