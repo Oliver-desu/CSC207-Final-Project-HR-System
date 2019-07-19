@@ -6,8 +6,8 @@ import java.util.HashMap;
 public class HRGeneralist extends User {
     private String companyId;
 
-    public HRGeneralist(String username, String password, String companyId, LocalDate dateCreated) {
-        super(username, password, dateCreated);
+    public HRGeneralist(HashMap<String, String> map, String companyId) {
+        super(map);
         this.companyId = companyId;
     }
 

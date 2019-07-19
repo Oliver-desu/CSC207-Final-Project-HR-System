@@ -15,10 +15,13 @@ public class InterviewRound {
     }
 
     private String roundName;
-    private HashMap<String, Application> applications;
+    private HashMap<String, Application> applications;  //applicantId->application
     private InterviewRoundStatus status;
 
-    public InterviewRound() {
+    public InterviewRound(String roundName) {
+        this.roundName = roundName;
+        this.status = InterviewRoundStatus.EMPTY;
+        this.applications = new HashMap<>();
     }
 
 

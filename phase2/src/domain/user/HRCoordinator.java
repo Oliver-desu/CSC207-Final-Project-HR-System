@@ -10,8 +10,8 @@ public class HRCoordinator extends User {
     private String companyId;
     private ArrayList<JobPosting> jobPostings;
 
-    public HRCoordinator(String username, String password, String companyId, LocalDate dateCreated) {
-        super(username, password, dateCreated);
+    public HRCoordinator(HashMap<String, String> map, String companyId) {
+        super(map);
         this.companyId = companyId;
     }
 

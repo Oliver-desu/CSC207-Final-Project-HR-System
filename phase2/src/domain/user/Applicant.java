@@ -13,8 +13,8 @@ public class Applicant extends User {
     private HashMap<String, Application> applications;
     private DocumentManager documentManager;
 
-    public Applicant(String username, String password, LocalDate dateCreated) {
-        super(username, password, dateCreated);
+    public Applicant(HashMap<String, String> map) {
+        super(map);
     }
 
     public HashMap<String, Application> getApplicationMap() {
