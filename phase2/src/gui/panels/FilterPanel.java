@@ -1,22 +1,66 @@
 package gui.panels;
 
 import domain.filter.Filter;
+import domain.filter.Filterable;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 
-public class FilterPanel extends JPanel {
-    public void update() {
+public class FilterPanel<T> extends JPanel {
+
+    private Filter<T> filter = new Filter<>();
+    private JTable filterTable = new JTable();
+    private DefaultTableModel tableModel = new DefaultTableModel();
+
+    private JTable getFilterTable() {
+        return filterTable;
     }
 
-    public void setFilter(Filter filter) {
+    private DefaultTableModel getTableModel() {
+        return tableModel;
     }
 
-    public Object getSelectObject() {
-        return null;
+    private Filter<T> getFilter() {
+        return filter;
     }
 
-    public void setFilterContent(ArrayList<Object> filterContent) {
+    private void update() {
+        getTableModel().setRowCount(0);
+        String[] headings = getFilter().getHeadings();
+        if (headings != null) {
+            getTableModel().setColumnIdentifiers(headings);
+            for (T result : getFilter().getResults()) {
+                getTableModel().addRow(((Filterable) result).getSearchValues());
+            }
+        }
+        getFilterTable().updateUI();
+    }
 
+    public void setup(Dimension dimension) {
+        setPreferredSize(dimension);
+        setLayout(new FlowLayout());
+        getFilterTable().setModel(getTableModel());
+
+        Dimension scrollPaneSize = dimension;
+        JScrollPane scrollPane = new JScrollPane(getFilterTable());
+        scrollPane.setPreferredSize(scrollPaneSize);
+        add(scrollPane);
+    }
+
+    public T getSelectObject() {
+        int index = getFilterTable().getSelectedRow();
+        return getFilter().getSelectedItem(index);
+    }
+
+    public void addSelectionListener(ListSelectionListener listener) {
+        getFilterTable().getSelectionModel().addListSelectionListener(listener);
+    }
+
+    public void setFilterContent(ArrayList<T> filterContent) {
+        getFilter().setFilterContent(filterContent);
+        update();
     }
 }

@@ -24,8 +24,8 @@ public abstract class Scenario extends JPanel {
     private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
 
     private UserMenu userMenu;
-    private FilterPanel leftFilterPanel = new FilterPanel();
-    private FilterPanel rightFilterPanel = new FilterPanel();
+    private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
+    private FilterPanel<Object> rightFilterPanel = new FilterPanel<>();
     private InputInfoPanel inputInfoPanel = new InputInfoPanel();
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
     private ButtonPanel buttonPanel = new ButtonPanel();
@@ -33,8 +33,7 @@ public abstract class Scenario extends JPanel {
     Scenario(UserMenu userMenu, LayoutMode mode) {
         setUserMenu(userMenu);
         basicSetup();
-        if (mode == LayoutMode.REGULAR) initRegularLayout();
-        else if (mode == LayoutMode.REGISTER) initRegisterLayout();
+        initLayout(mode);
     }
 
     public static void main(String[] args) {
@@ -67,20 +66,17 @@ public abstract class Scenario extends JPanel {
         buttonPanel.setBackground(Color.GREEN);
     }
 
-    private void initRegularLayout() {
-        leftFilterPanel.setPreferredSize(LIST_SIZE);
-        rightFilterPanel.setPreferredSize(LIST_SIZE);
-        outputInfoPanel.setPreferredSize(OUTPUT_SIZE);
-        inputInfoPanel.setPreferredSize(REGULAR_INPUT_SIZE);
-        buttonPanel.setPreferredSize(BUTTON_PANEL_SIZE);
-    }
-
-    private void initRegisterLayout() {
-        leftFilterPanel.setPreferredSize(LIST_SIZE);
-        rightFilterPanel.setPreferredSize(LIST_SIZE);
-        makeUnavailable(outputInfoPanel);
-        inputInfoPanel.setPreferredSize(REGISTER_INPUT_SIZE);
-        buttonPanel.setPreferredSize(BUTTON_PANEL_SIZE);
+    private void initLayout(LayoutMode mode) {
+        leftFilterPanel.setup(LIST_SIZE);
+        rightFilterPanel.setup(LIST_SIZE);
+        if (mode == LayoutMode.REGULAR) {
+            outputInfoPanel.setPreferredSize(OUTPUT_SIZE);
+            inputInfoPanel.setPreferredSize(REGULAR_INPUT_SIZE);
+        } else if (mode == LayoutMode.REGISTER) {
+            makeUnavailable(outputInfoPanel);
+            inputInfoPanel.setPreferredSize(REGISTER_INPUT_SIZE);
+        }
+        buttonPanel.setup(BUTTON_PANEL_SIZE);
     }
 
     private void makeUnavailable(JPanel panel) {
@@ -123,7 +119,7 @@ public abstract class Scenario extends JPanel {
         this.userMenu = userMenu;
     }
 
-    protected FilterPanel getFilterPanel(boolean left) {
+    protected FilterPanel<Object> getFilterPanel(boolean left) {
         if (left) return leftFilterPanel;
         else return rightFilterPanel;
     }
