@@ -13,8 +13,8 @@ public class Interviewer extends User {
     private ArrayList<Interview> upcomingInterviews;
 
 
-    public Interviewer(String username, String password, String companyId, LocalDate dateCreated) {
-        super(username, password, dateCreated);
+    public Interviewer(HashMap<String, String> map, String companyId) {
+        super(map);
         this.companyId = companyId;
     }
 

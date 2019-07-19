@@ -3,9 +3,12 @@ package domain.job;
 import domain.applying.Application;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class JobInfo {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String id;
     private String positionName;
     private int numPositions;
@@ -14,7 +17,14 @@ public class JobInfo {
     private String requirement;
     private ArrayList<Application> finalApplications;
 
-    public JobInfo() {
+    public JobInfo(HashMap<String, String> map) {
+        this.id = map.get("id");
+        this.positionName = map.get("positionName");
+        this.numPositions = Integer.parseInt(map.get("numPositions"));
+        this.postDate = LocalDate.parse(map.get("postDate"), formatter);
+        this.closeDate = LocalDate.parse(map.get("closeDate"), formatter);
+        this.requirement = map.get("requirement");
+        this.finalApplications = new ArrayList<>();
     }
 
     public String getId() {

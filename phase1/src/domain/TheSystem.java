@@ -1,6 +1,6 @@
 package domain;
 
-import views.panels.TestController;
+//import views.panels.TestController;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ public class TheSystem implements Serializable {
         system.documentManager.deleteAllInactiveDocuments();
         system.jobPostingManager.closeJobPostings();
 
-        new TestController();
+//        new TestController();
 
 
     }
