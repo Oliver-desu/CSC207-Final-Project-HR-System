@@ -14,61 +14,57 @@ public class UserPool {
         HRCOORDINATOR
     }
 
-    private HashMap<String, Applicant> applicants;
-    private HashMap<String, Interviewer> interviewers;
-    private HashMap<String, HRGeneralist> generalists;
-    private HashMap<String, HRCoordinator> coordinators;
+    private static HashMap<String, Applicant> applicants;
+    private static HashMap<String, Interviewer> interviewers;
+    private static HashMap<String, HRGeneralist> generalists;
+    private static HashMap<String, HRCoordinator> coordinators;
 
 
-    public UserPool() {
-
-    }
-
-    public void register(Applicant applicant) {
+    public static void register(Applicant applicant) {
 
     }
 
-    public void register(Interviewer interviewer) {
+    public static void register(Interviewer interviewer) {
 
     }
 
-    public void register(HRCoordinator coordinator) {
+    public static void register(HRCoordinator coordinator) {
 
     }
 
-    public void register(HRGeneralist generalist) {
+    public static void register(HRGeneralist generalist) {
 
     }
 
-    public Applicant getApplicant(String id) {
+    public static Applicant getApplicant(String id) {
         return null;
     }
 
-    public Interviewer getInterviewer(String id) {
+    public static Interviewer getInterviewer(String id) {
         return null;
     }
 
-    public HRGeneralist getHRGeneralist(String id) {
+    public static HRGeneralist getHRGeneralist(String id) {
         return null;
     }
 
-    public HRCoordinator getHRCoordinator(String id) {
+    public static HRCoordinator getHRCoordinator(String id) {
         return null;
     }
 
-    public ArrayList<Applicant> getApplicants(ArrayList<String> ids) {
+    public static ArrayList<Applicant> getApplicants(ArrayList<String> ids) {
         return null;
     }
 
-    public ArrayList<Interviewer> getInterviewers(ArrayList<String> ids) {
+    public static ArrayList<Interviewer> getInterviewers(ArrayList<String> ids) {
         return null;
     }
 
-    public ArrayList<HRCoordinator> getHRCoordinators(ArrayList<String> ids) {
+    public static ArrayList<HRCoordinator> getHRCoordinators(ArrayList<String> ids) {
         return null;
     }
 
-    public User getUser(UserType type, String userName) {
+    public static User getUser(UserType type, String userName) {
         return null;
     }
 
