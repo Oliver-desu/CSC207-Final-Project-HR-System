@@ -1,6 +1,5 @@
 package gui.scenarios;
 
-import domain.filter.Filter;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
@@ -84,11 +83,6 @@ public abstract class Scenario extends JPanel {
         buttonPanel.setPreferredSize(BUTTON_PANEL_SIZE);
     }
 
-    protected void updateFilter(boolean left) {
-        if (left) leftFilterPanel.update();
-        else rightFilterPanel.update();
-    }
-
     private void makeUnavailable(JPanel panel) {
         panel.setVisible(false);
     }
@@ -129,9 +123,9 @@ public abstract class Scenario extends JPanel {
         this.userMenu = userMenu;
     }
 
-    protected void setFilter(boolean left, Filter filter) {
-        if (left) leftFilterPanel.setFilter(filter);
-        else rightFilterPanel.setFilter(filter);
+    protected FilterPanel getFilterPanel(boolean left) {
+        if (left) return leftFilterPanel;
+        else return rightFilterPanel;
     }
 
     protected enum LayoutMode {REGULAR, REGISTER}
