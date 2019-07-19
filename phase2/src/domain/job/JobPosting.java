@@ -23,14 +23,15 @@ public class JobPosting {
     }
 
     public HashMap<String, Application> getApplicationMap() {
-        return null;
+        return this.applications;
     }
 
-    public ArrayList<Application> getApplcations() {
-        return null;
+    public ArrayList<Application> getApplications() {
+        return new ArrayList<>(this.applications.values());
     }
 
     public ArrayList<Application> getCurrentRoundApplications() {
+        InterviewRound round = this.interviewRounds.get(currRound);
         return null;
     }
 
@@ -46,7 +47,7 @@ public class JobPosting {
         return null;
     }
 
-    ArrayList<InterviewRound> getAllInterviewRounds() {
+    public ArrayList<InterviewRound> getAllInterviewRounds() {
         return null;
     }
 
@@ -66,25 +67,25 @@ public class JobPosting {
     public void addInterviewRound(InterviewRound interviewRound) {
     }
 
-    void start() {
+    public void start() {
     }
 
-    void next() {
+    public void next() {
     }
 
-    boolean isLastRound() {
+    public boolean isLastRound() {
         return false;
     }
 
-    void hire(Application application) {
+    public void hire(Application application) {
     }
 
-    void endJobPosting() {
+    public void endJobPosting() {
     }
 
-    void applicationSubmit(Application application) {
+    public void applicationSubmit(Application application) {
     }
 
-    void applicationCancel(Application application) {
+    public void applicationCancel(Application application) {
     }
 }

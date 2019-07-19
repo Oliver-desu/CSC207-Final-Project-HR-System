@@ -18,37 +18,39 @@ public class JobInfo {
     }
 
     public String getId() {
-        return null;
+        return this.id;
     }
 
     public String getPositionName() {
-        return null;
+        return this.positionName;
     }
 
     public int getNumPositions() {
-        return 0;
+        return this.numPositions;
     }
 
     public LocalDate getPostDate() {
-        return null;
+        return this.postDate;
     }
 
     public LocalDate getCloseDate() {
-        return null;
+        return this.closeDate;
     }
 
     public String getRequirement() {
-        return null;
+        return this.requirement;
     }
 
     public ArrayList<Application> getFinalApplications() {
-        return null;
+        return this.finalApplications;
     }
 
     public void addToFinalApplications(Application application) {
+        this.finalApplications.add(application);
     }
 
     public boolean isValidInfo() {
+//        todo
         return false;
     }
 }
