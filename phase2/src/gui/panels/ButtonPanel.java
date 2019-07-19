@@ -1,4 +1,9 @@
 package gui.panels;
 
-public class ButtonPanel {
+import javax.swing.*;
+import java.awt.event.ActionListener;
+
+public class ButtonPanel extends JPanel {
+    public void addButton(String buttonName, ActionListener listener) {
+    }
 }
