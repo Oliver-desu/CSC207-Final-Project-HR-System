@@ -29,8 +29,4 @@ public class User {
 
     public void setRealName(String realName) {
     }
-
-    public static boolean isValidInfo(HashMap<String, String> values) {
-        return false;
-    }
 }
