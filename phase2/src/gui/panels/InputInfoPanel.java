@@ -1,6 +1,9 @@
 package gui.panels;
 
-public class InputInfoPanel {
+import javax.swing.*;
+import java.util.HashMap;
+
+public class InputInfoPanel extends JPanel {
 
     public void addComboBox(String name, String[] options, String defaultValue, boolean editable) {
     }
@@ -18,5 +21,9 @@ public class InputInfoPanel {
     }
 
     public void addTextArea(String name) {
+    }
+
+    public HashMap<String, String> getInfoMap() {
+        return null;
     }
 }
