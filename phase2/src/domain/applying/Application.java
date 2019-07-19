@@ -16,7 +16,7 @@ public class Application {
     }
 
     private HashMap<String, Interview> interviews;
-    private String applicationId;
+    private String applicantId;
     private String jobPostingId;
     private DocumentManager documentManager;
     private ApplicationStatus status;
@@ -24,7 +24,7 @@ public class Application {
 
     public Application(HashMap<String, String> values) {
         this.interviews = new HashMap<>();
-        this.applicationId = values.get("applicationId");
+        this.applicantId = values.get("applicantId");
         this.jobPostingId = values.get("jobPostingId");
         this.documentManager = new DocumentManager();
         this.status = ApplicationStatus.DRAFT;
@@ -42,8 +42,8 @@ public class Application {
         return this.interviews.get(round);
     }
 
-    public String getApplicationId() {
-        return this.applicationId;
+    public String getApplicantId() {
+        return this.applicantId;
     }
 
     public String getJobPostingId() {

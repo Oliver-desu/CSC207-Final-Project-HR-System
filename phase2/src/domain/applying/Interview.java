@@ -51,6 +51,7 @@ public class Interview {
 
     public void setFail() {
         this.status = InterviewStatus.FAIL;
+        this.application.setStatus(Application.ApplicationStatus.REJECTED);
     }
 
 //    private void updateApplication() {

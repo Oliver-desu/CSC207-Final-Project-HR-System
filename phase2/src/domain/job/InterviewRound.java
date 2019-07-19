@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InterviewRound {
+
     public enum InterviewRoundStatus {
         EMPTY,
         MATCHING,
@@ -18,12 +19,12 @@ public class InterviewRound {
     private HashMap<String, Application> applications;  //applicantId->application
     private InterviewRoundStatus status;
 
+
     public InterviewRound(String roundName) {
         this.roundName = roundName;
         this.status = InterviewRoundStatus.EMPTY;
         this.applications = new HashMap<>();
     }
-
 
     public String getRoundName() {
         return this.roundName;
@@ -70,11 +71,35 @@ public class InterviewRound {
         this.status = status;
     }
 
-    public boolean checkStatus() {
-        return false;
+    public void checkStatus() {
+        ArrayList<Interview> interviews = this.getInterviews();
+        boolean finished = true;
+        for (Interview interview: interviews) {
+            if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
+                this.setStatus(InterviewRoundStatus.MATCHING);
+                finished = false;
+                break;
+            } else if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+                this.setStatus(InterviewRoundStatus.PENDING);
+                finished = false;
+                break;
+            }
+        }
+        if (finished) {
+            this.setStatus(InterviewRoundStatus.FINISHED);
+        }
+    }
+
+    private ArrayList<Interview> getInterviews() {
+        ArrayList<Interview> interviews = new ArrayList<>();
+        for (Application application: this.applications.values()) {
+            interviews.add(application.getInterviewByRound(this.roundName));
+        }
+        return interviews;
     }
 
     public void start() {
+        this.setStatus(InterviewRoundStatus.MATCHING);
     }
 
 
