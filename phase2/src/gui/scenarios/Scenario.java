@@ -1,6 +1,5 @@
 package gui.scenarios;
 
-import domain.filter.Filter;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
@@ -8,33 +7,84 @@ import gui.panels.OutputInfoPanel;
 import gui.view.UserMenu;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-public abstract class Scenario {
+public abstract class Scenario extends JPanel {
+    private static final int HORIZONTAL_GAP = 5;
+    private static final int VERTICAL_GAP = 5;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 500;
+
+    private static final Dimension LIST_SIZE = new Dimension(WIDTH / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+    private static final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+    private static final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
+    private static final Dimension REGISTER_INPUT_SIZE = OUTPUT_SIZE;
+    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
 
     private UserMenu userMenu;
-    private FilterPanel leftFilterPanel = new FilterPanel();
-    private FilterPanel rightFilterPanel = new FilterPanel();
+    private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
+    private FilterPanel<Object> rightFilterPanel = new FilterPanel<>();
     private InputInfoPanel inputInfoPanel = new InputInfoPanel();
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
     private ButtonPanel buttonPanel = new ButtonPanel();
 
     Scenario(UserMenu userMenu, LayoutMode mode) {
         setUserMenu(userMenu);
-        if (mode == LayoutMode.REGULAR) initRegularLayout();
-        else if (mode == LayoutMode.REGISTER) initRegisterLayout();
+        basicSetup();
+        initLayout(mode);
     }
 
-    private void initRegularLayout() {
+    public static void main(String[] args) {
+        Scenario scenario = new Scenario(new UserMenu(), LayoutMode.REGULAR) {
+        };
+        scenario.showColor();
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(new Dimension(1000, 600));
+        frame.add(scenario);
+        frame.setVisible(true);
+        scenario.addButton("123", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        scenario.setOutputText("456");
     }
 
-    private void initRegisterLayout() {
+    private void basicSetup() {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
+        add(leftFilterPanel);
+        add(rightFilterPanel);
+        add(outputInfoPanel);
+        add(inputInfoPanel);
+        add(buttonPanel);
     }
 
-    protected void updateFilter(boolean left) {
-        if (left) leftFilterPanel.update();
-        else rightFilterPanel.update();
+    private void showColor() {
+        setBackground(Color.WHITE);
+        leftFilterPanel.setBackground(Color.BLACK);
+        rightFilterPanel.setBackground(Color.RED);
+        outputInfoPanel.setBackground(Color.BLUE);
+        inputInfoPanel.setBackground(Color.darkGray);
+        buttonPanel.setBackground(Color.GREEN);
+    }
+
+    private void initLayout(LayoutMode mode) {
+        leftFilterPanel.setup(LIST_SIZE);
+        rightFilterPanel.setup(LIST_SIZE);
+        if (mode == LayoutMode.REGULAR) {
+            outputInfoPanel.setup(OUTPUT_SIZE);
+            inputInfoPanel.setPreferredSize(REGULAR_INPUT_SIZE);
+        } else if (mode == LayoutMode.REGISTER) {
+            makeUnavailable(outputInfoPanel);
+            inputInfoPanel.setPreferredSize(REGISTER_INPUT_SIZE);
+        }
+        buttonPanel.setup(BUTTON_PANEL_SIZE);
     }
 
     private void makeUnavailable(JPanel panel) {
@@ -49,7 +99,7 @@ public abstract class Scenario {
         else if (part == ScenarioPart.BUTTON) makeUnavailable(buttonPanel);
     }
 
-    protected HashMap<String, String> getInputMap() {
+    protected HashMap<String, String> getInputInfoMap() {
         return inputInfoPanel.getInfoMap();
     }
 
@@ -77,9 +127,9 @@ public abstract class Scenario {
         this.userMenu = userMenu;
     }
 
-    protected void setFilter(boolean left, Filter filter) {
-        if (left) leftFilterPanel.setFilter(filter);
-        else rightFilterPanel.setFilter(filter);
+    protected FilterPanel<Object> getFilterPanel(boolean left) {
+        if (left) return leftFilterPanel;
+        else return rightFilterPanel;
     }
 
     protected enum LayoutMode {REGULAR, REGISTER}
