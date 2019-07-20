@@ -1,6 +1,7 @@
 package domain.job;
 
 import domain.applying.Application;
+import domain.storage.Company;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class JobPosting {
         FINISHED
     }
 
-    private HashMap<String, Application> applications;
+    private HashMap<String, Application> applications; //applicantId->submitted application
     private HashMap<Integer, InterviewRound> interviewRounds;
     private int currRound;
     private JobPostingStatus status;
@@ -22,6 +23,8 @@ public class JobPosting {
     public JobPosting(JobInfo jobInfo) {
         this.jobInfo = jobInfo;
         this.currRound = 0;
+        this.interviewRounds = new HashMap<>();
+        this.applications = new HashMap<>();
     }
 
     public HashMap<String, Application> getApplicationMap() {
@@ -80,36 +83,45 @@ public class JobPosting {
     }
 
     public void start() {
-
+        this.status = JobPostingStatus.OPEN;
     }
 
     public void next() {
+//        set to next round
+        this.currRound += 1;
+        this.interviewRounds.get(currRound).start();
     }
 
-    public boolean isLastRound() {
-        return false;
-    }
+//    public boolean isLastRound() {
+//        return false;
+//    }
 
     public void hire(Application application) {
         application.hired();
-        this.status = JobPostingStatus.FINISHED;
     }
 
     public void endJobPosting() {
+        this.status = JobPostingStatus.FINISHED;
     }
 
     public void applicationSubmit(Application application) {
-
+        if(!this.applications.containsValue(application)){
+//            company.receiveApplication(application);
+            this.applications.put(application.getApplicantId(), application);
+        }
     }
 
     public void applicationCancel(Application application) {
         for (String applicantId : this.applications.keySet()) {
             if (this.applications.get(applicantId).equals(application)) {
+//                company.cancelApplication(application);
                 this.applications.remove(applicantId, application);
                 break;
             }
         }
+    }
 
-
+    public String toString(Object object) {
+        return null;
     }
 }

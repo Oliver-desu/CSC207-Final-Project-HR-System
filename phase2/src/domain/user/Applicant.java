@@ -37,10 +37,11 @@ public class Applicant extends User {
         }
     }
 
+    /**
+     * Delete an application before submitting it. **/
     public boolean deleteApplication(String jobId) {
         boolean isDeleted = false;
         if (this.applications.containsKey(jobId)) {
-            this.applications.get(jobId).cancel(); //what application.cancel() does?
             this.applications.remove(jobId);
             isDeleted = true;
         }
@@ -51,7 +52,6 @@ public class Applicant extends User {
         if (this.applications.containsValue(application)) {
             for (Map.Entry<String, Application> entry : this.applications.entrySet()) {
                 if (application.equals(entry.getValue())) {
-                    entry.getValue().cancel(); //cancel?
                     this.applications.remove(entry.getKey(), application);
                     return true;
                 }
@@ -62,7 +62,15 @@ public class Applicant extends User {
 
     public ArrayList<Interview> getOngoingInterviews() {
 //        application->interview->status
-        return null;
+        ArrayList<Interview> ongoingInterviews = new ArrayList<>();
+        for(Application application: this.applications.values()){
+            for(Interview interview: application.getInterviews()){
+                if(interview.getStatus().equals(Interview.InterviewStatus.PENDING)){
+                    ongoingInterviews.add(interview);
+                }
+            }
+        }
+      return ongoingInterviews;
     }
 
     public void update(LocalDate currentDate) {
