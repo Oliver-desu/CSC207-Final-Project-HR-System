@@ -138,8 +138,8 @@ public class InputInfoPanel extends JPanel {
         }
     }
 
-    public String getPassword() {
-        if (passwordMatched()) return Arrays.toString(passwordFields[0].getPassword());
+    public char[] getPassword() {
+        if (passwordMatched()) return passwordFields[0].getPassword();
         else return null;
     }
 

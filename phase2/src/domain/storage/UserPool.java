@@ -78,8 +78,7 @@ public class UserPool {
         } else if (type.equals(UserType.HR_COORDINATOR) && coordinators.containsKey(username)) {
             return getHRCoordinator(username);
         } else {
-            // this will change to an empty new User later
-            return null;
+            return new NullUser();
         }
     }
 
