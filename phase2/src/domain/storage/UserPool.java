@@ -7,88 +7,87 @@ import java.util.HashMap;
 
 public class UserPool {
 
-    public enum UserType {
-        APPLICANT,
-        INTERVIEWER,
-        HRGENERALIST,
-        HRCOORDINATOR
-    }
+    private HashMap<String, Applicant> applicants = new HashMap<>();
+    private HashMap<String, Interviewer> interviewers = new HashMap<>();
+    private HashMap<String, HRGeneralist> generalists = new HashMap<>();
+    private HashMap<String, HRCoordinator> coordinators = new HashMap<>();
 
-    private static HashMap<String, Applicant> applicants = new HashMap<>();
-    private static HashMap<String, Interviewer> interviewers = new HashMap<>();
-    private static HashMap<String, HRGeneralist> generalists = new HashMap<>();
-    private static HashMap<String, HRCoordinator> coordinators = new HashMap<>();
-
-
-    public static void register(Applicant applicant) {
+    public void register(Applicant applicant) {
         applicants.put(applicant.getUsername(), applicant);
     }
 
-    public static void register(Interviewer interviewer) {
+    public void register(Interviewer interviewer) {
         interviewers.put(interviewer.getUsername(), interviewer);
     }
 
-    public static void register(HRCoordinator coordinator) {
+    public void register(HRCoordinator coordinator) {
         coordinators.put(coordinator.getUsername(), coordinator);
     }
 
-    public static void register(HRGeneralist generalist) {
+    public void register(HRGeneralist generalist) {
         generalists.put(generalist.getUsername(), generalist);
     }
 
-    public static Applicant getApplicant(String id) {
-        return applicants.get(id);
+    public Applicant getApplicant(String username) {
+        return applicants.get(username);
     }
 
-    public static Interviewer getInterviewer(String id) {
-        return interviewers.get(id);
+    public Interviewer getInterviewer(String username) {
+        return interviewers.get(username);
     }
 
-    public static HRGeneralist getHRGeneralist(String id) {
-        return generalists.get(id);
+    public HRGeneralist getHRGeneralist(String username) {
+        return generalists.get(username);
     }
 
-    public static HRCoordinator getHRCoordinator(String id) {
-        return coordinators.get(id);
+    public HRCoordinator getHRCoordinator(String username) {
+        return coordinators.get(username);
     }
 
-    public static ArrayList<Applicant> getApplicants(ArrayList<String> ids) {
+    public ArrayList<Applicant> getApplicants(ArrayList<String> usernameList) {
         ArrayList<Applicant> tempApplicants = new ArrayList<>();
-        for (String id: ids) {
-            tempApplicants.add(UserPool.getApplicant(id));
+        for (String username : usernameList) {
+            tempApplicants.add(getApplicant(username));
         }
         return tempApplicants;
     }
 
-    public static ArrayList<Interviewer> getInterviewers(ArrayList<String> ids) {
+    public ArrayList<Interviewer> getInterviewers(ArrayList<String> usernameList) {
         ArrayList<Interviewer> tempInterviewers = new ArrayList<>();
-        for (String id: ids) {
-            tempInterviewers.add(UserPool.getInterviewer(id));
+        for (String username : usernameList) {
+            tempInterviewers.add(getInterviewer(username));
         }
         return tempInterviewers;
     }
 
-    public static ArrayList<HRCoordinator> getHRCoordinators(ArrayList<String> ids) {
+    public ArrayList<HRCoordinator> getHRCoordinators(ArrayList<String> usernameList) {
         ArrayList<HRCoordinator> tempCoordinators = new ArrayList<>();
-        for (String id: ids) {
-            tempCoordinators.add(UserPool.getHRCoordinator(id));
+        for (String username : usernameList) {
+            tempCoordinators.add(getHRCoordinator(username));
         }
         return tempCoordinators;
     }
 
-    public static User getUser(UserType type, String userName) {
-        if (type.equals(UserType.APPLICANT) && applicants.containsKey(userName)) {
-            return applicants.get(userName);
-        } else if (type.equals(UserType.INTERVIEWER) && interviewers.containsKey(userName)) {
-            return interviewers.get(userName);
-        } else if (type.equals(UserType.HRGENERALIST) && generalists.containsKey(userName)) {
-            return generalists.get(userName);
-        } else if (type.equals(UserType.HRCOORDINATOR) && coordinators.containsKey(userName)) {
-            return coordinators.get(userName);
+    public User getUser(UserType type, String username) {
+        if (type.equals(UserType.APPLICANT) && applicants.containsKey(username)) {
+            return getApplicant(username);
+        } else if (type.equals(UserType.INTERVIEWER) && interviewers.containsKey(username)) {
+            return getInterviewer(username);
+        } else if (type.equals(UserType.HR_GENERALIST) && generalists.containsKey(username)) {
+            return getHRGeneralist(username);
+        } else if (type.equals(UserType.HR_COORDINATOR) && coordinators.containsKey(username)) {
+            return getHRCoordinator(username);
         } else {
             // this will change to an empty new User later
             return null;
         }
+    }
+
+    public enum UserType {
+        APPLICANT,
+        INTERVIEWER,
+        HR_GENERALIST,
+        HR_COORDINATOR
     }
 
 }

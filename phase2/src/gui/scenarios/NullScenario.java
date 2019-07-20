@@ -35,7 +35,9 @@ public class NullScenario extends Scenario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 InputInfoPanel panel = getInputInfoPanel();
-
+                int x = JOptionPane.showConfirmDialog(frame, "Print Yes?", "!!!", JOptionPane.YES_NO_OPTION);
+                if (x == 0) System.out.println("Yes");
+                else System.out.println("No");
                 System.out.println(panel.getInfoMap());
             }
         });
@@ -50,6 +52,7 @@ public class NullScenario extends Scenario {
             public void valueChanged(ListSelectionEvent e) {
                 Object object = getFilterPanel(true).getSelectObject();
                 System.out.println(object);
+                JOptionPane.showMessageDialog(frame, "Select Value is Changed");
             }
         });
         setOutputText("456");
@@ -57,6 +60,7 @@ public class NullScenario extends Scenario {
         getInputInfoPanel().addComboBox("combo box:", new String[]{"1", "2", "3"});
         getInputInfoPanel().addTextArea("text area:");
         getInputInfoPanel().updateUI();
+        showDocument("12345\n12345\n12345\n12345\n12345/n12345/n12345/n12345/n12345/n12345/n");
     }
 
     @Override

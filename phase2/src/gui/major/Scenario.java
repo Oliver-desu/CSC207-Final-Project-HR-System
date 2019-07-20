@@ -114,6 +114,18 @@ public abstract class Scenario extends JPanel {
         else return rightFilterPanel;
     }
 
+    protected void showDocument(String documentContent) {
+        JFrame frame = new JFrame();
+        frame.setResizable(false);
+        frame.setSize(new Dimension(OUTPUT_SIZE.width + 20, OUTPUT_SIZE.height + 45));
+        frame.setLayout(new FlowLayout());
+        OutputInfoPanel document = new OutputInfoPanel();
+        document.setup(OUTPUT_SIZE);
+        document.setOutputText(documentContent);
+        frame.add(document);
+        frame.setVisible(true);
+    }
+
     protected enum LayoutMode {REGULAR, REGISTER}
 
     protected enum ScenarioPart {LEFT_FILTER, RIGHT_FILTER, INPUT, OUTPUT, BUTTON}
