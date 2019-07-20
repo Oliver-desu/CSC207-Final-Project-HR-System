@@ -15,9 +15,9 @@ import java.util.HashMap;
 
 public class Login extends JFrame {
 
-    private static final Dimension SIZE = new Dimension(0, 0);
-    private static final Dimension INPUT_SIZE = new Dimension(0, 0);
-    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(0, 0);
+    private static final Dimension SIZE = new Dimension(520, 400);
+    private static final Dimension INPUT_SIZE = new Dimension(500, 300);
+    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(500, 50);
     private static final String[] USER_TYPE = new String[]{"Applicant", "HR_Generalist", "HR_Coordinator", "Interviewer"};
 
     private Main main;
@@ -25,14 +25,32 @@ public class Login extends JFrame {
     private ButtonPanel buttonPanel = new ButtonPanel();
 
     public Login(Main main) {
-
+        this.main = main;
+        setup();
     }
 
     private void setup() {
+        setTitle("Login");
+        setSize(SIZE);
+        setLayout(new FlowLayout());
+        infoPanelSetup();
+        buttonPanelSetup();
+        setVisible(true);
+    }
+
+    private void buttonPanelSetup() {
+        buttonPanel.setup(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Login", new LoginListener());
+        buttonPanel.addButton("Register", new RegisterListener());
+        add(buttonPanel);
+    }
+
+    private void infoPanelSetup() {
         inputInfoPanel.setup(INPUT_SIZE, true);
-        inputInfoPanel.addTextArea("Username:");
+        inputInfoPanel.addTextField("Username:");
         inputInfoPanel.addPasswordField("Password:");
         inputInfoPanel.addComboBox("UserType:", USER_TYPE, "Applicant", false);
+        add(inputInfoPanel);
     }
 
     public Main getMain() {

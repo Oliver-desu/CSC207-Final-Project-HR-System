@@ -13,9 +13,12 @@ public class User {
     private LocalDate dateCreated;
 
     public User(HashMap<String, String> map) {
-        this.username = map.get("username");
-        setPassword(map.get("password").toCharArray());
-        this.dateCreated = LocalDate.parse(map.get("dateCreated"), formatter);
+        setUsername(map.get("username"));
+        setDateCreated(map.get("dateCreated"));
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
@@ -28,6 +31,12 @@ public class User {
 
     public void setPassword(char[] password) {
         this.password = password;
+    }
+
+    private void setDateCreated(String dateCreated) {
+        if (dateCreated != null) {
+            this.dateCreated = LocalDate.parse(dateCreated, formatter);
+        }
     }
 
     public boolean matchPassword(char[] password) {

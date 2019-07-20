@@ -11,6 +11,10 @@ public class Main {
     private CompanyPool companyPool = new CompanyPool();
     private Login login = new Login(this);
 
+    public static void main(String[] args) {
+        new Main();
+    }
+
     public CompanyPool getCompanyPool() {
         return companyPool;
     }

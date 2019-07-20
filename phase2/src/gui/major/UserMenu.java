@@ -11,11 +11,12 @@ import java.awt.event.ActionListener;
 
 public class UserMenu extends JFrame {
 
-    static final Dimension SCENARIO_SIZE = new Dimension(800, 500);
-    private static final int WIDTH = 0;
-    private static final int HEIGHT = 0;
-    private static final Dimension MENU_SIZE = new Dimension(0, 0);
-    private static final Dimension BUTTON_SIZE = new Dimension(0, 0);
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 550;
+
+    static final Dimension SCENARIO_SIZE = new Dimension(WIDTH * 4 / 5, HEIGHT - 50);
+    private static final Dimension MENU_SIZE = new Dimension(WIDTH / 6, HEIGHT - 50);
+    private static final Dimension BUTTON_SIZE = new Dimension(WIDTH / 7, 50);
 
     private Main main;
     private User user;
@@ -25,20 +26,24 @@ public class UserMenu extends JFrame {
     public UserMenu() {
     }
 
-    public UserMenu(Main main, User user) {
+    UserMenu(Main main, User user) {
         this.main = main;
         this.user = user;
-        basicSetup();
-        setupMenu();
+        setup();
+        showColor();
     }
 
-    private void basicSetup() {
-        menu.setPreferredSize(MENU_SIZE);
-        menu.setLayout(new FlowLayout());
+    private void showColor() {
+        menu.setBackground(Color.BLUE);
+        scenario.showColor();
+    }
 
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        add(menu);
+    private void setup() {
+        setSize(new Dimension(WIDTH, HEIGHT));
+        setLayout(new FlowLayout());
+        menuSetup();
         add(scenario);
+        setVisible(true);
     }
 
     private void clearScenario() {
@@ -60,27 +65,35 @@ public class UserMenu extends JFrame {
         return main;
     }
 
-    private void setupMenu() {
+    private void menuSetup() {
+        menu.setPreferredSize(MENU_SIZE);
+        menu.setLayout(new FlowLayout());
         User user = getUser();
-        if (user instanceof Applicant) setupApplicantMenu((Applicant) user);
-        else if (user instanceof Interviewer) setupInterviewerMenu((Interviewer) user);
-        else if (user instanceof HRCoordinator) setupHRCoordinatorMenu((HRCoordinator) user);
-        else if (user instanceof HRGeneralist) setupHRGeneralistMenu((HRGeneralist) user);
+        if (user.isNull()) registerMenuSetup();
+        else if (user instanceof Applicant) applicantMenuSetup((Applicant) user);
+        else if (user instanceof Interviewer) interviewerMenuSetup((Interviewer) user);
+        else if (user instanceof HRCoordinator) coordinatorMenuSetup((HRCoordinator) user);
+        else if (user instanceof HRGeneralist) generalistMenuSetup((HRGeneralist) user);
+        add(menu);
     }
 
-    private void setupInterviewerMenu(Interviewer interviewer) {
-
-    }
-
-    private void setupHRCoordinatorMenu(HRCoordinator hrCoordinator) {
-
-    }
-
-    private void setupHRGeneralistMenu(HRGeneralist hrGeneralist) {
+    private void registerMenuSetup() {
 
     }
 
-    private void setupApplicantMenu(Applicant applicant) {
+    private void interviewerMenuSetup(Interviewer interviewer) {
+
+    }
+
+    private void coordinatorMenuSetup(HRCoordinator hrCoordinator) {
+
+    }
+
+    private void generalistMenuSetup(HRGeneralist hrGeneralist) {
+
+    }
+
+    private void applicantMenuSetup(Applicant applicant) {
 
     }
 
