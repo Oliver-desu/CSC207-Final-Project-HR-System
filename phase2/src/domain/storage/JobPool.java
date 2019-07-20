@@ -11,18 +11,24 @@ public class JobPool {
 
 
     public static ArrayList<JobPosting> getOpenJobPostings() {
-        return null;
+        ArrayList<JobPosting> openJobPostings = new ArrayList<>();
+        for (JobPosting jobPosting: jobPostings.values()) {
+            if (jobPosting.isOpen()) {
+                openJobPostings.add(jobPosting);
+            }
+        }
+        return openJobPostings;
     }
 
     public static ArrayList<JobPosting> getJobPostings() {
-        return null;
+        return (ArrayList<JobPosting>) jobPostings.values();
     }
 
     public static JobPosting getJobPosting(String id) {
-        return null;
+        return jobPostings.get(id);
     }
 
     public static void addJobPosting(String id, JobPosting jobPosting) {
-
+        jobPostings.put(id, jobPosting);
     }
 }

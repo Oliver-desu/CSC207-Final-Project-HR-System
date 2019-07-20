@@ -15,63 +15,85 @@ public class Company {
     private HashMap<String, ArrayList<Application>> applications;
 
 
-    public Company() {
-
+    public Company(HashMap<String, String> values) {
+        this.id = values.get("id");
+        this.generalistId = values.get("generalistId");
+        this.coordinatorIds = new ArrayList<>();
+        this.interviewerIds = new ArrayList<>();
+        this.jobPostingIds = new ArrayList<>();
+        this.applications = new HashMap<>();
     }
 
     public String getId() {
-        return null;
+        return this.id;
     }
 
     public String getHRGeneralistId() {
-        return null;
+        return this.generalistId;
     }
 
     public ArrayList<String> getHRCoordinatorIds() {
-        return null;
+        return this.coordinatorIds;
     }
 
     public ArrayList<String> getInterviewerIds() {
-        return null;
+        return this.interviewerIds;
     }
 
     public ArrayList<String> getJobPostingIds() {
-        return null;
+        return this.jobPostingIds;
     }
 
     public ArrayList<String> getApplicantsId() {
-        return null;
+        return (ArrayList<String>) this.applications.keySet();
     }
 
     public ArrayList<Application> getApplicationForApplicant(String applicantId) {
-        return null;
+        return this.applications.get(applicantId);
     }
 
     public ArrayList<Application> getAllApplications() {
-        return null;
+        ArrayList<Application> allApplications = new ArrayList<>();
+        for (String applicantId: applications.keySet()) {
+            allApplications.addAll(applications.get(applicantId));
+        }
+        return allApplications;
     }
 
     public void addHRCoordinatorId(String id) {
-
+        this.coordinatorIds.add(id);
     }
 
     public void addInterviewerId(String id) {
-
+        this.interviewerIds.add(id);
     }
 
     public void addJobPostingId(String id) {
-
+        this.jobPostingIds.add(id);
     }
 
     public void addApplication(Application application) {
-
+        String applicantId = application.getApplicantId();
+        if (!this.applications.containsKey(applicantId)) {
+            this.applications.put(applicantId, new ArrayList<>());
+        }
+        this.applications.get(applicantId).add(application);
     }
 
     public void receiveApplication(Application application) {
-
+        this.addApplication(application);
     }
 
-    public void cancelApplication(Application application) {
-
+    public boolean cancelApplication(Application application) {
+        String applicantId = application.getApplicantId();
+        if (!this.applications.containsKey(applicantId) || !this.applications.get(applicantId).contains(application)) {
+            return false;
+        } else {
+            this.applications.get(applicantId).remove(application);
+            if (this.applications.get(applicantId).isEmpty()) {
+                this.applications.remove(applicantId);
+            }
+            return true;
+        }
     }
 }

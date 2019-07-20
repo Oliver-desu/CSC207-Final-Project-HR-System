@@ -10,12 +10,13 @@ public class DocumentManager {
     private boolean editable;
 
 
-    public DocumentManager() {
-
+    public DocumentManager(boolean editable) {
+        this.documents = new HashMap<>();
+        this.editable = editable;
     }
 
     public Document findDocument(String docName) {
-        return null;
+        return this.documents.get(docName);
     }
 
     public boolean isEditable() {
@@ -23,35 +24,53 @@ public class DocumentManager {
     }
 
     public void setToBeEditable() {
-
+        this.editable = true;
     }
 
-    public void addDocument(Document document) {
-
+    public void addDocument(String docName, Document document) {
+        this.documents.put(docName, document);
     }
 
     public boolean removeDocument(Document document) {
-        return true;
+        for (String docName: this.documents.keySet()) {
+            if (this.documents.get(docName).equals(document)) {
+                this.documents.remove(docName);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean removeDocument(String docName) {
-        return true;
+        if (this.documents.containsKey(docName)) {
+            this.documents.remove(docName);
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<Document> getAllDocuments() {
-        return null;
+        return (ArrayList<Document>) this.documents.values();
     }
 
     public ArrayList<String> getAllDocNames() {
-        return null;
+        return (ArrayList<String>) this.documents.keySet();
     }
 
     public int getNumOfDocuments() {
-        return 0;
+        return this.documents.size();
     }
 
     public void updateAllDocuments(LocalDate curentDate) {
-
+        HashMap<String, Document> remainingDocuments = new HashMap<>();
+        Document document;
+        for (String docName: this.documents.keySet()) {
+            document = this.documents.get(docName);
+            if (!document.getLastUsedDate().isBefore(curentDate)) {
+                remainingDocuments.put(docName, document);
+            }
+        }
+        this.documents = remainingDocuments;
     }
 
 }
