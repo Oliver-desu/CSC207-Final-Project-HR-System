@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class OutputInfoPanel extends JPanel {
+    static final Font FONT = new Font("Times New Roman", Font.PLAIN, 15);
 
     private JTextArea textArea = new JTextArea();
 
@@ -15,8 +16,7 @@ public class OutputInfoPanel extends JPanel {
         scrollPane.setPreferredSize(dimension);
         add(scrollPane);
 
-        Font font = new Font("Times New Roman", Font.PLAIN, 15);
-        textArea.setFont(font);
+        textArea.setFont(FONT);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
     }

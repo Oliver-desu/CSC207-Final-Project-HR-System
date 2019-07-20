@@ -7,6 +7,8 @@ import gui.panels.OutputInfoPanel;
 import gui.view.UserMenu;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,16 +52,29 @@ public abstract class Scenario extends JPanel {
         scenario.addButton("123", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object object = scenario.getFilterPanel(true).getSelectObject();
-                System.out.println(object);
+                InputInfoPanel panel = scenario.getInputInfoPanel();
+
+                System.out.println(panel.getInfoMap());
             }
         });
         ArrayList<Object> strings = new ArrayList<>();
         strings.add("7");
         strings.add("8");
         strings.add("9");
-        scenario.getFilterPanel(true).setFilterContent(strings);
+        FilterPanel left = scenario.getFilterPanel(true);
+        left.setFilterContent(strings);
+        left.addSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Object object = scenario.getFilterPanel(true).getSelectObject();
+                System.out.println(object);
+            }
+        });
         scenario.setOutputText("456");
+        scenario.getInputInfoPanel().addTextField("text field:");
+        scenario.getInputInfoPanel().addComboBox("combo box:", new String[]{"1", "2", "3"});
+        scenario.getInputInfoPanel().addTextArea("text area:");
+        scenario.getInputInfoPanel().updateUI();
     }
 
     private void basicSetup() {
