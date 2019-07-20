@@ -74,6 +74,7 @@ public class UserMenu extends JFrame {
         else if (user instanceof Interviewer) interviewerMenuSetup((Interviewer) user);
         else if (user instanceof HRCoordinator) coordinatorMenuSetup((HRCoordinator) user);
         else if (user instanceof HRGeneralist) generalistMenuSetup((HRGeneralist) user);
+        addLogoutButton();
         add(menu);
     }
 
@@ -100,21 +101,43 @@ public class UserMenu extends JFrame {
     private void addMenuButton(String buttonName, Scenario scenario) {
         JButton button = new JButton(buttonName);
         button.setPreferredSize(BUTTON_SIZE);
-        button.addActionListener(new SwitchScenario(scenario));
+        button.addActionListener(new SwitchScenarioListener(scenario));
         menu.add(button);
     }
 
-    class SwitchScenario implements ActionListener {
+    private void addLogoutButton() {
+        String text;
+        if (user.isNull()) text = "Back";
+        else text = "Logout";
+        JButton button = new JButton(text);
+        button.setPreferredSize(BUTTON_SIZE);
+        button.addActionListener(new LogoutListener());
+        menu.add(button);
+    }
+
+    private void Logout() {
+        this.setVisible(false);
+        getMain().returnToLogin();
+    }
+
+    class SwitchScenarioListener implements ActionListener {
 
         private Scenario scenario;
 
-        SwitchScenario(Scenario scenario) {
+        SwitchScenarioListener(Scenario scenario) {
             this.scenario = scenario;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             setScenario(scenario);
+        }
+    }
+
+    class LogoutListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Logout();
         }
     }
 }
