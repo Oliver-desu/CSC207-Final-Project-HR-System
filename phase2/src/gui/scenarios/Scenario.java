@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Scenario extends JPanel {
@@ -49,9 +50,15 @@ public abstract class Scenario extends JPanel {
         scenario.addButton("123", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Object object = scenario.getFilterPanel(true).getSelectObject();
+                System.out.println(object);
             }
         });
+        ArrayList<Object> strings = new ArrayList<>();
+        strings.add("7");
+        strings.add("8");
+        strings.add("9");
+        scenario.getFilterPanel(true).setFilterContent(strings);
         scenario.setOutputText("456");
     }
 
@@ -79,10 +86,10 @@ public abstract class Scenario extends JPanel {
         rightFilterPanel.setup(LIST_SIZE);
         if (mode == LayoutMode.REGULAR) {
             outputInfoPanel.setup(OUTPUT_SIZE);
-            inputInfoPanel.setPreferredSize(REGULAR_INPUT_SIZE);
+            inputInfoPanel.setup(REGULAR_INPUT_SIZE, false);
         } else if (mode == LayoutMode.REGISTER) {
             makeUnavailable(outputInfoPanel);
-            inputInfoPanel.setPreferredSize(REGISTER_INPUT_SIZE);
+            inputInfoPanel.setup(REGISTER_INPUT_SIZE, true);
         }
         buttonPanel.setup(BUTTON_PANEL_SIZE);
     }

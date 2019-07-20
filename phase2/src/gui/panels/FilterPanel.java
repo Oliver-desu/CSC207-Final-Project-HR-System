@@ -1,7 +1,6 @@
 package gui.panels;
 
 import domain.filter.Filter;
-import domain.filter.Filterable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -13,7 +12,7 @@ public class FilterPanel<T> extends JPanel {
 
     private Filter<T> filter = new Filter<>();
     private JTable filterTable = new JTable();
-    private DefaultTableModel tableModel = new DefaultTableModel();
+    private DefaultTableModel tableModel = new NotEditableTableModel();
 
     private JTable getFilterTable() {
         return filterTable;
@@ -27,13 +26,25 @@ public class FilterPanel<T> extends JPanel {
         return filter;
     }
 
+    //    private void update() {
+//        getTableModel().setRowCount(0);
+//        String[] headings = getFilter().getHeadings();
+//        if (headings != null) {
+//            getTableModel().setColumnIdentifiers(headings);
+//            for (T result : getFilter().getResults()) {
+//                getTableModel().addRow(((Filterable) result).getSearchValues());
+//            }
+//        }
+//        getFilterTable().updateUI();
+//    }
+// Todo: remove example.
     private void update() {
         getTableModel().setRowCount(0);
         String[] headings = getFilter().getHeadings();
         if (headings != null) {
             getTableModel().setColumnIdentifiers(headings);
             for (T result : getFilter().getResults()) {
-                getTableModel().addRow(((Filterable) result).getSearchValues());
+                getTableModel().addRow(new String[]{(String) result, (String) result, (String) result});
             }
         }
         getFilterTable().updateUI();
@@ -52,6 +63,7 @@ public class FilterPanel<T> extends JPanel {
 
     public T getSelectObject() {
         int index = getFilterTable().getSelectedRow();
+        if (index == -1) return null;
         return getFilter().getSelectedItem(index);
     }
 
@@ -62,5 +74,12 @@ public class FilterPanel<T> extends JPanel {
     public void setFilterContent(ArrayList<T> filterContent) {
         getFilter().setFilterContent(filterContent);
         update();
+    }
+
+    class NotEditableTableModel extends DefaultTableModel {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
     }
 }
