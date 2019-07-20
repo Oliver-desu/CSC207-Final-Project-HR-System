@@ -9,15 +9,15 @@ public class CompanyPool {
 
 
     public static ArrayList<Company> getCompanies() {
-        return null;
+        return (ArrayList<Company>) companies.values();
     }
 
     public static Company getCompany(String id) {
-        return null;
+        return companies.get(id);
     }
 
     public static void addCompany(String id, Company company) {
-
+        companies.put(id, company);
     }
 
 }

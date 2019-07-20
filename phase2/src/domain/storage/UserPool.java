@@ -14,58 +14,81 @@ public class UserPool {
         HRCOORDINATOR
     }
 
-    private static HashMap<String, Applicant> applicants;
-    private static HashMap<String, Interviewer> interviewers;
-    private static HashMap<String, HRGeneralist> generalists;
-    private static HashMap<String, HRCoordinator> coordinators;
+    private static HashMap<String, Applicant> applicants = new HashMap<>();
+    private static HashMap<String, Interviewer> interviewers = new HashMap<>();
+    private static HashMap<String, HRGeneralist> generalists = new HashMap<>();
+    private static HashMap<String, HRCoordinator> coordinators = new HashMap<>();
 
 
     public static void register(Applicant applicant) {
-
+        applicants.put(applicant.getUsername(), applicant);
     }
 
     public static void register(Interviewer interviewer) {
-
+        interviewers.put(interviewer.getUsername(), interviewer);
     }
 
     public static void register(HRCoordinator coordinator) {
-
+        coordinators.put(coordinator.getUsername(), coordinator);
     }
 
     public static void register(HRGeneralist generalist) {
-
+        generalists.put(generalist.getUsername(), generalist);
     }
 
     public static Applicant getApplicant(String id) {
-        return null;
+        return applicants.get(id);
     }
 
     public static Interviewer getInterviewer(String id) {
-        return null;
+        return interviewers.get(id);
     }
 
     public static HRGeneralist getHRGeneralist(String id) {
-        return null;
+        return generalists.get(id);
     }
 
     public static HRCoordinator getHRCoordinator(String id) {
-        return null;
+        return coordinators.get(id);
     }
 
     public static ArrayList<Applicant> getApplicants(ArrayList<String> ids) {
-        return null;
+        ArrayList<Applicant> tempApplicants = new ArrayList<>();
+        for (String id: ids) {
+            tempApplicants.add(UserPool.getApplicant(id));
+        }
+        return tempApplicants;
     }
 
     public static ArrayList<Interviewer> getInterviewers(ArrayList<String> ids) {
-        return null;
+        ArrayList<Interviewer> tempInterviewers = new ArrayList<>();
+        for (String id: ids) {
+            tempInterviewers.add(UserPool.getInterviewer(id));
+        }
+        return tempInterviewers;
     }
 
     public static ArrayList<HRCoordinator> getHRCoordinators(ArrayList<String> ids) {
-        return null;
+        ArrayList<HRCoordinator> tempCoordinators = new ArrayList<>();
+        for (String id: ids) {
+            tempCoordinators.add(UserPool.getHRCoordinator(id));
+        }
+        return tempCoordinators;
     }
 
     public static User getUser(UserType type, String userName) {
-        return null;
+        if (type.equals(UserType.APPLICANT) && applicants.containsKey(userName)) {
+            return applicants.get(userName);
+        } else if (type.equals(UserType.INTERVIEWER) && interviewers.containsKey(userName)) {
+            return interviewers.get(userName);
+        } else if (type.equals(UserType.HRGENERALIST) && generalists.containsKey(userName)) {
+            return generalists.get(userName);
+        } else if (type.equals(UserType.HRCOORDINATOR) && coordinators.containsKey(userName)) {
+            return coordinators.get(userName);
+        } else {
+            // this will change to an empty new User later
+            return null;
+        }
     }
 
 }
