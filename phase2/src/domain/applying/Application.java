@@ -26,7 +26,7 @@ public class Application {
         this.interviews = new HashMap<>();
         this.applicantId = values.get("applicantId");
         this.jobPostingId = values.get("jobPostingId");
-        this.documentManager = new DocumentManager();
+        this.documentManager = new DocumentManager(false);
         this.status = ApplicationStatus.DRAFT;
     }
 
