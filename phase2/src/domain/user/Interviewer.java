@@ -34,8 +34,11 @@ public class Interviewer extends User {
     }
 
     public void addInterview(Interview interview) {
-//        add to upcoming interviews?
-
+        if(interview.getStatus().equals(Interview.InterviewStatus.FAIL) || interview.getStatus().equals(Interview.InterviewStatus.PASS)){
+            this.pastInterviews.add(interview);
+        }else if(interview.getStatus().equals(Interview.InterviewStatus.PENDING)){
+            this.upcomingInterviews.add(interview);
+        }
     }
 
     public void updateInterviews() {
