@@ -1,8 +1,7 @@
-package gui.menus;
+package gui.major;
 
 import domain.user.*;
 import gui.scenarios.NullScenario;
-import gui.scenarios.Scenario;
 import main.Main;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class UserMenu extends JFrame {
 
-    public static final Dimension SCENARIO_SIZE = new Dimension(800, 500);
+    static final Dimension SCENARIO_SIZE = new Dimension(800, 500);
     private static final int WIDTH = 0;
     private static final int HEIGHT = 0;
     private static final Dimension MENU_SIZE = new Dimension(0, 0);
