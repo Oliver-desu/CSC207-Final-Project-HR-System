@@ -2,16 +2,20 @@ package gui.panels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class InputInfoPanel extends JPanel {
 
     private static final int HEIGHT = 45;
+    private HashMap<Size, Dimension> sizes = new HashMap<>();
 
     private Container box;
-    private Dimension labelSize;
-    private Dimension toolSize;
-    private Dimension areaSize;
+    private JPasswordField[] passwordFields = new JPasswordField[2];
+
+    private Dimension getLabelSize() {
+        return sizes.get(Size.LABEL);
+    }
     private HashMap<String, JComponent> componentMap = new HashMap<>();
 
     public void setup(Dimension dimension, boolean vertical) {
@@ -30,23 +34,37 @@ public class InputInfoPanel extends JPanel {
         add(scrollPane);
     }
 
+    private Dimension getAreaSize() {
+        return sizes.get(Size.AREA);
+    }
+
+    private Dimension getComboBoxSize() {
+        return sizes.get(Size.COMBO_BOX);
+    }
+
+    private Dimension getFieldSize() {
+        return sizes.get(Size.FIELD);
+    }
+
     private void setComponentSizes(int width) {
-        labelSize = new Dimension(width / 5, HEIGHT);
-        toolSize = new Dimension(width / 2, HEIGHT);
-        areaSize = new Dimension(width * 3 / 4, HEIGHT * 2);
+        sizes.put(Size.LABEL, new Dimension(width / 5, HEIGHT));
+        sizes.put(Size.COMBO_BOX, new Dimension(width / 2, HEIGHT));
+        sizes.put(Size.FIELD, new Dimension(width / 2, HEIGHT));
+        sizes.put(Size.AREA, new Dimension(width * 3 / 4, HEIGHT * 2));
     }
 
     private void createTool(String name, JComponent component) {
         JPanel panel = new JPanel();
         JLabel label = new JLabel(name);
-        label.setPreferredSize(labelSize);
+        label.setPreferredSize(getLabelSize());
         panel.add(label);
         if (component instanceof JTextArea) {
             JScrollPane scrollPane = new JScrollPane(component);
-            scrollPane.setPreferredSize(areaSize);
+            scrollPane.setPreferredSize(getAreaSize());
             panel.add(scrollPane);
         } else panel.add(component);
         box.add(panel);
+        if (component instanceof JPasswordField) return;
         componentMap.put(name, component);
     }
 
@@ -54,20 +72,29 @@ public class InputInfoPanel extends JPanel {
         JComboBox<String> comboBox = new JComboBox<>(options);
         comboBox.setSelectedItem(defaultValue);
         comboBox.setEditable(editable);
-        comboBox.setPreferredSize(toolSize);
+        comboBox.setPreferredSize(getComboBoxSize());
         createTool(name, comboBox);
-    }
-
-    public void addComboBox(String name, String[] options) {
-        addComboBox(name, options, null, false);
     }
 
     public void addTextField(String name, String defaultValue, boolean editable) {
         JTextField textField = new JTextField();
         textField.setText(defaultValue);
         textField.setEditable(editable);
-        textField.setPreferredSize(toolSize);
+        textField.setPreferredSize(getFieldSize());
         createTool(name, textField);
+    }
+
+    public void addComboBox(String name, String[] options) {
+        addComboBox(name, options, null, false);
+    }
+
+    public void addPasswordField(String name) {
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setPreferredSize(getFieldSize());
+        if (passwordFields[0] == null) passwordFields[0] = passwordField;
+        else if (passwordFields[1] == null) passwordFields[1] = passwordField;
+        else return;
+        createTool(name, passwordField);
     }
 
     public void addTextField(String name) {
@@ -98,6 +125,25 @@ public class InputInfoPanel extends JPanel {
         }
         return "";
     }
+
+    private boolean passwordMatched() {
+        JPasswordField passwordField = passwordFields[0];
+        JPasswordField confirmPasswordField = passwordFields[1];
+        if (passwordField == null) {
+            return false;
+        } else if (confirmPasswordField == null) {
+            return true;
+        } else {
+            return Arrays.equals(passwordField.getPassword(), confirmPasswordField.getPassword());
+        }
+    }
+
+    public String getPassword() {
+        if (passwordMatched()) return Arrays.toString(passwordFields[0].getPassword());
+        else return null;
+    }
+
+    private enum Size {LABEL, COMBO_BOX, AREA, FIELD}
 
     public HashMap<String, String> getInfoMap() {
         HashMap<String, String> infoMap = new HashMap<>();
