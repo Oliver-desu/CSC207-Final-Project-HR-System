@@ -1,10 +1,10 @@
 package gui.scenarios;
 
+import gui.menus.UserMenu;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 import gui.panels.OutputInfoPanel;
-import gui.view.UserMenu;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,8 +18,8 @@ import java.util.HashMap;
 public abstract class Scenario extends JPanel {
     private static final int HORIZONTAL_GAP = 5;
     private static final int VERTICAL_GAP = 5;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 500;
+    private static final int WIDTH = UserMenu.SCENARIO_SIZE.width;
+    private static final int HEIGHT = UserMenu.SCENARIO_SIZE.height;
 
     private static final Dimension LIST_SIZE = new Dimension(WIDTH / 5 - HORIZONTAL_GAP, HEIGHT / 2);
     private static final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
@@ -42,6 +42,10 @@ public abstract class Scenario extends JPanel {
 
     public static void main(String[] args) {
         Scenario scenario = new Scenario(new UserMenu(), LayoutMode.REGULAR) {
+            @Override
+            public void init() {
+
+            }
         };
         scenario.showColor();
         JFrame frame = new JFrame();
@@ -76,6 +80,8 @@ public abstract class Scenario extends JPanel {
         scenario.getInputInfoPanel().addTextArea("text area:");
         scenario.getInputInfoPanel().updateUI();
     }
+
+    public abstract void init();
 
     private void basicSetup() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -138,7 +144,7 @@ public abstract class Scenario extends JPanel {
     }
 
     protected void switchScenario(Scenario scenario) {
-        getUserMenu().switchScenario(scenario);
+        getUserMenu().setScenario(scenario);
     }
 
     protected UserMenu getUserMenu() {
