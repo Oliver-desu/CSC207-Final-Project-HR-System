@@ -26,7 +26,7 @@ public class Application {
         this.interviews = new HashMap<>();
         this.applicantId = values.get("applicantId");
         this.jobPostingId = values.get("jobPostingId");
-        this.documentManager = new DocumentManager(false);
+        this.documentManager = new DocumentManager(true);
         this.status = ApplicationStatus.DRAFT;
     }
 
@@ -67,6 +67,7 @@ public class Application {
     }
 
     public void apply() {
+        this.documentManager.setEditable(false);
         this.setStatus(ApplicationStatus.PENDING);
         JobPosting jobPosting = JobPool.getJobPosting(this.jobPostingId);
         jobPosting.applicationSubmit(this);
