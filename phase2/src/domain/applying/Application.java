@@ -1,12 +1,14 @@
 package domain.applying;
 
+import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.storage.JobPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class Application {
+public class Application implements Filterable {
 
     public enum ApplicationStatus {
         DRAFT,
@@ -92,4 +94,21 @@ public class Application {
         this.setStatus(ApplicationStatus.REJECTED);
     }
 
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.applicantId);
+        values.add(this.jobPostingId);
+        values.add(this.status.toString());
+        return (String[]) values.toArray();
+    }
+
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("applicantId");
+        headings.add("jobPostingId");
+        headings.add("status");
+        return (String[]) headings.toArray();
+    }
 }

@@ -1,8 +1,12 @@
 package domain.applying;
 
-import java.time.LocalDate;
+import domain.filter.Filterable;
 
-public class Document {
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Document implements Filterable {
 
     private String content;
     private LocalDate lastUsedDate;
@@ -25,4 +29,17 @@ public class Document {
         this.lastUsedDate = currentDate;
     }
 
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("lastUsedDate");
+        return (String[]) headings.toArray();
+    }
+
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.lastUsedDate.toString());
+        return (String[]) values.toArray();
+    }
 }

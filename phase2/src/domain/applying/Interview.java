@@ -1,6 +1,11 @@
 package domain.applying;
 
-public class Interview {
+import domain.filter.Filterable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Interview implements Filterable {
 
     public enum InterviewStatus {
         UNMATCHED,
@@ -10,7 +15,6 @@ public class Interview {
     }
 
     private Application application;
-    private String interviewerId;
     private InterviewStatus status;
     private String recommendation;
     private InterviewInfo interviewInfo;
@@ -25,7 +29,7 @@ public class Interview {
     }
 
     public String getInterviewId() {
-        return this.interviewerId;
+        return this.interviewInfo.getInterviewerId();
     }
 
     public InterviewStatus getStatus() {
@@ -40,8 +44,7 @@ public class Interview {
         this.recommendation = recommendation;
     }
 
-    public void match(String interviewerId, InterviewInfo interviewInfo) {
-        this.interviewerId = interviewerId;
+    public void match(InterviewInfo interviewInfo) {
         this.interviewInfo = interviewInfo;
     }
 
@@ -58,4 +61,22 @@ public class Interview {
 //
 //    }
 
+
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("applicantId");
+        headings.add("interviewerId");
+        headings.add("status");
+        return (String[]) headings.toArray();
+    }
+
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.application.getApplicantId());
+        values.add(this.interviewInfo.getInterviewerId());
+        values.add(this.status.toString());
+        return (String[]) values.toArray();
+    }
 }
