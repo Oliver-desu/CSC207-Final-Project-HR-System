@@ -2,11 +2,13 @@ package domain.job;
 
 import domain.applying.Application;
 import domain.applying.Interview;
+import domain.filter.Filterable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class InterviewRound {
+public class InterviewRound implements Filterable {
 
     public enum InterviewRoundStatus {
         EMPTY,
@@ -102,5 +104,21 @@ public class InterviewRound {
         this.setStatus(InterviewRoundStatus.MATCHING);
     }
 
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("roundName");
+        headings.add("numOfApplications");
+        headings.add("status");
+        return (String[]) headings.toArray();
+    }
 
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.getRoundName());
+        values.add(Integer.toString(this.getCurrentRoundApplications().size()));
+        values.add(this.status.toString());
+        return (String[]) values.toArray();
+    }
 }

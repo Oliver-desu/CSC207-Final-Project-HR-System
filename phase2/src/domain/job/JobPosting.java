@@ -1,12 +1,13 @@
 package domain.job;
 
 import domain.applying.Application;
-import domain.storage.Company;
+import domain.filter.Filterable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class JobPosting {
+public class JobPosting implements Filterable {
 
     public enum JobPostingStatus {
         OPEN,
@@ -123,5 +124,23 @@ public class JobPosting {
 
     public String toString(Object object) {
         return null;
+    }
+
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("id");
+        headings.add("positionName");
+        headings.add("closeDate");
+        return (String[]) headings.toArray();
+    }
+
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.jobInfo.getId());
+        values.add(this.jobInfo.getPositionName());
+        values.add(this.jobInfo.getCloseDate().toString());
+        return (String[]) values.toArray();
     }
 }

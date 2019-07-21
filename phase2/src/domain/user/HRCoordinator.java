@@ -1,12 +1,14 @@
 package domain.user;
 
+import domain.filter.Filterable;
 import domain.job.JobPosting;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class HRCoordinator extends User {
+public class HRCoordinator extends User implements Filterable {
     private String companyId;
     private ArrayList<JobPosting> jobPostings;
 
@@ -31,5 +33,19 @@ public class HRCoordinator extends User {
         return false;
     }
 
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("companyId");
+        headings.add("userName");
+        return (String[]) headings.toArray();
+    }
 
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.getCompanyId());
+        values.add(this.getUsername());
+        return (String[]) values.toArray();
+    }
 }

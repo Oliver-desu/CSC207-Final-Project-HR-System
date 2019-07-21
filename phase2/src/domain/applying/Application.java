@@ -95,20 +95,20 @@ public class Application implements Filterable {
     }
 
     @Override
-    public String[] getSearchValues() {
-        List<String> values = new ArrayList<>();
-        values.add(this.applicantId);
-        values.add(this.jobPostingId);
-        values.add(this.status.toString());
-        return (String[]) values.toArray();
-    }
-
-    @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
         headings.add("applicantId");
         headings.add("jobPostingId");
         headings.add("status");
         return (String[]) headings.toArray();
+    }
+
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.applicantId);
+        values.add(this.jobPostingId);
+        values.add(this.status.toString());
+        return (String[]) values.toArray();
     }
 }
