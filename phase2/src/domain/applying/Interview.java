@@ -68,7 +68,7 @@ public class Interview implements Filterable {
         headings.add("applicantId");
         headings.add("interviewerId");
         headings.add("status");
-        return (String[]) headings.toArray();
+        return headings.toArray(new String[0]);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class Interview implements Filterable {
         values.add(this.application.getApplicantId());
         values.add(this.interviewInfo.getInterviewerId());
         values.add(this.status.toString());
-        return (String[]) values.toArray();
+        return values.toArray(new String[0]);
     }
 }

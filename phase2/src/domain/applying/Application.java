@@ -100,7 +100,7 @@ public class Application implements Filterable {
         headings.add("applicantId");
         headings.add("jobPostingId");
         headings.add("status");
-        return (String[]) headings.toArray();
+        return headings.toArray(new String[0]);
     }
 
     @Override
@@ -109,6 +109,6 @@ public class Application implements Filterable {
         values.add(this.applicantId);
         values.add(this.jobPostingId);
         values.add(this.status.toString());
-        return (String[]) values.toArray();
+        return values.toArray(new String[0]);
     }
 }

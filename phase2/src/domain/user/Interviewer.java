@@ -1,12 +1,14 @@
 package domain.user;
 
 import domain.applying.Interview;
+import domain.filter.Filterable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class Interviewer extends User {
+public class Interviewer extends User implements Filterable {
 
     private String companyId;
     private ArrayList<Interview> pastInterviews;
@@ -47,5 +49,19 @@ public class Interviewer extends User {
 
     public static boolean isValidInfo(HashMap<String, String> values) {
         return true;
+    }
+
+    @Override
+    public String[] getHeadings() {
+        List<String> headings = new ArrayList<>();
+        headings.add("userName");
+        return headings.toArray(new String[0]);
+    }
+
+    @Override
+    public String[] getSearchValues() {
+        List<String> values = new ArrayList<>();
+        values.add(this.getUsername());
+        return values.toArray(new String[0]);
     }
 }

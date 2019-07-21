@@ -33,13 +33,13 @@ public class Document implements Filterable {
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
         headings.add("lastUsedDate");
-        return (String[]) headings.toArray();
+        return headings.toArray(new String[0]);
     }
 
     @Override
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
         values.add(this.lastUsedDate.toString());
-        return (String[]) values.toArray();
+        return values.toArray(new String[0]);
     }
 }

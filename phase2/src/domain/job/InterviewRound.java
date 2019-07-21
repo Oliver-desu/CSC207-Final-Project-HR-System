@@ -110,7 +110,7 @@ public class InterviewRound implements Filterable {
         headings.add("roundName");
         headings.add("numOfApplications");
         headings.add("status");
-        return (String[]) headings.toArray();
+        return headings.toArray(new String[0]);
     }
 
     @Override
@@ -119,6 +119,6 @@ public class InterviewRound implements Filterable {
         values.add(this.getRoundName());
         values.add(Integer.toString(this.getCurrentRoundApplications().size()));
         values.add(this.status.toString());
-        return (String[]) values.toArray();
+        return values.toArray(new String[0]);
     }
 }

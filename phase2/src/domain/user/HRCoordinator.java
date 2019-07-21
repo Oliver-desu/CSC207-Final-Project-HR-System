@@ -38,7 +38,7 @@ public class HRCoordinator extends User implements Filterable {
         List<String> headings = new ArrayList<>();
         headings.add("companyId");
         headings.add("userName");
-        return (String[]) headings.toArray();
+        return headings.toArray(new String[0]);
     }
 
     @Override
@@ -46,6 +46,6 @@ public class HRCoordinator extends User implements Filterable {
         List<String> values = new ArrayList<>();
         values.add(this.getCompanyId());
         values.add(this.getUsername());
-        return (String[]) values.toArray();
+        return values.toArray(new String[0]);
     }
 }

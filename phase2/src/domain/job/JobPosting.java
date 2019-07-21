@@ -132,7 +132,7 @@ public class JobPosting implements Filterable {
         headings.add("id");
         headings.add("positionName");
         headings.add("closeDate");
-        return (String[]) headings.toArray();
+        return headings.toArray(new String[0]);
     }
 
     @Override
@@ -141,6 +141,6 @@ public class JobPosting implements Filterable {
         values.add(this.jobInfo.getId());
         values.add(this.jobInfo.getPositionName());
         values.add(this.jobInfo.getCloseDate().toString());
-        return (String[]) values.toArray();
+        return values.toArray(new String[0]);
     }
 }
