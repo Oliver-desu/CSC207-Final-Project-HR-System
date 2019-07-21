@@ -15,9 +15,11 @@ import java.util.HashMap;
 
 public class Login extends JFrame {
 
-    private static final Dimension SIZE = new Dimension(520, 400);
-    private static final Dimension INPUT_SIZE = new Dimension(500, 300);
-    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(500, 50);
+    private static final int WIDTH = 520;
+    private static final int HEIGHT = 300;
+
+    private static final Dimension INPUT_SIZE = new Dimension(WIDTH - 20, HEIGHT - 100);
+    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - 20, 50);
     private static final String[] USER_TYPE = new String[]{"Applicant", "HR_Generalist", "HR_Coordinator", "Interviewer"};
 
     private Main main;
@@ -31,7 +33,7 @@ public class Login extends JFrame {
 
     private void setup() {
         setTitle("Login");
-        setSize(SIZE);
+        setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
         infoPanelSetup();
         buttonPanelSetup();

@@ -28,16 +28,23 @@ public abstract class Scenario extends JPanel {
     private InputInfoPanel inputInfoPanel = new InputInfoPanel();
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
     private ButtonPanel buttonPanel = new ButtonPanel();
+    private LayoutMode mode = LayoutMode.REGULAR;
+
+    protected Scenario(UserMenu userMenu) {
+        setUserMenu(userMenu);
+    }
 
     protected Scenario(UserMenu userMenu, LayoutMode mode) {
         setUserMenu(userMenu);
-        basicSetup();
-        initLayout(mode);
+        this.mode = mode;
     }
 
-    public abstract void init();
+    public void init() {
+        setup();
+        initLayout();
+    }
 
-    private void basicSetup() {
+    private void setup() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
         add(leftFilterPanel);
@@ -56,7 +63,7 @@ public abstract class Scenario extends JPanel {
         buttonPanel.setBackground(Color.GREEN);
     }
 
-    private void initLayout(LayoutMode mode) {
+    private void initLayout() {
         leftFilterPanel.setup(LIST_SIZE);
         rightFilterPanel.setup(LIST_SIZE);
         if (mode == LayoutMode.REGULAR) {

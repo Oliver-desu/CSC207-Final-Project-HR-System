@@ -21,6 +21,7 @@ public class NullScenario extends Scenario {
 
     public static void main(String[] args) {
         NullScenario scenario = new NullScenario(new UserMenu());
+        scenario.init();
         scenario.exampleCall();
     }
 
@@ -61,10 +62,5 @@ public class NullScenario extends Scenario {
         getInputInfoPanel().addTextArea("text area:");
         getInputInfoPanel().updateUI();
         showDocument("12345\n12345\n12345\n12345\n12345/n12345/n12345/n12345/n12345/n12345/n");
-    }
-
-    @Override
-    public void init() {
-
     }
 }
