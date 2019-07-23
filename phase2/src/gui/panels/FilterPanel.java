@@ -36,6 +36,7 @@ public class FilterPanel<T> extends JPanel {
 //            }
 //        }
 //        getFilterTable().updateUI();
+//        updateUI();
 //    }
 // Todo: remove example.
     private void update() {
@@ -48,6 +49,7 @@ public class FilterPanel<T> extends JPanel {
             }
         }
         getFilterTable().updateUI();
+        updateUI();
     }
 
     public void setup(Dimension dimension) {

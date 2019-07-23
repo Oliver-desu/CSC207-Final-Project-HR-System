@@ -133,6 +133,16 @@ public abstract class Scenario extends JPanel {
         frame.setVisible(true);
     }
 
+    protected void exampleView() {
+        init();
+        showColor();
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(new Dimension(1000, 600));
+        frame.add(this);
+        frame.setVisible(true);
+    }
+
     protected enum LayoutMode {REGULAR, REGISTER}
 
     protected enum ScenarioPart {LEFT_FILTER, RIGHT_FILTER, INPUT, OUTPUT, BUTTON}
