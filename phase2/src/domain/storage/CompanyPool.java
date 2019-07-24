@@ -9,7 +9,9 @@ public class CompanyPool {
 
 
     public static ArrayList<Company> getCompanies() {
-        return (ArrayList<Company>) companies.values();
+        ArrayList<Company> tempCompanies = new ArrayList<>();
+        tempCompanies.addAll(companies.values());
+        return tempCompanies;
     }
 
     public static Company getCompany(String id) {
