@@ -15,6 +15,8 @@ public class Applicant extends User {
 
     public Applicant(HashMap<String, String> map) {
         super(map);
+        this.applications = new HashMap<>();
+        this.documentManager = new DocumentManager(true);
     }
 
     public HashMap<String, Application> getApplicationMap() {
