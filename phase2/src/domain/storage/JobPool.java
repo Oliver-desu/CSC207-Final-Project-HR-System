@@ -3,6 +3,7 @@ package domain.storage;
 import domain.job.JobPosting;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class JobPool {
@@ -21,7 +22,13 @@ public class JobPool {
     }
 
     public static ArrayList<JobPosting> getJobPostings() {
-        return (ArrayList<JobPosting>) jobPostings.values();
+        ArrayList<JobPosting> listJobPostings = new ArrayList<JobPosting>();
+        Collection<String> keys = jobPostings.keySet();
+        for (String key:keys
+             ) {listJobPostings.add(jobPostings.get(key));
+
+        }
+        return  listJobPostings;
     }
 
     public static JobPosting getJobPosting(String id) {
