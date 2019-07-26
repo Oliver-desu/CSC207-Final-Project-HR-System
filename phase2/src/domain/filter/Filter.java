@@ -25,13 +25,9 @@ public class Filter<T> {
         return results;
     }
 
-//    public String[] getHeadings() {
-//        if (results.size() != 0 && results.get(0) instanceof Filterable) {
-//            return ((Filterable) results.get(0)).getHeadings();
-//        } else return null;
-//    }
-
     public String[] getHeadings() {
-        return new String[]{"???", "!!!", "***"};
+        if (results.size() != 0 && results.get(0) instanceof Filterable) {
+            return ((Filterable) results.get(0)).getHeadings();
+        } else return null;
     }
 }

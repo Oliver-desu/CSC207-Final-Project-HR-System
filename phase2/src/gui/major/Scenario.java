@@ -122,15 +122,10 @@ public abstract class Scenario extends JPanel {
     }
 
     protected void showDocument(String documentContent) {
-        JFrame frame = new JFrame();
-        frame.setResizable(false);
-        frame.setSize(new Dimension(OUTPUT_SIZE.width + 20, OUTPUT_SIZE.height + 45));
-        frame.setLayout(new FlowLayout());
         OutputInfoPanel document = new OutputInfoPanel();
         document.setup(OUTPUT_SIZE);
         document.setOutputText(documentContent);
-        frame.add(document);
-        frame.setVisible(true);
+        new DocumentFrame(document);
     }
 
     protected void exampleView() {
@@ -141,6 +136,17 @@ public abstract class Scenario extends JPanel {
         frame.setSize(new Dimension(1000, 600));
         frame.add(this);
         frame.setVisible(true);
+    }
+
+    class DocumentFrame extends JFrame {
+
+        DocumentFrame(JPanel document) {
+            setResizable(false);
+            setSize(new Dimension(OUTPUT_SIZE.width + 20, OUTPUT_SIZE.height + 45));
+            setLayout(new FlowLayout());
+            add(document);
+            setVisible(true);
+        }
     }
 
     protected enum LayoutMode {REGULAR, REGISTER}

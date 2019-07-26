@@ -1,6 +1,7 @@
 package gui.panels;
 
 import domain.filter.Filter;
+import domain.filter.Filterable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -26,26 +27,13 @@ public class FilterPanel<T> extends JPanel {
         return filter;
     }
 
-    //    private void update() {
-//        getTableModel().setRowCount(0);
-//        String[] headings = getFilter().getHeadings();
-//        if (headings != null) {
-//            getTableModel().setColumnIdentifiers(headings);
-//            for (T result : getFilter().getResults()) {
-//                getTableModel().addRow(((Filterable) result).getSearchValues());
-//            }
-//        }
-//        getFilterTable().updateUI();
-//        updateUI();
-//    }
-// Todo: remove example.
     private void update() {
         getTableModel().setRowCount(0);
         String[] headings = getFilter().getHeadings();
         if (headings != null) {
             getTableModel().setColumnIdentifiers(headings);
             for (T result : getFilter().getResults()) {
-                getTableModel().addRow(new String[]{(String) result, (String) result, (String) result});
+                getTableModel().addRow(((Filterable) result).getSearchValues());
             }
         }
         getFilterTable().updateUI();
