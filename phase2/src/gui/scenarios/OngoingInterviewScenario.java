@@ -1,7 +1,8 @@
 package gui.scenarios;
 
-import domain.user.Interviewer;
+import domain.applying.Application;
 import domain.applying.Interview;
+import domain.user.Interviewer;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -11,38 +12,35 @@ import gui.panels.OutputInfoPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class OngoingInterviewScenario extends Scenario {
 
     private Interviewer interviewer;
-    private Interview interview;
+    private Interview interview = new Interview(new Application(new HashMap<>()));
 
     public OngoingInterviewScenario(UserMenu userMenu, Interviewer interviewer){
         super(userMenu, LayoutMode.REGULAR);
         this.interviewer = interviewer;
-        this.interview = interview;
-
     }
+
     public static void main(String[] args) {
-        OngoingInterviewScenario = new OngoingInterviewScenario(new UserMenu());
+        OngoingInterviewScenario scenario = new OngoingInterviewScenario(new UserMenu(), new Interviewer(new HashMap<>(), "NoId"));
         scenario.init();
-
     }
 
-    private void init(){
+    public void init() {
         super.init();
         FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-        leftFilterPanel.setFilterContent(this.interviewer.getUpcomingInterviews());
+        leftFilterPanel.setFilterContent(new ArrayList<>(this.interviewer.getUpcomingInterviews()));
         leftFilterPanel.addSelectionListener(new ShowInfoListener(leftFilterPanel));
         leftFilterPanel.updateUI();
-        OutputInfoPanel<Object> rightOutputPanel = new OutputInfoPanel();
-        rightOutputPanel.setOutputText(this.interview.toStringForInterviewer());
-        InputInfoPanel<Object> InputInfo = getInputInfoPanel();
-        InputInfo.addTextField();
-        
-
+        OutputInfoPanel rightOutputPanel = new OutputInfoPanel();
+        rightOutputPanel.setOutputText(this.interview.toString());
+        InputInfoPanel InputInfo = getInputInfoPanel();
+        InputInfo.addTextField("what");
     }
+
     class ShowInfoListener implements ListSelectionListener{
         private FilterPanel<Object> filterPanel;
 

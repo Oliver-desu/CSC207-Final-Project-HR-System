@@ -16,11 +16,7 @@ public abstract class Scenario extends JPanel {
     private static final int WIDTH = UserMenu.SCENARIO_SIZE.width;
     private static final int HEIGHT = UserMenu.SCENARIO_SIZE.height;
 
-    private static final Dimension LIST_SIZE = new Dimension(WIDTH / 5 - HORIZONTAL_GAP, HEIGHT / 2);
     private static final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
-    private static final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
-    private static final Dimension REGISTER_INPUT_SIZE = OUTPUT_SIZE;
-    private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
 
     private UserMenu userMenu;
     private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
@@ -64,6 +60,12 @@ public abstract class Scenario extends JPanel {
     }
 
     private void initLayout() {
+        final Dimension LIST_SIZE = new Dimension(WIDTH / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+        final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+        final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
+        final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+        final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
+
         leftFilterPanel.setup(LIST_SIZE);
         rightFilterPanel.setup(LIST_SIZE);
         if (mode == LayoutMode.REGULAR) {
