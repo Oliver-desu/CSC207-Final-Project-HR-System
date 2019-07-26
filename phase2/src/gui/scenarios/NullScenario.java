@@ -68,6 +68,7 @@ public class NullScenario extends Scenario {
 
         private JComponent parent;
 
+
         ExampleActionListener(JComponent parent) {
             this.parent = parent;
         }
