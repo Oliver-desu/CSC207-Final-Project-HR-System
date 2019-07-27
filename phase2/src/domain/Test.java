@@ -19,93 +19,119 @@ import java.util.Random;
 
 public class Test {
 
-    private static int numApplicants;
-    private static int numInterviewers;
-    private static int numCompanies;
-    private static int numCoordinators;
-    private static int numJobPostings;
+    private int numApplicants;
+    private int numInterviewers;
+    private int numCompanies;
+    private int numCoordinators;
+    private int numJobPostings;
+
+    private UserPool userPool = new UserPool();
+    private JobPool jobPool = new JobPool();
+    private CompanyPool companyPool = new CompanyPool();
 
 
     public static void main(String[] args) {
+        Test test = new Test();
+
         Random rand = new Random();
-        UserPool userPool = new UserPool();
-        JobPool jobPool = new JobPool();
-        CompanyPool companyPool = new CompanyPool();
-        addApplicants(userPool, 10);
-        addCompanies(5, userPool, companyPool);
+        test.addApplicants(10);
+        test.addCompanies(5);
         JobPosting jobPosting;
-        int numApplicationsSubmitted = 0;
-        for (Company company: companyPool.getCompanies()) {
-            addInterviewersForCompany(userPool, 10, company);
-            addCoordinatorsForCompany(userPool, 10, company);
-            addJobPostingsForCompany(10, company, jobPool);
-            jobPosting = Test.getRandomJobPosting(company, jobPool);
-            Test.addApplicationsForJobPosting(3, jobPool, userPool, companyPool, jobPosting.getJobId());
-            numApplicationsSubmitted += 3;
+        for (Company company: test.getCompanyPool().getCompanies()) {
+            test.addInterviewersForCompany(10, company);
+            test.addCoordinatorsForCompany(10, company);
+            test.addJobPostingsForCompany(10, company);
+            jobPosting = test.getRandomJobPosting(company);
+            test.addApplicationsForJobPosting(3, jobPosting);
         }
 
-        System.out.println("Num applicants: " + numApplicants);
-        System.out.println("Num interviewers: " + numInterviewers);
-        System.out.println("Num companies: " + numCompanies);
-        System.out.println("Num coordinators: " + numCoordinators);
-        System.out.println("Num jobPostings: " + numJobPostings);
-        System.out.println("Num applications submitted: " + numApplicationsSubmitted);
+        System.out.println("Num applicants: " + test.getNumApplicants());
+        System.out.println("Num interviewers: " + test.getNumInterviewers());
+        System.out.println("Num companies: " + test.getNumCompanies());
+        System.out.println("Num coordinators: " + test.getNumCoordinators());
+        System.out.println("Num jobPostings: " + test.getNumJobPostings());
     }
 
-    public static Main defaultSetting() {
+    public void setDefault() {
         // default setting is:
         // 1) add 10 applicants
         // 2) add 5 companies
         // 3) add 10 interviewers, 10 coordinators for each company
         // 4) add 1 jobPosting for each company, then add 3 applications submitted for that jobPosting(thus creating 3 new applicants each time)
 
-        Main main = new Main();
         Random rand = new Random();
-        UserPool userPool = main.getUserPool();
-        JobPool jobPool = main.getJobPool();
-        CompanyPool companyPool = main.getCompanyPool();
-        addApplicants(userPool, 10);
-        addCompanies(5, userPool, companyPool);
+        this.addApplicants(10);
+        this.addCompanies(5);
         JobPosting jobPosting;
         for (Company company: companyPool.getCompanies()) {
-            addInterviewersForCompany(userPool, 10, company);
-            addCoordinatorsForCompany(userPool, 10, company);
-            addJobPostingsForCompany(10, company, jobPool);
-            jobPosting = Test.getRandomJobPosting(company, jobPool);
-            Test.addApplicationsForJobPosting(3, jobPool, userPool, companyPool, jobPosting.getJobId());
+            this.addInterviewersForCompany(10, company);
+            this.addCoordinatorsForCompany(10, company);
+            this.addJobPostingsForCompany(10, company);
+            jobPosting = this.getRandomJobPosting(company);
+            this.addApplicationsForJobPosting(3, jobPosting);
         }
-
-        return main;
     }
 
-    public static Applicant getRandomApplicant(UserPool userPool) {
+    public int getNumApplicants() {
+        return numApplicants;
+    }
+
+    public int getNumCompanies() {
+        return numCompanies;
+    }
+
+    public int getNumCoordinators() {
+        return numCoordinators;
+    }
+
+    public int getNumInterviewers() {
+        return numInterviewers;
+    }
+
+    public int getNumJobPostings() {
+        return numJobPostings;
+    }
+
+    public UserPool getUserPool() {
+        return userPool;
+    }
+
+    public JobPool getJobPool() {
+        return jobPool;
+    }
+
+    public CompanyPool getCompanyPool() {
+        return companyPool;
+    }
+
+    public Applicant getRandomApplicant() {
         return userPool.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
     }
 
-    public static Company getRandomCompany(CompanyPool companyPool) {
+    public Company getRandomCompany() {
         return companyPool.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
-    public static HRGeneralist getRandomGeneralist(UserPool userPool) {
+    public HRGeneralist getRandomGeneralist() {
         return userPool.getHRGeneralist(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
-    public static Interviewer getRandomInterviewer(Company company, UserPool userPool) {
+    public Interviewer getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
         return userPool.getInterviewer(interviewerIds.get(new Random().nextInt(interviewerIds.size())));
     }
 
-    public static HRCoordinator getRandomCoordinator(Company company, UserPool userPool) {
+    public HRCoordinator getRandomCoordinator(Company company) {
         ArrayList<String> coordinatorIds = company.getHRCoordinatorIds();
         return userPool.getHRCoordinator(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())));
     }
 
-    public static JobPosting getRandomJobPosting(Company company, JobPool jobPool) {
+    public JobPosting getRandomJobPosting(Company company) {
         ArrayList<String> jobPostingIds = company.getJobPostingIds();
         return jobPool.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
-    public static void addApplicants(UserPool userPool, int num) {
+    public void addApplicants(int num) {
         domain.user.Applicant applicant;
         HashMap<String, String> values;
         int amount = numApplicants;
@@ -119,7 +145,7 @@ public class Test {
         }
     }
 
-    public static void addInterviewersForCompany(UserPool userPool, int num, Company company) {
+    public void addInterviewersForCompany(int num, Company company) {
         Interviewer interviewer;
         HashMap<String, String> values;
         int amount = numInterviewers;
@@ -129,11 +155,12 @@ public class Test {
             values.put("dateCreated", "2019-01-01");
             interviewer = new Interviewer(values, company.getId());
             userPool.register(interviewer);
+            company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
     }
 
-    public static void addCompanies(int num, UserPool userPool, CompanyPool companyPool) {
+    public void addCompanies(int num) {
         Company company;
         HRGeneralist generalist;
         HashMap<String, String> values;
@@ -155,7 +182,7 @@ public class Test {
         }
     }
 
-    public static void addCoordinatorsForCompany(UserPool userPool, int num, Company company) {
+    public void addCoordinatorsForCompany(int num, Company company) {
         HRCoordinator coordinator;
         HashMap<String, String> values;
         int amount = numCoordinators;
@@ -165,11 +192,12 @@ public class Test {
             values.put("dateCreated", "2019-01-01");
             coordinator = new HRCoordinator(values, company.getId());
             userPool.register(coordinator);
+            company.addHRCoordinatorId(coordinator.getUsername());
             numCoordinators ++;
         }
     }
 
-    public static void addJobPostingsForCompany(int num, Company company, JobPool jobPool) {
+    public void addJobPostingsForCompany(int num, Company company) {
         Random rand = new Random();
         JobPosting jobPosting;
         JobInfo jobInfo;
@@ -192,7 +220,7 @@ public class Test {
         }
     }
 
-    public static void addDocumentsForApplicant(int num, domain.user.Applicant applicant) {
+    public void addDocumentsForApplicant(int num, Applicant applicant) {
         Document document;
         int amount = applicant.getDocumentManager().getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
@@ -200,38 +228,39 @@ public class Test {
         }
     }
 
-    public static String getRandomDocumentName(DocumentManager documentManager) {
+    public String getRandomDocumentName(DocumentManager documentManager) {
         Random rand = new Random();
         ArrayList<String> docNames = documentManager.getAllDocNames();
         return docNames.get(rand.nextInt(docNames.size()));
     }
 
-    public static void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant, CompanyPool companyPool) {
+    public void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant) {
         HashMap<String, String> values = new HashMap<>();
         values.put("applicantId", applicant.getUsername());
         values.put("jobPostingId", jobPosting.getJobId());
         Application application = new Application(values);
-        String docName = Test.getRandomDocumentName(applicant.getDocumentManager());
+        String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
         jobPosting.applicationSubmit(application, companyPool);
     }
 
-    public static void addApplicationsForJobPosting(int num, JobPool jobPool, UserPool userPool,
-                                                    CompanyPool companyPool, String jobPostingId) {
+    public void addApplicationsForJobPosting(int num, JobPosting jobPosting) {
         // Create num applicants, then create 1 application for each of them
         int beforeNewApplicants = numApplicants;
-        Test.addApplicants(userPool, num);
+        this.addApplicants(num);
         HashMap<String, String> values;
         Application application;
         for (int applicantId=beforeNewApplicants; applicantId<numApplicants; applicantId++) {
             values = new HashMap<>();
             values.put("applicantId", Integer.toString(applicantId));
-            values.put("jobPostingId", jobPostingId);
+            values.put("jobPostingId", jobPosting.getJobId());
             application = new Application(values);
             application.apply(jobPool, companyPool);
         }
     }
+
+//    public static void addNewRoundForJobPosting(JobPool jobPool, String jobPostingId)
 
 
 }
