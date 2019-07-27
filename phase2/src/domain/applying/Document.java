@@ -2,21 +2,32 @@ package domain.applying;
 
 import domain.filter.Filterable;
 
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Document implements Filterable {
 
+    private String documentName = "???";
     private String content;
     private LocalDate lastUsedDate;
 
 
     public Document() {}
 
+    // Todo
+    public Document(Path path) {
+
+    }
+
     public Document(String content) {
         this.content = content;
         this.lastUsedDate = LocalDate.now();
+    }
+
+    public String getDocumentName() {
+        return documentName;
     }
 
     public String getContent () {

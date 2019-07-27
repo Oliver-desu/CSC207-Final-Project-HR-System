@@ -1,4 +1,4 @@
-package gui.scenarios;
+package gui.scenarios.oliver;
 
 import domain.filter.ExampleFilterable;
 import domain.user.Applicant;
