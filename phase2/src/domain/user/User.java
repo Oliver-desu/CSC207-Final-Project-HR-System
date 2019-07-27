@@ -6,11 +6,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class User {
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String username;
     private char[] password;
     private String realName;
     private LocalDate dateCreated;
+
+
+    public User() {}
 
     public User(HashMap<String, String> map) {
         setUsername(map.get("username"));

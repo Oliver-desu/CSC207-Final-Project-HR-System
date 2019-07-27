@@ -10,6 +10,8 @@ public class DocumentManager {
     private boolean editable;
 
 
+    public DocumentManager() {}
+
     public DocumentManager(boolean editable) {
         this.documents = new HashMap<>();
         this.editable = editable;

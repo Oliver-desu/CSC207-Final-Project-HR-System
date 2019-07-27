@@ -22,6 +22,8 @@ public class InterviewRound implements Filterable {
     private InterviewRoundStatus status;
 
 
+    public InterviewRound() {}
+
     public InterviewRound(String roundName) {
         this.roundName = roundName;
         this.status = InterviewRoundStatus.EMPTY;

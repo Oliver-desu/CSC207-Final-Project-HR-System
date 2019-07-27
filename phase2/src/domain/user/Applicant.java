@@ -10,8 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Applicant extends User {
+
     private HashMap<String, Application> applications;
     private DocumentManager documentManager;
+
+
+    public Applicant() {}
 
     public Applicant(HashMap<String, String> map) {
         super(map);

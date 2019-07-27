@@ -12,6 +12,8 @@ class InterviewInfo {
     private int duration;
 
 
+    public InterviewInfo() {}
+
     public InterviewInfo(HashMap<String, String> values) {
         this.interviewerId = values.get("interviewerId");
         this.time = LocalDateTime.parse(values.get("time"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));

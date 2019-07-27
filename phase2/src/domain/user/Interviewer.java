@@ -15,6 +15,8 @@ public class Interviewer extends User implements Filterable {
     private ArrayList<Interview> upcomingInterviews;
 
 
+    public Interviewer() {}
+
     public Interviewer(HashMap<String, String> map, String companyId) {
         super(map);
         this.companyId = companyId;

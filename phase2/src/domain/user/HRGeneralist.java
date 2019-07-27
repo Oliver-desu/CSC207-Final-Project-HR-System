@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 public class HRGeneralist extends User {
+
     private String companyId;
+
+
+    public HRGeneralist() {}
 
     public HRGeneralist(HashMap<String, String> map, String companyId) {
         super(map);

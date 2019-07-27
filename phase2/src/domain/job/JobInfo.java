@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JobInfo {
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String id;
     private String positionName;
@@ -16,6 +17,9 @@ public class JobInfo {
     private LocalDate closeDate;
     private String requirement;
     private ArrayList<Application> finalApplications;
+
+
+    public JobInfo() {}
 
     public JobInfo(HashMap<String, String> map) {
         this.id = map.get("id");

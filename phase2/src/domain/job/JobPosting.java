@@ -21,6 +21,9 @@ public class JobPosting implements Filterable {
     private JobPostingStatus status;
     private JobInfo jobInfo;
 
+
+    public JobPosting() {}
+
     public JobPosting(JobInfo jobInfo) {
         this.jobInfo = jobInfo;
         this.currRound = 0;

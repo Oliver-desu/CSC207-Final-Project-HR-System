@@ -9,8 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class HRCoordinator extends User implements Filterable {
+
     private String companyId;
     private ArrayList<JobPosting> jobPostings;
+
+
+    public HRCoordinator() {}
 
     public HRCoordinator(HashMap<String, String> map, String companyId) {
         super(map);

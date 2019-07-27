@@ -1,5 +1,6 @@
 package domain.applying;
 
+import domain.Applicant;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.storage.JobPool;
@@ -23,6 +24,8 @@ public class Application implements Filterable {
     private DocumentManager documentManager;
     private ApplicationStatus status;
 
+
+    public Application() {}
 
     public Application(HashMap<String, String> values) {
         this.interviews = new HashMap<>();

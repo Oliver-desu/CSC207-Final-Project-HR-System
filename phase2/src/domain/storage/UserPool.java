@@ -12,6 +12,7 @@ public class UserPool {
     private HashMap<String, HRGeneralist> generalists = new HashMap<>();
     private HashMap<String, HRCoordinator> coordinators = new HashMap<>();
 
+
     public void register(Applicant applicant) {
         applicants.put(applicant.getUsername(), applicant);
     }
