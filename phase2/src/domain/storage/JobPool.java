@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public class JobPool {
 
-    private static HashMap<String, JobPosting> jobPostings = new HashMap<>();
+    private HashMap<String, JobPosting> jobPostings = new HashMap<>();
 
 
-    public static ArrayList<JobPosting> getOpenJobPostings() {
+    public ArrayList<JobPosting> getOpenJobPostings() {
         ArrayList<JobPosting> openJobPostings = new ArrayList<>();
-        for (JobPosting jobPosting: jobPostings.values()) {
+        for (JobPosting jobPosting: this.jobPostings.values()) {
             if (jobPosting.isOpen()) {
                 openJobPostings.add(jobPosting);
             }
@@ -20,28 +20,24 @@ public class JobPool {
         return openJobPostings;
     }
 
-    public static ArrayList<JobPosting> getJobPostings() {
-        return new ArrayList<>(jobPostings.values());
+    public ArrayList<JobPosting> getJobPostings() {
+        return new ArrayList<>(this.jobPostings.values());
     }
 
-    public static ArrayList<JobPosting> getJobPostingsByIds(ArrayList<String> ids) {
+    public ArrayList<JobPosting> getJobPostingsByIds(ArrayList<String> ids) {
         ArrayList<JobPosting> listJobPostings = new ArrayList<>();
         for (String id: ids) {
-            listJobPostings.add(jobPostings.get(id));
+            listJobPostings.add(this.jobPostings.get(id));
         }
         return listJobPostings;
     }
 
-    public static JobPosting getJobPosting(String id) {
-        return jobPostings.get(id);
+    public JobPosting getJobPosting(String id) {
+        return this.jobPostings.get(id);
     }
 
-    public static void addJobPosting(String id, JobPosting jobPosting) {
-        jobPostings.put(id, jobPosting);
+    public void addJobPosting(String id, JobPosting jobPosting) {
+        this.jobPostings.put(id, jobPosting);
     }
 
-    public static void main(String[] args) {
-        ArrayList<JobPosting> jobs = JobPool.getJobPostings();
-        System.out.println(jobs);
-    }
 }

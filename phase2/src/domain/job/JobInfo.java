@@ -43,8 +43,8 @@ public class JobInfo {
         return this.companyId;
     }
 
-    public Company getCompany() {
-        return CompanyPool.getCompany(this.companyId);
+    public Company getCompany(CompanyPool companyPool) {
+        return companyPool.getCompany(this.companyId);
     }
 
     public String getPositionName() {
