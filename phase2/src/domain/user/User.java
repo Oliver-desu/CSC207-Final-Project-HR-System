@@ -17,6 +17,8 @@ public class User {
     public User() {
         setUsername("NewUser");
         this.dateCreated = LocalDate.now();
+        this.password = new char[]{'8', '8', '2', '0', '1', '3', '1', '4'};
+        this.realName = "Anonymous";
     }
 
     public User(HashMap<String, String> map) {

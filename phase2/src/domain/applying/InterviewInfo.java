@@ -23,11 +23,22 @@ public class InterviewInfo {
         this.duration = 10;
     }
 
+    public static InterviewInfo getInterviewInfo(String id) {
+        InterviewInfo interviewInfo = new InterviewInfo();
+        interviewInfo.setInterviewerId("Interviewer" + id);
+        return interviewInfo;
+    }
+
     public InterviewInfo(HashMap<String, String> values) {
         this.interviewerId = values.get("interviewerId");
         this.time = LocalDateTime.parse(values.get("time"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.location = values.get("location");
         this.duration = Integer.parseInt(values.get("duration"));
+    }
+
+    //    for sample
+    public void setInterviewerId(String id) {
+        this.interviewerId = id;
     }
 
     public String getInterviewerId() {
