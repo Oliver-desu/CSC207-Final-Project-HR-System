@@ -110,9 +110,9 @@ public class JobPosting implements Filterable {
         this.status = JobPostingStatus.FINISHED;
     }
 
-    public boolean applicationSubmit(Application application) {
+    public boolean applicationSubmit(Application application, CompanyPool companyPool) {
         if(!this.applications.containsValue(application)){
-            Company company = this.jobInfo.getCompany();
+            Company company = this.jobInfo.getCompany(companyPool);
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);
             return true;
@@ -121,10 +121,10 @@ public class JobPosting implements Filterable {
         }
     }
 
-    public boolean applicationCancel(Application application) {
+    public boolean applicationCancel(Application application, CompanyPool companyPool) {
         for (String applicantId : this.applications.keySet()) {
             if (this.applications.get(applicantId).equals(application)) {
-                Company company = this.jobInfo.getCompany();
+                Company company = this.jobInfo.getCompany(companyPool);
                 company.cancelApplication(application);
                 this.applications.remove(applicantId, application);
                 return true;

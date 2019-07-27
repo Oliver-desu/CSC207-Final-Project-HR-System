@@ -15,19 +15,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JobSearchingScenario extends  Scenario{
-    private ArrayList<JobPosting> jobPostings = JobPool.getJobPostings();
-    private    Applicant applicant;
+    private JobPool jobPool;
+    private Applicant applicant;
 
-    public   JobSearchingScenario(UserMenu userMenu, Applicant applicant) {
+    public   JobSearchingScenario(UserMenu userMenu, Applicant applicant, JobPool jobPool) {
         super(userMenu , Scenario.LayoutMode.REGULAR);
         this.applicant = applicant;
-
+        this.jobPool = jobPool;
     }
+
     public  void  init(){
         super.init();
         FilterPanel<Object>  leftFilterPanel = getFilterPanel(true);
         ArrayList<Object> lst = new ArrayList<>();
-        lst.addAll(jobPostings);
+        lst.addAll(this.jobPool.getJobPostings());
         leftFilterPanel.setFilterContent(lst);
         setListner(leftFilterPanel);
         leftFilterPanel.updateUI();
@@ -70,7 +71,7 @@ public class JobSearchingScenario extends  Scenario{
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("username", "oliver");
         Applicant applicant = new Applicant(hashMap);
-        JobSearchingScenario jobSearchingScenario = new JobSearchingScenario(new UserMenu(),applicant);
+        JobSearchingScenario jobSearchingScenario = new JobSearchingScenario(new UserMenu(), applicant, new JobPool());
         jobSearchingScenario.exampleView();
     }
 

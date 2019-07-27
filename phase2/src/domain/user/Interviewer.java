@@ -22,6 +22,10 @@ public class Interviewer extends User implements Filterable {
         this.companyId = companyId;
     }
 
+    public String getCompanyId() {
+        return this.companyId;
+    }
+
     public ArrayList<Interview> getUpcomingInterviews() {
         return this.upcomingInterviews;
     }

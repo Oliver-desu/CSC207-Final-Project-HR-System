@@ -1,5 +1,6 @@
 package domain.applying;
 
+import domain.storage.CompanyPool;
 import domain.user.Applicant;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
@@ -60,8 +61,8 @@ public class Application implements Filterable {
         return this.jobPostingId;
     }
 
-    public JobPosting getJobPosting() {
-        return JobPool.getJobPosting(this.jobPostingId);
+    public JobPosting getJobPosting(JobPool jobPool) {
+        return jobPool.getJobPosting(this.jobPostingId);
     }
 
     public DocumentManager getDocumentManager() {
@@ -80,10 +81,10 @@ public class Application implements Filterable {
         this.interviews.put(round, interview);
     }
 
-    public boolean apply() {
+    public boolean apply(JobPool jobPool, CompanyPool companyPool) {
         // apply will ask JobPosting whether it is allowed to apply or not, and modify things if permitted, then return
         // whether succeeded or not
-        boolean succeed = this.getJobPosting().applicationSubmit(this);
+        boolean succeed = this.getJobPosting(jobPool).applicationSubmit(this, companyPool);
         if (succeed) {
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
@@ -91,11 +92,11 @@ public class Application implements Filterable {
         return succeed;
     }
 
-    public boolean cancel() {
+    public boolean cancel(JobPool jobPool, CompanyPool companyPool) {
         // cancel will ask JobPosting whether it is allowed to cancel or not, and modify things if permitted, then
         // return whether succeeded or not
         if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
-            boolean succeed = this.getJobPosting().applicationCancel(this);
+            boolean succeed = this.getJobPosting(jobPool).applicationCancel(this, companyPool);
             if (succeed) {
                 this.documentManager.setEditable(true);
                 this.setStatus(ApplicationStatus.DRAFT);

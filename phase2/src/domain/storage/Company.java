@@ -15,6 +15,8 @@ public class Company {
     private HashMap<String, ArrayList<Application>> applications;
 
 
+    public Company() {}
+
     public Company(HashMap<String, String> values) {
         this.id = values.get("id");
         this.generalistId = values.get("generalistId");
@@ -45,7 +47,7 @@ public class Company {
     }
 
     public ArrayList<String> getApplicantsId() {
-        return (ArrayList<String>) this.applications.keySet();
+        return new ArrayList<>(this.applications.keySet());
     }
 
     public ArrayList<Application> getApplicationForApplicant(String applicantId) {
