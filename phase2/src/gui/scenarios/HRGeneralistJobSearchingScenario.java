@@ -9,6 +9,8 @@ import gui.panels.FilterPanel;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,14 +30,14 @@ public class HRGeneralistJobSearchingScenario extends Scenario {
         FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
         ArrayList<Object> jobs = new ArrayList<>();
         jobs.addAll(jobPostings);
-        leftFilterPanel.setFilterContent(lst);
-        setListner(leftFilterPanel);
+        leftFilterPanel.setFilterContent(jobs);
+        setListener(leftFilterPanel);
         leftFilterPanel.updateUI();
 
     }
 
     public void setListener(FilterPanel panel){
-        panel.addSelectionListener(new ListSelectionListener()){
+        panel.addSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent e){
                 try {
                     JobPosting object = (JobPosting) panel.getSelectObject();
@@ -54,7 +56,7 @@ public class HRGeneralistJobSearchingScenario extends Scenario {
         hashMap.put("username", "sharon");
         HRGeneralist hrGeneralist = new HRGeneralist(hashMap, "111");
         HRGeneralistJobSearchingScenario hrGeneralistJobSearchingScenario = new HRGeneralistJobSearchingScenario(new UserMenu(), hrGeneralist);
-        HRGeneralistJobSearchingScenario.exampleView();
+        hrGeneralistJobSearchingScenario.exampleView();
 
     }
 
