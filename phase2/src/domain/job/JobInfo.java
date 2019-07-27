@@ -75,9 +75,9 @@ public class JobInfo {
         this.finalApplications.add(application);
     }
 
-    public boolean isValidInfo() {
-//        todo
-        return false;
-    }
+    // TODO: 2019-07-27
+//    public boolean isValidInfo() {
+//        return false;
+//    }
 }
 

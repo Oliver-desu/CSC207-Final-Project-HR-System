@@ -43,20 +43,17 @@ public class InterviewRound implements Filterable {
     }
 
     public ArrayList<Application> getUnmatchedApplications() {
-        ArrayList<Application> unmatchedApplications = new ArrayList<>();
-        for (Application application : this.applications.values()) {
-            if (application.getInterviewByRound(this.roundName).getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
-                unmatchedApplications.add(application);
-            }
-        }
-        return unmatchedApplications;
+        return getApplicationsByStatus(Interview.InterviewStatus.UNMATCHED);
     }
 
-
     public ArrayList<Application> getPassedApplications() {
+        return getApplicationsByStatus(Interview.InterviewStatus.PASS);
+    }
+
+    private ArrayList<Application> getApplicationsByStatus(Interview.InterviewStatus status) {
         ArrayList<Application> passedApplications = new ArrayList<>();
-        for (Application application : this.applications.values()) {
-            if (application.getInterviewByRound(this.roundName).getStatus().equals(Interview.InterviewStatus.PASS)) {
+        for (Application application: this.applications.values()) {
+            if (application.getInterviewByRound(this.roundName).getStatus().equals(status)) {
                 passedApplications.add(application);
             }
         }
