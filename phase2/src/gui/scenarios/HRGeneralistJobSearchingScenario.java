@@ -1,10 +1,12 @@
 package gui.scenarios;
 
+import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.JobPool;
 import domain.storage.CompanyPool;
 import domain.storage.UserPool;
+import domain.user.HRCoordinator;
 import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -75,6 +77,10 @@ public class HRGeneralistJobSearchingScenario extends Scenario {
         compHashMap.put("id", "111");
         compHashMap.put("generalistId", "sharon");
         companyPool.addCompany("111", new Company(compHashMap));
+
+//        Test.addCompanies(1, userPool, companyPool);
+//        HRGeneralist hrGeneralist = userPool.getHRGeneralist("0");
+//        Test.addJobPostingsForCompany(5, companyPool.getCompany(hrGeneralist.getCompanyId()), jobPool);
 
         HRGeneralistJobSearchingScenario hrGeneralistJobSearchingScenario = new HRGeneralistJobSearchingScenario(
                 new UserMenu(), hrGeneralist, jobPool, companyPool
