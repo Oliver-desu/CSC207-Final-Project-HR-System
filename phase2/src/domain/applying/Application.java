@@ -1,9 +1,10 @@
 package domain.applying;
 
-import domain.Applicant;
+import domain.user.Applicant;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.storage.JobPool;
+import domain.storage.UserPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,8 +52,16 @@ public class Application implements Filterable {
         return this.applicantId;
     }
 
+    public Applicant getApplicant(UserPool userPool) {
+        return userPool.getApplicant(this.applicantId);
+    }
+
     public String getJobPostingId() {
         return this.jobPostingId;
+    }
+
+    public JobPosting getJobPosting() {
+        return JobPool.getJobPosting(this.jobPostingId);
     }
 
     public DocumentManager getDocumentManager() {
@@ -71,19 +80,23 @@ public class Application implements Filterable {
         this.interviews.put(round, interview);
     }
 
-    public void apply() {
-        this.documentManager.setEditable(false);
-        this.setStatus(ApplicationStatus.PENDING);
-        JobPosting jobPosting = JobPool.getJobPosting(this.jobPostingId);
-        jobPosting.applicationSubmit(this);
+    public boolean apply() {
+        boolean succeed = this.getJobPosting().applicationSubmit(this);
+        if (succeed) {
+            this.documentManager.setEditable(false);
+            this.setStatus(ApplicationStatus.PENDING);
+        }
+        return succeed;
     }
 
     public boolean cancel() {
         if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
-            this.setStatus(ApplicationStatus.DRAFT);
-            JobPosting jobPosting = JobPool.getJobPosting(this.jobPostingId);
-            jobPosting.applicationCancel(this);
-            return true;
+            boolean succeed = this.getJobPosting().applicationCancel(this);
+            if (succeed) {
+                this.documentManager.setEditable(true);
+                this.setStatus(ApplicationStatus.DRAFT);
+            }
+            return succeed;
         } else {
             return false;
         }

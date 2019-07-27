@@ -2,6 +2,8 @@ package domain.job;
 
 import domain.applying.Application;
 import domain.filter.Filterable;
+import domain.storage.Company;
+import domain.storage.CompanyPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,21 +110,27 @@ public class JobPosting implements Filterable {
         this.status = JobPostingStatus.FINISHED;
     }
 
-    public void applicationSubmit(Application application) {
+    public boolean applicationSubmit(Application application) {
         if(!this.applications.containsValue(application)){
-//            company.receiveApplication(application);
+            Company company = this.jobInfo.getCompany();
+            company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void applicationCancel(Application application) {
+    public boolean applicationCancel(Application application) {
         for (String applicantId : this.applications.keySet()) {
             if (this.applications.get(applicantId).equals(application)) {
-//                company.cancelApplication(application);
+                Company company = this.jobInfo.getCompany();
+                company.cancelApplication(application);
                 this.applications.remove(applicantId, application);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     public String toString(Object object) {

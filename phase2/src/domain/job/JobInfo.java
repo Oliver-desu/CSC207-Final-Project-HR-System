@@ -1,6 +1,8 @@
 package domain.job;
 
 import domain.applying.Application;
+import domain.storage.Company;
+import domain.storage.CompanyPool;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +13,7 @@ public class JobInfo {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String id;
+    private String companyId;
     private String positionName;
     private int numPositions;
     private LocalDate postDate;
@@ -23,6 +26,7 @@ public class JobInfo {
 
     public JobInfo(HashMap<String, String> map) {
         this.id = map.get("id");
+        this.companyId = map.get("companyId");
         this.positionName = map.get("positionName");
         this.numPositions = Integer.parseInt(map.get("numPositions"));
         this.postDate = LocalDate.parse(map.get("postDate"), formatter);
@@ -33,6 +37,14 @@ public class JobInfo {
 
     public String getId() {
         return this.id;
+    }
+
+    public String getCompanyId() {
+        return this.companyId;
+    }
+
+    public Company getCompany() {
+        return CompanyPool.getCompany(this.companyId);
     }
 
     public String getPositionName() {
