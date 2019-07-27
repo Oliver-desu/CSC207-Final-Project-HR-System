@@ -27,7 +27,13 @@ public class Application implements Filterable {
     private ApplicationStatus status;
 
 
-    public Application() {}
+    public Application() {
+        this.interviews = new HashMap<>();
+        this.applicantId = "Applicant";
+        this.jobPostingId = "dev1234";
+        this.documentManager = new DocumentManager(true);
+        this.status = ApplicationStatus.DRAFT;
+    }
 
     public Application(HashMap<String, String> values) {
         this.interviews = new HashMap<>();

@@ -24,7 +24,12 @@ public class JobPosting implements Filterable {
     private JobInfo jobInfo;
 
 
-    public JobPosting() {}
+    public JobPosting() {
+        this.jobInfo = new JobInfo();
+        this.currRound = 0;
+        this.interviewRounds = new HashMap<>();
+        this.applications = new HashMap<>();
+    }
 
     public JobPosting(JobInfo jobInfo) {
         this.jobInfo = jobInfo;
@@ -111,7 +116,7 @@ public class JobPosting implements Filterable {
     }
 
     public boolean applicationSubmit(Application application, CompanyPool companyPool) {
-        if(!this.applications.containsValue(application)){
+        if (!this.applications.containsValue(application)) {
             Company company = this.jobInfo.getCompany(companyPool);
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);

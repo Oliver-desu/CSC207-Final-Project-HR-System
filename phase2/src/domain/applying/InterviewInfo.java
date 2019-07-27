@@ -3,6 +3,7 @@ package domain.applying;
 import domain.storage.UserPool;
 import domain.user.Interviewer;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -15,7 +16,12 @@ class InterviewInfo {
     private int duration;
 
 
-    public InterviewInfo() {}
+    public InterviewInfo() {
+        this.interviewerId = "Interviewer";
+        this.time = LocalDateTime.now().plusDays(20);
+        this.location = "Bahen";
+        this.duration = 10;
+    }
 
     public InterviewInfo(HashMap<String, String> values) {
         this.interviewerId = values.get("interviewerId");

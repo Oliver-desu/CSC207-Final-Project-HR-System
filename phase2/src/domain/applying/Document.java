@@ -14,7 +14,10 @@ public class Document implements Filterable {
     private LocalDate lastUsedDate;
 
 
-    public Document() {}
+    public Document() {
+        this.content = "This is a CV";
+        this.lastUsedDate = LocalDate.now();
+    }
 
     // Todo
     public Document(Path path) {
@@ -30,7 +33,7 @@ public class Document implements Filterable {
         return documentName;
     }
 
-    public String getContent () {
+    public String getContent() {
         return this.content;
     }
 

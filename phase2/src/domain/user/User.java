@@ -14,7 +14,10 @@ public class User {
     private LocalDate dateCreated;
 
 
-    public User() {}
+    public User() {
+        setUsername("NewUser");
+        this.dateCreated = LocalDate.now();
+    }
 
     public User(HashMap<String, String> map) {
         setUsername(map.get("username"));

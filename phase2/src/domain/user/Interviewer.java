@@ -15,7 +15,11 @@ public class Interviewer extends User implements Filterable {
     private ArrayList<Interview> upcomingInterviews;
 
 
-    public Interviewer() {}
+    public Interviewer() {
+        super();
+        this.setUsername("Interviewer");
+        this.companyId = "Google";
+    }
 
     public Interviewer(HashMap<String, String> map, String companyId) {
         super(map);
@@ -24,6 +28,10 @@ public class Interviewer extends User implements Filterable {
 
     public String getCompanyId() {
         return this.companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
     public ArrayList<Interview> getUpcomingInterviews() {
@@ -42,9 +50,9 @@ public class Interviewer extends User implements Filterable {
     }
 
     public void addInterview(Interview interview) {
-        if(interview.getStatus().equals(Interview.InterviewStatus.FAIL) || interview.getStatus().equals(Interview.InterviewStatus.PASS)){
+        if (interview.getStatus().equals(Interview.InterviewStatus.FAIL) || interview.getStatus().equals(Interview.InterviewStatus.PASS)) {
             this.pastInterviews.add(interview);
-        }else if(interview.getStatus().equals(Interview.InterviewStatus.PENDING)){
+        } else if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
             this.upcomingInterviews.add(interview);
         }
     }

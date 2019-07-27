@@ -15,7 +15,14 @@ public class Company {
     private HashMap<String, ArrayList<Application>> applications;
 
 
-    public Company() {}
+    public Company() {
+        this.id = "Google";
+        this.generalistId = "HRGeneralist";
+        this.coordinatorIds = new ArrayList<>();
+        this.interviewerIds = new ArrayList<>();
+        this.jobPostingIds = new ArrayList<>();
+        this.applications = new HashMap<>();
+    }
 
     public Company(HashMap<String, String> values) {
         this.id = values.get("id");
@@ -56,7 +63,7 @@ public class Company {
 
     public ArrayList<Application> getAllApplications() {
         ArrayList<Application> allApplications = new ArrayList<>();
-        for (String applicantId: applications.keySet()) {
+        for (String applicantId : applications.keySet()) {
             allApplications.addAll(applications.get(applicantId));
         }
         return allApplications;

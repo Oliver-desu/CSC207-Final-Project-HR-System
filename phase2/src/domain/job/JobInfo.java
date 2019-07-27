@@ -22,7 +22,16 @@ public class JobInfo {
     private ArrayList<Application> finalApplications;
 
 
-    public JobInfo() {}
+    public JobInfo() {
+        this.id = "dev1234";
+        this.companyId = "Google";
+        this.positionName = "Developer";
+        this.numPositions = 4;
+        this.postDate = LocalDate.now().minusDays(3);
+        this.closeDate = this.postDate.plusDays(15);
+        this.requirement = "CV";
+        this.finalApplications = new ArrayList<>();
+    }
 
     public JobInfo(HashMap<String, String> map) {
         this.id = map.get("id");

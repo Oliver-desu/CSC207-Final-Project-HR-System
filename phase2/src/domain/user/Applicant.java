@@ -15,7 +15,12 @@ public class Applicant extends User {
     private DocumentManager documentManager;
 
 
-    public Applicant() {}
+    public Applicant() {
+        super();
+        this.setUsername("Applicant");
+        this.applications = new HashMap<>();
+        this.documentManager = new DocumentManager(true);
+    }
 
     public Applicant(HashMap<String, String> map) {
         super(map);
@@ -44,7 +49,8 @@ public class Applicant extends User {
     }
 
     /**
-     * Delete an application before submitting it. **/
+     * Delete an application before submitting it.
+     **/
     public boolean deleteApplication(String jobId) {
         boolean isDeleted = false;
         if (this.applications.containsKey(jobId)) {
@@ -69,14 +75,14 @@ public class Applicant extends User {
     public ArrayList<Interview> getOngoingInterviews() {
 //        application->interview->status
         ArrayList<Interview> ongoingInterviews = new ArrayList<>();
-        for(Application application: this.applications.values()){
-            for(Interview interview: application.getInterviews()){
-                if(interview.getStatus().equals(Interview.InterviewStatus.PENDING)){
+        for (Application application : this.applications.values()) {
+            for (Interview interview : application.getInterviews()) {
+                if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
                     ongoingInterviews.add(interview);
                 }
             }
         }
-      return ongoingInterviews;
+        return ongoingInterviews;
     }
 
     public void update(LocalDate currentDate) {

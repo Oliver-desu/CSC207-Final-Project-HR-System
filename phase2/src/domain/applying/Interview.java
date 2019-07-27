@@ -20,7 +20,9 @@ public class Interview implements Filterable {
     private InterviewInfo interviewInfo;
 
 
-    public Interview() {}
+    public Interview() {
+        this.application = new Application();
+    }
 
     public Interview(Application application) {
         this.application = application;

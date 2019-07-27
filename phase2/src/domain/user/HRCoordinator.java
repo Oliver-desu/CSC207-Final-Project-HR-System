@@ -14,10 +14,18 @@ public class HRCoordinator extends User implements Filterable {
     private ArrayList<JobPosting> jobPostings;
 
 
-    public HRCoordinator() {}
+    public HRCoordinator() {
+        super();
+        this.setUsername("HRCoordinator");
+        this.companyId = "Google";
+    }
 
     public HRCoordinator(HashMap<String, String> map, String companyId) {
         super(map);
+        this.companyId = companyId;
+    }
+
+    public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
 

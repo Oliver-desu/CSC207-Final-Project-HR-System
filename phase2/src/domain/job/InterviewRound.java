@@ -22,7 +22,11 @@ public class InterviewRound implements Filterable {
     private InterviewRoundStatus status;
 
 
-    public InterviewRound() {}
+    public InterviewRound() {
+        this.roundName = "Phone Interview";
+        this.status = InterviewRoundStatus.EMPTY;
+        this.applications = new HashMap<>();
+    }
 
     public InterviewRound(String roundName) {
         this.roundName = roundName;
@@ -52,7 +56,7 @@ public class InterviewRound implements Filterable {
 
     private ArrayList<Application> getApplicationsByStatus(Interview.InterviewStatus status) {
         ArrayList<Application> passedApplications = new ArrayList<>();
-        for (Application application: this.applications.values()) {
+        for (Application application : this.applications.values()) {
             if (application.getInterviewByRound(this.roundName).getStatus().equals(status)) {
                 passedApplications.add(application);
             }
@@ -75,7 +79,7 @@ public class InterviewRound implements Filterable {
     public void checkStatus() {
         ArrayList<Interview> interviews = this.getInterviews();
         boolean finished = true;
-        for (Interview interview: interviews) {
+        for (Interview interview : interviews) {
             if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
                 this.setStatus(InterviewRoundStatus.MATCHING);
                 finished = false;
@@ -93,7 +97,7 @@ public class InterviewRound implements Filterable {
 
     private ArrayList<Interview> getInterviews() {
         ArrayList<Interview> interviews = new ArrayList<>();
-        for (Application application: this.applications.values()) {
+        for (Application application : this.applications.values()) {
             interviews.add(application.getInterviewByRound(this.roundName));
         }
         return interviews;

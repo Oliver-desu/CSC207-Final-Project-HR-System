@@ -8,7 +8,11 @@ public class HRGeneralist extends User {
     private String companyId;
 
 
-    public HRGeneralist() {}
+    public HRGeneralist() {
+        super();
+        this.setUsername("HRGeneralist");
+        this.companyId = "Google";
+    }
 
     public HRGeneralist(HashMap<String, String> map, String companyId) {
         super(map);
@@ -17,6 +21,10 @@ public class HRGeneralist extends User {
 
     public String getCompanyId() {
         return this.companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
 
