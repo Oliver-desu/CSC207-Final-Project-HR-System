@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-class InterviewInfo {
+public class InterviewInfo {
 
     private String interviewerId;
     private LocalDateTime time;

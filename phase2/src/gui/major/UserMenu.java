@@ -61,7 +61,7 @@ public class UserMenu extends JFrame {
         return user;
     }
 
-    private Main getMain() {
+    Main getMain() {
         return main;
     }
 

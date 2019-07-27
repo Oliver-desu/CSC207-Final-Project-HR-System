@@ -4,6 +4,7 @@ import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 import gui.panels.OutputInfoPanel;
+import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -116,6 +117,10 @@ public abstract class Scenario extends JPanel {
 
     private void setUserMenu(UserMenu userMenu) {
         this.userMenu = userMenu;
+    }
+
+    protected Main getMain() {
+        return getUserMenu().getMain();
     }
 
     protected FilterPanel<Object> getFilterPanel(boolean left) {
