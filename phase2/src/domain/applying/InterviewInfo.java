@@ -1,5 +1,8 @@
 package domain.applying;
 
+import domain.storage.UserPool;
+import domain.user.Interviewer;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -23,6 +26,10 @@ class InterviewInfo {
 
     public String getInterviewerId() {
         return this.interviewerId;
+    }
+
+    public Interviewer getInterviewer(UserPool userPool) {
+        return userPool.getInterviewer(this.interviewerId);
     }
 
     public LocalDateTime getTime() {

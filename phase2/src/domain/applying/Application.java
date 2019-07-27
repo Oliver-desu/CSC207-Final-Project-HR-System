@@ -81,6 +81,8 @@ public class Application implements Filterable {
     }
 
     public boolean apply() {
+        // apply will ask JobPosting whether it is allowed to apply or not, and modify things if permitted, then return
+        // whether succeeded or not
         boolean succeed = this.getJobPosting().applicationSubmit(this);
         if (succeed) {
             this.documentManager.setEditable(false);
@@ -90,6 +92,8 @@ public class Application implements Filterable {
     }
 
     public boolean cancel() {
+        // cancel will ask JobPosting whether it is allowed to cancel or not, and modify things if permitted, then
+        // return whether succeeded or not
         if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
             boolean succeed = this.getJobPosting().applicationCancel(this);
             if (succeed) {

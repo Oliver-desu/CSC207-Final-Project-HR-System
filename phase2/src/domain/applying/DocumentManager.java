@@ -21,22 +21,27 @@ public class DocumentManager {
         return this.documents.get(docName);
     }
 
-    public boolean isEditable() {
+    private boolean isEditable() {
         return this.editable;
     }
 
-    public void setEditable(boolean editable) {
+    void setEditable(boolean editable) {
         this.editable = editable;
     }
 
-    public void addDocument(String docName, Document document) {
-        if (this.editable) {
+    public boolean addDocument(String docName, Document document) {
+        if (this.isEditable() && !this.documents.containsKey(docName)) {
             this.documents.put(docName, document);
+            return true;
+        } else {
+            return false;
         }
     }
 
     public boolean removeDocument(Document document) {
-        if (this.editable) {
+        // removeDocument can not deal with situation where two identical documents are submitted with different
+        // docNames, currently it just deletes whichever one comes first
+        if (this.isEditable()) {
             for (String docName : this.documents.keySet()) {
                 if (this.documents.get(docName).equals(document)) {
                     this.documents.remove(docName);
@@ -58,24 +63,26 @@ public class DocumentManager {
     }
 
     public ArrayList<Document> getAllDocuments() {
-        return (ArrayList<Document>) this.documents.values();
+        return new ArrayList<>(this.documents.values());
     }
 
     public ArrayList<String> getAllDocNames() {
-        return (ArrayList<String>) this.documents.keySet();
+        return new ArrayList<>(this.documents.keySet());
     }
 
     public int getNumOfDocuments() {
         return this.documents.size();
     }
 
-    public void updateAllDocuments(LocalDate curentDate) {
-        if (this.editable) {
+    public void updateAllDocuments(LocalDate currentDate) {
+        if (this.isEditable()) {
             HashMap<String, Document> remainingDocuments = new HashMap<>();
             Document document;
+            LocalDate deleteDate;
             for (String docName : this.documents.keySet()) {
                 document = this.documents.get(docName);
-                if (!document.getLastUsedDate().isBefore(curentDate)) {
+                deleteDate = document.getLastUsedDate().plusDays(30);
+                if (!deleteDate.isAfter(currentDate)) {
                     remainingDocuments.put(docName, document);
                 }
             }

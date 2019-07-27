@@ -19,6 +19,10 @@ public class Document implements Filterable {
         this.lastUsedDate = LocalDate.now();
     }
 
+    public String getContent () {
+        return this.content;
+    }
+
     public LocalDate getLastUsedDate() {
         return this.lastUsedDate;
     }
