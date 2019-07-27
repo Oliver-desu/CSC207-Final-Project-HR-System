@@ -18,6 +18,8 @@ public class HRCoordinator extends User implements Filterable {
         super();
         this.setUsername("HRCoordinator");
         this.companyId = "Google";
+        this.jobPostings = new ArrayList<>();
+        this.jobPostings.add(new JobPosting());
     }
 
     public HRCoordinator(HashMap<String, String> map, String companyId) {

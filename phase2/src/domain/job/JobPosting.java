@@ -28,7 +28,12 @@ public class JobPosting implements Filterable {
         this.jobInfo = new JobInfo();
         this.currRound = 0;
         this.interviewRounds = new HashMap<>();
+        this.interviewRounds.put(0, new InterviewRound());
+        this.interviewRounds.put(1, new InterviewRound());
+        this.interviewRounds.put(2, new InterviewRound());
         this.applications = new HashMap<>();
+        this.applications.put(Application.getSampleApplication("abc").getApplicantId(), Application.getSampleApplication("abc"));
+        this.status = JobPostingStatus.OPEN;
     }
 
     public JobPosting(JobInfo jobInfo) {

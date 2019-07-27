@@ -37,11 +37,7 @@ public class Application implements Filterable {
 
     public static Application getSampleApplication(String id) {
         Application application = new Application();
-        application.interviews = new HashMap<>();
-        application.applicantId = "Applicant" + id;
-        application.jobPostingId = "dev1234";
-        application.documentManager = new DocumentManager(true);
-        application.status = ApplicationStatus.DRAFT;
+        application.setApplicantId("Applicant" + id);
         return application;
     }
 
@@ -51,6 +47,10 @@ public class Application implements Filterable {
         this.jobPostingId = values.get("jobPostingId");
         this.documentManager = new DocumentManager(true);
         this.status = ApplicationStatus.DRAFT;
+    }
+
+    public void setApplicantId(String applicantId) {
+        this.applicantId = applicantId;
     }
 
     public HashMap<String, Interview> getInterviewMap() {

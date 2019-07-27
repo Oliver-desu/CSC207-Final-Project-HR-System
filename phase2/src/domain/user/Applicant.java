@@ -20,6 +20,10 @@ public class Applicant extends User {
         this.setUsername("Applicant");
         this.applications = new HashMap<>();
         this.documentManager = new DocumentManager(true);
+        Application app1 = Application.getSampleApplication("abc");
+        Application app2 = Application.getSampleApplication("edf");
+        this.applications.put(app1.getApplicantId(), app1);
+        this.applications.put(app2.getApplicantId(), app2);
     }
 
     public Applicant(HashMap<String, String> map) {
