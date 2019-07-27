@@ -1,5 +1,6 @@
 package domain.user;
 
+import domain.applying.Application;
 import domain.applying.Interview;
 import domain.filter.Filterable;
 
@@ -19,11 +20,21 @@ public class Interviewer extends User implements Filterable {
         super();
         this.setUsername("Interviewer");
         this.companyId = "Google";
+        this.pastInterviews = new ArrayList<>();
+        this.upcomingInterviews = new ArrayList<>();
+        this.pastInterviews.add(new Interview(Application.getSampleApplication("abc")));
+        this.pastInterviews.add(new Interview(Application.getSampleApplication("edf")));
+
+
+
+
     }
 
     public Interviewer(HashMap<String, String> map, String companyId) {
         super(map);
         this.companyId = companyId;
+        this.pastInterviews = new ArrayList<>();
+        this.upcomingInterviews = new ArrayList<>();
     }
 
     public String getCompanyId() {

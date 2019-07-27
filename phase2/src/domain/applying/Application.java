@@ -29,10 +29,20 @@ public class Application implements Filterable {
 
     public Application() {
         this.interviews = new HashMap<>();
-        this.applicantId = "Applicant";
+        this.applicantId = "Applicant1";
         this.jobPostingId = "dev1234";
         this.documentManager = new DocumentManager(true);
         this.status = ApplicationStatus.DRAFT;
+    }
+
+    public static Application getSampleApplication(String id) {
+        Application application = new Application();
+        application.interviews = new HashMap<>();
+        application.applicantId = "Applicant" + id;
+        application.jobPostingId = "dev1234";
+        application.documentManager = new DocumentManager(true);
+        application.status = ApplicationStatus.DRAFT;
+        return application;
     }
 
     public Application(HashMap<String, String> values) {
