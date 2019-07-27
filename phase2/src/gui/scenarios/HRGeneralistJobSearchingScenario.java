@@ -1,6 +1,7 @@
 package gui.scenarios;
 
 import domain.job.JobPosting;
+import domain.storage.Company;
 import domain.storage.JobPool;
 import domain.storage.CompanyPool;
 import domain.user.HRGeneralist;
@@ -18,9 +19,9 @@ import java.util.HashMap;
 
 public class HRGeneralistJobSearchingScenario extends Scenario {
 
-    private JobPool jobPool;
+//    private JobPool jobPool;
     private HRGeneralist hrGeneralist;
-    private CompanyPool companyPool;
+//    private CompanyPool companyPool;
 
     public HRGeneralistJobSearchingScenario(UserMenu userMenu, HRGeneralist hrGeneralist){
         super(userMenu, Scenario.LayoutMode.REGULAR);
@@ -30,9 +31,9 @@ public class HRGeneralistJobSearchingScenario extends Scenario {
     public void init(){
         super.init();
         String id = this.hrGeneralist.getCompanyId();
-        Company company = companyPool.getCompany(id);
-        ArrayList<String> jobPostingIds = company.getJobpostingIds();
-        ArrayList<JobPosting> jobPostings = jobPool.getJobPostings(jobPostingIds);
+        Company company = CompanyPool.getCompany(id);
+        ArrayList<String> jobPostingIds = company.getJobPostingIds();
+        ArrayList<JobPosting> jobPostings = JobPool.getJobPostingsByIds(jobPostingIds);
         FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
         ArrayList<Object> jobs = new ArrayList<>();
         jobs.addAll(jobPostings);
@@ -54,7 +55,7 @@ public class HRGeneralistJobSearchingScenario extends Scenario {
                 }
 
             }
-        }
+        });
     }
 
     public static void main(String[] args){

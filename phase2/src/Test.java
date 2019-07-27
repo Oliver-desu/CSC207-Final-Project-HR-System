@@ -1,3 +1,6 @@
+import domain.applying.Application;
+import domain.applying.Document;
+import domain.applying.DocumentManager;
 import domain.job.JobPosting;
 import domain.job.JobInfo;
 import domain.storage.Company;
@@ -6,7 +9,9 @@ import domain.storage.JobPool;
 import domain.storage.UserPool;
 import domain.user.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Test {
 
@@ -113,8 +118,34 @@ public class Test {
             jobInfo = new JobInfo(values);
             jobPosting = new JobPosting(jobInfo);
             JobPool.addJobPosting(jobPosting.getJobId(), jobPosting);
+            company.addJobPostingId(jobPosting.getJobId());
             numJobPostings ++;
         }
+    }
+
+    static void addDocumentsForApplicant(int num, Applicant applicant) {
+        Document document;
+        int amount = applicant.getDocumentManager().getNumOfDocuments();
+        for (int i=amount; i<amount+num; i++) {
+            applicant.getDocumentManager().addDocument(Integer.toString(i), new Document("some content"));
+        }
+    }
+
+    static String getRandomDocumentName(DocumentManager documentManager) {
+        Random rand = new Random();
+        ArrayList<String> docNames = documentManager.getAllDocNames();
+        return docNames.get(rand.nextInt(docNames.size()));
+    }
+
+    static void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant) {
+        HashMap<String, String> values = new HashMap<>();
+        values.put("applicantId", applicant.getUsername());
+        values.put("jobPostingId", jobPosting.getJobId());
+        Application application = new Application(values);
+        String docName = Test.getRandomDocumentName(applicant.getDocumentManager());
+        application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
+        applicant.addApplication(jobPosting.getJobId(), application);
+        jobPosting.applicationSubmit(application);
     }
 
 }
