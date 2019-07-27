@@ -53,6 +53,10 @@ public class UserPool {
         return tempApplicants;
     }
 
+    public ArrayList<Applicant> getAllApplicants() {
+        return new ArrayList<>(this.applicants.values());
+    }
+
     public ArrayList<Interviewer> getInterviewers(ArrayList<String> usernameList) {
         ArrayList<Interviewer> tempInterviewers = new ArrayList<>();
         for (String username : usernameList) {

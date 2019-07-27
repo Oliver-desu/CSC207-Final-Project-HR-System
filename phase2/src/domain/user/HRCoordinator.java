@@ -23,6 +23,7 @@ public class HRCoordinator extends User implements Filterable {
     public HRCoordinator(HashMap<String, String> map, String companyId) {
         super(map);
         this.companyId = companyId;
+        this.jobPostings = new ArrayList<>();
     }
 
     public void setCompanyId(String companyId) {
