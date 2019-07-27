@@ -11,6 +11,7 @@ import domain.storage.JobPool;
 import domain.storage.UserPool;
 import domain.user.*;
 import domain.user.Applicant;
+import main.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,32 @@ public class Test {
         System.out.println("Num coordinators: " + numCoordinators);
         System.out.println("Num jobPostings: " + numJobPostings);
         System.out.println("Num applications submitted: " + numApplicationsSubmitted);
+    }
+
+    public static Main defaultSetting() {
+        // default setting is:
+        // 1) add 10 applicants
+        // 2) add 5 companies
+        // 3) add 10 interviewers, 10 coordinators for each company
+        // 4) add 1 jobPosting for each company, then add 3 applications submitted for that jobPosting(thus creating 3 new applicants each time)
+
+        Main main = new Main();
+        Random rand = new Random();
+        UserPool userPool = main.getUserPool();
+        JobPool jobPool = main.getJobPool();
+        CompanyPool companyPool = main.getCompanyPool();
+        addApplicants(userPool, 10);
+        addCompanies(5, userPool, companyPool);
+        JobPosting jobPosting;
+        for (Company company: companyPool.getCompanies()) {
+            addInterviewersForCompany(userPool, 10, company);
+            addCoordinatorsForCompany(userPool, 10, company);
+            addJobPostingsForCompany(10, company, jobPool);
+            jobPosting = Test.getRandomJobPosting(company, jobPool);
+            Test.addApplicationsForJobPosting(3, jobPool, userPool, companyPool, jobPosting.getJobId());
+        }
+
+        return main;
     }
 
     public static Applicant getRandomApplicant(UserPool userPool) {
