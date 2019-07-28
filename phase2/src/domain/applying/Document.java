@@ -2,29 +2,28 @@ package domain.applying;
 
 import domain.filter.Filterable;
 
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Document implements Filterable {
 
-    private String documentName = "???";
+    private String documentName;
     private String content;
-    private LocalDate lastUsedDate = LocalDate.now();
-
-
-    public Document() {
-        this.content = "This is a CV";
-    }
+    private LocalDate lastUsedDate;
+    private boolean isUsed;
 
     // Todo
-    public Document(Path path) {
-
+    public Document(String path) {
+        documentName = path;
+        content = path + path;
+        setUsed();
+        update();
     }
 
-    public Document(String content) {
-        this.content = content;
+    // Get current date. Can rewrite by a self designed Date Time System if desired.
+    private LocalDate getCurrentDate() {
+        return LocalDate.now();
     }
 
     public String getDocumentName() {
@@ -39,28 +38,38 @@ public class Document implements Filterable {
         return this.lastUsedDate;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setUsed() {
+        isUsed = true;
     }
 
-    public void setDocumentName(String documentName) {
-        this.documentName = documentName;
+    private void clearUsage() {
+        isUsed = false;
     }
-    public void updateLastUsedDate(LocalDate currentDate) {
-        this.lastUsedDate = currentDate;
+
+    public void update() {
+        if (isUsed) {
+            clearUsage();
+            lastUsedDate = getCurrentDate();
+        }
+    }
+
+    public boolean shouldDelete() {
+        return getLastUsedDate().plusDays(30).isBefore(getCurrentDate());
     }
 
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
-        headings.add("lastUsedDate");
-        return headings.toArray(new String[0]);
+        headings.add("Last used date");
+        headings.add("Document name");
+        return headings.toArray(new String[2]);
     }
 
     @Override
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
-        values.add(this.lastUsedDate.toString());
-        return values.toArray(new String[0]);
+        values.add(getLastUsedDate().toString());
+        values.add(getDocumentName());
+        return values.toArray(new String[2]);
     }
 }

@@ -135,10 +135,10 @@ public class Application implements Filterable {
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
-        headings.add("applicantId");
-        headings.add("jobPostingId");
-        headings.add("status");
-        return headings.toArray(new String[0]);
+        headings.add("Applicant id");
+        headings.add("JobPosting id");
+        headings.add("Status");
+        return headings.toArray(new String[3]);
     }
 
     @Override
@@ -147,6 +147,6 @@ public class Application implements Filterable {
         values.add(this.applicantId);
         values.add(this.jobPostingId);
         values.add(this.status.toString());
-        return values.toArray(new String[0]);
+        return values.toArray(new String[3]);
     }
 }

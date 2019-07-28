@@ -72,10 +72,10 @@ public class Interview implements Filterable, InfoHolder {
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
-        headings.add("applicantId");
-        headings.add("interviewerId");
-        headings.add("status");
-        return headings.toArray(new String[0]);
+        headings.add("Applicant id");
+        headings.add("Interviewer id");
+        headings.add("Status");
+        return headings.toArray(new String[3]);
     }
 
     @Override
@@ -84,6 +84,6 @@ public class Interview implements Filterable, InfoHolder {
         values.add(getApplication().getApplicantId());
         values.add(getInfo().getSpecificInfo("InterviewerId"));
         values.add(getStatus().toString());
-        return values.toArray(new String[0]);
+        return values.toArray(new String[3]);
     }
 }
