@@ -11,12 +11,11 @@ public class Document implements Filterable {
 
     private String documentName = "???";
     private String content;
-    private LocalDate lastUsedDate;
+    private LocalDate lastUsedDate = LocalDate.now();
 
 
     public Document() {
         this.content = "This is a CV";
-        this.lastUsedDate = LocalDate.now();
     }
 
     // Todo
@@ -26,7 +25,6 @@ public class Document implements Filterable {
 
     public Document(String content) {
         this.content = content;
-        this.lastUsedDate = LocalDate.now();
     }
 
     public String getDocumentName() {

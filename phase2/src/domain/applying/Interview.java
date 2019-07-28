@@ -17,12 +17,11 @@ public class Interview implements Filterable {
     private Application application;
     private InterviewStatus status;
     private String recommendation;
-    private InterviewInfo interviewInfo;
+    private Info interviewInfo;
 
 
     public Interview() {
         this.application = new Application();
-        setInterviewInfo(new InterviewInfo());
     }
 
     public Interview(Application application) {
@@ -34,7 +33,7 @@ public class Interview implements Filterable {
     }
 
     public String getInterviewId() {
-        return this.interviewInfo.getInterviewerId();
+        return this.interviewInfo.getSpecificInfo("InterviewId");
     }
 
     public InterviewStatus getStatus() {
@@ -49,11 +48,11 @@ public class Interview implements Filterable {
         this.recommendation = recommendation;
     }
 
-    public void setInterviewInfo(InterviewInfo interviewInfo) {
+    public void setInterviewInfo(Info interviewInfo) {
         this.interviewInfo = interviewInfo;
     }
 
-    public void match(InterviewInfo interviewInfo) {
+    public void match(Info interviewInfo) {
         this.interviewInfo = interviewInfo;
     }
 
@@ -84,7 +83,7 @@ public class Interview implements Filterable {
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
         values.add(this.application.getApplicantId());
-        values.add(this.interviewInfo.getInterviewerId());
+        values.add(getInterviewId());
         values.add(this.status.toString());
         return values.toArray(new String[0]);
     }

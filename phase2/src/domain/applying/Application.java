@@ -1,11 +1,11 @@
 package domain.applying;
 
-import domain.storage.CompanyPool;
-import domain.user.Applicant;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
+import domain.storage.CompanyPool;
 import domain.storage.JobPool;
 import domain.storage.UserPool;
+import domain.user.Applicant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,15 +20,13 @@ public class Application implements Filterable {
         REJECTED
     }
 
-    private HashMap<String, Interview> interviews;
+    private HashMap<String, Interview> interviews = new HashMap<>();
     private String applicantId;
     private String jobPostingId;
     private DocumentManager documentManager;
     private ApplicationStatus status;
 
-
     public Application() {
-        this.interviews = new HashMap<>();
         this.applicantId = "Applicant1";
         this.jobPostingId = "dev1234";
         this.documentManager = new DocumentManager(true);
@@ -42,9 +40,8 @@ public class Application implements Filterable {
     }
 
     public Application(HashMap<String, String> values) {
-        this.interviews = new HashMap<>();
-        this.applicantId = values.get("applicantId");
-        this.jobPostingId = values.get("jobPostingId");
+        this.applicantId = values.getOrDefault("applicantId", "");
+        this.jobPostingId = values.getOrDefault("jobPostingId", "");
         this.documentManager = new DocumentManager(true);
         this.status = ApplicationStatus.DRAFT;
     }

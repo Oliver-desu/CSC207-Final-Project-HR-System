@@ -6,17 +6,14 @@ import java.util.HashMap;
 
 public class DocumentManager {
 
-    private HashMap<String, Document> documents;
-    private boolean editable;
+    private HashMap<String, Document> documents = new HashMap<>();
+    private boolean editable = true;
 
 
     public DocumentManager() {
-        this.documents = new HashMap<>();
-        this.editable = true;
     }
 
     public DocumentManager(boolean editable) {
-        this.documents = new HashMap<>();
         this.editable = editable;
     }
 
