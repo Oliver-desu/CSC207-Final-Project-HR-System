@@ -12,6 +12,9 @@ public class DocumentManager {
 
     public DocumentManager() {
         this.documents = new HashMap<>();
+        Document document = new Document();
+        document.setDocumentName("CV");
+        this.documents.put("CV", document);
         this.editable = true;
     }
 

@@ -45,6 +45,9 @@ public class Document implements Filterable {
         this.content = content;
     }
 
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
+    }
     public void updateLastUsedDate(LocalDate currentDate) {
         this.lastUsedDate = currentDate;
     }

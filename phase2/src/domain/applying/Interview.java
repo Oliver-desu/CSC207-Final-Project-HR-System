@@ -22,7 +22,10 @@ public class Interview implements Filterable {
 
     public Interview() {
         this.application = new Application();
+        this.status = InterviewStatus.PENDING;
+
         setInterviewInfo(new InterviewInfo());
+        setRecommendation("This is a recommendation.");
     }
 
     public Interview(Application application) {
@@ -49,6 +52,7 @@ public class Interview implements Filterable {
         this.recommendation = recommendation;
     }
 
+    // for sample constructor
     public void setInterviewInfo(InterviewInfo interviewInfo) {
         this.interviewInfo = interviewInfo;
     }
