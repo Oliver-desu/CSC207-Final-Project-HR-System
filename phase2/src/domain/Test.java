@@ -42,7 +42,6 @@ public class Test {
         // 3) add 10 interviewers, 10 coordinators for each company
         // 4) add 1 jobPosting for each company, then add 3 applications submitted for that jobPosting(thus creating 3 new applicants each time)
         Random rand = new Random();
-        this.addApplicants(10);
         this.addCompanies(5);
         JobPosting jobPosting;
         for (Company company: companyPool.getCompanies()) {
@@ -52,6 +51,13 @@ public class Test {
             jobPosting = this.getRandomJobPosting(company);
             this.addApplicationsForJobPosting(3, jobPosting);
             this.addNewRoundForJobPosting(jobPosting, company);
+        }
+
+        for (Applicant applicant : this.userPool.getAllApplicants()) {
+            this.addDocumentsForDocumentManager(10, applicant.getDocumentManager());
+            for (Application application : applicant.getApplications()) {
+                this.addDocumentsForDocumentManager(5, application.getDocumentManager());
+            }
         }
     }
 
@@ -203,11 +209,11 @@ public class Test {
         }
     }
 
-    public void addDocumentsForApplicant(int num, Applicant applicant) {
+    public void addDocumentsForDocumentManager(int num, DocumentManager documentManager) {
         Document document;
-        int amount = applicant.getDocumentManager().getNumOfDocuments();
+        int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
-            applicant.getDocumentManager().addDocument(Integer.toString(i), new Document("some content"));
+            documentManager.addDocument(Integer.toString(i), new Document("some content"));
         }
     }
 
