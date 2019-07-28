@@ -1,17 +1,17 @@
 package domain;
 
 import domain.applying.*;
-import domain.applying.Application;
-import domain.applying.DocumentManager;
-import domain.applying.Interview;
 import domain.job.InterviewRound;
-import domain.job.JobPosting;
 import domain.job.JobInfo;
+import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.CompanyPool;
 import domain.storage.JobPool;
 import domain.storage.UserPool;
-import domain.user.*;
+import domain.user.Applicant;
+import domain.user.HRCoordinator;
+import domain.user.HRGeneralist;
+import domain.user.Interviewer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -266,17 +266,18 @@ public class Test {
         jobPosting.nextRound();
 
         Interview interview;
-        InterviewInfo interviewInfo;
+        Interviewer interviewer;
+        Info interviewInfo;
         HashMap<String, String> values;
         for (Application application: interviewRound.getUnmatchedApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
             values = new HashMap<>();
-            values.put("interviewerId", this.getRandomInterviewer(company).getUsername());
-            values.put("time", "2019-08-02 10:00");
-            values.put("location", "BA1160");
-            values.put("duration", "30");
-            interviewInfo = new InterviewInfo(values);
-            interview.match(interviewInfo);
+            interviewer = this.getRandomInterviewer(company);
+            values.put("Time", "2019-08-02 10:00");
+            values.put("Location", "BA1160");
+            values.put("Duration(min)", "30");
+            interviewInfo = new Info(interview, values);
+            interview.match(interviewer, interviewInfo);
         }
     }
 
