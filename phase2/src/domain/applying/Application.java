@@ -55,7 +55,7 @@ public class Application implements Filterable {
     }
 
     public ArrayList<Interview> getInterviews() {
-        return (ArrayList<Interview>) this.interviews.values();
+        return new ArrayList<>(this.interviews.values());
     }
 
     public Interview getInterviewByRound(String round) {

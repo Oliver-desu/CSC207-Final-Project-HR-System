@@ -1,7 +1,10 @@
 package gui.scenarios.oliver;
 
+import domain.Test;
+import domain.applying.Application;
 import domain.applying.Document;
 import domain.applying.DocumentManager;
+import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -26,13 +29,16 @@ public class DocumentManageScenario extends Scenario {
     }
 
     public static void main(String[] args) {
-        String x = "aaa\\bbb\\ccc\\dd.txt";
-        Path path = Paths.get(x);
-        System.out.println(path.toString());
-        String name = path.getFileName().toString();
-        System.out.println(name);
-        String[] y = name.split("[.]");
-        System.out.println(y.length);
+
+        Test test = new Test();
+        test.setDefault();
+        Applicant applicant = test.getRandomApplicant();
+        Application application = applicant.getApplications().get(0);
+        DocumentManager applicantDM = applicant.getDocumentManager();
+        DocumentManager applicationDM = application.getDocumentManager();
+
+        new DocumentManageScenario(new UserMenu(), applicantDM, applicationDM).exampleView();
+
     }
 
     @Override

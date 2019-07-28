@@ -82,7 +82,7 @@ public class Interview implements Filterable, InfoHolder {
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
         values.add(getApplication().getApplicantId());
-        values.add(getInfo().getSpecificInfo("InterviewerId"));
+        values.add(getInfo().getSpecificInfo("InterviewId"));
         values.add(getStatus().toString());
         return values.toArray(new String[3]);
     }

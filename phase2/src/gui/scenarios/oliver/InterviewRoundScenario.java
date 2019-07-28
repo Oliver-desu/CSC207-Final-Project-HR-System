@@ -1,5 +1,6 @@
 package gui.scenarios.oliver;
 
+import domain.Test;
 import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
@@ -27,6 +28,24 @@ public class InterviewRoundScenario extends Scenario {
         this.company = company;
         this.interviewRound = interviewRound;
         this.jobPosting = jobPosting;
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+
+        test.addCompanies(1);
+        Company company = test.getRandomCompany();
+        test.addInterviewersForCompany(10, company);
+        test.addJobPostingsForCompany(1, company);
+        JobPosting jobPosting = test.getRandomJobPosting(company);
+        test.addApplicationsForJobPosting(3, jobPosting);
+        test.addNewRoundForJobPosting(jobPosting, company);
+
+        System.out.println(jobPosting.getRemainingApplications());
+
+        InterviewRoundScenario scenario = new InterviewRoundScenario(new UserMenu(),
+                jobPosting.getCurrentInterviewRound(), company, jobPosting);
+        scenario.exampleView();
     }
 
     @Override
@@ -69,7 +88,7 @@ public class InterviewRoundScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             FilterPanel<Object> filterPanel = getFilterPanel(false);
             Interview interview = (Interview) filterPanel.getSelectObject();
-            setOutputText(interview.toString());
+            if (interview != null) setOutputText(interview.toString());
         }
     }
 
@@ -79,6 +98,7 @@ public class InterviewRoundScenario extends Scenario {
             FilterPanel<Object> filterPanel = getFilterPanel(true);
             Application application = (Application) filterPanel.getSelectObject();
             jobPosting.hire(application);
+            System.out.println("Hire Successful");
         }
     }
 
