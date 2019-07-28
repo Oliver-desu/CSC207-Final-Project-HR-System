@@ -56,7 +56,7 @@ public class JobSearchingScenario extends  Scenario{
     }
 
     public void setButtonListener(JobPosting jobPosting) {
-        addButton("CreatApplication", new JumptoApplicationManageScenarioButton(jobPosting));
+        addButton("CreateApplication", new JumptoApplicationManageScenarioButton(jobPosting));
 
     }
 
