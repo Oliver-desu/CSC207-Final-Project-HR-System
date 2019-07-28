@@ -50,16 +50,26 @@ public class DocumentManageScenario extends Scenario {
 
     private void initFilter() {
         FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
-        rightFilterPanel.setFilterContent(new ArrayList<>(applicantDocument.getAllDocuments()));
+        updateRightFilterContent();
         rightFilterPanel.addSelectionListener(new FilterListener(rightFilterPanel));
 
         if (applicantDocument != null) {
             FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-            leftFilterPanel.setFilterContent(new ArrayList<>(applicationDocument.getAllDocuments()));
+            updateLeftFilterContent();
             leftFilterPanel.addSelectionListener(new FilterListener(leftFilterPanel));
         } else {
             getInputInfoPanel().addTextField("File name:");
         }
+    }
+
+    private void updateRightFilterContent() {
+        FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
+        rightFilterPanel.setFilterContent(new ArrayList<>(applicantDocument.getAllDocuments()));
+    }
+
+    private void updateLeftFilterContent() {
+        FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
+        leftFilterPanel.setFilterContent(new ArrayList<>(applicationDocument.getAllDocuments()));
     }
 
     private void initButton() {
@@ -102,9 +112,11 @@ public class DocumentManageScenario extends Scenario {
             if (applicationDocument == null) {
                 Document document = (Document) getFilterPanel(false).getSelectObject();
                 applicantDocument.removeDocument(document);
+                updateRightFilterContent();
             } else {
                 Document document = (Document) getFilterPanel(true).getSelectObject();
                 applicationDocument.removeDocument(document);
+                updateLeftFilterContent();
             }
         }
     }
