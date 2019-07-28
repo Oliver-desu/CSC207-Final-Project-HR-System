@@ -24,7 +24,7 @@ public class InterviewRound implements Filterable {
 
     public InterviewRound() {
         this.roundName = "Phone Interview";
-        this.status = InterviewRoundStatus.EMPTY;
+        this.status = InterviewRoundStatus.PENDING;
         this.applications = new HashMap<>();
         this.applications.put(Application.getSampleApplication("abc").getApplicantId(), Application.getSampleApplication("abc"));
     }
