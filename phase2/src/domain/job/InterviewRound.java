@@ -104,8 +104,12 @@ public class InterviewRound implements Filterable {
         return interviews;
     }
 
-    public void start() {
+    public void start(ArrayList<Application> applications) {
         this.setStatus(InterviewRoundStatus.MATCHING);
+        for (Application application: applications) {
+            this.applications.put(application.getApplicantId(), application);
+            application.addInterview(this.roundName, new Interview(application));
+        }
     }
 
     @Override

@@ -1,8 +1,10 @@
 package domain;
 
+import domain.applying.*;
 import domain.applying.Application;
-import domain.applying.Document;
 import domain.applying.DocumentManager;
+import domain.applying.Interview;
+import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.job.JobInfo;
 import domain.storage.Company;
@@ -10,8 +12,6 @@ import domain.storage.CompanyPool;
 import domain.storage.JobPool;
 import domain.storage.UserPool;
 import domain.user.*;
-import domain.user.Applicant;
-import main.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +58,6 @@ public class Test {
         // 2) add 5 companies
         // 3) add 10 interviewers, 10 coordinators for each company
         // 4) add 1 jobPosting for each company, then add 3 applications submitted for that jobPosting(thus creating 3 new applicants each time)
-
         Random rand = new Random();
         this.addApplicants(10);
         this.addCompanies(5);
@@ -69,6 +68,7 @@ public class Test {
             this.addJobPostingsForCompany(10, company);
             jobPosting = this.getRandomJobPosting(company);
             this.addApplicationsForJobPosting(3, jobPosting);
+            this.addNewRoundForJobPosting(jobPosting, company);
         }
     }
 
@@ -260,7 +260,27 @@ public class Test {
         }
     }
 
-//    public static void addNewRoundForJobPosting(JobPool jobPool, String jobPostingId)
+    public void addNewRoundForJobPosting(JobPosting jobPosting, Company company) {
+        InterviewRound interviewRound = new InterviewRound("new round");
+        jobPosting.addInterviewRound(interviewRound);
+        jobPosting.nextRound();
+
+        Interview interview;
+        InterviewInfo interviewInfo;
+        HashMap<String, String> values;
+        for (Application application: interviewRound.getUnmatchedApplications()) {
+            interview = application.getInterviewByRound(interviewRound.getRoundName());
+            values = new HashMap<>();
+            values.put("interviewerId", this.getRandomInterviewer(company).getUsername());
+            values.put("time", "2019-08-02 10:00");
+            values.put("location", "BA1160");
+            values.put("duration", "30");
+            interviewInfo = new InterviewInfo(values);
+            interview.match(interviewInfo);
+        }
+    }
+
+
 
 
 }

@@ -102,10 +102,10 @@ public class JobPosting implements Filterable {
         this.status = JobPostingStatus.OPEN;
     }
 
-    public void next() {
+    public void nextRound() {
 //        set to next round
         this.currRound += 1;
-        this.interviewRounds.get(currRound).start();
+        this.interviewRounds.get(currRound).start(this.getRemainingApplications());
     }
 
 //    public boolean isLastRound() {
