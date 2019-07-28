@@ -2,10 +2,8 @@ package domain.user;
 
 import domain.applying.Application;
 import domain.applying.Interview;
-import domain.applying.InterviewInfo;
 import domain.filter.Filterable;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +22,7 @@ public class Interviewer extends User implements Filterable {
         this.pastInterviews = new ArrayList<>();
         this.upcomingInterviews = new ArrayList<>();
         Interview interview1 = new Interview(Application.getSampleApplication("abc"));
-        interview1.setInterviewInfo(InterviewInfo.getInterviewInfo("1"));
         Interview interview2 = new Interview(Application.getSampleApplication("abc"));
-        interview2.setInterviewInfo(InterviewInfo.getInterviewInfo("2"));
         this.pastInterviews.add(interview1);
         this.upcomingInterviews.add(interview2);
     }
@@ -70,6 +66,10 @@ public class Interviewer extends User implements Filterable {
     }
 
     public void updateInterviews() {
+
+    }
+
+    public void update(Interview interview) {
 
     }
 

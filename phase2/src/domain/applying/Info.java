@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Info {
 
     private static final String[] INTERVIEW_INFO_LIST = new String[]{
-            "InterviewId", "Time", "Duration(min)", "Location"
+            "InterviewId", "Time", "Duration(min)", "Location", "Recommendation"
     };
 
     private static final String[] APPLICATION_INFO_LIST = new String[]{

@@ -128,6 +128,10 @@ public class Application implements Filterable {
         this.setStatus(ApplicationStatus.REJECTED);
     }
 
+    public void update(Interview interview) {
+
+    }
+
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
