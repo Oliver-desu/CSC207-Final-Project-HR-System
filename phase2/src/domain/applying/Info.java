@@ -1,5 +1,7 @@
 package domain.applying;
 
+import domain.job.JobPosting;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -11,6 +13,10 @@ public class Info {
 
     private static final String[] APPLICATION_INFO_LIST = new String[]{
             // Todo
+    };
+
+    private static final String[] JOB_INFO_LIST = new String[]{
+            "JobId", "CompanyId", "PositionName", "NumOfPosition", "PostDate", "CloseDate"
     };
 
     private static final String ERROR_MESSAGE = "Error message at class Info: ";
@@ -27,6 +33,7 @@ public class Info {
     private void initInfoList(InfoHolder infoHolder) {
         if (infoHolder instanceof Interview) setInfoList(INTERVIEW_INFO_LIST);
         else if (infoHolder instanceof Application) setInfoList(APPLICATION_INFO_LIST);
+        else if (infoHolder instanceof JobPosting) setInfoList(JOB_INFO_LIST);
     }
 
     public void setInfoList(String[] infoList) {
@@ -34,12 +41,19 @@ public class Info {
         else throwErrorMessage("Cannot set InfoList twice!");
     }
 
+    private boolean isValidKey(String key) {
+        return Arrays.asList(infoList).contains(key);
+    }
+
     public void setChanges(HashMap<String, String> infoMap) {
+        for (String key : infoMap.keySet()) {
+            if (!isValidKey(key)) infoMap.remove(key);
+        }
         this.infoMap.putAll(infoMap);
     }
 
     public String getSpecificInfo(String key) {
-        if (Arrays.asList(infoList).contains(key)) return infoMap.getOrDefault(key, "");
+        if (isValidKey(key)) return infoMap.getOrDefault(key, "");
         else {
             throwErrorMessage("Invalid key for get specific info!");
             return "";
