@@ -38,7 +38,7 @@ public class JobPosting implements Filterable {
 
     public JobPosting(JobInfo jobInfo) {
         this.jobInfo = jobInfo;
-        this.currRound = 0;
+        this.currRound = -1;
         this.interviewRounds = new HashMap<>();
         this.applications = new HashMap<>();
     }
@@ -58,7 +58,7 @@ public class JobPosting implements Filterable {
 
     public ArrayList<Application> getRemainingApplications() {
         ArrayList<Application> remainingApplications = new ArrayList<>();
-        for (Application application : this.getCurrentRoundApplications()) {
+        for (Application application : this.applications.values()) {
             if (application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
                 remainingApplications.add(application);
             }

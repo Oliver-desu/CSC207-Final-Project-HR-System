@@ -32,24 +32,7 @@ public class Test {
 
     public static void main(String[] args) {
         Test test = new Test();
-
-        Random rand = new Random();
-        test.addApplicants(10);
-        test.addCompanies(5);
-        JobPosting jobPosting;
-        for (Company company: test.getCompanyPool().getCompanies()) {
-            test.addInterviewersForCompany(10, company);
-            test.addCoordinatorsForCompany(10, company);
-            test.addJobPostingsForCompany(10, company);
-            jobPosting = test.getRandomJobPosting(company);
-            test.addApplicationsForJobPosting(3, jobPosting);
-        }
-
-        System.out.println("Num applicants: " + test.getNumApplicants());
-        System.out.println("Num interviewers: " + test.getNumInterviewers());
-        System.out.println("Num companies: " + test.getNumCompanies());
-        System.out.println("Num coordinators: " + test.getNumCoordinators());
-        System.out.println("Num jobPostings: " + test.getNumJobPostings());
+        test.setDefault();
     }
 
     public void setDefault() {
@@ -65,7 +48,7 @@ public class Test {
         for (Company company: companyPool.getCompanies()) {
             this.addInterviewersForCompany(10, company);
             this.addCoordinatorsForCompany(10, company);
-            this.addJobPostingsForCompany(10, company);
+            this.addJobPostingsForCompany(1, company);
             jobPosting = this.getRandomJobPosting(company);
             this.addApplicationsForJobPosting(3, jobPosting);
             this.addNewRoundForJobPosting(jobPosting, company);
@@ -280,8 +263,6 @@ public class Test {
             interview.match(interviewer, interviewInfo);
         }
     }
-
-
 
 
 }
