@@ -33,7 +33,7 @@ public class JobPosting implements Filterable {
         this.interviewRounds.put(2, new InterviewRound());
         this.applications = new HashMap<>();
         this.applications.put(Application.getSampleApplication("abc").getApplicantId(), Application.getSampleApplication("abc"));
-        this.status = JobPostingStatus.OPEN;
+        this.status = JobPostingStatus.PROCESSING;
     }
 
     public JobPosting(JobInfo jobInfo) {

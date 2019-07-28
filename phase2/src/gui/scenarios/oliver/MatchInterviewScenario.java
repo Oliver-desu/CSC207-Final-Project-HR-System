@@ -2,7 +2,6 @@ package gui.scenarios.oliver;
 
 import domain.applying.Application;
 import domain.applying.Interview;
-import domain.applying.InterviewInfo;
 import domain.job.InterviewRound;
 import domain.storage.Company;
 import domain.storage.UserPool;
@@ -64,11 +63,11 @@ public class MatchInterviewScenario extends Scenario {
             HashMap<String, String> infoMap = getInputInfoMap();
             Interviewer interviewer = (Interviewer) getFilterPanel(false).getSelectObject();
             infoMap.put("interviewerId", interviewer.getUsername());
-            InterviewInfo interviewInfo = new InterviewInfo(infoMap);
+//            InterviewInfo interviewInfo = new InterviewInfo(infoMap);
 
             Application application = (Application) getFilterPanel(true).getSelectObject();
             Interview interview = application.getInterviewByRound(interviewRound.getRoundName());
-            interview.match(interviewInfo);
+//            interview.match(interviewInfo);
         }
     }
 }

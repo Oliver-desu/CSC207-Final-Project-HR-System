@@ -1,11 +1,12 @@
 package domain.applying;
 
 import domain.filter.Filterable;
+import domain.user.Interviewer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Interview implements Filterable {
+public class Interview implements Filterable, InfoHolder {
 
     public enum InterviewStatus {
         UNMATCHED,
@@ -14,78 +15,75 @@ public class Interview implements Filterable {
         FAIL
     }
 
+    private Interviewer interviewer;
     private Application application;
-    private InterviewStatus status;
-    private String recommendation;
-    private InterviewInfo interviewInfo;
-
-
-    public Interview() {
-        this.application = new Application();
-        setInterviewInfo(new InterviewInfo());
-    }
+    private InterviewStatus status = InterviewStatus.UNMATCHED;
+    private Info interviewInfo;
 
     public Interview(Application application) {
         this.application = application;
     }
 
-    public Application getApplication() {
-        return this.application;
+    public Interviewer getInterviewer() {
+        return interviewer;
     }
 
-    public String getInterviewId() {
-        return this.interviewInfo.getInterviewerId();
+    public Application getApplication() {
+        return application;
+    }
+
+    public void match(Interviewer interviewer, Info info) {
+        if (status.equals(InterviewStatus.UNMATCHED)) {
+            this.interviewer = interviewer;
+            setInfo(info);
+            setStatus(InterviewStatus.PENDING);
+        }
+    }
+
+    @Override
+    public Info getInfo() {
+        return interviewInfo;
+    }
+
+    @Override
+    public void setInfo(Info info) {
+        interviewInfo = info;
     }
 
     public InterviewStatus getStatus() {
         return this.status;
     }
 
-    public String getRecommendation() {
-        return this.recommendation;
+    private void setStatus(InterviewStatus status) {
+        this.status = status;
+        notifyHolders();
     }
 
-    public void setRecommendation(String recommendation) {
-        this.recommendation = recommendation;
+    public void setResult(boolean isPass) {
+        if (isPass) setStatus(InterviewStatus.PASS);
+        else setStatus(InterviewStatus.FAIL);
     }
 
-    public void setInterviewInfo(InterviewInfo interviewInfo) {
-        this.interviewInfo = interviewInfo;
+    private void notifyHolders() {
+        application.update(this);
+        interviewer.update(this);
     }
-
-    public void match(InterviewInfo interviewInfo) {
-        this.interviewInfo = interviewInfo;
-    }
-
-    public void setPass() {
-        this.status = InterviewStatus.PASS;
-    }
-
-    public void setFail() {
-        this.status = InterviewStatus.FAIL;
-        this.application.setStatus(Application.ApplicationStatus.REJECTED);
-    }
-
-//    private void updateApplication() {
-//
-//    }
-
 
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
-        headings.add("applicantId");
-        headings.add("interviewerId");
-        headings.add("status");
-        return headings.toArray(new String[0]);
+        headings.add("Applicant id");
+        headings.add("Interviewer id");
+        headings.add("Status");
+        return headings.toArray(new String[3]);
     }
 
     @Override
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
-        values.add(this.application.getApplicantId());
-        values.add(this.interviewInfo.getInterviewerId());
-        values.add(this.status.toString());
-        return values.toArray(new String[0]);
+        values.add(getApplication().getApplicantId());
+        values.add(getInfo().getSpecificInfo("InterviewerId"));
+        values.add(getStatus().toString());
+        return values.toArray(new String[3]);
     }
 }

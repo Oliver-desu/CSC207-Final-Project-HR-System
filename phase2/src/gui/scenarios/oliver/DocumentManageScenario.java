@@ -82,7 +82,7 @@ public class DocumentManageScenario extends Scenario {
             if (applicationDocument == null) {
                 Path path = Paths.get(getInputInfoMap().get("File name:"));
                 String fileName = path.getFileName().toString().split("[.]")[0];
-                applicantDocument.addDocument(fileName, new Document(path));
+                applicantDocument.addDocument(fileName, new Document(path.toString()));
             } else {
                 Document document = (Document) getFilterPanel(false).getSelectObject();
                 applicationDocument.addDocument(document.getDocumentName(), document);

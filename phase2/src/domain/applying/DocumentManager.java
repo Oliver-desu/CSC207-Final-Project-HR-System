@@ -1,22 +1,17 @@
 package domain.applying;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DocumentManager {
 
-    private HashMap<String, Document> documents;
-    private boolean editable;
-
+    private HashMap<String, Document> documents = new HashMap<>();
+    private boolean editable = true;
 
     public DocumentManager() {
-        this.documents = new HashMap<>();
-        this.editable = true;
     }
 
     public DocumentManager(boolean editable) {
-        this.documents = new HashMap<>();
         this.editable = editable;
     }
 
@@ -77,20 +72,10 @@ public class DocumentManager {
         return this.documents.size();
     }
 
-    public void updateAllDocuments(LocalDate currentDate) {
-        if (this.isEditable()) {
-            HashMap<String, Document> remainingDocuments = new HashMap<>();
-            Document document;
-            LocalDate deleteDate;
-            for (String docName : this.documents.keySet()) {
-                document = this.documents.get(docName);
-                deleteDate = document.getLastUsedDate().plusDays(30);
-                if (!deleteDate.isAfter(currentDate)) {
-                    remainingDocuments.put(docName, document);
-                }
-            }
-            this.documents = remainingDocuments;
+    public void updateAllDocuments() {
+        for (Document document : getAllDocuments()) {
+            document.update();
+            if (document.shouldDelete()) removeDocument(document);
         }
     }
-
 }
