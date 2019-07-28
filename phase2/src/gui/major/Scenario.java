@@ -25,14 +25,10 @@ public abstract class Scenario extends JPanel {
     private InputInfoPanel inputInfoPanel = new InputInfoPanel();
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
     private ButtonPanel buttonPanel = new ButtonPanel();
-    private LayoutMode mode = LayoutMode.REGULAR;
-
-    protected Scenario(UserMenu userMenu) {
-        setUserMenu(userMenu);
-    }
+    private LayoutMode mode;
 
     protected Scenario(UserMenu userMenu, LayoutMode mode) {
-        setUserMenu(userMenu);
+        this.userMenu = userMenu;
         this.mode = mode;
     }
 
@@ -44,67 +40,48 @@ public abstract class Scenario extends JPanel {
     private void setup() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
-        add(leftFilterPanel);
-        add(rightFilterPanel);
-        add(outputInfoPanel);
+        if (mode.equals(LayoutMode.REGULAR)) {
+            add(leftFilterPanel);
+            add(rightFilterPanel);
+            add(outputInfoPanel);
+        }
         add(inputInfoPanel);
         add(buttonPanel);
-    }
-
-    protected void showColor() {
-        setBackground(Color.WHITE);
-        leftFilterPanel.setBackground(Color.BLACK);
-        rightFilterPanel.setBackground(Color.RED);
-        outputInfoPanel.setBackground(Color.BLUE);
-        inputInfoPanel.setBackground(Color.darkGray);
-        buttonPanel.setBackground(Color.GREEN);
     }
 
     private void initLayout() {
         final Dimension LIST_SIZE = new Dimension(WIDTH / 5 - HORIZONTAL_GAP, HEIGHT / 2);
         final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
         final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
-        final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+        final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
         final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
 
-        leftFilterPanel.setup(LIST_SIZE);
-        rightFilterPanel.setup(LIST_SIZE);
         if (mode == LayoutMode.REGULAR) {
+            leftFilterPanel.setup(LIST_SIZE);
+            rightFilterPanel.setup(LIST_SIZE);
             outputInfoPanel.setup(OUTPUT_SIZE);
             inputInfoPanel.setup(REGULAR_INPUT_SIZE, false);
         } else if (mode == LayoutMode.REGISTER) {
-            makeUnavailable(outputInfoPanel);
             inputInfoPanel.setup(REGISTER_INPUT_SIZE, true);
         }
         buttonPanel.setup(BUTTON_PANEL_SIZE);
     }
 
-    private void makeUnavailable(JPanel panel) {
-        panel.setVisible(false);
-    }
-
-    protected void makeUnavailable(ScenarioPart part) {
-        if (part == ScenarioPart.INPUT) makeUnavailable(inputInfoPanel);
-        else if (part == ScenarioPart.OUTPUT) makeUnavailable(outputInfoPanel);
-        else if (part == ScenarioPart.LEFT_FILTER) makeUnavailable(leftFilterPanel);
-        else if (part == ScenarioPart.RIGHT_FILTER) makeUnavailable(rightFilterPanel);
-        else if (part == ScenarioPart.BUTTON) makeUnavailable(buttonPanel);
+    protected FilterPanel<Object> getFilterPanel(boolean left) {
+        if (left) return leftFilterPanel;
+        else return rightFilterPanel;
     }
 
     protected HashMap<String, String> getInputInfoMap() {
         return inputInfoPanel.getInfoMap();
     }
 
-    protected void addButton(String buttonName, ActionListener listener) {
-        buttonPanel.addButton(buttonName, listener);
-    }
-
     protected InputInfoPanel getInputInfoPanel() {
         return inputInfoPanel;
     }
 
-    protected void setOutputText(String text) {
-        outputInfoPanel.setOutputText(text);
+    protected void addButton(String buttonName, ActionListener listener) {
+        buttonPanel.addButton(buttonName, listener);
     }
 
     protected void switchScenario(Scenario scenario) {
@@ -115,17 +92,12 @@ public abstract class Scenario extends JPanel {
         return userMenu;
     }
 
-    private void setUserMenu(UserMenu userMenu) {
-        this.userMenu = userMenu;
-    }
-
     protected Main getMain() {
         return getUserMenu().getMain();
     }
 
-    protected FilterPanel<Object> getFilterPanel(boolean left) {
-        if (left) return leftFilterPanel;
-        else return rightFilterPanel;
+    protected void setOutputText(String text) {
+        outputInfoPanel.setOutputText(text);
     }
 
     protected void showDocument(String documentContent) {
@@ -133,16 +105,6 @@ public abstract class Scenario extends JPanel {
         document.setup(OUTPUT_SIZE);
         document.setOutputText(documentContent);
         new DocumentFrame(document);
-    }
-
-    protected void exampleView() {
-        init();
-        showColor();
-        JFrame frame = new JFrame();
-        frame.setLayout(new FlowLayout());
-        frame.setSize(new Dimension(1000, 600));
-        frame.add(this);
-        frame.setVisible(true);
     }
 
     class DocumentFrame extends JFrame {
@@ -156,7 +118,24 @@ public abstract class Scenario extends JPanel {
         }
     }
 
-    protected enum LayoutMode {REGULAR, REGISTER}
+    void showColor() {
+        setBackground(Color.WHITE);
+        leftFilterPanel.setBackground(Color.BLACK);
+        rightFilterPanel.setBackground(Color.RED);
+        outputInfoPanel.setBackground(Color.BLUE);
+        inputInfoPanel.setBackground(Color.darkGray);
+        buttonPanel.setBackground(Color.GREEN);
+    }
 
-    protected enum ScenarioPart {LEFT_FILTER, RIGHT_FILTER, INPUT, OUTPUT, BUTTON}
+    protected void exampleView() {
+        init();
+        showColor();
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(new Dimension(1000, 600));
+        frame.add(this);
+        frame.setVisible(true);
+    }
+
+    protected enum LayoutMode {REGULAR, REGISTER}
 }

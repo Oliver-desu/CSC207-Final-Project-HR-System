@@ -140,7 +140,7 @@ public class InputInfoPanel extends JPanel {
 
     public char[] getPassword() {
         if (passwordMatched()) return passwordFields[0].getPassword();
-        else return null;
+        else return new char[0];
     }
 
     private enum Size {LABEL, COMBO_BOX, AREA, FIELD}
@@ -151,6 +151,7 @@ public class InputInfoPanel extends JPanel {
             JComponent component = componentMap.get(componentName);
             infoMap.put(componentName, getText(component));
         }
+        infoMap.put("Password", Arrays.toString(getPassword()));
         return infoMap;
     }
 }
