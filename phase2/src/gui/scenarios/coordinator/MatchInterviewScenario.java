@@ -19,11 +19,9 @@ import java.util.HashMap;
 public class MatchInterviewScenario extends Scenario {
 
     private InterviewRound interviewRound;
-    private Company company;
 
-    public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound, Company company) {
+    public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
         super(userMenu, LayoutMode.REGISTER);
-        this.company = company;
         this.interviewRound = interviewRound;
     }
 
@@ -52,6 +50,7 @@ public class MatchInterviewScenario extends Scenario {
 
     private void initRightFilter() {
         UserPool userPool = getMain().getUserPool();
+        Company company = getUserMenu().getCompany();
         ArrayList<Interviewer> interviewers = userPool.getInterviewers(company.getInterviewerIds());
         FilterPanel<Object> filterPanel = getFilterPanel(false);
         filterPanel.setFilterContent(new ArrayList<>(interviewers));

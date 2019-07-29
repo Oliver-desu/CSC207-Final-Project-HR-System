@@ -20,12 +20,10 @@ import java.util.ArrayList;
 public class InterviewRoundScenario extends Scenario {
 
     private InterviewRound interviewRound;
-    private Company company;
     private JobPosting jobPosting;
 
-    public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, Company company, JobPosting jobPosting) {
+    public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
         super(userMenu, LayoutMode.REGULAR);
-        this.company = company;
         this.interviewRound = interviewRound;
         this.jobPosting = jobPosting;
     }
@@ -44,7 +42,7 @@ public class InterviewRoundScenario extends Scenario {
         System.out.println(jobPosting.getRemainingApplications());
 
         InterviewRoundScenario scenario = new InterviewRoundScenario(new UserMenu(),
-                jobPosting.getCurrentInterviewRound(), company, jobPosting);
+                jobPosting.getCurrentInterviewRound(), jobPosting);
         scenario.exampleView();
     }
 
@@ -107,7 +105,7 @@ public class InterviewRoundScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();
             if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.MATCHING)) {
-                menu.setScenario(new MatchInterviewScenario(menu, interviewRound, company));
+                menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
             } else {
                 JOptionPane.showMessageDialog(menu, "Sorry, cannot match interview now.");
             }

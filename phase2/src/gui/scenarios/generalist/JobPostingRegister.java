@@ -2,7 +2,6 @@ package gui.scenarios.generalist;
 
 import domain.job.JobInfo;
 import domain.job.JobPosting;
-import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.InputInfoPanel;
@@ -14,11 +13,8 @@ import java.util.HashMap;
 
 public class JobPostingRegister extends Scenario {
 
-    private HRGeneralist hrGeneralist;
-
-    public JobPostingRegister(UserMenu userMenu, HRGeneralist hrGeneralist) {
+    public JobPostingRegister(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGISTER);
-        this.hrGeneralist = hrGeneralist;
 
     }
 

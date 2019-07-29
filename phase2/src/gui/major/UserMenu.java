@@ -64,7 +64,7 @@ public class UserMenu extends JFrame {
         add(scenario);
     }
 
-    private User getUser() {
+    public User getUser() {
         return user;
     }
 
