@@ -22,8 +22,9 @@ public class User {
     }
 
     public User(HashMap<String, String> map) {
-        setUsername(map.get("username"));
-        setDateCreated(map.get("dateCreated"));
+        setUsername(map.get("Username:"));
+        this.dateCreated = LocalDate.now();
+        setPassword(map.get("Password"));
     }
 
     public void setUsername(String username) {
@@ -40,6 +41,11 @@ public class User {
 
     public void setPassword(char[] password) {
         this.password = password;
+    }
+
+    public void setPassword(String password) {
+        String validPassword = password.replaceAll(", ", "");
+        this.password = validPassword.substring(1, validPassword.length() - 1).toCharArray();
     }
 
     private void setDateCreated(String dateCreated) {

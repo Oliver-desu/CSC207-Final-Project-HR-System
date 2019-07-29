@@ -5,7 +5,6 @@ import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
-import domain.storage.Company;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -31,13 +30,7 @@ public class InterviewRoundScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
 
-        test.addCompanies(1);
-        Company company = test.getRandomCompany();
-        test.addInterviewersForCompany(10, company);
-        test.addJobPostingsForCompany(1, company);
-        JobPosting jobPosting = test.getRandomJobPosting(company);
-        test.addApplicationsForJobPosting(3, jobPosting);
-        test.addNewRoundForJobPosting(jobPosting, company);
+        JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
 
         System.out.println(jobPosting.getRemainingApplications());
 

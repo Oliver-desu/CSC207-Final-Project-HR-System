@@ -31,7 +31,6 @@ public class DocumentManageScenario extends Scenario {
     public static void main(String[] args) {
 
         Test test = new Test();
-        test.setDefault();
         Applicant applicant = test.getRandomApplicant();
         Application application = applicant.getApplications().get(0);
         DocumentManager applicantDM = applicant.getDocumentManager();
@@ -88,7 +87,7 @@ public class DocumentManageScenario extends Scenario {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             Document document = (Document) filterPanel.getSelectObject();
-            setOutputText(document.toString());
+            if (!(document == null)) setOutputText(document.toString());
         }
     }
 

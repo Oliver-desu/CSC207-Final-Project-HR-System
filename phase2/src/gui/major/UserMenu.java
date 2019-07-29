@@ -120,7 +120,7 @@ public class UserMenu extends JFrame {
         Applicant applicant = (Applicant) getUser();
         addMenuButton("Upcoming Interviews", new ViewInterviewScenario(this));
         addMenuButton("Apply Jobs", new JobSearchingScenario(this));
-        addMenuButton("Manage Application", new ApplicationManageScenario(this, applicant));
+        addMenuButton("Manage Application", new ApplicationManageScenario(this));
         addMenuButton("My Documents", new DocumentManageScenario(this,
                 applicant.getDocumentManager(), null));
     }

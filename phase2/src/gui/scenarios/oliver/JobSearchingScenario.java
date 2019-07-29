@@ -31,7 +31,7 @@ public class JobSearchingScenario extends  Scenario{
         @Override
         public void actionPerformed(ActionEvent e) {
             Applicant applicant = (Applicant) getUserMenu().getUser();
-            ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu(), applicant);
+            ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
             switchScenario(scenario);
         }
     }
