@@ -1,6 +1,7 @@
 package gui.scenarios.oliver;
 
 import domain.applying.Application;
+import domain.applying.Info;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.storage.Company;
@@ -35,12 +36,11 @@ public class MatchInterviewScenario extends Scenario {
         initInput();
     }
 
-    // Todo: Not decide what is required to generate a interview.
-    private void initInput() {
-
+    protected void initInput() {
+        getInputInfoPanel().addTextField("Dead line:");
     }
 
-    private void initButton() {
+    protected void initButton() {
         addButton("Match", new MatchListener());
     }
 
@@ -63,11 +63,11 @@ public class MatchInterviewScenario extends Scenario {
             HashMap<String, String> infoMap = getInputInfoMap();
             Interviewer interviewer = (Interviewer) getFilterPanel(false).getSelectObject();
             infoMap.put("interviewerId", interviewer.getUsername());
-//            InterviewInfo interviewInfo = new InterviewInfo(infoMap);
 
             Application application = (Application) getFilterPanel(true).getSelectObject();
             Interview interview = application.getInterviewByRound(interviewRound.getRoundName());
-//            interview.match(interviewInfo);
+            Info interviewInfo = new Info(interview, infoMap);
+            interview.match(interviewer, interviewInfo);
         }
     }
 }

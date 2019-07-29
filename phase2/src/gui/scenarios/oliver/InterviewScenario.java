@@ -1,6 +1,5 @@
 package gui.scenarios.oliver;
 
-import domain.filter.ExampleFilterable;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -32,10 +31,6 @@ public class InterviewScenario extends Scenario {
     public void init() {
         super.init();
         ArrayList<Object> contentList = new ArrayList<>(applicant.getOngoingInterviews());
-        if (true) {
-            contentList.add(new ExampleFilterable("Example1"));
-            contentList.add(new ExampleFilterable("Example2"));
-        }
         FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
         leftFilterPanel.setFilterContent(contentList);
         leftFilterPanel.addSelectionListener(new ShowInfoListener(leftFilterPanel));

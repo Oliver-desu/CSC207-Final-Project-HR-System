@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Info {
 
     private static final String[] INTERVIEW_INFO_LIST = new String[]{
-            "InterviewId", "Time", "Duration(min)", "Location", "Recommendation"
+            "InterviewId", "Time", "Duration(min)", "Location", "Recommendation", "Dead line:"
     };
 
     private static final String[] APPLICATION_INFO_LIST = new String[]{

@@ -48,12 +48,12 @@ public class DocumentManageScenario extends Scenario {
         initButton();
     }
 
-    private void initFilter() {
+    protected void initFilter() {
         FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
         updateRightFilterContent();
         rightFilterPanel.addSelectionListener(new FilterListener(rightFilterPanel));
 
-        if (applicantDocument != null) {
+        if (applicationDocument != null) {
             FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
             updateLeftFilterContent();
             leftFilterPanel.addSelectionListener(new FilterListener(leftFilterPanel));
@@ -72,7 +72,7 @@ public class DocumentManageScenario extends Scenario {
         leftFilterPanel.setFilterContent(new ArrayList<>(applicationDocument.getAllDocuments()));
     }
 
-    private void initButton() {
+    protected void initButton() {
         addButton("Add", new AddDocumentListener());
         addButton("Delete", new DeleteDocumentListener());
     }
