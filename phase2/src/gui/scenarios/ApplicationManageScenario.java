@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class ApplicationManageScenario extends Scenario {
     private Applicant applicant;
 
-    public ApplicationManageScenario(UserMenu userMenu, Applicant applicant) {
+    public ApplicationManageScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
-        this.applicant = applicant;
+        this.applicant = (Applicant) getUserMenu().getUser();
     }
 
     @Override
