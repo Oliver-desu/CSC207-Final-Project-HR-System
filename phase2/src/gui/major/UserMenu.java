@@ -53,7 +53,7 @@ public class UserMenu extends JFrame {
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
         menuSetup();
-        add(scenario);
+        ((JButton) menu.getComponent(0)).doClick();
         setVisible(true);
     }
 
@@ -71,6 +71,7 @@ public class UserMenu extends JFrame {
         this.scenario = scenario;
         scenario.init();
         add(scenario);
+        scenario.updateUI();
     }
 
     public User getUser() {

@@ -25,6 +25,7 @@ public abstract class Scenario extends JPanel {
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
     private ButtonPanel buttonPanel = new ButtonPanel();
     private LayoutMode mode;
+    private int numInit;
 
     // likely to dependency injection.
     private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
@@ -37,6 +38,7 @@ public abstract class Scenario extends JPanel {
     }
 
     public void init() {
+        if (numInit != 0) return;
         setup();
         initLayout();
         if (mode.equals(LayoutMode.REGULAR)) {
@@ -44,6 +46,7 @@ public abstract class Scenario extends JPanel {
         }
         initButton();
         initInput();
+        numInit++;
     }
 
     protected void initFilter() {

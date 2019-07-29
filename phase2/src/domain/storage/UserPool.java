@@ -12,8 +12,11 @@ public class UserPool {
     private HashMap<String, HRGeneralist> generalists = new HashMap<>();
     private HashMap<String, HRCoordinator> coordinators = new HashMap<>();
 
-    // Todo
     public void register(User user) {
+        if (user instanceof Applicant) register((Applicant) user);
+        else if (user instanceof HRCoordinator) register((HRCoordinator) user);
+        else if (user instanceof HRGeneralist) register((HRGeneralist) user);
+        else if (user instanceof Interviewer) register((Interviewer) user);
     }
 
     public void register(Applicant applicant) {
