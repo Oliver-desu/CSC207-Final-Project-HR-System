@@ -74,6 +74,17 @@ public class Interview implements Filterable, InfoHolder {
     }
 
     @Override
+    public String toString() {
+        return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
+                "Applicant: " + this.application.getApplicantId() + "\n" +
+                "Interviewer: " + this.interviewer.getUsername() + "\n" +
+                "Time: " + this.interviewInfo.getSpecificInfo("Time") + "\n" +
+                "Duration(min): " + this.interviewInfo.getSpecificInfo("Duration(min)") + "\n" +
+                "Location: " + this.interviewInfo.getSpecificInfo("Location") + "\n" +
+                "Status" + this.status;
+    }
+
+    @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
         headings.add("Applicant id");

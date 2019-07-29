@@ -58,6 +58,13 @@ public class Document implements Filterable {
     }
 
     @Override
+    public String toString() {
+        return "Name: " + this.documentName + "\n" +
+                "Last used date: " + this.lastUsedDate + "\n" +
+                "Content: " + "\n" + this.content;
+    }
+
+    @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
         headings.add("Last used date");

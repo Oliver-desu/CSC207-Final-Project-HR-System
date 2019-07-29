@@ -84,5 +84,13 @@ public class JobInfo {
         this.finalApplications.add(application);
     }
 
+    @Override
+    public String toString() {
+        return "Company: " + this.companyId + "\n" +
+                "Position name: " + this.positionName + "\n" +
+                "Number of position: " + this.numPositions + "\n" +
+                "Post date: " + this.postDate + "\n" +
+                "Close date: " + this.closeDate;
+    }
 }
 

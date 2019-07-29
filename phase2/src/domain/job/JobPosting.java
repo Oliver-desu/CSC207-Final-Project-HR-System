@@ -143,8 +143,10 @@ public class JobPosting implements Filterable {
         return false;
     }
 
-    public String toString(Object object) {
-        return null;
+    @Override
+    public String toString() {
+        return jobInfo.toString() + "\n" +
+                "Status: " + this.status;
     }
 
     @Override

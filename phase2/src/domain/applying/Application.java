@@ -140,6 +140,13 @@ public class Application implements Filterable {
     }
 
     @Override
+    public String toString() {
+        return "Applicant: " + this.applicantId + "\n" +
+                "JobPosting id:" + this.jobPostingId + "\n" +
+                "Status: " + this.status;
+    }
+
+    @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
         headings.add("Applicant id");
