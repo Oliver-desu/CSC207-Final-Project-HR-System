@@ -1,6 +1,8 @@
 package gui.scenarios.applicant;
 
 import domain.Test;
+import domain.applying.Application;
+import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.JobPool;
 import domain.user.Applicant;
@@ -40,6 +42,9 @@ public class JobSearchingScenario extends  Scenario{
     class CreateApplicationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
+            Applicant applicant = (Applicant) getUserMenu().getUser();
+            applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting));
             ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
             switchScenario(scenario);
         }

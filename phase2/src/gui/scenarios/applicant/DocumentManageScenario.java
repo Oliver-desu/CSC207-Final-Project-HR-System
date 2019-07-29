@@ -83,7 +83,7 @@ public class DocumentManageScenario extends Scenario {
 
             } else {
                 Document document = (Document) getFilterPanel(false).getSelectObject();
-                if (applicationDocument.addDocument(document.getDocumentName(), document)) {
+                if (document != null && applicationDocument.addDocument(document.getDocumentName(), document)) {
                     updateLeftFilterContent();
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     return;
@@ -98,14 +98,14 @@ public class DocumentManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             if (applicationDocument == null) {
                 Document document = (Document) getFilterPanel(false).getSelectObject();
-                if (applicantDocument.removeDocument(document)) {
+                if (document != null && applicantDocument.removeDocument(document)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     updateRightFilterContent();
                     return;
                 }
             } else {
                 Document document = (Document) getFilterPanel(true).getSelectObject();
-                if (applicationDocument.removeDocument(document)) {
+                if (document != null && applicationDocument.removeDocument(document)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     updateLeftFilterContent();
                     return;

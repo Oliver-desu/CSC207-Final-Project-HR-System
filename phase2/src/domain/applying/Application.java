@@ -39,6 +39,13 @@ public class Application implements Filterable {
         return application;
     }
 
+    public Application(Applicant applicant, JobPosting jobPosting) {
+        this.applicantId = applicant.getUsername();
+        this.jobPostingId = jobPosting.getJobId();
+        this.documentManager = new DocumentManager(true);
+        this.status = ApplicationStatus.DRAFT;
+    }
+
     public Application(HashMap<String, String> values) {
         this.applicantId = values.getOrDefault("applicantId", "");
         this.jobPostingId = values.getOrDefault("jobPostingId", "");
