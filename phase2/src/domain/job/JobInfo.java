@@ -34,13 +34,13 @@ public class JobInfo {
     }
 
     public JobInfo(HashMap<String, String> map) {
-        this.id = map.get("id");
-        this.companyId = map.get("companyId");
-        this.positionName = map.get("positionName");
-        this.numPositions = Integer.parseInt(map.get("numPositions"));
-        this.postDate = LocalDate.parse(map.get("postDate"), formatter);
-        this.closeDate = LocalDate.parse(map.get("closeDate"), formatter);
-        this.requirement = map.get("requirement");
+        this.id = map.get("id:");
+        this.companyId = map.get("Company id:");
+        this.positionName = map.get("Position name:");
+        this.numPositions = Integer.parseInt(map.get("Num of positions:"));
+        this.postDate = LocalDate.now();
+        this.closeDate = LocalDate.parse(map.get("Close date:"), formatter);
+//        this.requirement = map.get("requirement");
         this.finalApplications = new ArrayList<>();
     }
 
@@ -84,9 +84,5 @@ public class JobInfo {
         this.finalApplications.add(application);
     }
 
-    // TODO: 2019-07-27
-//    public boolean isValidInfo() {
-//        return false;
-//    }
 }
 

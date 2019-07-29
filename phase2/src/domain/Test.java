@@ -171,13 +171,12 @@ public class Test {
 
     public JobPosting addJobPosting(Company company) {
         HashMap<String, String> values = new HashMap<>();
-        values.put("id", Integer.toString(numJobPostings));
-        values.put("companyId", company.getId());
-        values.put("positionName", "Boss");
-        values.put("numPositions", Integer.toString(2));
-        values.put("postDate", "2019-01-01");
-        values.put("closeDate", "2019-08-01");
-        values.put("requirement", "Bossy");
+        values.put("id:", Integer.toString(numJobPostings));
+        values.put("Company id:", company.getId());
+        values.put("Position name:", "Boss");
+        values.put("Num of positions:", Integer.toString(2));
+        values.put("Close date:", "2019-08-01");
+//        values.put("requirement", "Bossy");
         JobInfo jobInfo = new JobInfo(values);
         JobPosting jobPosting = new JobPosting(jobInfo);
         jobPool.addJobPosting(jobPosting.getJobId(), jobPosting);

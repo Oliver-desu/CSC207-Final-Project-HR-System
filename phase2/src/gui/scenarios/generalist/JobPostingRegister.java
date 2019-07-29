@@ -49,10 +49,13 @@ public class JobPostingRegister extends Scenario {
         addButton("Post job", new CreateJobPostingListener());
     }
 
-    private JobInfo createJobInfo() {
+    private HashMap<String, String> createJobInfoMap() {
         HashMap<String, String> infoMap = getInputInfoMap();
-        infoMap.put("Company id", getUserMenu().getCompany().getId());
-        return new JobInfo(infoMap);
+        Company company = getUserMenu().getCompany();
+        infoMap.put("Company id:", company.getId());
+        infoMap.put("id:", company.getId() + "--" + infoMap.get("Position name:") + "--" +
+                company.getJobPostingIds().size());
+        return infoMap;
     }
 
     class CreateJobPostingListener implements ActionListener {
@@ -61,7 +64,10 @@ public class JobPostingRegister extends Scenario {
             UserMenu userMenu = getUserMenu();
             int confirm = JOptionPane.showConfirmDialog(userMenu, "Are you sure to post job?");
             if (confirm == 0) {
-                JobPosting jobPosting = new JobPosting(createJobInfo());
+                HashMap<String, String> values = createJobInfoMap();
+                JobPosting jobPosting = new JobPosting(new JobInfo(values));
+                getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
+                getMain().getUserPool().getHRCoordinator(values.get("Coordinator:")).addJobPosting(jobPosting);
                 getMain().getJobPool().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();

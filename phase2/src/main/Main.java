@@ -20,6 +20,7 @@ public class Main {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         JobPosting jobPosting = test.getRandomJobPosting(company);
+        test.addJobPostings(2, company);
 
         test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         test.addNewRoundAndFinishMatching(jobPosting, company);
