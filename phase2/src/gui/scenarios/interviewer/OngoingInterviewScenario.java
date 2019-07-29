@@ -1,6 +1,9 @@
 package gui.scenarios.interviewer;
 
+import domain.Test;
 import domain.applying.Interview;
+import domain.job.JobPosting;
+import domain.storage.Company;
 import domain.user.Interviewer;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -17,6 +20,22 @@ public class OngoingInterviewScenario extends Scenario {
 
     public OngoingInterviewScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        test.addApplicants(10);
+        Company company = test.addCompany();
+        Interviewer interviewer = test.getRandomInterviewer(company);
+        JobPosting jobPosting = test.getRandomJobPosting(company);
+
+        for (int i = 0; i < 10; i++) {
+            test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+        }
+        test.addNewRoundAndFinishMatching(jobPosting, company);
+
+        UserMenu userMenu = new UserMenu(test.getMain(), interviewer);
+        new OngoingInterviewScenario(userMenu).exampleView();
     }
 
     protected void initInput() {

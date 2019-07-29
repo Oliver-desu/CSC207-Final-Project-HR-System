@@ -1,8 +1,12 @@
 package gui.scenarios.coordinator;
 
+import domain.Test;
 import domain.applying.Application;
 import domain.applying.Document;
+import domain.job.JobPosting;
 import domain.storage.Company;
+import domain.user.Applicant;
+import domain.user.HRCoordinator;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -15,6 +19,20 @@ public class ApplicationScenario extends Scenario {
 
     public ApplicationScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        Applicant applicant = test.addApplicant();
+        Company company = test.addCompany();
+        HRCoordinator coordinator = test.getRandomCoordinator(company);
+        test.addJobPostings(10, company);
+        for (JobPosting jobPosting : test.getJobPool().getJobPostings()) {
+            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
+        }
+
+        UserMenu userMenu = new UserMenu(test.getMain(), coordinator);
+        new ApplicationScenario(userMenu).exampleView();
     }
 
     @Override
@@ -35,7 +53,12 @@ public class ApplicationScenario extends Scenario {
 
     private void setRightFilterContent(FilterPanel<Object> leftFilterPanel, FilterPanel<Object> rightFilterPanel) {
         Application application = (Application) leftFilterPanel.getSelectObject();
-        ArrayList<Document> documents = application.getDocumentManager().getAllDocuments();
+        ArrayList<Document> documents;
+        if (application != null) {
+            documents = application.getDocumentManager().getAllDocuments();
+        } else {
+            documents = new ArrayList<>();
+        }
         rightFilterPanel.setFilterContent(new ArrayList<>(documents));
     }
 

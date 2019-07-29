@@ -1,6 +1,10 @@
 package gui.scenarios.coordinator;
 
+import domain.Test;
 import domain.job.InterviewRound;
+import domain.job.JobPosting;
+import domain.storage.Company;
+import domain.user.Applicant;
 import domain.user.HRCoordinator;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -13,13 +17,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import domain.job.JobPosting;
-
 
 public class JobManageScenario extends Scenario {
 
     public JobManageScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        test.addApplicants(10);
+        Company company = test.addCompany();
+        HRCoordinator coordinator = test.getRandomCoordinator(company);
+        test.addJobPostings(10, company);
+        for (JobPosting jobPosting : test.getJobPool().getJobPostings()) {
+            for (Applicant applicant : test.getUserPool().getAllApplicants()) {
+                test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
+            }
+            test.addNewRoundAndFinishMatching(jobPosting, company);
+        }
+
+        new JobManageScenario(new UserMenu(test.getMain(), coordinator)).exampleView();
     }
 
     protected void initInput() {
@@ -34,7 +52,8 @@ public class JobManageScenario extends Scenario {
         leftFilterPanel.setFilterContent(jobPostings);
         leftFilterPanel.addSelectionListener(new JobManageScenario.LeftFilterListener());
         JobPosting jobPosting = (JobPosting) leftFilterPanel.getSelectObject();
-        ArrayList<Object> interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
+        ArrayList<Object> interviewRounds = new ArrayList<>();
+        if (jobPosting != null) interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
         rightFilterPanel.setFilterContent(interviewRounds);
     }
 

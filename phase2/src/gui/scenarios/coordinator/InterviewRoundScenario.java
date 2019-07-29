@@ -5,6 +5,9 @@ import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
+import domain.storage.Company;
+import domain.user.Applicant;
+import domain.user.HRCoordinator;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -29,14 +32,17 @@ public class InterviewRoundScenario extends Scenario {
 
     public static void main(String[] args) {
         Test test = new Test();
-
+        test.addApplicants(10);
+        Company company = test.addCompany();
+        HRCoordinator coordinator = test.getRandomCoordinator(company);
         JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
+        for (Applicant applicant : test.getUserPool().getAllApplicants()) {
+            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
+        }
+        test.addNewRoundAndFinishMatching(jobPosting, company);
 
-        System.out.println(jobPosting.getRemainingApplications());
+        new InterviewRoundScenario(new UserMenu(test.getMain(), coordinator), jobPosting.getCurrentInterviewRound(), jobPosting).exampleView();
 
-        InterviewRoundScenario scenario = new InterviewRoundScenario(new UserMenu(),
-                jobPosting.getCurrentInterviewRound(), jobPosting);
-        scenario.exampleView();
     }
 
     @Override

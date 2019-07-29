@@ -1,8 +1,10 @@
 package gui.scenarios.generalist;
 
+import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.JobPool;
+import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -13,6 +15,16 @@ public class ViewPostingScenario extends Scenario {
 
     public ViewPostingScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        Company company = test.addCompany();
+        HRGeneralist generalist = test.getUserPool().getHRGeneralist(company.getHRGeneralistId());
+        test.addJobPostings(10, company);
+
+        UserMenu userMenu = new UserMenu(test.getMain(), generalist);
+        new ViewPostingScenario(userMenu).exampleView();
     }
 
     @Override

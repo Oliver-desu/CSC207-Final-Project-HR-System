@@ -37,7 +37,7 @@ public class UserMenu extends JFrame {
     public UserMenu() {
     }
 
-    UserMenu(Main main, User user) {
+    public UserMenu(Main main, User user) {
         this.main = main;
         this.user = user;
         setup();

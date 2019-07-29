@@ -4,6 +4,8 @@ import domain.Test;
 import domain.applying.Application;
 import domain.applying.Document;
 import domain.applying.DocumentManager;
+import domain.job.JobPosting;
+import domain.storage.Company;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -31,12 +33,12 @@ public class DocumentManageScenario extends Scenario {
     public static void main(String[] args) {
 
         Test test = new Test();
-        Applicant applicant = test.getRandomApplicant();
-        Application application = applicant.getApplications().get(0);
-        DocumentManager applicantDM = applicant.getDocumentManager();
-        DocumentManager applicationDM = application.getDocumentManager();
+        Applicant applicant = test.addApplicant();
+        Company company = test.addCompany();
+        JobPosting jobPosting = test.addJobPosting(company);
+        Application application = test.addDraftApplicationForJobPosting(applicant, jobPosting);
 
-        new DocumentManageScenario(new UserMenu(), applicantDM, applicationDM).exampleView();
+        new DocumentManageScenario(new UserMenu(), applicant.getDocumentManager(), application.getDocumentManager()).exampleView();
 
     }
 

@@ -12,6 +12,7 @@ import domain.user.Applicant;
 import domain.user.HRCoordinator;
 import domain.user.HRGeneralist;
 import domain.user.Interviewer;
+import main.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,60 +26,25 @@ public class Test {
     private int numCoordinators;
     private int numJobPostings;
 
-    private UserPool userPool = new UserPool();
-    private JobPool jobPool = new JobPool();
-    private CompanyPool companyPool = new CompanyPool();
+    private Main main;
+    private UserPool userPool;
+    private JobPool jobPool;
+    private CompanyPool companyPool;
 
+
+    public Test() {
+        this.main = new Main();
+        this.userPool = main.getUserPool();
+        this.jobPool = main.getJobPool();
+        this.companyPool = main.getCompanyPool();
+    }
 
     public static void main(String[] args) {
         Test test = new Test();
-        test.setDefault();
     }
 
-    public void setDefault() {
-        // default setting is:
-        // 1) add 10 applicants
-        // 2) add 5 companies
-        // 3) add 10 interviewers, 10 coordinators for each company
-        // 4) add 1 jobPosting for each company, then add 3 applications submitted for that jobPosting(thus creating 3 new applicants each time)
-        Random rand = new Random();
-        this.addCompanies(5);
-        JobPosting jobPosting;
-        for (Company company: companyPool.getCompanies()) {
-            this.addInterviewersForCompany(10, company);
-            this.addCoordinatorsForCompany(10, company);
-            this.addJobPostingsForCompany(1, company);
-            jobPosting = this.getRandomJobPosting(company);
-            this.addApplicationsForJobPosting(3, jobPosting);
-            this.addNewRoundForJobPosting(jobPosting, company);
-        }
-
-        for (Applicant applicant : this.userPool.getAllApplicants()) {
-            this.addDocumentsForDocumentManager(10, applicant.getDocumentManager());
-            for (Application application : applicant.getApplications()) {
-                this.addDocumentsForDocumentManager(5, application.getDocumentManager());
-            }
-        }
-    }
-
-    public int getNumApplicants() {
-        return numApplicants;
-    }
-
-    public int getNumCompanies() {
-        return numCompanies;
-    }
-
-    public int getNumCoordinators() {
-        return numCoordinators;
-    }
-
-    public int getNumInterviewers() {
-        return numInterviewers;
-    }
-
-    public int getNumJobPostings() {
-        return numJobPostings;
+    public Main getMain() {
+        return main;
     }
 
     public UserPool getUserPool() {
@@ -120,17 +86,54 @@ public class Test {
         return jobPool.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
+    public String getRandomDocumentName(DocumentManager documentManager) {
+        Random rand = new Random();
+        ArrayList<String> docNames = documentManager.getAllDocNames();
+        return docNames.get(rand.nextInt(docNames.size()));
+    }
+
+    public Applicant addApplicant() {
+        HashMap<String, String> values = new HashMap<>();
+        values.put("Username:", Integer.toString(numApplicants));
+        values.put("Password", "[K, e, r, w, i, n]");
+        values.put("dateCreated", "2019-01-01");
+        Applicant applicant = new Applicant(values);
+        this.addDocuments(5, applicant.getDocumentManager());
+        userPool.register(applicant);
+        numApplicants++;
+        return applicant;
+    }
+
     public void addApplicants(int num) {
-        domain.user.Applicant applicant;
-        HashMap<String, String> values;
-        int amount = numApplicants;
-        for (int i=amount; i<amount+num; i++) {
-            values = new HashMap<>();
-            values.put("username", Integer.toString(i));
-            values.put("dateCreated", "2019-01-01");
-            applicant = new domain.user.Applicant(values);
-            userPool.register(applicant);
-            numApplicants ++;
+        for (int i = 0; i < num; i++) {
+            this.addApplicant();
+        }
+    }
+
+    public Company addCompany() {
+        HashMap<String, String> generalistValues = new HashMap<>();
+        generalistValues.put("Username:", Integer.toString(numCompanies));
+        generalistValues.put("Password", "[K, e, r, w, i, n]");
+        generalistValues.put("dateCreated", "2019-01-01");
+        HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
+        userPool.register(generalist);
+
+        HashMap<String, String> compValues = new HashMap<>();
+        compValues.put("id", Integer.toString(numCompanies));
+        compValues.put("generalistId", generalist.getUsername());
+        Company company = new Company(compValues);
+        companyPool.addCompany(company.getId(), company);
+        numCompanies++;
+
+        this.addInterviewersForCompany(1, company);
+        this.addCoordinatorsForCompany(1, company);
+        this.addJobPostings(1, company);
+        return company;
+    }
+
+    public void addCompanies(int num) {
+        for (int i = 0; i < num; i++) {
+            this.addCompany();
         }
     }
 
@@ -140,34 +143,13 @@ public class Test {
         int amount = numInterviewers;
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
-            values.put("username", Integer.toString(i));
+            values.put("Username:", Integer.toString(i));
+            values.put("Password", "[K, e, r, w, i, n]");
             values.put("dateCreated", "2019-01-01");
             interviewer = new Interviewer(values, company.getId());
             userPool.register(interviewer);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
-        }
-    }
-
-    public void addCompanies(int num) {
-        Company company;
-        HRGeneralist generalist;
-        HashMap<String, String> values;
-        int amount = numCompanies;
-        for (int i=amount; i<amount+num; i++) {
-            values = new HashMap<>();
-            values.put("username", Integer.toString(i));
-            values.put("dateCreated", "2019-01-01");
-            generalist = new HRGeneralist(values, Integer.toString(i));
-
-            values = new HashMap<>();
-            values.put("id", Integer.toString(i));
-            values.put("generalistId", generalist.getUsername());
-            company = new Company(values);
-
-            companyPool.addCompany(company.getId(), company);
-            userPool.register(generalist);
-            numCompanies ++;
         }
     }
 
@@ -177,7 +159,8 @@ public class Test {
         int amount = numCoordinators;
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
-            values.put("username", Integer.toString(i));
+            values.put("Username:", Integer.toString(i));
+            values.put("Password", "[K, e, r, w, i, n]");
             values.put("dateCreated", "2019-01-01");
             coordinator = new HRCoordinator(values, company.getId());
             userPool.register(coordinator);
@@ -186,44 +169,40 @@ public class Test {
         }
     }
 
-    public void addJobPostingsForCompany(int num, Company company) {
-        Random rand = new Random();
-        JobPosting jobPosting;
-        JobInfo jobInfo;
-        HashMap<String, String> values;
-        int amount = numJobPostings;
-        for (int i=amount; i<amount+num; i++) {
-            values = new HashMap<>();
-            values.put("id", Integer.toString(i));
-            values.put("companyId", company.getId());
-            values.put("positionName", "Boss");
-            values.put("numPositions", Integer.toString(1+rand.nextInt(3)));
-            values.put("postDate", "2019-01-01");
-            values.put("closeDate", "2019-02-01");
-            values.put("requirement", "Bossy");
-            jobInfo = new JobInfo(values);
-            jobPosting = new JobPosting(jobInfo);
-            jobPool.addJobPosting(jobPosting.getJobId(), jobPosting);
-            company.addJobPostingId(jobPosting.getJobId());
-            numJobPostings ++;
-        }
+    public JobPosting addJobPosting(Company company) {
+        HashMap<String, String> values = new HashMap<>();
+        values.put("id", Integer.toString(numJobPostings));
+        values.put("companyId", company.getId());
+        values.put("positionName", "Boss");
+        values.put("numPositions", Integer.toString(2));
+        values.put("postDate", "2019-01-01");
+        values.put("closeDate", "2019-08-01");
+        values.put("requirement", "Bossy");
+        JobInfo jobInfo = new JobInfo(values);
+        JobPosting jobPosting = new JobPosting(jobInfo);
+        jobPool.addJobPosting(jobPosting.getJobId(), jobPosting);
+        company.addJobPostingId(jobPosting.getJobId());
+        this.getRandomCoordinator(company).addJobPosting(jobPosting);
+        numJobPostings++;
+        return jobPosting;
     }
 
-    public void addDocumentsForDocumentManager(int num, DocumentManager documentManager) {
-        Document document;
+    public void addJobPostings(int num, Company company) {
+        for (int i = 0; i < num; i++) {
+            this.addJobPosting(company);
+        }
+
+    }
+
+    public void addDocuments(int num, DocumentManager documentManager) {
         int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
             documentManager.addDocument(Integer.toString(i), new Document("some content"));
         }
     }
 
-    public String getRandomDocumentName(DocumentManager documentManager) {
-        Random rand = new Random();
-        ArrayList<String> docNames = documentManager.getAllDocNames();
-        return docNames.get(rand.nextInt(docNames.size()));
-    }
-
     public void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant) {
+        // add application for applicant and submit to jobPosting
         HashMap<String, String> values = new HashMap<>();
         values.put("applicantId", applicant.getUsername());
         values.put("jobPostingId", jobPosting.getJobId());
@@ -231,29 +210,37 @@ public class Test {
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
-        jobPosting.applicationSubmit(application, companyPool);
+        application.apply(jobPool, companyPool);
     }
 
-    public void addApplicationsForJobPosting(int num, JobPosting jobPosting) {
-        // Create num applicants, then create 1 application for each of them
-        int beforeNewApplicants = numApplicants;
-        this.addApplicants(num);
-        HashMap<String, String> values;
-        Application application;
-        for (int applicantId=beforeNewApplicants; applicantId<numApplicants; applicantId++) {
-            values = new HashMap<>();
-            values.put("applicantId", Integer.toString(applicantId));
-            values.put("jobPostingId", jobPosting.getJobId());
-            application = new Application(values);
-            application.apply(jobPool, companyPool);
+    public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
+        HashMap<String, String> values = new HashMap<>();
+        values.put("applicantId", applicant.getUsername());
+        values.put("jobPostingId", jobPosting.getJobId());
+        Application application = new Application(values);
+        for (String docName : applicant.getDocumentManager().getAllDocNames()) {
+            application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         }
+        application.apply(jobPool, companyPool);
+        userPool.getApplicant(applicant.getUsername()).addApplication(jobPosting.getJobId(), application);
+        return application;
     }
 
-    public void addNewRoundForJobPosting(JobPosting jobPosting, Company company) {
+    public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
+        Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
+        application.apply(jobPool, companyPool);
+        return application;
+    }
+
+    public InterviewRound addNewRound(JobPosting jobPosting, Company company) {
         InterviewRound interviewRound = new InterviewRound("new round");
         jobPosting.addInterviewRound(interviewRound);
         jobPosting.nextRound();
+        return interviewRound;
+    }
 
+    public void addNewRoundAndFinishMatching(JobPosting jobPosting, Company company) {
+        InterviewRound interviewRound = this.addNewRound(jobPosting, company);
         Interview interview;
         Interviewer interviewer;
         Info interviewInfo;
@@ -268,6 +255,7 @@ public class Test {
             interviewInfo = new Info(interview, values);
             interview.match(interviewer, interviewInfo);
         }
+        interviewRound.checkStatus();
     }
 
 

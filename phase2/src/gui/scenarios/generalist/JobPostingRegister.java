@@ -1,7 +1,10 @@
 package gui.scenarios.generalist;
 
+import domain.Test;
 import domain.job.JobInfo;
 import domain.job.JobPosting;
+import domain.storage.Company;
+import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.InputInfoPanel;
@@ -15,12 +18,21 @@ public class JobPostingRegister extends Scenario {
 
     public JobPostingRegister(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGISTER);
+    }
 
+    public static void main(String[] args) {
+        Test test = new Test();
+        Company company = test.addCompany();
+        test.addCoordinatorsForCompany(9, company);
+        HRGeneralist generalist = test.getUserPool().getHRGeneralist(company.getHRGeneralistId());
+
+        UserMenu userMenu = new UserMenu(test.getMain(), generalist);
+        new JobPostingRegister(userMenu).exampleView();
     }
 
     protected void initInput() {
         InputInfoPanel infoPanel = getInputInfoPanel();
-        String[] coordinators = (String[]) getUserMenu().getCompany().getHRCoordinatorIds().toArray();
+        String[] coordinators = getUserMenu().getCompany().getHRCoordinatorIds().toArray(new String[0]);
         infoPanel.addComboBox("Coordinator:", coordinators);
         infoPanel.addTextField("Position name:");
         infoPanel.addTextField("Num of positions:");

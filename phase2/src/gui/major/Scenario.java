@@ -167,8 +167,10 @@ public abstract class Scenario extends JPanel {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            String info = filterPanel.getSelectObject().toString();
-            setOutputText(info);
+            if (filterPanel.getSelectObject() != null) {
+                String info = filterPanel.getSelectObject().toString();
+                setOutputText(info);
+            }
         }
     }
 

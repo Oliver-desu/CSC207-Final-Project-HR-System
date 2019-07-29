@@ -32,11 +32,15 @@ public class Interview implements Filterable, InfoHolder {
         return application;
     }
 
-    public void match(Interviewer interviewer, Info info) {
+    public boolean match(Interviewer interviewer, Info info) {
         if (status.equals(InterviewStatus.UNMATCHED)) {
             this.interviewer = interviewer;
             setInfo(info);
             setStatus(InterviewStatus.PENDING);
+            interviewer.addInterview(this);
+            return true;
+        } else {
+            return false;
         }
     }
 
