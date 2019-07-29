@@ -1,4 +1,4 @@
-package gui.scenarios.view_only;
+package gui.scenarios.generalist;
 
 import domain.job.JobPosting;
 import domain.storage.Company;

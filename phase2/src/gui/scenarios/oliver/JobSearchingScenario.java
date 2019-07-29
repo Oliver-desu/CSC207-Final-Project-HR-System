@@ -1,4 +1,4 @@
-package gui.scenarios;
+package gui.scenarios.oliver;
 
 import domain.applying.Application;
 import domain.job.JobPosting;
@@ -7,6 +7,7 @@ import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
+import gui.scenarios.ApplicationManageScenario;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;

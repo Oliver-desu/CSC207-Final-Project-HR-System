@@ -1,9 +1,7 @@
-package gui.scenarios.registers;
+package gui.major;
 
 import domain.storage.UserPool;
 import domain.user.*;
-import gui.major.Scenario;
-import gui.major.UserMenu;
 import gui.panels.InputInfoPanel;
 
 import javax.swing.*;

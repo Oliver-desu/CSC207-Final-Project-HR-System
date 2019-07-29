@@ -1,4 +1,4 @@
-package gui.scenarios;
+package gui.scenarios.interviewer;
 
 import domain.applying.Interview;
 import domain.user.Interviewer;

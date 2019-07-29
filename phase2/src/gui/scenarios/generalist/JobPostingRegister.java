@@ -1,4 +1,4 @@
-package gui.scenarios.registers;
+package gui.scenarios.generalist;
 
 import domain.job.JobInfo;
 import domain.job.JobPosting;
