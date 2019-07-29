@@ -42,9 +42,14 @@ public class ApplicationManageScenario extends Scenario {
 
     private void initLeftFilter() {
         FilterPanel<Object> filterPanel = getFilterPanel(true);
+        setLeftFilterContent();
+        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
+    }
+
+    private void setLeftFilterContent() {
+        FilterPanel<Object> filterPanel = getFilterPanel(true);
         ArrayList<Object> applications = new ArrayList<>(this.applicant.getApplications());
         filterPanel.setFilterContent(applications);
-        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 
     private void initRightFilter() {
@@ -73,7 +78,7 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = (Application) getFilterPanel(true).getSelectObject();
-            if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 DocumentManageScenario documentManageScenario = new DocumentManageScenario(getUserMenu(), applicant.getDocumentManager(), application.getDocumentManager());
                 switchScenario(documentManageScenario);
             } else {
@@ -86,9 +91,10 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = (Application) getFilterPanel(true).getSelectObject();
-            if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 if (application.apply(getMain().getJobPool(), getMain().getCompanyPool())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
+                    setLeftFilterContent();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
@@ -103,13 +109,14 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = (Application) getFilterPanel(true).getSelectObject();
 //            conditions are checked in cancel()
-            if (application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
+            if (application != null && application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
                 if (application.cancel(getMain().getJobPool(), getMain().getCompanyPool())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
+                    setLeftFilterContent();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
-            } else if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            } else if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 JOptionPane.showMessageDialog(getUserMenu(), "This application has not yet been submitted.");
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "This application can no more be canceled.");
@@ -122,11 +129,14 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             FilterPanel<Object> filterPanel = getFilterPanel(true);
             Application application = (Application) filterPanel.getSelectObject();
-            if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
-                applicant.deleteApplication(application);
-                ArrayList<Object> applications = new ArrayList<>(applicant.getApplications());
-                filterPanel.setFilterContent(applications);
+            if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+                if (applicant.deleteApplication(application)) {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Successfully deleted!");
+                    setLeftFilterContent();
+                    return;
+                }
             }
+            JOptionPane.showMessageDialog(getUserMenu(), "Mission failed!");
         }
     }
 }

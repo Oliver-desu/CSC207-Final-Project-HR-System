@@ -24,7 +24,7 @@ public class InputInfoPanel extends JPanel {
         setPreferredSize(dimension);
         if (vertical) {
             box = Box.createVerticalBox();
-            setComponentSizes(dimension.width);
+            setComponentSizes(dimension.width * 3 / 4);
         } else {
             box = new JPanel(new FlowLayout());
             box.setPreferredSize(new Dimension(dimension.width - 20, dimension.height - 20));
@@ -48,9 +48,9 @@ public class InputInfoPanel extends JPanel {
     }
 
     private void setComponentSizes(int width) {
-        sizes.put(Size.LABEL, new Dimension(width / 5, HEIGHT));
-        sizes.put(Size.COMBO_BOX, new Dimension(width / 2, HEIGHT));
-        sizes.put(Size.FIELD, new Dimension(width / 2, HEIGHT));
+        sizes.put(Size.LABEL, new Dimension(width / 3, HEIGHT));
+        sizes.put(Size.COMBO_BOX, new Dimension(width * 3 / 5, HEIGHT));
+        sizes.put(Size.FIELD, new Dimension(width * 3 / 5, HEIGHT));
         sizes.put(Size.AREA, new Dimension(width * 3 / 4, HEIGHT * 2));
     }
 

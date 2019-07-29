@@ -20,7 +20,7 @@ public class JobPosting implements Filterable {
     private HashMap<String, Application> applications; //applicantId->submitted application
     private HashMap<Integer, InterviewRound> interviewRounds;
     private int currRound;
-    private JobPostingStatus status;
+    private JobPostingStatus status = JobPostingStatus.OPEN;
     private JobInfo jobInfo;
 
 

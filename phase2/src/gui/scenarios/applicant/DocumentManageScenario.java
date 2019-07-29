@@ -11,6 +11,7 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Path;
@@ -73,11 +74,22 @@ public class DocumentManageScenario extends Scenario {
             if (applicationDocument == null) {
                 Path path = Paths.get(getInputInfoMap().get("File name:"));
                 String fileName = path.getFileName().toString().split("[.]")[0];
-                applicantDocument.addDocument(fileName, new Document(path.toString()));
+
+                if (applicantDocument.addDocument(fileName, new Document(path.toString()))) {
+                    updateRightFilterContent();
+                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
+                    return;
+                }
+
             } else {
                 Document document = (Document) getFilterPanel(false).getSelectObject();
-                applicationDocument.addDocument(document.getDocumentName(), document);
+                if (applicationDocument.addDocument(document.getDocumentName(), document)) {
+                    updateLeftFilterContent();
+                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
+                    return;
+                }
             }
+            JOptionPane.showMessageDialog(getUserMenu(), "Sorry! Cannot Add!");
         }
     }
 
@@ -86,13 +98,20 @@ public class DocumentManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             if (applicationDocument == null) {
                 Document document = (Document) getFilterPanel(false).getSelectObject();
-                applicantDocument.removeDocument(document);
-                updateRightFilterContent();
+                if (applicantDocument.removeDocument(document)) {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
+                    updateRightFilterContent();
+                    return;
+                }
             } else {
                 Document document = (Document) getFilterPanel(true).getSelectObject();
-                applicationDocument.removeDocument(document);
-                updateLeftFilterContent();
+                if (applicationDocument.removeDocument(document)) {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
+                    updateLeftFilterContent();
+                    return;
+                }
             }
+            JOptionPane.showMessageDialog(getUserMenu(), "Sorry! Cannot delete!");
         }
     }
 }

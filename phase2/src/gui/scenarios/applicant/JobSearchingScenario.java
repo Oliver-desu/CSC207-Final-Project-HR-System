@@ -29,7 +29,7 @@ public class JobSearchingScenario extends  Scenario{
     protected void initFilter() {
         JobPool jobPool = getMain().getJobPool();
         FilterPanel<Object> filterPanel = getFilterPanel(true);
-        filterPanel.setFilterContent(new ArrayList<>(jobPool.getJobPostings()));
+        filterPanel.setFilterContent(new ArrayList<>(jobPool.getOpenJobPostings()));
         filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 

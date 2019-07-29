@@ -1,6 +1,7 @@
 package gui.scenarios.interviewer;
 
 import domain.Test;
+import domain.applying.Info;
 import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.storage.Company;
@@ -38,7 +39,7 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     protected void initInput() {
-        getInputInfoPanel().addTextField("Give recommendation:");
+        getInputInfoPanel().addTextField("Recommendation:");
     }
 
     protected void initFilter() {
@@ -70,6 +71,7 @@ public class OngoingInterviewScenario extends Scenario {
             if (confirm == 0) {
                 FilterPanel<Object> filterPanel = getFilterPanel(true);
                 Interview interview = (Interview) filterPanel.getSelectObject();
+                new Info(interview, getInputInfoMap());
                 interview.setResult(isPass);
                 setFilterContent(filterPanel);
             }
