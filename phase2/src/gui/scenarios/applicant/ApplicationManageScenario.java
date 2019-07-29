@@ -1,4 +1,4 @@
-package gui.scenarios;
+package gui.scenarios.applicant;
 
 import domain.Test;
 import domain.applying.Application;
@@ -9,11 +9,8 @@ import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
-import gui.scenarios.oliver.DocumentManageScenario;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,19 +35,16 @@ public class ApplicationManageScenario extends Scenario {
         new ApplicationManageScenario(new UserMenu(test.getMain(), applicant)).exampleView();
     }
 
-    @Override
-    public void init() {
-        super.init();
+    protected void initFilter() {
         initLeftFilter();
         initRightFilter();
-        initButton();
     }
 
     private void initLeftFilter() {
         FilterPanel<Object> filterPanel = getFilterPanel(true);
         ArrayList<Object> applications = new ArrayList<>(this.applicant.getApplications());
         filterPanel.setFilterContent(applications);
-        filterPanel.addSelectionListener(new ApplicationManageScenario.LeftFilterListener());
+        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 
     private void initRightFilter() {
@@ -65,15 +59,6 @@ public class ApplicationManageScenario extends Scenario {
         addButton("Apply", new ApplyListener());
         addButton("Withdraw", new WithdrawListener());
         addButton("View Document", new ViewDocumentListener());
-    }
-
-    class LeftFilterListener implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            Application application = (Application) getFilterPanel(true).getSelectObject();
-            setOutputText(application.toString());
-        }
     }
 
     class ViewDocumentListener implements ActionListener {

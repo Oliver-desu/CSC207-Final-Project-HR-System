@@ -69,9 +69,11 @@ public class JobManageScenario extends Scenario {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-            ArrayList<Object> interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
-            getFilterPanel(false).setFilterContent(interviewRounds);
-            setOutputText(jobPosting.toString());
+            if (jobPosting != null) {
+                ArrayList<Object> interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
+                getFilterPanel(false).setFilterContent(interviewRounds);
+                setOutputText(jobPosting.toString());
+            }
         }
     }
 

@@ -2,7 +2,6 @@ package gui.scenarios.coordinator;
 
 import domain.Test;
 import domain.applying.Application;
-import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
@@ -66,7 +65,8 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     private void initRightFilter() {
-        getFilterPanel(false).addSelectionListener(new RightFilterListener());
+        FilterPanel<Object> rightFilter = getFilterPanel(false);
+        rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
     }
 
     class LeftFilterListener implements ListSelectionListener {
@@ -74,18 +74,11 @@ public class InterviewRoundScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             FilterPanel<Object> filterPanel = getFilterPanel(true);
             Application application = (Application) filterPanel.getSelectObject();
-            ArrayList<Object> filterContent = new ArrayList<>(application.getInterviews());
-            getFilterPanel(false).setFilterContent(filterContent);
-            setOutputText(application.toString());
-        }
-    }
-
-    class RightFilterListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            FilterPanel<Object> filterPanel = getFilterPanel(false);
-            Interview interview = (Interview) filterPanel.getSelectObject();
-            if (interview != null) setOutputText(interview.toString());
+            if (application != null) {
+                ArrayList<Object> filterContent = new ArrayList<>(application.getInterviews());
+                getFilterPanel(false).setFilterContent(filterContent);
+                setOutputText(application.toString());
+            }
         }
     }
 

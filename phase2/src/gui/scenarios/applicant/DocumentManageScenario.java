@@ -1,4 +1,4 @@
-package gui.scenarios.oliver;
+package gui.scenarios.applicant;
 
 import domain.Test;
 import domain.applying.Application;
@@ -11,8 +11,6 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Path;
@@ -40,22 +38,15 @@ public class DocumentManageScenario extends Scenario {
         new DocumentManageScenario(new UserMenu(), applicant.getDocumentManager(), application.getDocumentManager()).exampleView();
     }
 
-    @Override
-    public void init() {
-        super.init();
-        initFilter();
-        initButton();
-    }
-
     protected void initFilter() {
         FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
         updateRightFilterContent();
-        rightFilterPanel.addSelectionListener(new FilterListener(rightFilterPanel));
+        rightFilterPanel.addSelectionListener(new ShowInfoListener(rightFilterPanel));
 
         if (applicationDocument != null) {
             FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
             updateLeftFilterContent();
-            leftFilterPanel.addSelectionListener(new FilterListener(leftFilterPanel));
+            leftFilterPanel.addSelectionListener(new ShowInfoListener(leftFilterPanel));
         } else {
             getInputInfoPanel().addTextField("File name:");
         }
@@ -74,21 +65,6 @@ public class DocumentManageScenario extends Scenario {
     protected void initButton() {
         addButton("Add", new AddDocumentListener());
         addButton("Delete", new DeleteDocumentListener());
-    }
-
-    class FilterListener implements ListSelectionListener {
-
-        private FilterPanel filterPanel;
-
-        FilterListener(FilterPanel filterPanel) {
-            this.filterPanel = filterPanel;
-        }
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            Document document = (Document) filterPanel.getSelectObject();
-            if (!(document == null)) setOutputText(document.toString());
-        }
     }
 
     class AddDocumentListener implements ActionListener {

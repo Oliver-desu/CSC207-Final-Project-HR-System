@@ -1,4 +1,4 @@
-package gui.scenarios.oliver;
+package gui.scenarios.applicant;
 
 import domain.Test;
 import domain.job.JobPosting;

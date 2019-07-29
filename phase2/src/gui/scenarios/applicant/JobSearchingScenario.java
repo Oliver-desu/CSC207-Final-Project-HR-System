@@ -1,4 +1,4 @@
-package gui.scenarios.oliver;
+package gui.scenarios.applicant;
 
 import domain.Test;
 import domain.storage.Company;
@@ -7,7 +7,6 @@ import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
-import gui.scenarios.ApplicationManageScenario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +40,6 @@ public class JobSearchingScenario extends  Scenario{
     class CreateApplicationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Applicant applicant = (Applicant) getUserMenu().getUser();
             ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
             switchScenario(scenario);
         }

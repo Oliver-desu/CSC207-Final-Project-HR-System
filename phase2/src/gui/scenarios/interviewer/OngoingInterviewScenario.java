@@ -11,8 +11,6 @@ import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ public class OngoingInterviewScenario extends Scenario {
     protected void initFilter() {
         FilterPanel<Object> filterPanel = getFilterPanel(true);
         setFilterContent(filterPanel);
-        filterPanel.addSelectionListener(new FilterListener());
+        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 
     private void setFilterContent(FilterPanel<Object> filterPanel) {
@@ -57,14 +55,6 @@ public class OngoingInterviewScenario extends Scenario {
     protected void initButton() {
         addButton("Pass", new SetResultListener(true));
         addButton("Fail", new SetResultListener(false));
-    }
-
-    class FilterListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            Interview interview = (Interview) getFilterPanel(true).getSelectObject();
-            setOutputText(interview.toString());
-        }
     }
 
     class SetResultListener implements ActionListener {
