@@ -1,7 +1,10 @@
 package gui.scenarios;
 
+import domain.Test;
 import domain.applying.Application;
 import domain.applying.Document;
+import domain.job.JobPosting;
+import domain.storage.Company;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -21,6 +24,18 @@ public class ApplicationManageScenario extends Scenario {
     public ApplicationManageScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
         this.applicant = (Applicant) getUserMenu().getUser();
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        Applicant applicant = test.addApplicant();
+        Company company = test.addCompany();
+        test.addJobPostings(10, company);
+        for (JobPosting jobPosting : test.getJobPool().getJobPostings()) {
+            test.addDraftApplicationForJobPosting(applicant, jobPosting);
+        }
+
+        new ApplicationManageScenario(new UserMenu(test.getMain(), applicant)).exampleView();
     }
 
     @Override

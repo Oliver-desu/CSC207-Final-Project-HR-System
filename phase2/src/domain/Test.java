@@ -221,8 +221,7 @@ public class Test {
         for (String docName : applicant.getDocumentManager().getAllDocNames()) {
             application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         }
-        application.apply(jobPool, companyPool);
-        userPool.getApplicant(applicant.getUsername()).addApplication(jobPosting.getJobId(), application);
+        applicant.addApplication(jobPosting.getJobId(), application);
         return application;
     }
 

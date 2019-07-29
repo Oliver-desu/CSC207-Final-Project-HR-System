@@ -1,5 +1,7 @@
 package gui.scenarios.oliver;
 
+import domain.Test;
+import domain.storage.Company;
 import domain.storage.JobPool;
 import domain.user.Applicant;
 import gui.major.Scenario;
@@ -14,6 +16,15 @@ import java.util.ArrayList;
 public class JobSearchingScenario extends  Scenario{
     public JobSearchingScenario(UserMenu userMenu) {
         super(userMenu , Scenario.LayoutMode.REGULAR);
+    }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        Applicant applicant = test.addApplicant();
+        Company company = test.addCompany();
+        test.addJobPostings(10, company);
+
+        new JobSearchingScenario(new UserMenu(test.getMain(), applicant)).exampleView();
     }
 
     protected void initFilter() {
