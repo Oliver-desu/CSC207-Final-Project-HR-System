@@ -77,9 +77,11 @@ public class UserRegister extends Scenario {
         public void actionPerformed(ActionEvent e) {
             UserPool userPool = getMain().getUserPool();
             User user = createUser();
-            if (user.isNull()) JOptionPane.showMessageDialog(getUserMenu(), "Incorrect input!");
+            UserMenu userMenu = getUserMenu();
+            if (user.isNull()) JOptionPane.showMessageDialog(userMenu, "Incorrect input!");
             else {
                 userPool.register(user);
+                JOptionPane.showMessageDialog(userMenu, "Successfully registered!");
             }
         }
     }
