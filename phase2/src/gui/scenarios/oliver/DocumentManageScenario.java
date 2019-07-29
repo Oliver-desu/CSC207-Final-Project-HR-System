@@ -31,7 +31,6 @@ public class DocumentManageScenario extends Scenario {
     }
 
     public static void main(String[] args) {
-
         Test test = new Test();
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
@@ -39,7 +38,6 @@ public class DocumentManageScenario extends Scenario {
         Application application = test.addDraftApplicationForJobPosting(applicant, jobPosting);
 
         new DocumentManageScenario(new UserMenu(), applicant.getDocumentManager(), application.getDocumentManager()).exampleView();
-
     }
 
     @Override

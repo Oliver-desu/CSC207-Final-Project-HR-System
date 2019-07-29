@@ -4,6 +4,7 @@ import domain.Test;
 import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.storage.Company;
+import domain.user.Applicant;
 import domain.user.Interviewer;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -29,8 +30,8 @@ public class OngoingInterviewScenario extends Scenario {
         Interviewer interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 
-        for (int i = 0; i < 10; i++) {
-            test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+        for (Applicant applicant : test.getUserPool().getAllApplicants()) {
+            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
 
