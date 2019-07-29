@@ -82,6 +82,8 @@ public class MatchInterviewScenario extends Scenario {
             Interview interview = application.getInterviewByRound(interviewRound.getRoundName());
             Info interviewInfo = new Info(interview, infoMap);
             interview.match(interviewer, interviewInfo);
+            interviewer.addInterview(interview);
+            application.addInterview(interviewRound.getRoundName(), interview);
         }
     }
 }

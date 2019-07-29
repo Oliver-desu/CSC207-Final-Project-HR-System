@@ -63,8 +63,15 @@ public class UserRegister extends Scenario {
         HashMap<String, String> infoMap = getInputInfoMap();
         String companyId = infoMap.get("Company id:");
         if (registerType.equals(RegisterType.APPLICANT)) return new Applicant(infoMap);
-        else if (registerType.equals(RegisterType.HR_COORDINATOR)) return new HRCoordinator(infoMap, companyId);
-        else if (registerType.equals(RegisterType.INTERVIEWER)) return new Interviewer(infoMap, companyId);
+        else if (registerType.equals(RegisterType.HR_COORDINATOR)) {
+            Company company = getMain().getCompanyPool().getCompany(companyId);
+            company.addHRCoordinatorId(infoMap.get("Username:"));
+            return new HRCoordinator(infoMap, companyId);
+        } else if (registerType.equals(RegisterType.INTERVIEWER)) {
+            Company company = getMain().getCompanyPool().getCompany(companyId);
+            company.addInterviewerId(infoMap.get("Username:"));
+            return new Interviewer(infoMap, companyId);
+        }
         else if (registerType.equals(RegisterType.HR_GENERALIST)) {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
