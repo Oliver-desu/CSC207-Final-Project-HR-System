@@ -95,7 +95,7 @@ public class Test {
     public Applicant addApplicant() {
         HashMap<String, String> values = new HashMap<>();
         values.put("Username:", Integer.toString(numApplicants));
-        values.put("Password", "[K, e, r, w, i, n]");
+        values.put("Password", "[h, o, l, y, s, h, i, t]");
         values.put("dateCreated", "2019-01-01");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
@@ -113,7 +113,7 @@ public class Test {
     public Company addCompany() {
         HashMap<String, String> generalistValues = new HashMap<>();
         generalistValues.put("Username:", Integer.toString(numCompanies));
-        generalistValues.put("Password", "[K, e, r, w, i, n]");
+        generalistValues.put("Password", "[h, o, l, y, s, h, i, t]");
         generalistValues.put("dateCreated", "2019-01-01");
         HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
         userPool.register(generalist);
@@ -144,7 +144,7 @@ public class Test {
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
-            values.put("Password", "[K, e, r, w, i, n]");
+            values.put("Password", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             interviewer = new Interviewer(values, company.getId());
             userPool.register(interviewer);
@@ -160,7 +160,7 @@ public class Test {
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
-            values.put("Password", "[K, e, r, w, i, n]");
+            values.put("Password", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             coordinator = new HRCoordinator(values, company.getId());
             userPool.register(coordinator);
