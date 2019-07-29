@@ -20,14 +20,7 @@ public class UserRegister extends Scenario {
         this.registerType = registerType;
     }
 
-    @Override
-    public void init() {
-        super.init();
-        initInput();
-        initButton();
-    }
-
-    private void initInput() {
+    protected void initInput() {
         InputInfoPanel infoPanel = getInputInfoPanel();
         initUserInput(infoPanel);
         if (registerType.equals(RegisterType.APPLICANT)) initApplicantInput(infoPanel);
@@ -63,7 +56,7 @@ public class UserRegister extends Scenario {
         infoPanel.addTextArea("Verify message:");
     }
 
-    private void initButton() {
+    protected void initButton() {
         addButton("Create User", new CreateUserListener());
     }
 

@@ -1,6 +1,7 @@
 package gui.panels;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -141,6 +142,14 @@ public class InputInfoPanel extends JPanel {
     public char[] getPassword() {
         if (passwordMatched()) return passwordFields[0].getPassword();
         else return new char[0];
+    }
+
+    public void clear() {
+        for (JComponent component : componentMap.values()) {
+            if (component instanceof JTextComponent) {
+                ((JTextComponent) component).setText("");
+            }
+        }
     }
 
     private enum Size {LABEL, COMBO_BOX, AREA, FIELD}

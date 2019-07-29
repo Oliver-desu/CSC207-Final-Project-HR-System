@@ -35,6 +35,19 @@ public abstract class Scenario extends JPanel {
     public void init() {
         setup();
         initLayout();
+        if (mode.equals(LayoutMode.REGISTER)) {
+            initButton();
+            initInput();
+        }
+    }
+
+    protected void initFilter() {
+    }
+
+    protected void initButton() {
+    }
+
+    protected void initInput() {
     }
 
     private void setup() {
