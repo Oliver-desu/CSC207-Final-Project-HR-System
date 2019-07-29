@@ -1,4 +1,4 @@
-package gui.scenarios.oliver;
+package gui.scenarios.coordinator;
 
 import domain.Test;
 import domain.applying.Application;

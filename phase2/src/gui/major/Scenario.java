@@ -7,6 +7,8 @@ import gui.panels.OutputInfoPanel;
 import main.Main;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -20,12 +22,14 @@ public abstract class Scenario extends JPanel {
     private static final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
 
     private UserMenu userMenu;
-    private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
-    private FilterPanel<Object> rightFilterPanel = new FilterPanel<>();
-    private InputInfoPanel inputInfoPanel = new InputInfoPanel();
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
     private ButtonPanel buttonPanel = new ButtonPanel();
     private LayoutMode mode;
+
+    // likely to dependency injection.
+    private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
+    private FilterPanel<Object> rightFilterPanel = new FilterPanel<>();
+    private InputInfoPanel inputInfoPanel = new InputInfoPanel();
 
     protected Scenario(UserMenu userMenu, LayoutMode mode) {
         this.userMenu = userMenu;
@@ -151,5 +155,19 @@ public abstract class Scenario extends JPanel {
         frame.setVisible(true);
     }
 
-    protected enum LayoutMode {REGULAR, REGISTER}
+    protected class ShowInfoListener implements ListSelectionListener {
+        private FilterPanel<Object> filterPanel;
+
+        public ShowInfoListener(FilterPanel<Object> filterPanel) {
+            this.filterPanel = filterPanel;
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            String info = filterPanel.getSelectObject().toString();
+            setOutputText(info);
+        }
+    }
+
+    protected enum LayoutMode {REGULAR, REGISTER, VIEW_ONLY}
 }

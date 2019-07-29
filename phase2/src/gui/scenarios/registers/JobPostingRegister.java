@@ -2,8 +2,6 @@ package gui.scenarios.registers;
 
 import domain.job.JobInfo;
 import domain.job.JobPosting;
-import domain.storage.Company;
-import domain.storage.CompanyPool;
 import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -24,14 +22,9 @@ public class JobPostingRegister extends Scenario {
 
     }
 
-    private Company getCompany() {
-        CompanyPool companyPool = getMain().getCompanyPool();
-        return companyPool.getCompany(hrGeneralist.getCompanyId());
-    }
-
     protected void initInput() {
         InputInfoPanel infoPanel = getInputInfoPanel();
-        String[] coordinators = (String[]) getCompany().getHRCoordinatorIds().toArray();
+        String[] coordinators = (String[]) getUserMenu().getCompany().getHRCoordinatorIds().toArray();
         infoPanel.addComboBox("Coordinator:", coordinators);
         infoPanel.addTextField("Position name:");
         infoPanel.addTextField("Num of positions:");
@@ -50,7 +43,7 @@ public class JobPostingRegister extends Scenario {
 
     private JobInfo createJobInfo() {
         HashMap<String, String> infoMap = getInputInfoMap();
-        infoMap.put("Company id", getCompany().getId());
+        infoMap.put("Company id", getUserMenu().getCompany().getId());
         return new JobInfo(infoMap);
     }
 

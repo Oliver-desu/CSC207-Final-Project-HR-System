@@ -63,4 +63,8 @@ public class User {
     public boolean isNull() {
         return false;
     }
+
+    public String getCompanyId() {
+        return "";
+    }
 }

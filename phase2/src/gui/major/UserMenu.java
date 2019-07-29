@@ -1,5 +1,7 @@
 package gui.major;
 
+import domain.storage.Company;
+import domain.storage.CompanyPool;
 import domain.user.*;
 import gui.scenarios.NullScenario;
 import main.Main;
@@ -44,6 +46,11 @@ public class UserMenu extends JFrame {
         menuSetup();
         add(scenario);
         setVisible(true);
+    }
+
+    public Company getCompany() {
+        CompanyPool companyPool = getMain().getCompanyPool();
+        return companyPool.getCompany(user.getCompanyId());
     }
 
     private void clearScenario() {
