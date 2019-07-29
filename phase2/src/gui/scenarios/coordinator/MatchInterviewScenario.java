@@ -21,17 +21,8 @@ public class MatchInterviewScenario extends Scenario {
     private InterviewRound interviewRound;
 
     public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
-        super(userMenu, LayoutMode.REGISTER);
+        super(userMenu, LayoutMode.REGULAR);
         this.interviewRound = interviewRound;
-    }
-
-    @Override
-    public void init() {
-        super.init();
-        initLeftFilter();
-        initRightFilter();
-        initButton();
-        initInput();
     }
 
     protected void initInput() {
@@ -40,6 +31,11 @@ public class MatchInterviewScenario extends Scenario {
 
     protected void initButton() {
         addButton("Match", new MatchListener());
+    }
+
+    protected void initFilter() {
+        initLeftFilter();
+        initRightFilter();
     }
 
     private void initLeftFilter() {
