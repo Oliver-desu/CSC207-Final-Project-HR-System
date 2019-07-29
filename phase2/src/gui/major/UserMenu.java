@@ -3,7 +3,16 @@ package gui.major;
 import domain.storage.Company;
 import domain.storage.CompanyPool;
 import domain.user.*;
+import gui.scenarios.ApplicationManageScenario;
 import gui.scenarios.NullScenario;
+import gui.scenarios.coordinator.ApplicationScenario;
+import gui.scenarios.coordinator.JobManageScenario;
+import gui.scenarios.generalist.JobPostingRegister;
+import gui.scenarios.generalist.ViewPostingScenario;
+import gui.scenarios.interviewer.OngoingInterviewScenario;
+import gui.scenarios.oliver.DocumentManageScenario;
+import gui.scenarios.oliver.JobSearchingScenario;
+import gui.scenarios.oliver.ViewInterviewScenario;
 import main.Main;
 
 import javax.swing.*;
@@ -77,32 +86,42 @@ public class UserMenu extends JFrame {
         menu.setLayout(new FlowLayout());
         User user = getUser();
         if (user.isNull()) registerMenuSetup();
-        else if (user instanceof Applicant) applicantMenuSetup((Applicant) user);
-        else if (user instanceof Interviewer) interviewerMenuSetup((Interviewer) user);
-        else if (user instanceof HRCoordinator) coordinatorMenuSetup((HRCoordinator) user);
-        else if (user instanceof HRGeneralist) generalistMenuSetup((HRGeneralist) user);
+        else if (user instanceof Applicant) applicantMenuSetup();
+        else if (user instanceof Interviewer) interviewerMenuSetup();
+        else if (user instanceof HRCoordinator) coordinatorMenuSetup();
+        else if (user instanceof HRGeneralist) generalistMenuSetup();
         addLogoutButton();
         add(menu);
     }
 
     private void registerMenuSetup() {
-
+        addMenuButton("Applicant", new UserRegister(this, UserRegister.RegisterType.APPLICANT));
+        addMenuButton("HR Coordinator", new UserRegister(this, UserRegister.RegisterType.HR_COORDINATOR));
+        addMenuButton("HR Generalist", new UserRegister(this, UserRegister.RegisterType.HR_GENERALIST));
+        addMenuButton("Interviewer", new UserRegister(this, UserRegister.RegisterType.INTERVIEWER));
     }
 
-    private void interviewerMenuSetup(Interviewer interviewer) {
-
+    private void interviewerMenuSetup() {
+        addMenuButton("Ongoing Interview", new OngoingInterviewScenario(this));
     }
 
-    private void coordinatorMenuSetup(HRCoordinator hrCoordinator) {
-
+    private void coordinatorMenuSetup() {
+        addMenuButton("All Applications", new ApplicationScenario(this));
+        addMenuButton("JobManaging", new JobManageScenario(this));
     }
 
-    private void generalistMenuSetup(HRGeneralist hrGeneralist) {
-
+    private void generalistMenuSetup() {
+        addMenuButton("Create Posting", new JobPostingRegister(this));
+        addMenuButton("View Posting", new ViewPostingScenario(this));
     }
 
-    private void applicantMenuSetup(Applicant applicant) {
-
+    private void applicantMenuSetup() {
+        Applicant applicant = (Applicant) getUser();
+        addMenuButton("Upcoming Interviews", new ViewInterviewScenario(this));
+        addMenuButton("Apply Jobs", new JobSearchingScenario(this));
+        addMenuButton("Manage Application", new ApplicationManageScenario(this, applicant));
+        addMenuButton("My Documents", new DocumentManageScenario(this,
+                applicant.getDocumentManager(), null));
     }
 
     private void addMenuButton(String buttonName, Scenario scenario) {

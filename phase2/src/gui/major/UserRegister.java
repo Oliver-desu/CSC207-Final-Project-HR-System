@@ -68,7 +68,7 @@ public class UserRegister extends Scenario {
         return new NullUser();
     }
 
-    private enum RegisterType {
+    public enum RegisterType {
         APPLICANT, HR_COORDINATOR, HR_GENERALIST, INTERVIEWER
     }
 

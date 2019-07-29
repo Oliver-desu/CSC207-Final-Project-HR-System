@@ -15,11 +15,8 @@ import java.util.ArrayList;
 
 public class OngoingInterviewScenario extends Scenario {
 
-    private Interviewer interviewer;
-
-    public OngoingInterviewScenario(UserMenu userMenu, Interviewer interviewer) {
+    public OngoingInterviewScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
-        this.interviewer = interviewer;
     }
 
     protected void initInput() {
@@ -33,6 +30,7 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     private void setFilterContent(FilterPanel<Object> filterPanel) {
+        Interviewer interviewer = (Interviewer) getUserMenu().getUser();
         filterPanel.setFilterContent(new ArrayList<>(interviewer.getUpcomingInterviews()));
     }
 
