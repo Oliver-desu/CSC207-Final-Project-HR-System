@@ -8,132 +8,125 @@ import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 import gui.scenarios.oliver.DocumentManageScenario;
 
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class ApplicationManageScenario  extends Scenario {
-    private  Applicant applicant;
+public class ApplicationManageScenario extends Scenario {
+    private Applicant applicant;
+
     public ApplicationManageScenario(UserMenu userMenu, Applicant applicant) {
-
         super(userMenu, LayoutMode.REGULAR);
         this.applicant = applicant;
-        System.out.println("created ApplicationManageScenario");
     }
 
-    public static void main(String[] args) {
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("username", "oliver");
-        Applicant applicant = new Applicant(hashMap);
-        ApplicationManageScenario applicationManageScenario = new ApplicationManageScenario(new UserMenu(), applicant);
-        applicationManageScenario.exampleView();
-    }
-
-    public void init(){
+    @Override
+    public void init() {
         super.init();
         initLeftFilter();
-        initNullButtons();
+        initRightFilter();
+        initButton();
     }
 
-    public void initNullButtons() {
-        NullListener nullListener = new NullListener();
-        addButton("EditApplication", nullListener);
-        addButton("DeleteApplication", nullListener);
-        addButton("Apply", nullListener);
-        addButton("WithDraw", nullListener);
-        addButton("ViewDocument", nullListener);
-
-    }
-
-    public void initLeftFilter() {
-        ArrayList<Object> filterContent = new ArrayList<>(applicant.getApplications());
+    private void initLeftFilter() {
         FilterPanel<Object> filterPanel = getFilterPanel(true);
-        filterPanel.setFilterContent(filterContent);
-        setListener(filterPanel);
+        ArrayList<Object> applications = new ArrayList<>(this.applicant.getApplications());
+        filterPanel.setFilterContent(applications);
+        filterPanel.addSelectionListener(new ApplicationManageScenario.LeftFilterListener());
     }
 
-    public void setListener(FilterPanel filterPanel) {
-        filterPanel.addSelectionListener(new LeftFilterListener());
+    private void initRightFilter() {
+        FilterPanel<Object> filterPanel = getFilterPanel(false);
+        ArrayList<Object> documents = new ArrayList<>(this.applicant.getDocumentManager().getAllDocuments());
+        filterPanel.setFilterContent(documents);
     }
 
-    public void initButtonPanel(Application application, Applicant applicant) {
-        ButtonListener buttonListener = new ButtonListener(application, applicant);
-        addButton("EditApplication", buttonListener);
-        addButton("DeleteApplication", buttonListener);
-        addButton("Apply", buttonListener);
-        addButton("WithDraw", buttonListener);
-        addButton("ViewDocument", buttonListener);
+    protected void initButton() {
+        addButton("Edit Application", new EditApplicationListener());
+        addButton("Delete Application", new DeleteApplicationListener());
+        addButton("Apply", new ApplyListener());
+        addButton("Withdraw", new WithdrawListener());
+        addButton("View Document", new ViewDocumentListener());
     }
 
-    public class NullListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // null listener ,just in order to show buttons
-        }
-    }
+    class LeftFilterListener implements ListSelectionListener {
 
-    public class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            FilterPanel<Object> filterPanel = getFilterPanel(true);
-            FilterPanel<Object> rightfilterPanel = getFilterPanel(false);
-            Application application = (Application) filterPanel.getSelectObject();
-            if (application.getStatus() == Application.ApplicationStatus.DRAFT) {
-                initButtonPanel(application, applicant);
-            }
-            // 如果这个application是draft 那我在这里给button添加真正的按钮和listener
+            Application application = (Application) getFilterPanel(true).getSelectObject();
             setOutputText(application.toString());
-            ArrayList<Object> documentArrayList = new ArrayList<>(application.getDocumentManager().getAllDocuments());
-            rightfilterPanel.setFilterContent(documentArrayList);
-            rightfilterPanel.addSelectionListener(new rightFilterListener());
-            //在这选定文件会直接弹出窗口显示文件
-
         }
     }
 
-    public class ButtonListener implements ActionListener {
-        private Application application;
-        private Applicant applicant;
-
-        public ButtonListener(Application application, Applicant applicant) {
-            this.application = application;
-            this.applicant = applicant;
-        }
-
+    class ViewDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String buttonName = e.getActionCommand();
-            switch (buttonName) {
-                case "ViewDocument":
-                    System.out.println(buttonName);
-                    break;
-                case "EditApplication":
-                    DocumentManageScenario documentManageScenario = new DocumentManageScenario(getUserMenu(), applicant.getDocumentManager(), application.getDocumentManager());
-                    switchScenario(documentManageScenario);
-                    System.out.println("EditApplication");
-                    break;
-                case "Apply":
-                    application.apply(getMain().getJobPool(), getMain().getCompanyPool());
-                    System.out.println("Apply successfully");
-                case "WithDraw":
-                    application.cancel(getMain().getJobPool(), getMain().getCompanyPool());
-                    System.out.println("Cancel successfully");
-            }
-        }
-    }
-
-    public class rightFilterListener implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            FilterPanel<Object> rightfilterPanel = getFilterPanel(false);
-            Document document = (Document) rightfilterPanel.getSelectObject();
+            Document document = (Document) getFilterPanel(false).getSelectObject();
             showDocument(document.toString());
         }
     }
 
+    class EditApplicationListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Application application = (Application) getFilterPanel(true).getSelectObject();
+            if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+                DocumentManageScenario documentManageScenario = new DocumentManageScenario(getUserMenu(), applicant.getDocumentManager(), application.getDocumentManager());
+                switchScenario(documentManageScenario);
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "The application cannot be edited.");
+            }
+        }
+    }
 
+    class ApplyListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Application application = (Application) getFilterPanel(true).getSelectObject();
+            if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+                if (application.apply(getMain().getJobPool(), getMain().getCompanyPool())) {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
+                } else {
+                    JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "This application has been submitted.");
+            }
+        }
+    }
+
+    class WithdrawListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Application application = (Application) getFilterPanel(true).getSelectObject();
+//            conditions are checked in cancel()
+            if (application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
+                if (application.cancel(getMain().getJobPool(), getMain().getCompanyPool())) {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
+                } else {
+                    JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
+                }
+            } else if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+                JOptionPane.showMessageDialog(getUserMenu(), "This application has not yet been submitted.");
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "This application can no more be canceled.");
+            }
+        }
+    }
+
+    class DeleteApplicationListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            FilterPanel<Object> filterPanel = getFilterPanel(true);
+            Application application = (Application) filterPanel.getSelectObject();
+            if (application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+                applicant.deleteApplication(application);
+                ArrayList<Object> applications = new ArrayList<>(applicant.getApplications());
+                filterPanel.setFilterContent(applications);
+            }
+        }
+    }
 }
