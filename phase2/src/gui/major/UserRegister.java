@@ -1,5 +1,6 @@
 package gui.major;
 
+import domain.storage.Company;
 import domain.storage.UserPool;
 import domain.user.*;
 import gui.panels.InputInfoPanel;
@@ -60,11 +61,17 @@ public class UserRegister extends Scenario {
 
     private User createUser() {
         HashMap<String, String> infoMap = getInputInfoMap();
-        String companyId = infoMap.get("CompanyId:");
+        String companyId = infoMap.get("Company id:");
         if (registerType.equals(RegisterType.APPLICANT)) return new Applicant(infoMap);
         else if (registerType.equals(RegisterType.HR_COORDINATOR)) return new HRCoordinator(infoMap, companyId);
-        else if (registerType.equals(RegisterType.HR_GENERALIST)) return new HRGeneralist(infoMap, companyId);
         else if (registerType.equals(RegisterType.INTERVIEWER)) return new Interviewer(infoMap, companyId);
+        else if (registerType.equals(RegisterType.HR_GENERALIST)) {
+            HashMap<String, String> values = new HashMap<>();
+            values.put("id", companyId);
+            values.put("generalistId", infoMap.get("Username:"));
+            getMain().getCompanyPool().addCompany(companyId, new Company(values));
+            return new HRGeneralist(infoMap, companyId);
+        }
         return new NullUser();
     }
 
