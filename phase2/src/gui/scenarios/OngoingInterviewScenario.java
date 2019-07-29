@@ -1,54 +1,70 @@
 package gui.scenarios;
 
-import domain.applying.Application;
 import domain.applying.Interview;
 import domain.user.Interviewer;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
-import gui.panels.InputInfoPanel;
-import gui.panels.OutputInfoPanel;
 
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class OngoingInterviewScenario extends Scenario {
 
     private Interviewer interviewer;
-    private Interview interview = new Interview(new Application(new HashMap<>()));
 
-    public OngoingInterviewScenario(UserMenu userMenu, Interviewer interviewer){
+    public OngoingInterviewScenario(UserMenu userMenu, Interviewer interviewer) {
         super(userMenu, LayoutMode.REGULAR);
         this.interviewer = interviewer;
     }
 
-    public static void main(String[] args) {
-        OngoingInterviewScenario scenario = new OngoingInterviewScenario(new UserMenu(), new Interviewer(new HashMap<>(), "NoId"));
-        scenario.init();
+    protected void initInput() {
+        getInputInfoPanel().addTextField("Give recommendation:");
     }
 
-    public void init() {
-        super.init();
-        FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-        leftFilterPanel.setFilterContent(new ArrayList<>(this.interviewer.getUpcomingInterviews()));
-        leftFilterPanel.addSelectionListener(new ShowInfoListener(leftFilterPanel));
-        leftFilterPanel.updateUI();
-        OutputInfoPanel rightOutputPanel = new OutputInfoPanel();
-        rightOutputPanel.setOutputText(this.interview.toString());
-        InputInfoPanel InputInfo = getInputInfoPanel();
-        InputInfo.addTextField("what");
+    protected void initFilter() {
+        FilterPanel<Object> filterPanel = getFilterPanel(true);
+        setFilterContent(filterPanel);
+        filterPanel.addSelectionListener(new FilterListener());
     }
 
-    class ShowInfoListener implements ListSelectionListener{
-        private FilterPanel<Object> filterPanel;
+    private void setFilterContent(FilterPanel<Object> filterPanel) {
+        filterPanel.setFilterContent(new ArrayList<>(interviewer.getUpcomingInterviews()));
+    }
 
-        ShowInfoListener(FilterPanel<Object> filterPanel){this.filterPanel = filterPanel;}
+    protected void initButton() {
+        addButton("Pass", new SetResultListener(true));
+        addButton("Fail", new SetResultListener(false));
+    }
 
-        public void valueChanged(ListSelectionEvent e){
-            String info = filterPanel.getSelectObject().toString();
-            setOutputText(info);
+    class FilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            Interview interview = (Interview) getFilterPanel(true).getSelectObject();
+            setOutputText(interview.toString());
+        }
+    }
+
+    class SetResultListener implements ActionListener {
+        private boolean isPass;
+
+        SetResultListener(boolean isPass) {
+            this.isPass = isPass;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int confirm = JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?");
+            if (confirm == 0) {
+                FilterPanel<Object> filterPanel = getFilterPanel(true);
+                Interview interview = (Interview) filterPanel.getSelectObject();
+                interview.setResult(isPass);
+                setFilterContent(filterPanel);
+            }
         }
     }
 }
