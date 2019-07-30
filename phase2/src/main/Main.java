@@ -1,8 +1,12 @@
 package main;
 
+import domain.Test;
+import domain.job.JobPosting;
+import domain.storage.Company;
 import domain.storage.CompanyPool;
 import domain.storage.JobPool;
 import domain.storage.UserPool;
+import domain.user.Applicant;
 import gui.major.Login;
 
 public class Main {
@@ -12,16 +16,16 @@ public class Main {
     private Login login = new Login(this);
 
     public static void main(String[] args) {
-//        Test test = new Test();
-//        Applicant applicant = test.addApplicant();
-//        Company company = test.addCompany();
-//        JobPosting jobPosting = test.getRandomJobPosting(company);
-//        test.addJobPostings(2, company);
-//
-//        test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-//        test.addNewRoundAndFinishMatching(jobPosting, company);
+        Test test = new Test();
+        Applicant applicant = test.addApplicant();
+        Company company = test.addCompany();
+        JobPosting jobPosting = test.getRandomJobPosting(company);
+        test.addJobPostings(2, company);
 
-        new Main();
+        test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
+        test.addNewRoundAndFinishMatching(jobPosting, company);
+
+//        new Main();
     }
 
     public CompanyPool getCompanyPool() {

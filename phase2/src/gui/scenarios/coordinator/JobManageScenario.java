@@ -53,7 +53,9 @@ public class JobManageScenario extends Scenario {
         leftFilterPanel.addSelectionListener(new JobManageScenario.LeftFilterListener());
         JobPosting jobPosting = (JobPosting) leftFilterPanel.getSelectObject();
         ArrayList<Object> interviewRounds = new ArrayList<>();
-        if (jobPosting != null) interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
+        if (jobPosting != null) {
+            interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
+        }
         rightFilterPanel.setFilterContent(interviewRounds);
     }
 
@@ -71,6 +73,9 @@ public class JobManageScenario extends Scenario {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             if (jobPosting != null) {
                 ArrayList<Object> interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
+                for (Object interviewRound : interviewRounds) {
+                    ((InterviewRound) interviewRound).checkStatus();
+                }
                 getFilterPanel(false).setFilterContent(interviewRounds);
                 setOutputText(jobPosting.toString());
             }
@@ -92,10 +97,13 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             String roundName = getInputInfoMap().get("Round name:");
-            InterviewRound interviewRound = new InterviewRound(roundName);
-            jobPosting.addInterviewRound(interviewRound);
-            JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
-
+            if (jobPosting.isProcessing()) {
+                InterviewRound interviewRound = new InterviewRound(roundName);
+                jobPosting.addInterviewRound(interviewRound);
+                JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+            }
         }
     }
 

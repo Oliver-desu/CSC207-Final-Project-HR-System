@@ -24,10 +24,12 @@ public class JobPosting implements Filterable, InfoHolder {
     private int currRound;
     private JobPostingStatus status = JobPostingStatus.OPEN;
     private Info jobInfo;
+    private int numHired;
 
 
     public JobPosting() {
         this.currRound = -1;
+        this.numHired = 0;
         this.interviewRounds = new HashMap<>();
         this.applications = new HashMap<>();
     }
@@ -83,14 +85,22 @@ public class JobPosting implements Filterable, InfoHolder {
         return this.status.equals(JobPostingStatus.OPEN);
     }
 
-    public void start() {
-        this.status = JobPostingStatus.OPEN;
+    public boolean isProcessing() {
+        return this.status.equals(JobPostingStatus.PROCESSING);
+    }
+
+    public boolean isFinished() {
+        return this.status.equals(JobPostingStatus.FINISHED);
+    }
+
+    public void close() {
+        this.status = JobPostingStatus.PROCESSING;
     }
 
     public boolean nextRound() {
 //        set to next round
         InterviewRound currentRound = interviewRounds.get(currRound);
-        if (interviewRounds.containsKey(currRound + 1) &&
+        if (status.equals(JobPostingStatus.PROCESSING) && interviewRounds.containsKey(currRound + 1) &&
                 (currentRound == null || currentRound.getStatus().equals(InterviewRound.InterviewRoundStatus.FINISHED))) {
             currRound += 1;
             interviewRounds.get(currRound).start(getRemainingApplications());
@@ -104,8 +114,16 @@ public class JobPosting implements Filterable, InfoHolder {
 //        return false;
 //    }
 
-    public void hire(Application application) {
-        application.hired();
+    public boolean hire(Application application) {
+        if (application.getStatus().equals(Application.ApplicationStatus.PENDING) &&
+                isProcessing() && getCurrentInterviewRound().isFinished() &&
+                numHired < Integer.parseInt(jobInfo.getSpecificInfo("Num of positions:"))) {
+            application.hired();
+            numHired++;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void endJobPosting() {
@@ -124,15 +142,19 @@ public class JobPosting implements Filterable, InfoHolder {
     }
 
     public boolean applicationCancel(Application application, CompanyPool companyPool) {
-        for (String applicantId : this.applications.keySet()) {
-            if (this.applications.get(applicantId).equals(application)) {
-                Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
-                company.cancelApplication(application);
-                this.applications.remove(applicantId, application);
-                return true;
+        if (!this.isFinished()) {
+            for (String applicantId : this.applications.keySet()) {
+                if (this.applications.get(applicantId).equals(application)) {
+                    Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
+                    company.cancelApplication(application);
+                    this.applications.remove(applicantId, application);
+                    return true;
+                }
             }
+            return false;
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override

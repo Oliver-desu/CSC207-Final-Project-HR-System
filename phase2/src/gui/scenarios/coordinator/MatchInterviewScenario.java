@@ -83,7 +83,6 @@ public class MatchInterviewScenario extends Scenario {
             if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
                 Info interviewInfo = new Info(interview, infoMap);
                 interview.match(interviewer, interviewInfo);
-                interviewer.addInterview(interview);
                 application.addInterview(interviewRound.getRoundName(), interview);
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
             } else {

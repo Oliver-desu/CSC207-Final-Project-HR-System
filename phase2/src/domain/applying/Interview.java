@@ -77,12 +77,19 @@ public class Interview implements Filterable, InfoHolder {
 
     @Override
     public String toString() {
-        return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
-                "Applicant: " + this.application.getApplicantId() + "\n" +
-                "Time: " + this.interviewInfo.getSpecificInfo("Time") + "\n" +
-                "Duration(min): " + this.interviewInfo.getSpecificInfo("Duration(min)") + "\n" +
-                "Location: " + this.interviewInfo.getSpecificInfo("Location") + "\n" +
-                "Status" + this.status;
+        if (this.status.equals(InterviewStatus.UNMATCHED)) {
+            return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
+                    "Applicant: " + this.application.getApplicantId() + "\n" +
+                    "Status: " + this.status;
+        } else {
+            return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
+                    "Applicant: " + this.application.getApplicantId() + "\n" +
+                    "Interviewer:" + this.interviewer.getUsername() + "\n" +
+                    "Time: " + this.interviewInfo.getSpecificInfo("Time") + "\n" +
+                    "Duration(min): " + this.interviewInfo.getSpecificInfo("Duration(min)") + "\n" +
+                    "Location: " + this.interviewInfo.getSpecificInfo("Location") + "\n" +
+                    "Status: " + this.status;
+        }
     }
 
     @Override

@@ -230,6 +230,7 @@ public class Test {
     }
 
     public InterviewRound addNewRound(JobPosting jobPosting, Company company) {
+        jobPosting.close();
         InterviewRound interviewRound = new InterviewRound("new round");
         jobPosting.addInterviewRound(interviewRound);
         jobPosting.nextRound();

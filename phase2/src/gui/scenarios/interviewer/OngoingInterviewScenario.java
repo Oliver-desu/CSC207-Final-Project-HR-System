@@ -71,9 +71,14 @@ public class OngoingInterviewScenario extends Scenario {
             if (confirm == 0) {
                 FilterPanel<Object> filterPanel = getFilterPanel(true);
                 Interview interview = (Interview) filterPanel.getSelectObject();
-                new Info(interview, getInputInfoMap());
-                interview.setResult(isPass);
-                setFilterContent(filterPanel);
+                if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+                    new Info(interview, getInputInfoMap());
+                    interview.setResult(isPass);
+                    setFilterContent(filterPanel);
+                    JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                } else {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Can not change!");
+                }
             }
         }
     }

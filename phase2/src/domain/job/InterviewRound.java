@@ -69,6 +69,10 @@ public class InterviewRound implements Filterable {
         return this.applications.get(applicantId);
     }
 
+    public boolean isFinished() {
+        return status.equals(InterviewRoundStatus.FINISHED);
+    }
+
     public InterviewRoundStatus getStatus() {
         return this.status;
     }
@@ -91,7 +95,7 @@ public class InterviewRound implements Filterable {
                 break;
             }
         }
-        if (finished) {
+        if (finished && !this.applications.isEmpty()) {
             this.setStatus(InterviewRoundStatus.FINISHED);
         }
     }

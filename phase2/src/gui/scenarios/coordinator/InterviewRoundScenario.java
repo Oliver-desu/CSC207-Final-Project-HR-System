@@ -85,13 +85,16 @@ public class InterviewRoundScenario extends Scenario {
     class HireListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            FilterPanel<Object> filterPanel = getFilterPanel(true);
-            Application application = (Application) filterPanel.getSelectObject();
-            if (application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
-                jobPosting.hire(application);
-                System.out.println("Hire Successful");
+            if (interviewRound == jobPosting.getCurrentInterviewRound()) {
+                FilterPanel<Object> filterPanel = getFilterPanel(true);
+                Application application = (Application) filterPanel.getSelectObject();
+                if (jobPosting.hire(application)) {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Successfully hired!");
+                } else {
+                    JOptionPane.showMessageDialog(getUserMenu(), "All positions have been filled!");
+                }
             } else {
-                System.out.println("Hire failed");
+                JOptionPane.showMessageDialog(getUserMenu(), "JobPosting already finished!");
             }
         }
     }
@@ -100,10 +103,14 @@ public class InterviewRoundScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();
-            if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.MATCHING)) {
-                menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
+            if (jobPosting.isProcessing()) {
+                if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.MATCHING)) {
+                    menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
+                } else {
+                    JOptionPane.showMessageDialog(menu, "Sorry, cannot match interview now.");
+                }
             } else {
-                JOptionPane.showMessageDialog(menu, "Sorry, cannot match interview now.");
+                JOptionPane.showMessageDialog(menu, "JobPosting already finished!");
             }
         }
     }

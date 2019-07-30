@@ -119,7 +119,7 @@ public class ApplicationManageScenario extends Scenario {
             } else if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 JOptionPane.showMessageDialog(getUserMenu(), "This application has not yet been submitted.");
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "This application can no more be canceled.");
+                JOptionPane.showMessageDialog(getUserMenu(), "This application can no longer be canceled.");
             }
         }
     }
