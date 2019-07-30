@@ -1,4 +1,4 @@
-package domain.applying;
+package domain.storage;
 
 public interface InfoHolder {
     void setInfo(Info info);

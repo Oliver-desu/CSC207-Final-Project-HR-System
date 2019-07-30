@@ -4,12 +4,14 @@ import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.storage.Company;
 import domain.storage.CompanyPool;
+import domain.storage.Info;
+import domain.storage.InfoHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobPosting implements Filterable {
+public class JobPosting implements Filterable, InfoHolder {
 
     public enum JobPostingStatus {
         OPEN,
@@ -21,23 +23,10 @@ public class JobPosting implements Filterable {
     private HashMap<Integer, InterviewRound> interviewRounds;
     private int currRound;
     private JobPostingStatus status = JobPostingStatus.OPEN;
-    private JobInfo jobInfo;
+    private Info jobInfo;
 
 
     public JobPosting() {
-        this.jobInfo = new JobInfo();
-        this.currRound = 0;
-        this.interviewRounds = new HashMap<>();
-        this.interviewRounds.put(0, new InterviewRound());
-        this.interviewRounds.put(1, new InterviewRound());
-        this.interviewRounds.put(2, new InterviewRound());
-        this.applications = new HashMap<>();
-        this.applications.put(Application.getSampleApplication("abc").getApplicantId(), Application.getSampleApplication("abc"));
-        this.status = JobPostingStatus.PROCESSING;
-    }
-
-    public JobPosting(JobInfo jobInfo) {
-        this.jobInfo = jobInfo;
         this.currRound = -1;
         this.interviewRounds = new HashMap<>();
         this.applications = new HashMap<>();
@@ -66,6 +55,10 @@ public class JobPosting implements Filterable {
         return remainingApplications;
     }
 
+    public String getJobId() {
+        return this.jobInfo.getSpecificInfo("Job id");
+    }
+
     public Application getApplication(String applicationId) {
         return this.applications.get(applicationId);
     }
@@ -82,14 +75,6 @@ public class JobPosting implements Filterable {
         return this.status;
     }
 
-    public JobInfo getJobInfo() {
-        return this.jobInfo;
-    }
-
-    public String getJobId() {
-        return this.jobInfo.getId();
-    }
-
     public void addInterviewRound(InterviewRound interviewRound) {
         this.interviewRounds.put(this.interviewRounds.size(), interviewRound);
     }
@@ -102,10 +87,17 @@ public class JobPosting implements Filterable {
         this.status = JobPostingStatus.OPEN;
     }
 
-    public void nextRound() {
+    public boolean nextRound() {
 //        set to next round
-        this.currRound += 1;
-        this.interviewRounds.get(currRound).start(this.getRemainingApplications());
+        InterviewRound currentRound = interviewRounds.get(currRound);
+        if (interviewRounds.containsKey(currRound + 1) &&
+                (currentRound == null || currentRound.getStatus().equals(InterviewRound.InterviewRoundStatus.FINISHED))) {
+            currRound += 1;
+            interviewRounds.get(currRound).start(getRemainingApplications());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 //    public boolean isLastRound() {
@@ -122,7 +114,7 @@ public class JobPosting implements Filterable {
 
     public boolean applicationSubmit(Application application, CompanyPool companyPool) {
         if (!this.applications.containsValue(application)) {
-            Company company = this.jobInfo.getCompany(companyPool);
+            Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);
             return true;
@@ -134,7 +126,7 @@ public class JobPosting implements Filterable {
     public boolean applicationCancel(Application application, CompanyPool companyPool) {
         for (String applicantId : this.applications.keySet()) {
             if (this.applications.get(applicantId).equals(application)) {
-                Company company = this.jobInfo.getCompany(companyPool);
+                Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
                 company.cancelApplication(application);
                 this.applications.remove(applicantId, application);
                 return true;
@@ -144,15 +136,30 @@ public class JobPosting implements Filterable {
     }
 
     @Override
+    public Info getInfo() {
+        return jobInfo;
+    }
+
+    @Override
+    public void setInfo(Info info) {
+        this.jobInfo = info;
+    }
+
+    @Override
     public String toString() {
-        return jobInfo.toString() + "\n" +
+        return "Job id: " + this.jobInfo.getSpecificInfo("Job id") + "\n" +
+                "Company id: " + this.jobInfo.getSpecificInfo("Company id") + "\n" +
+                "Position name: " + this.jobInfo.getSpecificInfo("Position name:") + "\n" +
+                "Num of positions:" + this.jobInfo.getSpecificInfo("Num of positions:") + "\n" +
+                "Post date:" + this.jobInfo.getSpecificInfo("Post date") + "\n" +
+                "Close date:" + this.jobInfo.getSpecificInfo("Close date:") + "\n" +
                 "Status: " + this.status;
     }
 
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
-        headings.add("id");
+        headings.add("jobId");
         headings.add("positionName");
         headings.add("closeDate");
         return headings.toArray(new String[0]);
@@ -161,9 +168,9 @@ public class JobPosting implements Filterable {
     @Override
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
-        values.add(this.jobInfo.getId());
-        values.add(this.jobInfo.getPositionName());
-        values.add(this.jobInfo.getCloseDate().toString());
+        values.add(this.jobInfo.getSpecificInfo("Job id"));
+        values.add(this.jobInfo.getSpecificInfo("Position name:"));
+        values.add(this.jobInfo.getSpecificInfo("Close date:"));
         return values.toArray(new String[0]);
     }
 }

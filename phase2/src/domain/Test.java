@@ -1,13 +1,12 @@
 package domain;
 
-import domain.applying.*;
+import domain.applying.Application;
+import domain.applying.Document;
+import domain.applying.DocumentManager;
+import domain.applying.Interview;
 import domain.job.InterviewRound;
-import domain.job.JobInfo;
 import domain.job.JobPosting;
-import domain.storage.Company;
-import domain.storage.CompanyPool;
-import domain.storage.JobPool;
-import domain.storage.UserPool;
+import domain.storage.*;
 import domain.user.Applicant;
 import domain.user.HRCoordinator;
 import domain.user.HRGeneralist;
@@ -171,14 +170,14 @@ public class Test {
 
     public JobPosting addJobPosting(Company company) {
         HashMap<String, String> values = new HashMap<>();
-        values.put("id:", Integer.toString(numJobPostings));
-        values.put("Company id:", company.getId());
+        values.put("Job id", Integer.toString(numJobPostings));
+        values.put("Company id", company.getId());
         values.put("Position name:", "Boss");
         values.put("Num of positions:", Integer.toString(2));
         values.put("Close date:", "2019-08-01");
-//        values.put("requirement", "Bossy");
-        JobInfo jobInfo = new JobInfo(values);
-        JobPosting jobPosting = new JobPosting(jobInfo);
+        values.put("Post date", "2019-07-29");
+        JobPosting jobPosting = new JobPosting();
+        new Info(jobPosting, values);
         jobPool.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomCoordinator(company).addJobPosting(jobPosting);

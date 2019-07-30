@@ -63,16 +63,15 @@ public class UserRegister extends Scenario {
         HashMap<String, String> infoMap = getInputInfoMap();
         String companyId = infoMap.get("Company id:");
         if (registerType.equals(RegisterType.APPLICANT)) return new Applicant(infoMap);
-        else if (registerType.equals(RegisterType.HR_COORDINATOR)) {
+        else if (registerType.equals(RegisterType.HR_COORDINATOR) && companyExists(companyId)) {
             Company company = getMain().getCompanyPool().getCompany(companyId);
             company.addHRCoordinatorId(infoMap.get("Username:"));
             return new HRCoordinator(infoMap, companyId);
-        } else if (registerType.equals(RegisterType.INTERVIEWER)) {
+        } else if (registerType.equals(RegisterType.INTERVIEWER) && companyExists(companyId)) {
             Company company = getMain().getCompanyPool().getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
             return new Interviewer(infoMap, companyId);
-        }
-        else if (registerType.equals(RegisterType.HR_GENERALIST)) {
+        } else if (registerType.equals(RegisterType.HR_GENERALIST) && !companyExists(companyId)) {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
             values.put("generalistId", infoMap.get("Username:"));
@@ -80,6 +79,10 @@ public class UserRegister extends Scenario {
             return new HRGeneralist(infoMap, companyId);
         }
         return new NullUser();
+    }
+
+    private boolean companyExists(String companyId) {
+        return getMain().getCompanyPool().getCompany(companyId) != null;
     }
 
     public enum RegisterType {

@@ -1,6 +1,8 @@
 package domain.applying;
 
 import domain.filter.Filterable;
+import domain.storage.Info;
+import domain.storage.InfoHolder;
 import domain.user.Interviewer;
 
 import java.util.ArrayList;
@@ -77,7 +79,6 @@ public class Interview implements Filterable, InfoHolder {
     public String toString() {
         return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
                 "Applicant: " + this.application.getApplicantId() + "\n" +
-                "Interviewer: " + this.interviewer.getUsername() + "\n" +
                 "Time: " + this.interviewInfo.getSpecificInfo("Time") + "\n" +
                 "Duration(min): " + this.interviewInfo.getSpecificInfo("Duration(min)") + "\n" +
                 "Location: " + this.interviewInfo.getSpecificInfo("Location") + "\n" +
@@ -97,7 +98,11 @@ public class Interview implements Filterable, InfoHolder {
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
         values.add(getApplication().getApplicantId());
-        values.add(getInfo().getSpecificInfo("InterviewId"));
+        if (getInterviewer() == null) {
+            values.add("no interviewer");
+        } else {
+            values.add(getInterviewer().getUsername());
+        }
         values.add(getStatus().toString());
         return values.toArray(new String[3]);
     }

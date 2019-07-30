@@ -1,5 +1,7 @@
-package domain.applying;
+package domain.storage;
 
+import domain.applying.Application;
+import domain.applying.Interview;
 import domain.job.JobPosting;
 
 import java.util.Arrays;
@@ -8,7 +10,7 @@ import java.util.HashMap;
 public class Info {
 
     private static final String[] INTERVIEW_INFO_LIST = new String[]{
-            "InterviewId", "Time", "Duration(min)", "Location", "Recommendation", "Dead line:"
+            "Time", "Duration(min)", "Location", "Recommendation", "Dead line:"
     };
 
     private static final String[] APPLICATION_INFO_LIST = new String[]{
@@ -16,7 +18,7 @@ public class Info {
     };
 
     private static final String[] JOB_INFO_LIST = new String[]{
-            "JobId", "CompanyId", "PositionName", "NumOfPosition", "PostDate", "CloseDate"
+            "Job id", "Company id", "Position name:", "Num of positions:", "Post date", "Close date:"
     };
 
     private static final String ERROR_MESSAGE = "Error message at class Info: ";
@@ -47,9 +49,8 @@ public class Info {
 
     public void setChanges(HashMap<String, String> infoMap) {
         for (String key : infoMap.keySet()) {
-            if (!isValidKey(key)) infoMap.remove(key);
+            if (isValidKey(key)) this.infoMap.put(key, infoMap.get(key));
         }
-        this.infoMap.putAll(infoMap);
     }
 
     public String getSpecificInfo(String key) {

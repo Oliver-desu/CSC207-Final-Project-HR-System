@@ -87,8 +87,12 @@ public class InterviewRoundScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             FilterPanel<Object> filterPanel = getFilterPanel(true);
             Application application = (Application) filterPanel.getSelectObject();
-            jobPosting.hire(application);
-            System.out.println("Hire Successful");
+            if (application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
+                jobPosting.hire(application);
+                System.out.println("Hire Successful");
+            } else {
+                System.out.println("Hire failed");
+            }
         }
     }
 

@@ -2,11 +2,11 @@ package gui.scenarios.coordinator;
 
 import domain.Test;
 import domain.applying.Application;
-import domain.applying.Info;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
+import domain.storage.Info;
 import domain.storage.UserPool;
 import domain.user.Applicant;
 import domain.user.HRCoordinator;
@@ -15,6 +15,7 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -76,14 +77,18 @@ public class MatchInterviewScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             HashMap<String, String> infoMap = getInputInfoMap();
             Interviewer interviewer = (Interviewer) getFilterPanel(false).getSelectObject();
-            infoMap.put("interviewerId", interviewer.getUsername());
 
             Application application = (Application) getFilterPanel(true).getSelectObject();
             Interview interview = application.getInterviewByRound(interviewRound.getRoundName());
-            Info interviewInfo = new Info(interview, infoMap);
-            interview.match(interviewer, interviewInfo);
-            interviewer.addInterview(interview);
-            application.addInterview(interviewRound.getRoundName(), interview);
+            if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
+                Info interviewInfo = new Info(interview, infoMap);
+                interview.match(interviewer, interviewInfo);
+                interviewer.addInterview(interview);
+                application.addInterview(interviewRound.getRoundName(), interview);
+                JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Already matched!");
+            }
         }
     }
 }

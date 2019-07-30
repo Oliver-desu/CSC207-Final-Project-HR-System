@@ -44,11 +44,12 @@ public class Applicant extends User {
         return this.documentManager;
     }
 
-    public void addApplication(String jobId, Application application) {
+    public boolean addApplication(String jobId, Application application) {
         if (!this.applications.containsKey(jobId)) {
             this.applications.put(jobId, application);
+            return true;
         } else {
-            throw new java.lang.Error("this.applications already contains JobId");
+            return false;
         }
     }
 

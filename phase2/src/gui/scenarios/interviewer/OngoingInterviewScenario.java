@@ -1,10 +1,10 @@
 package gui.scenarios.interviewer;
 
 import domain.Test;
-import domain.applying.Info;
 import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.storage.Company;
+import domain.storage.Info;
 import domain.user.Applicant;
 import domain.user.Interviewer;
 import gui.major.Scenario;

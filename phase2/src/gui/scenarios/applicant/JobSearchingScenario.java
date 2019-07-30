@@ -10,6 +10,7 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -44,9 +45,12 @@ public class JobSearchingScenario extends  Scenario{
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             Applicant applicant = (Applicant) getUserMenu().getUser();
-            applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting));
-            ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
-            switchScenario(scenario);
+            if (applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting))) {
+                ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
+                switchScenario(scenario);
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Application already exists!");
+            }
         }
     }
 }

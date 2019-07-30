@@ -103,8 +103,11 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-            jobPosting.nextRound();
-            JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
+            if (jobPosting.nextRound()) {
+                JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+            }
         }
     }
 

@@ -1,9 +1,9 @@
 package gui.scenarios.generalist;
 
 import domain.Test;
-import domain.job.JobInfo;
 import domain.job.JobPosting;
 import domain.storage.Company;
+import domain.storage.Info;
 import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -12,6 +12,7 @@ import gui.panels.InputInfoPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class JobPostingRegister extends Scenario {
@@ -52,8 +53,9 @@ public class JobPostingRegister extends Scenario {
     private HashMap<String, String> createJobInfoMap() {
         HashMap<String, String> infoMap = getInputInfoMap();
         Company company = getUserMenu().getCompany();
-        infoMap.put("Company id:", company.getId());
-        infoMap.put("id:", company.getId() + "--" + infoMap.get("Position name:") + "--" +
+        infoMap.put("Post date", LocalDate.now().toString());
+        infoMap.put("Company id", company.getId());
+        infoMap.put("Job id", company.getId() + "--" + infoMap.get("Position name:") + "--" +
                 company.getJobPostingIds().size());
         return infoMap;
     }
@@ -65,7 +67,8 @@ public class JobPostingRegister extends Scenario {
             int confirm = JOptionPane.showConfirmDialog(userMenu, "Are you sure to post job?");
             if (confirm == 0) {
                 HashMap<String, String> values = createJobInfoMap();
-                JobPosting jobPosting = new JobPosting(new JobInfo(values));
+                JobPosting jobPosting = new JobPosting();
+                new Info(jobPosting, values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getUserPool().getHRCoordinator(values.get("Coordinator:")).addJobPosting(jobPosting);
                 getMain().getJobPool().addJobPosting(jobPosting.getJobId(), jobPosting);
