@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
@@ -57,7 +58,7 @@ public class JobPostingRegister extends Scenario {
         infoMap.put("Post date:", LocalDate.now().toString());
         infoMap.put("Company id:", company.getId());
         infoMap.put("Job id:", company.getId() + "--" + infoMap.get("Position name:") + "--" +
-                company.getJobPostingIds().size());
+                LocalDateTime.now());
         return infoMap;
     }
 

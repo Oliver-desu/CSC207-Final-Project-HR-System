@@ -87,6 +87,7 @@ public class MatchInterviewScenario extends Scenario {
                     interview.match(interviewer, interviewInfo);
                     application.addInterview(interviewRound.getRoundName(), interview);
                     JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                    initLeftFilter();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
                 }
