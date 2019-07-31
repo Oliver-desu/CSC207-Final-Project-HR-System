@@ -58,7 +58,7 @@ public class JobPosting implements Filterable, InfoHolder {
     }
 
     public String getJobId() {
-        return this.jobInfo.getSpecificInfo("Job id");
+        return this.jobInfo.getSpecificInfo("Job id:");
     }
 
     public Application getApplication(String applicationId) {
@@ -131,7 +131,7 @@ public class JobPosting implements Filterable, InfoHolder {
 
     public boolean applicationSubmit(Application application, CompanyPool companyPool) {
         if (!this.applications.containsValue(application) && this.isOpen()) {
-            Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
+            Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);
             return true;
@@ -144,7 +144,7 @@ public class JobPosting implements Filterable, InfoHolder {
         if (!this.isFinished()) {
             for (String applicantId : this.applications.keySet()) {
                 if (this.applications.get(applicantId).equals(application)) {
-                    Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
+                    Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
                     company.cancelApplication(application);
                     this.applications.remove(applicantId, application);
                     return true;
@@ -168,13 +168,15 @@ public class JobPosting implements Filterable, InfoHolder {
 
     @Override
     public String toString() {
-        return "Job id: " + this.jobInfo.getSpecificInfo("Job id") + "\n" +
-                "Company id: " + this.jobInfo.getSpecificInfo("Company id") + "\n" +
-                "Position name: " + this.jobInfo.getSpecificInfo("Position name:") + "\n" +
-                "Num of positions:" + this.jobInfo.getSpecificInfo("Num of positions:") + "\n" +
-                "Post date:" + this.jobInfo.getSpecificInfo("Post date") + "\n" +
-                "Close date:" + this.jobInfo.getSpecificInfo("Close date:") + "\n" +
-                "Status: " + this.status;
+        String[] headings = this.jobInfo.getAllInfoHeadings(this);
+        StringBuilder sb = new StringBuilder();
+        for (String heading : headings) {
+            sb.append(heading);
+            sb.append(" ");
+            sb.append(this.jobInfo.getSpecificInfo(heading));
+            sb.append("\n");
+        }
+        return sb.toString() + "Status: " + this.status;
     }
 
     @Override
@@ -189,7 +191,7 @@ public class JobPosting implements Filterable, InfoHolder {
     @Override
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
-        values.add(this.jobInfo.getSpecificInfo("Job id"));
+        values.add(this.jobInfo.getSpecificInfo("Job id:"));
         values.add(this.jobInfo.getSpecificInfo("Position name:"));
         values.add(this.jobInfo.getSpecificInfo("Close date:"));
         return values.toArray(new String[0]);

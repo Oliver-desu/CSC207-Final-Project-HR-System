@@ -94,7 +94,7 @@ public class Test {
     public Applicant addApplicant() {
         HashMap<String, String> values = new HashMap<>();
         values.put("Username:", Integer.toString(numApplicants));
-        values.put("Password", "[h, o, l, y, s, h, i, t]");
+        values.put("Password:", "[h, o, l, y, s, h, i, t]");
         values.put("dateCreated", "2019-01-01");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
@@ -112,7 +112,7 @@ public class Test {
     public Company addCompany() {
         HashMap<String, String> generalistValues = new HashMap<>();
         generalistValues.put("Username:", Integer.toString(numCompanies));
-        generalistValues.put("Password", "[h, o, l, y, s, h, i, t]");
+        generalistValues.put("Password:", "[h, o, l, y, s, h, i, t]");
         generalistValues.put("dateCreated", "2019-01-01");
         HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
         userPool.register(generalist);
@@ -143,7 +143,7 @@ public class Test {
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
-            values.put("Password", "[h, o, l, y, s, h, i, t]");
+            values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             interviewer = new Interviewer(values, company.getId());
             userPool.register(interviewer);
@@ -159,7 +159,7 @@ public class Test {
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
-            values.put("Password", "[h, o, l, y, s, h, i, t]");
+            values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             coordinator = new HRCoordinator(values, company.getId());
             userPool.register(coordinator);
@@ -170,12 +170,16 @@ public class Test {
 
     public JobPosting addJobPosting(Company company) {
         HashMap<String, String> values = new HashMap<>();
-        values.put("Job id", Integer.toString(numJobPostings));
-        values.put("Company id", company.getId());
+        values.put("Job id:", Integer.toString(numJobPostings));
+        values.put("Company id:", company.getId());
         values.put("Position name:", "Boss");
         values.put("Num of positions:", Integer.toString(2));
         values.put("Close date:", "2019-08-01");
-        values.put("Post date", "2019-07-29");
+        values.put("Post date:", "2019-07-29");
+        values.put("CV:", "Optional");
+        values.put("Cover letter:", "Optional");
+        values.put("Reference:", "Optional");
+        values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting();
         new Info(jobPosting, values);
         jobPool.addJobPosting(jobPosting.getJobId(), jobPosting);
@@ -247,9 +251,9 @@ public class Test {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
             values = new HashMap<>();
             interviewer = this.getRandomInterviewer(company);
-            values.put("Time", "2019-08-02 10:00");
-            values.put("Location", "BA1160");
-            values.put("Duration(min)", "30");
+            values.put("Time:", "2019-08-02 10:00");
+            values.put("Location:", "BA1160");
+            values.put("Duration(min):", "30");
             interviewInfo = new Info(interview, values);
             interview.match(interviewer, interviewInfo);
         }

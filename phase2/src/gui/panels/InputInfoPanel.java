@@ -160,7 +160,7 @@ public class InputInfoPanel extends JPanel {
             JComponent component = componentMap.get(componentName);
             infoMap.put(componentName, getText(component));
         }
-        infoMap.put("Password", Arrays.toString(getPassword()));
+        infoMap.put("Password:", Arrays.toString(getPassword()));
         return infoMap;
     }
 }

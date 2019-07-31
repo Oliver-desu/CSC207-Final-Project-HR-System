@@ -24,7 +24,7 @@ public class User {
     public User(HashMap<String, String> map) {
         setUsername(map.get("Username:"));
         this.dateCreated = LocalDate.now();
-        setPassword(map.get("Password"));
+        setPassword(map.get("Password:"));
     }
 
     public void setUsername(String username) {

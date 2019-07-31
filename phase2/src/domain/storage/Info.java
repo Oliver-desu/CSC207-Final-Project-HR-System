@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Info {
 
     private static final String[] INTERVIEW_INFO_LIST = new String[]{
-            "Time", "Duration(min)", "Location", "Recommendation", "Dead line:"
+            "Time:", "Duration(min):", "Location:", "Recommendation:", "Dead line:"
     };
 
     private static final String[] APPLICATION_INFO_LIST = new String[]{
@@ -18,7 +18,8 @@ public class Info {
     };
 
     private static final String[] JOB_INFO_LIST = new String[]{
-            "Job id", "Company id", "Position name:", "Num of positions:", "Post date", "Close date:"
+            "Job id:", "Company id:", "Position name:", "Num of positions:", "Post date:", "Close date:",
+            "CV:", "Cover letter:", "Reference:", "Extra document:"
     };
 
     private static final String ERROR_MESSAGE = "Error message at class Info: ";
@@ -59,6 +60,13 @@ public class Info {
             throwErrorMessage("Invalid key for get specific info!");
             return "";
         }
+    }
+
+    public String[] getAllInfoHeadings(InfoHolder infoHolder) {
+        if (infoHolder instanceof Interview) return INTERVIEW_INFO_LIST;
+        else if (infoHolder instanceof Application) return APPLICATION_INFO_LIST;
+        else if (infoHolder instanceof JobPosting) return JOB_INFO_LIST;
+        return null;
     }
 
     private void throwErrorMessage(String message) {

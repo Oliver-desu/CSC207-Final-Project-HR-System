@@ -61,24 +61,58 @@ public class UserRegister extends Scenario {
 
     private User createUser() {
         HashMap<String, String> infoMap = getInputInfoMap();
+        if (registerType.equals(RegisterType.APPLICANT)) return createApplicant(infoMap);
+        else if (registerType.equals(RegisterType.HR_COORDINATOR)) return createCoordinator(infoMap);
+        else if (registerType.equals(RegisterType.INTERVIEWER)) return createInterviewer(infoMap);
+        else if (registerType.equals(RegisterType.HR_GENERALIST)) return createGeneralist(infoMap);
+        return new NullUser();
+    }
+
+    private User createApplicant(HashMap<String, String> infoMap) {
+        if (!infoMap.get("Password:").isEmpty() &&
+                getMain().getUserPool().getApplicant(infoMap.get("Username:")) == null) {
+            return new Applicant(infoMap);
+        } else {
+            return new NullUser();
+        }
+    }
+
+    private User createCoordinator(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
-        if (registerType.equals(RegisterType.APPLICANT)) return new Applicant(infoMap);
-        else if (registerType.equals(RegisterType.HR_COORDINATOR) && companyExists(companyId)) {
+        if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
+                getMain().getUserPool().getHRCoordinator(infoMap.get("Username:")) == null) {
             Company company = getMain().getCompanyPool().getCompany(companyId);
             company.addHRCoordinatorId(infoMap.get("Username:"));
             return new HRCoordinator(infoMap, companyId);
-        } else if (registerType.equals(RegisterType.INTERVIEWER) && companyExists(companyId)) {
+        } else {
+            return new NullUser();
+        }
+    }
+
+    private User createInterviewer(HashMap<String, String> infoMap) {
+        String companyId = infoMap.get("Company id:");
+        if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
+                getMain().getUserPool().getInterviewer(infoMap.get("Username:")) == null) {
             Company company = getMain().getCompanyPool().getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
             return new Interviewer(infoMap, companyId);
-        } else if (registerType.equals(RegisterType.HR_GENERALIST) && !companyExists(companyId)) {
+        } else {
+            return new NullUser();
+        }
+    }
+
+    private User createGeneralist(HashMap<String, String> infoMap) {
+        String companyId = infoMap.get("Company id:");
+        if (!infoMap.get("Password:").isEmpty() && !companyExists(companyId) &&
+                getMain().getUserPool().getHRGeneralist(infoMap.get("Username:")) == null) {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
             values.put("generalistId", infoMap.get("Username:"));
             getMain().getCompanyPool().addCompany(companyId, new Company(values));
             return new HRGeneralist(infoMap, companyId);
+        } else {
+            return new NullUser();
         }
-        return new NullUser();
     }
 
     private boolean companyExists(String companyId) {
@@ -95,7 +129,9 @@ public class UserRegister extends Scenario {
             UserPool userPool = getMain().getUserPool();
             User user = createUser();
             UserMenu userMenu = getUserMenu();
-            if (user.isNull()) JOptionPane.showMessageDialog(userMenu, "Incorrect input!");
+            if (user.isNull()) JOptionPane.showMessageDialog(
+                    userMenu, "Incorrect input or username already used by others!"
+            );
             else {
                 userPool.register(user);
                 JOptionPane.showMessageDialog(userMenu, "Successfully registered!");

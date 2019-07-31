@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
 public class JobPostingRegister extends Scenario {
@@ -53,11 +54,28 @@ public class JobPostingRegister extends Scenario {
     private HashMap<String, String> createJobInfoMap() {
         HashMap<String, String> infoMap = getInputInfoMap();
         Company company = getUserMenu().getCompany();
-        infoMap.put("Post date", LocalDate.now().toString());
-        infoMap.put("Company id", company.getId());
-        infoMap.put("Job id", company.getId() + "--" + infoMap.get("Position name:") + "--" +
+        infoMap.put("Post date:", LocalDate.now().toString());
+        infoMap.put("Company id:", company.getId());
+        infoMap.put("Job id:", company.getId() + "--" + infoMap.get("Position name:") + "--" +
                 company.getJobPostingIds().size());
         return infoMap;
+    }
+
+    private boolean isValidInt(String integer) {
+        return integer.matches("[1-9][0-9]*");
+    }
+
+    private boolean isValidDate(String date) {
+        try {
+            return !LocalDate.parse(date).isBefore(LocalDate.now());
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private boolean isValidJobInfoMap(HashMap<String, String> map) {
+        return !map.containsValue("") && isValidInt(map.get("Num of positions:")) &&
+                isValidDate(map.get("Close date:"));
     }
 
     class CreateJobPostingListener implements ActionListener {
@@ -65,8 +83,8 @@ public class JobPostingRegister extends Scenario {
         public void actionPerformed(ActionEvent e) {
             UserMenu userMenu = getUserMenu();
             int confirm = JOptionPane.showConfirmDialog(userMenu, "Are you sure to post job?");
-            if (confirm == 0) {
-                HashMap<String, String> values = createJobInfoMap();
+            HashMap<String, String> values = createJobInfoMap();
+            if (confirm == 0 && isValidJobInfoMap(values)) {
                 JobPosting jobPosting = new JobPosting();
                 new Info(jobPosting, values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
@@ -74,6 +92,8 @@ public class JobPostingRegister extends Scenario {
                 getMain().getJobPool().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();
+            } else if (confirm == 0) {
+                JOptionPane.showMessageDialog(userMenu, "Please correctly fill in the necessary information!");
             }
         }
     }
