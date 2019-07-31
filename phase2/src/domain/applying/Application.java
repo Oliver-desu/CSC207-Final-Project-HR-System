@@ -24,35 +24,12 @@ public class Application implements Filterable {
     private DocumentManager documentManager;
     private ApplicationStatus status;
 
-    public Application() {
-        this.applicantId = "Applicant1";
-        this.jobPostingId = "dev1234";
-        this.documentManager = new DocumentManager(true);
-        this.status = ApplicationStatus.DRAFT;
-    }
-
-    public static Application getSampleApplication(String id) {
-        Application application = new Application();
-        application.setApplicantId("Applicant" + id);
-        return application;
-    }
 
     public Application(Applicant applicant, JobPosting jobPosting) {
         this.applicantId = applicant.getUsername();
         this.jobPostingId = jobPosting.getJobId();
         this.documentManager = new DocumentManager(true);
         this.status = ApplicationStatus.DRAFT;
-    }
-
-    public Application(HashMap<String, String> values) {
-        this.applicantId = values.getOrDefault("applicantId", "");
-        this.jobPostingId = values.getOrDefault("jobPostingId", "");
-        this.documentManager = new DocumentManager(true);
-        this.status = ApplicationStatus.DRAFT;
-    }
-
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
     }
 
     public HashMap<String, Interview> getInterviewMap() {

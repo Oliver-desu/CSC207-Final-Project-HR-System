@@ -15,20 +15,12 @@ public class User {
 
 
     public User() {
-        setUsername("NewUser");
-        this.dateCreated = LocalDate.now();
-        this.password = new char[]{'8', '8', '2', '0', '1', '3', '1', '4'};
-        this.realName = "Anonymous";
     }
 
     public User(HashMap<String, String> map) {
-        setUsername(map.get("Username:"));
+        this.username = map.get("Username:");
         this.dateCreated = LocalDate.now();
         setPassword(map.get("Password:"));
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getUsername() {
@@ -48,22 +40,8 @@ public class User {
         this.password = validPassword.substring(1, validPassword.length() - 1).toCharArray();
     }
 
-    private void setDateCreated(String dateCreated) {
-        if (dateCreated != null) {
-            this.dateCreated = LocalDate.parse(dateCreated, formatter);
-        }
-    }
-
     public boolean matchPassword(char[] password) {
         return Arrays.equals(this.password, password);
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getUserDetail() {
-        return null;
     }
 
     public boolean isNull() {

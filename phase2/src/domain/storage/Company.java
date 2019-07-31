@@ -1,7 +1,6 @@
 package domain.storage;
 
 import domain.applying.Application;
-import domain.user.Applicant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,20 +14,6 @@ public class Company {
     private ArrayList<String> jobPostingIds;
     private HashMap<String, ArrayList<Application>> applications;
 
-
-    public Company() {
-        this.id = "Google";
-        this.generalistId = "HRGeneralist";
-        this.coordinatorIds = new ArrayList<>();
-        this.coordinatorIds.add("HRCoordinator");
-        this.interviewerIds = new ArrayList<>();
-        this.interviewerIds.add("Interviewer");
-        this.jobPostingIds = new ArrayList<>();
-        this.jobPostingIds.add("Google");
-        this.applications = new HashMap<>();
-        Applicant applicant;
-        this.applications.put((applicant = new Applicant()).getUsername(), applicant.getApplications());
-    }
 
     public Company(HashMap<String, String> values) {
         this.id = values.get("id");

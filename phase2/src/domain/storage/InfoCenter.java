@@ -8,6 +8,13 @@ import java.util.HashMap;
 
 public class InfoCenter {
 
+    public enum UserType {
+        APPLICANT,
+        INTERVIEWER,
+        HR_GENERALIST,
+        HR_COORDINATOR
+    }
+
     private HashMap<String, Applicant> applicants = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();
     private HashMap<String, Interviewer> interviewers = new HashMap<>();
@@ -117,13 +124,6 @@ public class InfoCenter {
         for (JobPosting jobPosting : jobPostings) {
             jobPosting.startProcessing();
         }
-    }
-
-    public enum UserType {
-        APPLICANT,
-        INTERVIEWER,
-        HR_GENERALIST,
-        HR_COORDINATOR
     }
 
 }

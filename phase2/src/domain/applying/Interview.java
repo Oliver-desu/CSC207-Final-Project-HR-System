@@ -22,6 +22,7 @@ public class Interview implements Filterable, InfoHolder {
     private InterviewStatus status = InterviewStatus.UNMATCHED;
     private Info interviewInfo;
 
+
     public Interview(Application application) {
         this.application = application;
     }

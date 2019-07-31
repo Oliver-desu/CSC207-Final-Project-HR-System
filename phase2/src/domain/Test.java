@@ -190,10 +190,7 @@ public class Test {
 
     public void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant) {
         // add application for applicant and submit to jobPosting
-        HashMap<String, String> values = new HashMap<>();
-        values.put("applicantId", applicant.getUsername());
-        values.put("jobPostingId", jobPosting.getJobId());
-        Application application = new Application(values);
+        Application application = new Application(applicant, jobPosting);
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
@@ -201,10 +198,7 @@ public class Test {
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
-        HashMap<String, String> values = new HashMap<>();
-        values.put("applicantId", applicant.getUsername());
-        values.put("jobPostingId", jobPosting.getJobId());
-        Application application = new Application(values);
+        Application application = new Application(applicant, jobPosting);
         for (String docName : applicant.getDocumentManager().getAllDocNames()) {
             application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         }

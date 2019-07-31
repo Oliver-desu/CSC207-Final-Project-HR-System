@@ -4,7 +4,6 @@ import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,17 +13,6 @@ public class Applicant extends User {
     private HashMap<String, Application> applications;
     private DocumentManager documentManager;
 
-
-    public Applicant() {
-        super();
-        this.setUsername("Applicant");
-        this.applications = new HashMap<>();
-        this.documentManager = new DocumentManager(true);
-        Application app1 = Application.getSampleApplication("abc");
-        Application app2 = Application.getSampleApplication("edf");
-        this.applications.put(app1.getApplicantId(), app1);
-        this.applications.put(app2.getApplicantId(), app2);
-    }
 
     public Applicant(HashMap<String, String> map) {
         super(map);
@@ -89,13 +77,5 @@ public class Applicant extends User {
         }
         return ongoingInterviews;
     }
-
-    public void update(LocalDate currentDate) {
-    }
-
-    public static boolean isValidInfo(HashMap<String, String> values) {
-        return false;
-    }
-
 
 }

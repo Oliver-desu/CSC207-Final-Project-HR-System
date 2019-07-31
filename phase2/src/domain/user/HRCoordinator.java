@@ -3,7 +3,6 @@ package domain.user;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,22 +13,10 @@ public class HRCoordinator extends User implements Filterable {
     private ArrayList<JobPosting> jobPostings;
 
 
-    public HRCoordinator() {
-        super();
-        this.setUsername("HRCoordinator");
-        this.companyId = "Google";
-        this.jobPostings = new ArrayList<>();
-        this.jobPostings.add(new JobPosting());
-    }
-
     public HRCoordinator(HashMap<String, String> map, String companyId) {
         super(map);
         this.companyId = companyId;
         this.jobPostings = new ArrayList<>();
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
     }
 
     public String getCompanyId() {
@@ -42,10 +29,6 @@ public class HRCoordinator extends User implements Filterable {
 
     public void addJobPosting(JobPosting jobPosting) {
         this.jobPostings.add(jobPosting);
-    }
-
-    public static boolean isValidInfo(HashMap<String, String> values) {
-        return false;
     }
 
     @Override
