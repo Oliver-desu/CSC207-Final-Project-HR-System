@@ -104,7 +104,7 @@ public class InterviewRoundScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();
-            if (jobPosting.isProcessing()) {
+            if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING)) {
                 if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.MATCHING)) {
                     menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
                 } else {

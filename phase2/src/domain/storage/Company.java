@@ -59,14 +59,6 @@ public class Company {
         return this.jobPostingIds;
     }
 
-    public ArrayList<String> getApplicantsId() {
-        return new ArrayList<>(this.applications.keySet());
-    }
-
-    public ArrayList<Application> getApplicationForApplicant(String applicantId) {
-        return this.applications.get(applicantId);
-    }
-
     public ArrayList<Application> getAllApplications() {
         ArrayList<Application> allApplications = new ArrayList<>();
         for (String applicantId : applications.keySet()) {

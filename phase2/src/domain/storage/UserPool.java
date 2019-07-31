@@ -51,14 +51,6 @@ public class UserPool {
         return coordinators.get(username);
     }
 
-    public ArrayList<Applicant> getApplicants(ArrayList<String> usernameList) {
-        ArrayList<Applicant> tempApplicants = new ArrayList<>();
-        for (String username : usernameList) {
-            tempApplicants.add(getApplicant(username));
-        }
-        return tempApplicants;
-    }
-
     public ArrayList<Applicant> getAllApplicants() {
         return new ArrayList<>(this.applicants.values());
     }
@@ -69,14 +61,6 @@ public class UserPool {
             tempInterviewers.add(getInterviewer(username));
         }
         return tempInterviewers;
-    }
-
-    public ArrayList<HRCoordinator> getHRCoordinators(ArrayList<String> usernameList) {
-        ArrayList<HRCoordinator> tempCoordinators = new ArrayList<>();
-        for (String username : usernameList) {
-            tempCoordinators.add(getHRCoordinator(username));
-        }
-        return tempCoordinators;
     }
 
     public User getUser(UserType type, String username) {

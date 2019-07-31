@@ -13,7 +13,7 @@ public class JobPool {
     public ArrayList<JobPosting> getOpenJobPostings() {
         ArrayList<JobPosting> openJobPostings = new ArrayList<>();
         for (JobPosting jobPosting: this.jobPostings.values()) {
-            if (jobPosting.isOpen()) {
+            if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.OPEN)) {
                 openJobPostings.add(jobPosting);
             }
         }
@@ -38,6 +38,13 @@ public class JobPool {
 
     public void addJobPosting(String id, JobPosting jobPosting) {
         this.jobPostings.put(id, jobPosting);
+    }
+
+    public void updateOpenJobPostings() {
+        ArrayList<JobPosting> jobPostings = this.getOpenJobPostings();
+        for (JobPosting jobPosting : jobPostings) {
+            jobPosting.startProcessing();
+        }
     }
 
 }

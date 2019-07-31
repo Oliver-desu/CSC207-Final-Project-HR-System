@@ -89,7 +89,10 @@ public class Login extends JFrame {
         public void actionPerformed(ActionEvent e) {
             User user = getUser();
             char[] password = getInputInfoPanel().getPassword();
-            if (checkUser(user, password)) login(user);
+            if (checkUser(user, password)) {
+                getMain().getJobPool().updateOpenJobPostings();
+                login(user);
+            }
         }
     }
 

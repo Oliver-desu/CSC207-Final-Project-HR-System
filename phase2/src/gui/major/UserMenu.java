@@ -2,6 +2,7 @@ package gui.major;
 
 import domain.storage.Company;
 import domain.storage.CompanyPool;
+import domain.storage.UserPool;
 import domain.user.*;
 import gui.scenarios.NullScenario;
 import gui.scenarios.applicant.ApplicationManageScenario;
@@ -96,10 +97,10 @@ public class UserMenu extends JFrame {
     }
 
     private void registerMenuSetup() {
-        addMenuButton("Applicant", new UserRegister(this, UserRegister.RegisterType.APPLICANT));
-        addMenuButton("HR Coordinator", new UserRegister(this, UserRegister.RegisterType.HR_COORDINATOR));
-        addMenuButton("HR Generalist", new UserRegister(this, UserRegister.RegisterType.HR_GENERALIST));
-        addMenuButton("Interviewer", new UserRegister(this, UserRegister.RegisterType.INTERVIEWER));
+        addMenuButton("Applicant", new UserRegister(this, UserPool.UserType.APPLICANT));
+        addMenuButton("HR Coordinator", new UserRegister(this, UserPool.UserType.HR_COORDINATOR));
+        addMenuButton("HR Generalist", new UserRegister(this, UserPool.UserType.HR_GENERALIST));
+        addMenuButton("Interviewer", new UserRegister(this, UserPool.UserType.INTERVIEWER));
     }
 
     private void interviewerMenuSetup() {

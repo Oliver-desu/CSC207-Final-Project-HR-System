@@ -7,6 +7,8 @@ import domain.storage.CompanyPool;
 import domain.storage.Info;
 import domain.storage.InfoHolder;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,17 +36,8 @@ public class JobPosting implements Filterable, InfoHolder {
         this.applications = new HashMap<>();
     }
 
-    public HashMap<String, Application> getApplicationMap() {
-        return this.applications;
-    }
-
     public ArrayList<Application> getApplications() {
         return new ArrayList<>(this.applications.values());
-    }
-
-    public ArrayList<Application> getCurrentRoundApplications() {
-        InterviewRound round = this.interviewRounds.get(currRound);
-        return round.getCurrentRoundApplications();
     }
 
     public ArrayList<Application> getRemainingApplications() {
@@ -65,6 +58,14 @@ public class JobPosting implements Filterable, InfoHolder {
         return this.applications.get(applicationId);
     }
 
+    public LocalDate getCloseDate() {
+        try {
+            return LocalDate.parse(jobInfo.getSpecificInfo("Close date:"));
+        } catch (DateTimeParseException e) {
+            return LocalDate.now();
+        }
+    }
+
     public InterviewRound getCurrentInterviewRound() {
         return this.interviewRounds.get(this.currRound);
     }
@@ -81,20 +82,13 @@ public class JobPosting implements Filterable, InfoHolder {
         this.interviewRounds.put(this.interviewRounds.size(), interviewRound);
     }
 
-    public boolean isOpen() {
-        return this.status.equals(JobPostingStatus.OPEN);
-    }
-
-    public boolean isProcessing() {
-        return this.status.equals(JobPostingStatus.PROCESSING);
-    }
-
-    public boolean isFinished() {
-        return this.status.equals(JobPostingStatus.FINISHED);
-    }
-
-    public void close() {
-        this.status = JobPostingStatus.PROCESSING;
+    public boolean startProcessing() {
+        if (status.equals(JobPostingStatus.OPEN) && !LocalDate.now().isBefore(getCloseDate())) {
+            this.status = JobPostingStatus.PROCESSING;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean nextRound() {
@@ -112,7 +106,7 @@ public class JobPosting implements Filterable, InfoHolder {
 
     public boolean hire(Application application) {
         if (application.getStatus().equals(Application.ApplicationStatus.PENDING) &&
-                isProcessing() && getCurrentInterviewRound().isFinished() &&
+                status.equals(JobPostingStatus.PROCESSING) && getCurrentInterviewRound().isFinished() &&
                 numHired < Integer.parseInt(jobInfo.getSpecificInfo("Num of positions:"))) {
             application.hired();
             numHired++;
@@ -130,7 +124,7 @@ public class JobPosting implements Filterable, InfoHolder {
     }
 
     public boolean applicationSubmit(Application application, CompanyPool companyPool) {
-        if (!this.applications.containsValue(application) && this.isOpen()) {
+        if (!this.applications.containsValue(application) && status.equals(JobPostingStatus.OPEN)) {
             Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);
@@ -141,7 +135,7 @@ public class JobPosting implements Filterable, InfoHolder {
     }
 
     public boolean applicationCancel(Application application, CompanyPool companyPool) {
-        if (!this.isFinished()) {
+        if (!status.equals(JobPostingStatus.FINISHED)) {
             for (String applicantId : this.applications.keySet()) {
                 if (this.applications.get(applicantId).equals(application)) {
                     Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));

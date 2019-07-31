@@ -234,7 +234,7 @@ public class Test {
     }
 
     public InterviewRound addNewRound(JobPosting jobPosting) {
-        jobPosting.close();
+        jobPosting.startProcessing();
         InterviewRound interviewRound = new InterviewRound(Integer.toString(jobPosting.getAllInterviewRounds().size()));
         jobPosting.addInterviewRound(interviewRound);
         jobPosting.nextRound();

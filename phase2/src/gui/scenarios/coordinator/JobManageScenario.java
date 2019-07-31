@@ -110,7 +110,7 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             String roundName = getInputInfoMap().get("Round name:");
-            if (jobPosting != null && jobPosting.isProcessing()) {
+            if (jobPosting != null && jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING)) {
                 InterviewRound interviewRound = new InterviewRound(roundName);
                 jobPosting.addInterviewRound(interviewRound);
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
@@ -138,7 +138,7 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-            if (jobPosting != null && !jobPosting.isFinished()) {
+            if (jobPosting != null && !jobPosting.getStatus().equals(JobPosting.JobPostingStatus.FINISHED)) {
                 jobPosting.endJobPosting();
                 JOptionPane.showMessageDialog(getUserMenu(), "The jobPosting is now closed.");
                 initFilter();

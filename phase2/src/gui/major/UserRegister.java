@@ -12,9 +12,9 @@ import java.util.HashMap;
 
 public class UserRegister extends Scenario {
 
-    private RegisterType registerType;
+    private UserPool.UserType registerType;
 
-    public UserRegister(UserMenu userMenu, RegisterType registerType) {
+    public UserRegister(UserMenu userMenu, UserPool.UserType registerType) {
         super(userMenu, LayoutMode.REGISTER);
         this.registerType = registerType;
     }
@@ -22,7 +22,7 @@ public class UserRegister extends Scenario {
     protected void initInput() {
         InputInfoPanel infoPanel = getInputInfoPanel();
         initUserInput(infoPanel);
-        if (registerType.equals(RegisterType.APPLICANT)) initApplicantInput(infoPanel);
+        if (registerType.equals(UserPool.UserType.APPLICANT)) initApplicantInput(infoPanel);
         else initStaffInput(infoPanel);
     }
 
@@ -61,10 +61,10 @@ public class UserRegister extends Scenario {
 
     private User createUser() {
         HashMap<String, String> infoMap = getInputInfoMap();
-        if (registerType.equals(RegisterType.APPLICANT)) return createApplicant(infoMap);
-        else if (registerType.equals(RegisterType.HR_COORDINATOR)) return createCoordinator(infoMap);
-        else if (registerType.equals(RegisterType.INTERVIEWER)) return createInterviewer(infoMap);
-        else if (registerType.equals(RegisterType.HR_GENERALIST)) return createGeneralist(infoMap);
+        if (registerType.equals(UserPool.UserType.APPLICANT)) return createApplicant(infoMap);
+        else if (registerType.equals(UserPool.UserType.HR_COORDINATOR)) return createCoordinator(infoMap);
+        else if (registerType.equals(UserPool.UserType.INTERVIEWER)) return createInterviewer(infoMap);
+        else if (registerType.equals(UserPool.UserType.HR_GENERALIST)) return createGeneralist(infoMap);
         return new NullUser();
     }
 
@@ -117,10 +117,6 @@ public class UserRegister extends Scenario {
 
     private boolean companyExists(String companyId) {
         return getMain().getCompanyPool().getCompany(companyId) != null;
-    }
-
-    public enum RegisterType {
-        APPLICANT, HR_COORDINATOR, HR_GENERALIST, INTERVIEWER
     }
 
     class CreateUserListener implements ActionListener {
