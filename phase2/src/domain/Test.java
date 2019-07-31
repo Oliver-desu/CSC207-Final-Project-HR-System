@@ -233,16 +233,16 @@ public class Test {
         return application;
     }
 
-    public InterviewRound addNewRound(JobPosting jobPosting, Company company) {
+    public InterviewRound addNewRound(JobPosting jobPosting) {
         jobPosting.close();
-        InterviewRound interviewRound = new InterviewRound("new round");
+        InterviewRound interviewRound = new InterviewRound(Integer.toString(jobPosting.getAllInterviewRounds().size()));
         jobPosting.addInterviewRound(interviewRound);
         jobPosting.nextRound();
         return interviewRound;
     }
 
     public void addNewRoundAndFinishMatching(JobPosting jobPosting, Company company) {
-        InterviewRound interviewRound = this.addNewRound(jobPosting, company);
+        InterviewRound interviewRound = this.addNewRound(jobPosting);
         Interview interview;
         Interviewer interviewer;
         Info interviewInfo;
@@ -258,6 +258,23 @@ public class Test {
             interview.match(interviewer, interviewInfo);
         }
         interviewRound.checkStatus();
+    }
+
+    public void endCurrentRound(JobPosting jobPosting) {
+        InterviewRound interviewRound = jobPosting.getCurrentInterviewRound();
+        Interview interview;
+        for (Application application : interviewRound.getCurrentRoundApplications()) {
+            interview = application.getInterviewByRound(interviewRound.getRoundName());
+            interview.setResult(new Random().nextBoolean());
+        }
+        interviewRound.checkStatus();
+    }
+
+    public void hireApplicants(JobPosting jobPosting) {
+        for (Application application : jobPosting.getRemainingApplications()) {
+            jobPosting.hire(application);
+        }
+        jobPosting.endJobPosting();
     }
 
 

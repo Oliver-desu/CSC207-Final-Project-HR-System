@@ -40,7 +40,7 @@ public class MatchInterviewScenario extends Scenario {
         for (Applicant applicant : test.getUserPool().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
-        InterviewRound interviewRound = test.addNewRound(jobPosting, company);
+        InterviewRound interviewRound = test.addNewRound(jobPosting);
 
         new MatchInterviewScenario(new UserMenu(test.getMain(), coordinator), interviewRound).exampleView();
     }

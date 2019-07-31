@@ -6,7 +6,6 @@ import domain.storage.Company;
 import domain.storage.CompanyPool;
 import domain.storage.JobPool;
 import domain.storage.UserPool;
-import domain.user.Applicant;
 import gui.major.Login;
 
 public class Main {
@@ -18,11 +17,8 @@ public class Main {
     public static void main(String[] args) {
         Test test = new Test();
         Company company;
-        Applicant applicant;
         JobPosting jobPosting;
-        for (int numApplicants = 0; numApplicants < 10; numApplicants++) {
-            test.addApplicant();
-        }
+        test.addApplicants(50);
         for (int numCompanies = 0; numCompanies < 2; numCompanies++) {
             company = test.addCompany();
             test.addInterviewersForCompany(4, company);
@@ -34,17 +30,42 @@ public class Main {
         test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
         test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
         test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("2"), jobPosting);
-        test.addNewRound(jobPosting, company);
+        test.addNewRound(jobPosting);
 
         jobPosting = test.addJobPosting(company);
         test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
         test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
-        test.addNewRound(jobPosting, company);
+        test.addNewRound(jobPosting);
 
         jobPosting = test.addJobPosting(company);
         test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
         test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("3"), jobPosting);
         test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("4"), jobPosting);
+
+        jobPosting = test.addJobPosting(company);
+        for (int i = 0; i < 20; i++) {
+            if (i % 2 == 0) {
+                test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+            } else {
+                test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+            }
+        }
+        test.addNewRoundAndFinishMatching(jobPosting, company);
+        test.endCurrentRound(jobPosting);
+        test.addNewRoundAndFinishMatching(jobPosting, company);
+        test.endCurrentRound(jobPosting);
+        test.addNewRound(jobPosting);
+
+        jobPosting = test.addJobPosting(company);
+        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("2"), jobPosting);
+        test.addNewRoundAndFinishMatching(jobPosting, company);
+        test.endCurrentRound(jobPosting);
+        test.hireApplicants(jobPosting);
+
+        test.addJobPostings(5, company);
+
 
 //        new Main();
     }
