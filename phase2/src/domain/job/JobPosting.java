@@ -91,6 +91,11 @@ public class JobPosting implements Filterable, InfoHolder {
         }
     }
 
+    // The following method is only for testing!
+    public void close() {
+        this.status = JobPostingStatus.PROCESSING;
+    }
+
     public boolean nextRound() {
 //        set to next round
         InterviewRound currentRound = interviewRounds.get(currRound);

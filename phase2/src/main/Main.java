@@ -44,10 +44,10 @@ public class Main {
 
         jobPosting = test.addJobPosting(company);
         for (int i = 0; i < 20; i++) {
-            if (i % 2 == 0) {
-                test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
-            } else {
+            if (i % 3 == 0) {
                 test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+            } else {
+                test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
             }
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
