@@ -70,7 +70,11 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Document document = (Document) getFilterPanel(false).getSelectObject();
-            showDocument(document.toString());
+            if (document != null) {
+                showDocument(document.toString());
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "No document selected.");
+            }
         }
     }
 

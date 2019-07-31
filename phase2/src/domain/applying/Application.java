@@ -136,7 +136,9 @@ public class Application implements Filterable {
     }
 
     public void update(Interview interview) {
-
+        if (interview.getStatus().equals(Interview.InterviewStatus.FAIL)) {
+            this.setStatus(ApplicationStatus.REJECTED);
+        }
     }
 
     @Override

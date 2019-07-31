@@ -27,6 +27,7 @@ public class DocumentManageScenario extends Scenario {
         super(userMenu, LayoutMode.REGULAR);
         this.applicantDocument = applicantDocument;
         this.applicationDocument = applicationDocument;
+        this.applicantDocument.updateAllDocuments();
     }
 
     public static void main(String[] args) {

@@ -88,10 +88,11 @@ public class InterviewRoundScenario extends Scenario {
             if (interviewRound == jobPosting.getCurrentInterviewRound()) {
                 FilterPanel<Object> filterPanel = getFilterPanel(true);
                 Application application = (Application) filterPanel.getSelectObject();
-                if (jobPosting.hire(application)) {
+                if (application != null && jobPosting.hire(application)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Successfully hired!");
+                    initLeftFilter();
                 } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "All positions have been filled!");
+                    JOptionPane.showMessageDialog(getUserMenu(), "Can not hire this applicant!");
                 }
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "JobPosting already finished!");

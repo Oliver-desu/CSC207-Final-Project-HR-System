@@ -45,11 +45,12 @@ public class JobSearchingScenario extends  Scenario{
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             Applicant applicant = (Applicant) getUserMenu().getUser();
-            if (applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting))) {
+            if (jobPosting != null &&
+                    applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting))) {
                 ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
                 switchScenario(scenario);
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Application already exists!");
+                JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
             }
         }
     }

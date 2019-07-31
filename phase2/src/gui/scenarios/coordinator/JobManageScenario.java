@@ -45,18 +45,27 @@ public class JobManageScenario extends Scenario {
     }
 
     protected void initFilter() {
+        initLeftFilter();
+        initRightFilter();
+    }
+
+    private void initLeftFilter() {
         FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-        FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
         HRCoordinator hrCoordinator = (HRCoordinator) getUserMenu().getUser();
         ArrayList<Object> jobPostings = new ArrayList<>(hrCoordinator.getJobPostings());
         leftFilterPanel.setFilterContent(jobPostings);
         leftFilterPanel.addSelectionListener(new JobManageScenario.LeftFilterListener());
-        JobPosting jobPosting = (JobPosting) leftFilterPanel.getSelectObject();
+    }
+
+    private void initRightFilter() {
+        FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
+        JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
         ArrayList<Object> interviewRounds = new ArrayList<>();
         if (jobPosting != null) {
             interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
         }
         rightFilterPanel.setFilterContent(interviewRounds);
+
     }
 
     protected void initButton() {
@@ -87,8 +96,12 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             InterviewRound interviewRound = (InterviewRound) getFilterPanel(false).getSelectObject();
-            InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
-            switchScenario(interviewRoundScenario);
+            if (interviewRound != null) {
+                InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
+                switchScenario(interviewRoundScenario);
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
+            }
         }
     }
 
@@ -97,10 +110,11 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
             String roundName = getInputInfoMap().get("Round name:");
-            if (jobPosting.isProcessing()) {
+            if (jobPosting != null && jobPosting.isProcessing()) {
                 InterviewRound interviewRound = new InterviewRound(roundName);
                 jobPosting.addInterviewRound(interviewRound);
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                initRightFilter();
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
             }
@@ -111,8 +125,9 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-            if (jobPosting.nextRound()) {
+            if (jobPosting != null && jobPosting.nextRound()) {
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
+                initRightFilter();
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
             }
@@ -123,8 +138,13 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-            jobPosting.endJobPosting();
-            JOptionPane.showMessageDialog(getUserMenu(), "The jobPosting is now closed.");
+            if (jobPosting != null && !jobPosting.isFinished()) {
+                jobPosting.endJobPosting();
+                JOptionPane.showMessageDialog(getUserMenu(), "The jobPosting is now closed.");
+                initFilter();
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
+            }
         }
     }
 }

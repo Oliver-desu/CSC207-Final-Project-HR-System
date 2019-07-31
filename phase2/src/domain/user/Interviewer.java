@@ -70,7 +70,8 @@ public class Interviewer extends User implements Filterable {
     }
 
     public void update(Interview interview) {
-
+        this.upcomingInterviews.remove(interview);
+        this.pastInterviews.add(interview);
     }
 
     public static boolean isValidInfo(HashMap<String, String> values) {

@@ -71,7 +71,7 @@ public class OngoingInterviewScenario extends Scenario {
             if (confirm == 0) {
                 FilterPanel<Object> filterPanel = getFilterPanel(true);
                 Interview interview = (Interview) filterPanel.getSelectObject();
-                if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+                if (interview != null && interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
                     new Info(interview, getInputInfoMap());
                     interview.setResult(isPass);
                     setFilterContent(filterPanel);

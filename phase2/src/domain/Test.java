@@ -126,7 +126,7 @@ public class Test {
 
         this.addInterviewersForCompany(1, company);
         this.addCoordinatorsForCompany(1, company);
-        this.addJobPostings(1, company);
+//        this.addJobPostings(1, company);
         return company;
     }
 
@@ -195,7 +195,7 @@ public class Test {
     public void addDocuments(int num, DocumentManager documentManager) {
         int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
-            documentManager.addDocument(Integer.toString(i), new Document("some content"));
+            documentManager.addDocument(Integer.toString(i), new Document(Integer.toString(i)));
         }
     }
 

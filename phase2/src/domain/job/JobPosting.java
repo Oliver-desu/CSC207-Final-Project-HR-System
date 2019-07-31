@@ -110,10 +110,6 @@ public class JobPosting implements Filterable, InfoHolder {
         }
     }
 
-//    public boolean isLastRound() {
-//        return false;
-//    }
-
     public boolean hire(Application application) {
         if (application.getStatus().equals(Application.ApplicationStatus.PENDING) &&
                 isProcessing() && getCurrentInterviewRound().isFinished() &&
@@ -128,10 +124,13 @@ public class JobPosting implements Filterable, InfoHolder {
 
     public void endJobPosting() {
         this.status = JobPostingStatus.FINISHED;
+        for (Application application : this.getRemainingApplications()) {
+            application.setStatus(Application.ApplicationStatus.REJECTED);
+        }
     }
 
     public boolean applicationSubmit(Application application, CompanyPool companyPool) {
-        if (!this.applications.containsValue(application)) {
+        if (!this.applications.containsValue(application) && this.isOpen()) {
             Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id"));
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);

@@ -17,13 +17,34 @@ public class Main {
 
     public static void main(String[] args) {
         Test test = new Test();
-        Applicant applicant = test.addApplicant();
-        Company company = test.addCompany();
-        JobPosting jobPosting = test.getRandomJobPosting(company);
-        test.addJobPostings(2, company);
+        Company company;
+        Applicant applicant;
+        JobPosting jobPosting;
+        for (int numApplicants = 0; numApplicants < 10; numApplicants++) {
+            test.addApplicant();
+        }
+        for (int numCompanies = 0; numCompanies < 2; numCompanies++) {
+            company = test.addCompany();
+            test.addInterviewersForCompany(4, company);
+            test.addCoordinatorsForCompany(1, company);
+        }
 
-        test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-        test.addNewRoundAndFinishMatching(jobPosting, company);
+        company = test.getCompanyPool().getCompany("0");
+        jobPosting = test.addJobPosting(company);
+        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("2"), jobPosting);
+        test.addNewRound(jobPosting, company);
+
+        jobPosting = test.addJobPosting(company);
+        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
+        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
+        test.addNewRound(jobPosting, company);
+
+        jobPosting = test.addJobPosting(company);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("3"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("4"), jobPosting);
 
 //        new Main();
     }

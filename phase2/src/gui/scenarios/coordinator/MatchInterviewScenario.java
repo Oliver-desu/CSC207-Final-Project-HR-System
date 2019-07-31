@@ -79,14 +79,19 @@ public class MatchInterviewScenario extends Scenario {
             Interviewer interviewer = (Interviewer) getFilterPanel(false).getSelectObject();
 
             Application application = (Application) getFilterPanel(true).getSelectObject();
-            Interview interview = application.getInterviewByRound(interviewRound.getRoundName());
-            if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
-                Info interviewInfo = new Info(interview, infoMap);
-                interview.match(interviewer, interviewInfo);
-                application.addInterview(interviewRound.getRoundName(), interview);
-                JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+            Interview interview;
+            if (application != null) {
+                interview = application.getInterviewByRound(interviewRound.getRoundName());
+                if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
+                    Info interviewInfo = new Info(interview, infoMap);
+                    interview.match(interviewer, interviewInfo);
+                    application.addInterview(interviewRound.getRoundName(), interview);
+                    JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                } else {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+                }
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Already matched!");
+                JOptionPane.showMessageDialog(getUserMenu(), "There is no interview to match!");
             }
         }
     }
