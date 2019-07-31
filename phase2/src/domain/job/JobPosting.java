@@ -3,9 +3,9 @@ package domain.job;
 import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.storage.Company;
-import domain.storage.CompanyPool;
 import domain.storage.Info;
 import domain.storage.InfoHolder;
+import domain.storage.UserPool;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -128,9 +128,9 @@ public class JobPosting implements Filterable, InfoHolder {
         }
     }
 
-    public boolean applicationSubmit(Application application, CompanyPool companyPool) {
+    public boolean applicationSubmit(Application application, UserPool userPool) {
         if (!this.applications.containsValue(application) && status.equals(JobPostingStatus.OPEN)) {
-            Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
+            Company company = userPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
             company.receiveApplication(application);
             this.applications.put(application.getApplicantId(), application);
             return true;
@@ -139,11 +139,11 @@ public class JobPosting implements Filterable, InfoHolder {
         }
     }
 
-    public boolean applicationCancel(Application application, CompanyPool companyPool) {
+    public boolean applicationCancel(Application application, UserPool userPool) {
         if (!status.equals(JobPostingStatus.FINISHED)) {
             for (String applicantId : this.applications.keySet()) {
                 if (this.applications.get(applicantId).equals(application)) {
-                    Company company = companyPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
+                    Company company = userPool.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
                     company.cancelApplication(application);
                     this.applications.remove(applicantId, application);
                     return true;

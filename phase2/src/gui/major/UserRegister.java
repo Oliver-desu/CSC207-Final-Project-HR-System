@@ -1,8 +1,8 @@
 package gui.major;
 
-import domain.storage.Company;
+import domain.storage.UserFactory;
 import domain.storage.UserPool;
-import domain.user.*;
+import domain.user.User;
 import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
@@ -59,77 +59,19 @@ public class UserRegister extends Scenario {
         addButton("Create User", new CreateUserListener());
     }
 
-    private User createUser() {
+    private User createUserAndRegister() {
         HashMap<String, String> infoMap = getInputInfoMap();
-        if (registerType.equals(UserPool.UserType.APPLICANT)) return createApplicant(infoMap);
-        else if (registerType.equals(UserPool.UserType.HR_COORDINATOR)) return createCoordinator(infoMap);
-        else if (registerType.equals(UserPool.UserType.INTERVIEWER)) return createInterviewer(infoMap);
-        else if (registerType.equals(UserPool.UserType.HR_GENERALIST)) return createGeneralist(infoMap);
-        return new NullUser();
-    }
-
-    private User createApplicant(HashMap<String, String> infoMap) {
-        if (!infoMap.get("Password:").isEmpty() &&
-                getMain().getUserPool().getApplicant(infoMap.get("Username:")) == null) {
-            return new Applicant(infoMap);
-        } else {
-            return new NullUser();
-        }
-    }
-
-    private User createCoordinator(HashMap<String, String> infoMap) {
-        String companyId = infoMap.get("Company id:");
-        if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
-                getMain().getUserPool().getHRCoordinator(infoMap.get("Username:")) == null) {
-            Company company = getMain().getCompanyPool().getCompany(companyId);
-            company.addHRCoordinatorId(infoMap.get("Username:"));
-            return new HRCoordinator(infoMap, companyId);
-        } else {
-            return new NullUser();
-        }
-    }
-
-    private User createInterviewer(HashMap<String, String> infoMap) {
-        String companyId = infoMap.get("Company id:");
-        if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
-                getMain().getUserPool().getInterviewer(infoMap.get("Username:")) == null) {
-            Company company = getMain().getCompanyPool().getCompany(companyId);
-            company.addInterviewerId(infoMap.get("Username:"));
-            return new Interviewer(infoMap, companyId);
-        } else {
-            return new NullUser();
-        }
-    }
-
-    private User createGeneralist(HashMap<String, String> infoMap) {
-        String companyId = infoMap.get("Company id:");
-        if (!infoMap.get("Password:").isEmpty() && !companyExists(companyId) &&
-                getMain().getUserPool().getHRGeneralist(infoMap.get("Username:")) == null) {
-            HashMap<String, String> values = new HashMap<>();
-            values.put("id", companyId);
-            values.put("generalistId", infoMap.get("Username:"));
-            getMain().getCompanyPool().addCompany(companyId, new Company(values));
-            return new HRGeneralist(infoMap, companyId);
-        } else {
-            return new NullUser();
-        }
-    }
-
-    private boolean companyExists(String companyId) {
-        return getMain().getCompanyPool().getCompany(companyId) != null;
+        return new UserFactory(getMain().getUserPool()).createUser(infoMap, registerType);
     }
 
     class CreateUserListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            UserPool userPool = getMain().getUserPool();
-            User user = createUser();
+            User user = createUserAndRegister();
             UserMenu userMenu = getUserMenu();
-            if (user.isNull()) JOptionPane.showMessageDialog(
-                    userMenu, "Incorrect input or username already used by others!"
-            );
-            else {
-                userPool.register(user);
+            if (user.isNull()) {
+                JOptionPane.showMessageDialog(userMenu, "Incorrect input or username already used by others!");
+            } else {
                 JOptionPane.showMessageDialog(userMenu, "Successfully registered!");
             }
         }

@@ -6,7 +6,10 @@ import domain.applying.DocumentManager;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
-import domain.storage.*;
+import domain.storage.Company;
+import domain.storage.Info;
+import domain.storage.JobPool;
+import domain.storage.UserPool;
 import domain.user.Applicant;
 import domain.user.HRCoordinator;
 import domain.user.HRGeneralist;
@@ -28,14 +31,12 @@ public class Test {
     private Main main;
     private UserPool userPool;
     private JobPool jobPool;
-    private CompanyPool companyPool;
 
 
     public Test() {
         this.main = new Main();
         this.userPool = main.getUserPool();
         this.jobPool = main.getJobPool();
-        this.companyPool = main.getCompanyPool();
     }
 
     public static void main(String[] args) {
@@ -54,16 +55,12 @@ public class Test {
         return jobPool;
     }
 
-    public CompanyPool getCompanyPool() {
-        return companyPool;
-    }
-
     public Applicant getRandomApplicant() {
         return userPool.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
     }
 
     public Company getRandomCompany() {
-        return companyPool.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
+        return userPool.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
     public HRGeneralist getRandomGeneralist() {
@@ -116,12 +113,7 @@ public class Test {
         generalistValues.put("dateCreated", "2019-01-01");
         HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
         userPool.register(generalist);
-
-        HashMap<String, String> compValues = new HashMap<>();
-        compValues.put("id", Integer.toString(numCompanies));
-        compValues.put("generalistId", generalist.getUsername());
-        Company company = new Company(compValues);
-        companyPool.addCompany(company.getId(), company);
+        Company company = userPool.getCompany(generalist.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
@@ -212,7 +204,7 @@ public class Test {
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
-        application.apply(jobPool, companyPool);
+        application.apply(jobPool, userPool);
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
@@ -229,7 +221,7 @@ public class Test {
 
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
-        application.apply(jobPool, companyPool);
+        application.apply(jobPool, userPool);
         return application;
     }
 

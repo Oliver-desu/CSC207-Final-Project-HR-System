@@ -96,7 +96,7 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = (Application) getFilterPanel(true).getSelectObject();
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
-                if (application.apply(getMain().getJobPool(), getMain().getCompanyPool())) {
+                if (application.apply(getMain().getJobPool(), getMain().getUserPool())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
                     setLeftFilterContent();
                 } else {
@@ -114,7 +114,7 @@ public class ApplicationManageScenario extends Scenario {
             Application application = (Application) getFilterPanel(true).getSelectObject();
 //            conditions are checked in cancel()
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
-                if (application.cancel(getMain().getJobPool(), getMain().getCompanyPool())) {
+                if (application.cancel(getMain().getJobPool(), getMain().getUserPool())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
                     setLeftFilterContent();
                 } else {

@@ -8,16 +8,10 @@ import java.util.HashMap;
 public class UserPool {
 
     private HashMap<String, Applicant> applicants = new HashMap<>();
+    private HashMap<String, Company> companies = new HashMap<>();
     private HashMap<String, Interviewer> interviewers = new HashMap<>();
     private HashMap<String, HRGeneralist> generalists = new HashMap<>();
     private HashMap<String, HRCoordinator> coordinators = new HashMap<>();
-
-    public void register(User user) {
-        if (user instanceof Applicant) register((Applicant) user);
-        else if (user instanceof HRCoordinator) register((HRCoordinator) user);
-        else if (user instanceof HRGeneralist) register((HRGeneralist) user);
-        else if (user instanceof Interviewer) register((Interviewer) user);
-    }
 
     public void register(Applicant applicant) {
         applicants.put(applicant.getUsername(), applicant);
@@ -33,10 +27,18 @@ public class UserPool {
 
     public void register(HRGeneralist generalist) {
         generalists.put(generalist.getUsername(), generalist);
+        HashMap<String, String> values = new HashMap<>();
+        values.put("id", generalist.getCompanyId());
+        values.put("generalistId", generalist.getUsername());
+        companies.put(generalist.getCompanyId(), new Company(values));
     }
 
     public Applicant getApplicant(String username) {
         return applicants.get(username);
+    }
+
+    public Company getCompany(String companyId) {
+        return companies.get(companyId);
     }
 
     public Interviewer getInterviewer(String username) {
