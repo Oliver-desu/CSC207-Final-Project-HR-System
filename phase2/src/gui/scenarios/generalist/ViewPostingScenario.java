@@ -3,7 +3,7 @@ package gui.scenarios.generalist;
 import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.UserPool;
+import domain.storage.InfoCenter;
 import domain.user.HRGeneralist;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -20,7 +20,7 @@ public class ViewPostingScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        HRGeneralist generalist = test.getUserPool().getHRGeneralist(company.getHRGeneralistId());
+        HRGeneralist generalist = test.getInfoCenter().getHRGeneralist(company.getHRGeneralistId());
         test.addJobPostings(10, company);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);
@@ -30,8 +30,8 @@ public class ViewPostingScenario extends Scenario {
     @Override
     protected void initFilter() {
         Company company = getUserMenu().getCompany();
-        UserPool userPool = getMain().getUserPool();
-        ArrayList<JobPosting> jobPostings = userPool.getJobPostingsByIds(company.getJobPostingIds());
+        InfoCenter infoCenter = getMain().getInfoCenter();
+        ArrayList<JobPosting> jobPostings = infoCenter.getJobPostingsByIds(company.getJobPostingIds());
         FilterPanel<Object> filterPanel = getFilterPanel(true);
         filterPanel.setFilterContent(new ArrayList<>(jobPostings));
         filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));

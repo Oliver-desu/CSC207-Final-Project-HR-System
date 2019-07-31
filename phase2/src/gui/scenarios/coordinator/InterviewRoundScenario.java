@@ -35,7 +35,7 @@ public class InterviewRoundScenario extends Scenario {
         Company company = test.addCompany();
         HRCoordinator coordinator = test.getRandomCoordinator(company);
         JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
-        for (Applicant applicant : test.getUserPool().getAllApplicants()) {
+        for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);

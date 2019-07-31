@@ -1,7 +1,7 @@
 package gui.major;
 
+import domain.storage.InfoCenter;
 import domain.storage.UserFactory;
-import domain.storage.UserPool;
 import domain.user.User;
 import gui.panels.InputInfoPanel;
 
@@ -12,9 +12,9 @@ import java.util.HashMap;
 
 public class UserRegister extends Scenario {
 
-    private UserPool.UserType registerType;
+    private InfoCenter.UserType registerType;
 
-    public UserRegister(UserMenu userMenu, UserPool.UserType registerType) {
+    public UserRegister(UserMenu userMenu, InfoCenter.UserType registerType) {
         super(userMenu, LayoutMode.REGISTER);
         this.registerType = registerType;
     }
@@ -22,7 +22,7 @@ public class UserRegister extends Scenario {
     protected void initInput() {
         InputInfoPanel infoPanel = getInputInfoPanel();
         initUserInput(infoPanel);
-        if (registerType.equals(UserPool.UserType.APPLICANT)) initApplicantInput(infoPanel);
+        if (registerType.equals(InfoCenter.UserType.APPLICANT)) initApplicantInput(infoPanel);
         else initStaffInput(infoPanel);
     }
 
@@ -61,7 +61,7 @@ public class UserRegister extends Scenario {
 
     private User createUserAndRegister() {
         HashMap<String, String> infoMap = getInputInfoMap();
-        return new UserFactory(getMain().getUserPool()).createUser(infoMap, registerType);
+        return new UserFactory(getMain().getInfoCenter()).createUser(infoMap, registerType);
     }
 
     class CreateUserListener implements ActionListener {

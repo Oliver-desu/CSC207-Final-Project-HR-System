@@ -8,7 +8,7 @@ import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.Info;
-import domain.storage.UserPool;
+import domain.storage.InfoCenter;
 import domain.user.Applicant;
 import domain.user.HRCoordinator;
 import domain.user.HRGeneralist;
@@ -28,12 +28,12 @@ public class Test {
     private int numJobPostings;
 
     private Main main;
-    private UserPool userPool;
+    private InfoCenter infoCenter;
 
 
     public Test() {
         this.main = new Main();
-        this.userPool = main.getUserPool();
+        this.infoCenter = new InfoCenter();
     }
 
     public static void main(String[] args) {
@@ -44,35 +44,35 @@ public class Test {
         return main;
     }
 
-    public UserPool getUserPool() {
-        return userPool;
+    public InfoCenter getInfoCenter() {
+        return infoCenter;
     }
 
     public Applicant getRandomApplicant() {
-        return userPool.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
+        return infoCenter.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
     }
 
     public Company getRandomCompany() {
-        return userPool.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
+        return infoCenter.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
     public HRGeneralist getRandomGeneralist() {
-        return userPool.getHRGeneralist(Integer.toString(new Random().nextInt(numCompanies)));
+        return infoCenter.getHRGeneralist(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
     public Interviewer getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return userPool.getInterviewer(interviewerIds.get(new Random().nextInt(interviewerIds.size())));
+        return infoCenter.getInterviewer(interviewerIds.get(new Random().nextInt(interviewerIds.size())));
     }
 
     public HRCoordinator getRandomCoordinator(Company company) {
         ArrayList<String> coordinatorIds = company.getHRCoordinatorIds();
-        return userPool.getHRCoordinator(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())));
+        return infoCenter.getHRCoordinator(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())));
     }
 
     public JobPosting getRandomJobPosting(Company company) {
         ArrayList<String> jobPostingIds = company.getJobPostingIds();
-        return userPool.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
+        return infoCenter.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
     public String getRandomDocumentName(DocumentManager documentManager) {
@@ -88,7 +88,7 @@ public class Test {
         values.put("dateCreated", "2019-01-01");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        userPool.register(applicant);
+        infoCenter.register(applicant);
         numApplicants++;
         return applicant;
     }
@@ -105,8 +105,8 @@ public class Test {
         generalistValues.put("Password:", "[h, o, l, y, s, h, i, t]");
         generalistValues.put("dateCreated", "2019-01-01");
         HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
-        userPool.register(generalist);
-        Company company = userPool.getCompany(generalist.getCompanyId());
+        infoCenter.register(generalist);
+        Company company = infoCenter.getCompany(generalist.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
@@ -131,7 +131,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             interviewer = new Interviewer(values, company.getId());
-            userPool.register(interviewer);
+            infoCenter.register(interviewer);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
@@ -147,7 +147,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             coordinator = new HRCoordinator(values, company.getId());
-            userPool.register(coordinator);
+            infoCenter.register(coordinator);
             company.addHRCoordinatorId(coordinator.getUsername());
             numCoordinators ++;
         }
@@ -167,7 +167,7 @@ public class Test {
         values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting();
         new Info(jobPosting, values);
-        userPool.addJobPosting(jobPosting.getJobId(), jobPosting);
+        infoCenter.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomCoordinator(company).addJobPosting(jobPosting);
         numJobPostings++;
@@ -197,7 +197,7 @@ public class Test {
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
-        application.apply(userPool);
+        application.apply(infoCenter);
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
@@ -214,7 +214,7 @@ public class Test {
 
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
-        application.apply(userPool);
+        application.apply(infoCenter);
         return application;
     }
 

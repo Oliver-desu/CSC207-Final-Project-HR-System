@@ -6,7 +6,7 @@ import domain.user.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UserPool {
+public class InfoCenter {
 
     private HashMap<String, Applicant> applicants = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();

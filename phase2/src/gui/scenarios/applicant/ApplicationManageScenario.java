@@ -28,7 +28,7 @@ public class ApplicationManageScenario extends Scenario {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getUserPool().getJobPostings()) {
+        for (JobPosting jobPosting : test.getInfoCenter().getJobPostings()) {
             test.addDraftApplicationForJobPosting(applicant, jobPosting);
         }
 
@@ -96,7 +96,7 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = (Application) getFilterPanel(true).getSelectObject();
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
-                if (application.apply(getMain().getUserPool())) {
+                if (application.apply(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
                     setLeftFilterContent();
                 } else {
@@ -114,7 +114,7 @@ public class ApplicationManageScenario extends Scenario {
             Application application = (Application) getFilterPanel(true).getSelectObject();
 //            conditions are checked in cancel()
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
-                if (application.cancel(getMain().getUserPool())) {
+                if (application.cancel(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
                     setLeftFilterContent();
                 } else {

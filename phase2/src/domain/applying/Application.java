@@ -2,7 +2,7 @@ package domain.applying;
 
 import domain.filter.Filterable;
 import domain.job.JobPosting;
-import domain.storage.UserPool;
+import domain.storage.InfoCenter;
 import domain.user.Applicant;
 
 import java.util.ArrayList;
@@ -71,16 +71,16 @@ public class Application implements Filterable {
         return this.applicantId;
     }
 
-    public Applicant getApplicant(UserPool userPool) {
-        return userPool.getApplicant(this.applicantId);
+    public Applicant getApplicant(InfoCenter infoCenter) {
+        return infoCenter.getApplicant(this.applicantId);
     }
 
     public String getJobPostingId() {
         return this.jobPostingId;
     }
 
-    public JobPosting getJobPosting(UserPool userPool) {
-        return userPool.getJobPosting(this.jobPostingId);
+    public JobPosting getJobPosting(InfoCenter infoCenter) {
+        return infoCenter.getJobPosting(this.jobPostingId);
     }
 
     public DocumentManager getDocumentManager() {
@@ -99,10 +99,10 @@ public class Application implements Filterable {
         this.interviews.put(round, interview);
     }
 
-    public boolean apply(UserPool userPool) {
+    public boolean apply(InfoCenter infoCenter) {
         // apply will ask JobPosting whether it is allowed to apply or not, and modify things if permitted, then return
         // whether succeeded or not
-        boolean succeed = this.getJobPosting(userPool).applicationSubmit(this, userPool);
+        boolean succeed = this.getJobPosting(infoCenter).applicationSubmit(this, infoCenter);
         if (succeed) {
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
@@ -110,11 +110,11 @@ public class Application implements Filterable {
         return succeed;
     }
 
-    public boolean cancel(UserPool userPool) {
+    public boolean cancel(InfoCenter infoCenter) {
         // cancel will ask JobPosting whether it is allowed to cancel or not, and modify things if permitted, then
         // return whether succeeded or not
         if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
-            boolean succeed = this.getJobPosting(userPool).applicationCancel(this, userPool);
+            boolean succeed = this.getJobPosting(infoCenter).applicationCancel(this, infoCenter);
             if (succeed) {
                 this.documentManager.setEditable(true);
                 this.setStatus(ApplicationStatus.DRAFT);

@@ -29,7 +29,7 @@ public class OngoingInterviewScenario extends Scenario {
         Interviewer interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 
-        for (Applicant applicant : test.getUserPool().getAllApplicants()) {
+        for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);

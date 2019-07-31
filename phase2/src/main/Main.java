@@ -3,11 +3,11 @@ package main;
 import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.UserPool;
+import domain.storage.InfoCenter;
 import gui.major.Login;
 
 public class Main {
-    private UserPool userPool = new UserPool();
+    private InfoCenter infoCenter = new InfoCenter();
     private Login login = new Login(this);
 
     public static void main(String[] args) {
@@ -21,29 +21,29 @@ public class Main {
             test.addCoordinatorsForCompany(1, company);
         }
 
-        company = test.getUserPool().getCompany("0");
+        company = test.getInfoCenter().getCompany("0");
         jobPosting = test.addJobPosting(company);
-        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("2"), jobPosting);
+        test.addDraftApplicationForJobPosting(test.getInfoCenter().getApplicant("0"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("1"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("2"), jobPosting);
         test.addNewRound(jobPosting);
 
         jobPosting = test.addJobPosting(company);
-        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
-        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
+        test.addDraftApplicationForJobPosting(test.getInfoCenter().getApplicant("0"), jobPosting);
+        test.addDraftApplicationForJobPosting(test.getInfoCenter().getApplicant("1"), jobPosting);
         test.addNewRound(jobPosting);
 
         jobPosting = test.addJobPosting(company);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("3"), jobPosting);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("4"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("0"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("3"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("4"), jobPosting);
 
         jobPosting = test.addJobPosting(company);
         for (int i = 0; i < 20; i++) {
             if (i % 3 == 0) {
-                test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+                test.addDraftApplicationForJobPosting(test.getInfoCenter().getApplicant(Integer.toString(i)), jobPosting);
             } else {
-                test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant(Integer.toString(i)), jobPosting);
+                test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant(Integer.toString(i)), jobPosting);
             }
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
@@ -53,9 +53,9 @@ public class Main {
         test.addNewRound(jobPosting);
 
         jobPosting = test.addJobPosting(company);
-        test.addDraftApplicationForJobPosting(test.getUserPool().getApplicant("0"), jobPosting);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("1"), jobPosting);
-        test.addSubmittedApplicationForJobPosting(test.getUserPool().getApplicant("2"), jobPosting);
+        test.addDraftApplicationForJobPosting(test.getInfoCenter().getApplicant("0"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("1"), jobPosting);
+        test.addSubmittedApplicationForJobPosting(test.getInfoCenter().getApplicant("2"), jobPosting);
         test.addNewRoundAndFinishMatching(jobPosting, company);
         test.endCurrentRound(jobPosting);
         test.hireApplicants(jobPosting);
@@ -66,8 +66,8 @@ public class Main {
 //        new Main();
     }
 
-    public UserPool getUserPool() {
-        return userPool;
+    public InfoCenter getInfoCenter() {
+        return infoCenter;
     }
 
     public void returnToLogin() {

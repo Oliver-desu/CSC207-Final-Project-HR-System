@@ -26,7 +26,7 @@ public class JobPostingRegister extends Scenario {
         Test test = new Test();
         Company company = test.addCompany();
         test.addCoordinatorsForCompany(9, company);
-        HRGeneralist generalist = test.getUserPool().getHRGeneralist(company.getHRGeneralistId());
+        HRGeneralist generalist = test.getInfoCenter().getHRGeneralist(company.getHRGeneralistId());
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);
         new JobPostingRegister(userMenu).exampleView();
@@ -88,8 +88,8 @@ public class JobPostingRegister extends Scenario {
                 JobPosting jobPosting = new JobPosting();
                 new Info(jobPosting, values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
-                getMain().getUserPool().getHRCoordinator(values.get("Coordinator:")).addJobPosting(jobPosting);
-                getMain().getUserPool().addJobPosting(jobPosting.getJobId(), jobPosting);
+                getMain().getInfoCenter().getHRCoordinator(values.get("Coordinator:")).addJobPosting(jobPosting);
+                getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();
             } else if (confirm == 0) {

@@ -1,7 +1,7 @@
 package gui.major;
 
 import domain.storage.Company;
-import domain.storage.UserPool;
+import domain.storage.InfoCenter;
 import domain.user.*;
 import gui.scenarios.NullScenario;
 import gui.scenarios.applicant.ApplicationManageScenario;
@@ -58,8 +58,8 @@ public class UserMenu extends JFrame {
     }
 
     public Company getCompany() {
-        UserPool userPool = getMain().getUserPool();
-        return userPool.getCompany(user.getCompanyId());
+        InfoCenter infoCenter = getMain().getInfoCenter();
+        return infoCenter.getCompany(user.getCompanyId());
     }
 
     private void clearScenario() {
@@ -96,10 +96,10 @@ public class UserMenu extends JFrame {
     }
 
     private void registerMenuSetup() {
-        addMenuButton("Applicant", new UserRegister(this, UserPool.UserType.APPLICANT));
-        addMenuButton("HR Coordinator", new UserRegister(this, UserPool.UserType.HR_COORDINATOR));
-        addMenuButton("HR Generalist", new UserRegister(this, UserPool.UserType.HR_GENERALIST));
-        addMenuButton("Interviewer", new UserRegister(this, UserPool.UserType.INTERVIEWER));
+        addMenuButton("Applicant", new UserRegister(this, InfoCenter.UserType.APPLICANT));
+        addMenuButton("HR Coordinator", new UserRegister(this, InfoCenter.UserType.HR_COORDINATOR));
+        addMenuButton("HR Generalist", new UserRegister(this, InfoCenter.UserType.HR_GENERALIST));
+        addMenuButton("Interviewer", new UserRegister(this, InfoCenter.UserType.INTERVIEWER));
     }
 
     private void interviewerMenuSetup() {
