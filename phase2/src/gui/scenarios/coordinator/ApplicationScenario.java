@@ -27,7 +27,7 @@ public class ApplicationScenario extends Scenario {
         Company company = test.addCompany();
         HRCoordinator coordinator = test.getRandomCoordinator(company);
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getJobPool().getJobPostings()) {
+        for (JobPosting jobPosting : test.getUserPool().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
 

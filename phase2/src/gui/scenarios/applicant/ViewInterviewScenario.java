@@ -21,7 +21,7 @@ public class ViewInterviewScenario extends Scenario {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getJobPool().getJobPostings()) {
+        for (JobPosting jobPosting : test.getUserPool().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             test.addNewRoundAndFinishMatching(jobPosting, company);
         }

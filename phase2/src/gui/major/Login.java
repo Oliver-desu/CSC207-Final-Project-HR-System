@@ -90,7 +90,7 @@ public class Login extends JFrame {
             User user = getUser();
             char[] password = getInputInfoPanel().getPassword();
             if (checkUser(user, password)) {
-                getMain().getJobPool().updateOpenJobPostings();
+                getMain().getUserPool().updateOpenJobPostings();
                 login(user);
             }
         }

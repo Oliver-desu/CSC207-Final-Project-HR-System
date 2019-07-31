@@ -2,7 +2,6 @@ package domain.applying;
 
 import domain.filter.Filterable;
 import domain.job.JobPosting;
-import domain.storage.JobPool;
 import domain.storage.UserPool;
 import domain.user.Applicant;
 
@@ -80,8 +79,8 @@ public class Application implements Filterable {
         return this.jobPostingId;
     }
 
-    public JobPosting getJobPosting(JobPool jobPool) {
-        return jobPool.getJobPosting(this.jobPostingId);
+    public JobPosting getJobPosting(UserPool userPool) {
+        return userPool.getJobPosting(this.jobPostingId);
     }
 
     public DocumentManager getDocumentManager() {
@@ -100,10 +99,10 @@ public class Application implements Filterable {
         this.interviews.put(round, interview);
     }
 
-    public boolean apply(JobPool jobPool, UserPool userPool) {
+    public boolean apply(UserPool userPool) {
         // apply will ask JobPosting whether it is allowed to apply or not, and modify things if permitted, then return
         // whether succeeded or not
-        boolean succeed = this.getJobPosting(jobPool).applicationSubmit(this, userPool);
+        boolean succeed = this.getJobPosting(userPool).applicationSubmit(this, userPool);
         if (succeed) {
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
@@ -111,11 +110,11 @@ public class Application implements Filterable {
         return succeed;
     }
 
-    public boolean cancel(JobPool jobPool, UserPool userPool) {
+    public boolean cancel(UserPool userPool) {
         // cancel will ask JobPosting whether it is allowed to cancel or not, and modify things if permitted, then
         // return whether succeeded or not
         if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
-            boolean succeed = this.getJobPosting(jobPool).applicationCancel(this, userPool);
+            boolean succeed = this.getJobPosting(userPool).applicationCancel(this, userPool);
             if (succeed) {
                 this.documentManager.setEditable(true);
                 this.setStatus(ApplicationStatus.DRAFT);

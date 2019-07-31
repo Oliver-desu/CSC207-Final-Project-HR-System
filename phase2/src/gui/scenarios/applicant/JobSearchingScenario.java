@@ -4,7 +4,7 @@ import domain.Test;
 import domain.applying.Application;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.JobPool;
+import domain.storage.UserPool;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
@@ -30,9 +30,9 @@ public class JobSearchingScenario extends  Scenario{
     }
 
     protected void initFilter() {
-        JobPool jobPool = getMain().getJobPool();
+        UserPool userPool = getMain().getUserPool();
         FilterPanel<Object> filterPanel = getFilterPanel(true);
-        filterPanel.setFilterContent(new ArrayList<>(jobPool.getOpenJobPostings()));
+        filterPanel.setFilterContent(new ArrayList<>(userPool.getOpenJobPostings()));
         filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 

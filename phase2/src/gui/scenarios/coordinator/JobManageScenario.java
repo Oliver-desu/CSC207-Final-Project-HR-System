@@ -30,7 +30,7 @@ public class JobManageScenario extends Scenario {
         Company company = test.addCompany();
         HRCoordinator coordinator = test.getRandomCoordinator(company);
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getJobPool().getJobPostings()) {
+        for (JobPosting jobPosting : test.getUserPool().getJobPostings()) {
             for (Applicant applicant : test.getUserPool().getAllApplicants()) {
                 test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             }

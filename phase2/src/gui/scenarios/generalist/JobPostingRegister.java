@@ -89,7 +89,7 @@ public class JobPostingRegister extends Scenario {
                 new Info(jobPosting, values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getUserPool().getHRCoordinator(values.get("Coordinator:")).addJobPosting(jobPosting);
-                getMain().getJobPool().addJobPosting(jobPosting.getJobId(), jobPosting);
+                getMain().getUserPool().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();
             } else if (confirm == 0) {

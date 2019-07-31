@@ -8,7 +8,6 @@ import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.Info;
-import domain.storage.JobPool;
 import domain.storage.UserPool;
 import domain.user.Applicant;
 import domain.user.HRCoordinator;
@@ -30,13 +29,11 @@ public class Test {
 
     private Main main;
     private UserPool userPool;
-    private JobPool jobPool;
 
 
     public Test() {
         this.main = new Main();
         this.userPool = main.getUserPool();
-        this.jobPool = main.getJobPool();
     }
 
     public static void main(String[] args) {
@@ -49,10 +46,6 @@ public class Test {
 
     public UserPool getUserPool() {
         return userPool;
-    }
-
-    public JobPool getJobPool() {
-        return jobPool;
     }
 
     public Applicant getRandomApplicant() {
@@ -79,7 +72,7 @@ public class Test {
 
     public JobPosting getRandomJobPosting(Company company) {
         ArrayList<String> jobPostingIds = company.getJobPostingIds();
-        return jobPool.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
+        return userPool.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
     public String getRandomDocumentName(DocumentManager documentManager) {
@@ -174,7 +167,7 @@ public class Test {
         values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting();
         new Info(jobPosting, values);
-        jobPool.addJobPosting(jobPosting.getJobId(), jobPosting);
+        userPool.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomCoordinator(company).addJobPosting(jobPosting);
         numJobPostings++;
@@ -204,7 +197,7 @@ public class Test {
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
-        application.apply(jobPool, userPool);
+        application.apply(userPool);
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
@@ -221,7 +214,7 @@ public class Test {
 
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
-        application.apply(jobPool, userPool);
+        application.apply(userPool);
         return application;
     }
 
