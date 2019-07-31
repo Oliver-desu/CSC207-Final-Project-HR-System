@@ -88,7 +88,7 @@ public class Test {
         values.put("dateCreated", "2019-01-01");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        infoCenter.register(applicant);
+        infoCenter.register(applicant, InfoCenter.UserType.APPLICANT);
         numApplicants++;
         return applicant;
     }
@@ -105,7 +105,7 @@ public class Test {
         generalistValues.put("Password:", "[h, o, l, y, s, h, i, t]");
         generalistValues.put("dateCreated", "2019-01-01");
         HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
-        infoCenter.register(generalist);
+        infoCenter.register(generalist, InfoCenter.UserType.HR_GENERALIST);
         Company company = infoCenter.getCompany(generalist.getCompanyId());
         numCompanies++;
 
@@ -131,7 +131,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             interviewer = new Interviewer(values, company.getId());
-            infoCenter.register(interviewer);
+            infoCenter.register(interviewer, InfoCenter.UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
@@ -147,7 +147,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
             coordinator = new HRCoordinator(values, company.getId());
-            infoCenter.register(coordinator);
+            infoCenter.register(coordinator, InfoCenter.UserType.HR_COORDINATOR);
             company.addHRCoordinatorId(coordinator.getUsername());
             numCoordinators ++;
         }

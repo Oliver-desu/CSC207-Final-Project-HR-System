@@ -14,19 +14,21 @@ public class UserFactory {
     }
 
     public User createUser(HashMap<String, String> infoMap, InfoCenter.UserType registerType) {
-        if (registerType.equals(InfoCenter.UserType.APPLICANT)) return createApplicant(infoMap);
-        else if (registerType.equals(InfoCenter.UserType.HR_COORDINATOR)) return createCoordinator(infoMap);
-        else if (registerType.equals(InfoCenter.UserType.INTERVIEWER)) return createInterviewer(infoMap);
-        else if (registerType.equals(InfoCenter.UserType.HR_GENERALIST)) return createGeneralist(infoMap);
-        else return new NullUser();
+        User user;
+        if (registerType.equals(InfoCenter.UserType.APPLICANT)) user = createApplicant(infoMap);
+        else if (registerType.equals(InfoCenter.UserType.HR_COORDINATOR)) user = createCoordinator(infoMap);
+        else if (registerType.equals(InfoCenter.UserType.INTERVIEWER)) user = createInterviewer(infoMap);
+        else if (registerType.equals(InfoCenter.UserType.HR_GENERALIST)) user = createGeneralist(infoMap);
+        else user = new NullUser();
+
+        if (!user.isNull()) this.infoCenter.register(user, registerType);
+        return user;
     }
 
     private User createApplicant(HashMap<String, String> infoMap) {
         if (!infoMap.get("Password:").isEmpty() &&
                 infoCenter.getApplicant(infoMap.get("Username:")) == null) {
-            Applicant applicant = new Applicant(infoMap);
-            infoCenter.register(applicant);
-            return applicant;
+            return new Applicant(infoMap);
         } else {
             return new NullUser();
         }
@@ -38,9 +40,7 @@ public class UserFactory {
                 infoCenter.getHRCoordinator(infoMap.get("Username:")) == null) {
             Company company = infoCenter.getCompany(companyId);
             company.addHRCoordinatorId(infoMap.get("Username:"));
-            HRCoordinator coordinator = new HRCoordinator(infoMap, companyId);
-            infoCenter.register(coordinator);
-            return coordinator;
+            return new HRCoordinator(infoMap, companyId);
         } else {
             return new NullUser();
         }
@@ -52,9 +52,7 @@ public class UserFactory {
                 infoCenter.getInterviewer(infoMap.get("Username:")) == null) {
             Company company = infoCenter.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
-            Interviewer interviewer = new Interviewer(infoMap, companyId);
-            infoCenter.register(interviewer);
-            return interviewer;
+            return new Interviewer(infoMap, companyId);
         } else {
             return new NullUser();
         }
@@ -64,9 +62,7 @@ public class UserFactory {
         String companyId = infoMap.get("Company id:");
         if (!infoMap.get("Password:").isEmpty() && !companyExists(companyId) &&
                 infoCenter.getHRGeneralist(infoMap.get("Username:")) == null) {
-            HRGeneralist generalist = new HRGeneralist(infoMap, companyId);
-            infoCenter.register(generalist);
-            return generalist;
+            return new HRGeneralist(infoMap, companyId);
         } else {
             return new NullUser();
         }

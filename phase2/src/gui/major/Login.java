@@ -67,7 +67,7 @@ public class Login extends JFrame {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
         String userType = infoMap.get("UserType:").toUpperCase();
         String userName = infoMap.get("Username:");
-        return getMain().getInfoCenter().getUser(InfoCenter.UserType.valueOf(userType), userName);
+        return getMain().getInfoCenter().getUser(userName, InfoCenter.UserType.valueOf(userType));
     }
 
     private boolean checkUser(User user, char[] password) {

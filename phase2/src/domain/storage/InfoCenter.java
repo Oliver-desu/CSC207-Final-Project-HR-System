@@ -15,36 +15,44 @@ public class InfoCenter {
         HR_COORDINATOR
     }
 
-    private HashMap<String, Applicant> applicants = new HashMap<>();
+    private HashMap<UserType, ArrayList<User>> users = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();
-    private HashMap<String, Interviewer> interviewers = new HashMap<>();
-    private HashMap<String, HRGeneralist> generalists = new HashMap<>();
-    private HashMap<String, HRCoordinator> coordinators = new HashMap<>();
     private HashMap<String, JobPosting> jobPostings = new HashMap<>();
 
 
-    public void register(Applicant applicant) {
-        applicants.put(applicant.getUsername(), applicant);
+    public InfoCenter() {
+        users.put(UserType.APPLICANT, new ArrayList<>());
+        users.put(UserType.HR_COORDINATOR, new ArrayList<>());
+        users.put(UserType.HR_GENERALIST, new ArrayList<>());
+        users.put(UserType.INTERVIEWER, new ArrayList<>());
     }
 
-    public void register(Interviewer interviewer) {
-        interviewers.put(interviewer.getUsername(), interviewer);
+    public void register(User user, UserType userType) {
+        this.users.get(userType).add(user);
+        if (userType.equals(UserType.HR_GENERALIST)) {
+            HRGeneralist generalist = (HRGeneralist) user;
+            HashMap<String, String> values = new HashMap<>();
+            values.put("id", generalist.getCompanyId());
+            values.put("generalistId", generalist.getUsername());
+            companies.put(generalist.getCompanyId(), new Company(values));
+        }
     }
 
-    public void register(HRCoordinator coordinator) {
-        coordinators.put(coordinator.getUsername(), coordinator);
-    }
-
-    public void register(HRGeneralist generalist) {
-        generalists.put(generalist.getUsername(), generalist);
-        HashMap<String, String> values = new HashMap<>();
-        values.put("id", generalist.getCompanyId());
-        values.put("generalistId", generalist.getUsername());
-        companies.put(generalist.getCompanyId(), new Company(values));
+    public User getUser(String userName, UserType userType) {
+        for (User user : users.get(userType)) {
+            if (user.getUsername().equals(userName)) {
+                return user;
+            }
+        }
+        return new NullUser();
     }
 
     public Applicant getApplicant(String username) {
-        return applicants.get(username);
+        try {
+            return (Applicant) getUser(username, UserType.APPLICANT);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     public Company getCompany(String companyId) {
@@ -52,19 +60,35 @@ public class InfoCenter {
     }
 
     public Interviewer getInterviewer(String username) {
-        return interviewers.get(username);
+        try {
+            return (Interviewer) getUser(username, UserType.INTERVIEWER);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     public HRGeneralist getHRGeneralist(String username) {
-        return generalists.get(username);
+        try {
+            return (HRGeneralist) getUser(username, UserType.HR_GENERALIST);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     public HRCoordinator getHRCoordinator(String username) {
-        return coordinators.get(username);
+        try {
+            return (HRCoordinator) getUser(username, UserType.HR_COORDINATOR);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     public ArrayList<Applicant> getAllApplicants() {
-        return new ArrayList<>(this.applicants.values());
+        ArrayList<Applicant> applicants = new ArrayList<>();
+        for (User user : users.get(UserType.APPLICANT)) {
+            applicants.add((Applicant) user);
+        }
+        return applicants;
     }
 
     public ArrayList<Interviewer> getInterviewers(ArrayList<String> usernameList) {
@@ -73,20 +97,6 @@ public class InfoCenter {
             tempInterviewers.add(getInterviewer(username));
         }
         return tempInterviewers;
-    }
-
-    public User getUser(UserType type, String username) {
-        if (type.equals(UserType.APPLICANT) && applicants.containsKey(username)) {
-            return getApplicant(username);
-        } else if (type.equals(UserType.INTERVIEWER) && interviewers.containsKey(username)) {
-            return getInterviewer(username);
-        } else if (type.equals(UserType.HR_GENERALIST) && generalists.containsKey(username)) {
-            return getHRGeneralist(username);
-        } else if (type.equals(UserType.HR_COORDINATOR) && coordinators.containsKey(username)) {
-            return getHRCoordinator(username);
-        } else {
-            return new NullUser();
-        }
     }
 
     public ArrayList<JobPosting> getOpenJobPostings() {
