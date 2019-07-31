@@ -50,7 +50,7 @@ public class OngoingInterviewScenario extends Scenario {
 
     private void setFilterContent(FilterPanel<Object> filterPanel) {
         Interviewer interviewer = (Interviewer) getUserMenu().getUser();
-        filterPanel.setFilterContent(new ArrayList<>(interviewer.getUpcomingInterviews()));
+        filterPanel.setFilterContent(new ArrayList<>(interviewer.getAllInterviews()));
     }
 
     protected void initButton() {

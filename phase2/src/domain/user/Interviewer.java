@@ -25,10 +25,6 @@ public class Interviewer extends User implements Filterable {
         return this.companyId;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
     public ArrayList<Interview> getUpcomingInterviews() {
         return this.upcomingInterviews;
     }
@@ -39,8 +35,8 @@ public class Interviewer extends User implements Filterable {
 
     public ArrayList<Interview> getAllInterviews() {
         ArrayList<Interview> allInterviews = new ArrayList<>();
-        allInterviews.addAll(this.pastInterviews);
         allInterviews.addAll(this.upcomingInterviews);
+        allInterviews.addAll(this.pastInterviews);
         return allInterviews;
     }
 
@@ -50,10 +46,6 @@ public class Interviewer extends User implements Filterable {
         } else if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
             this.upcomingInterviews.add(interview);
         }
-    }
-
-    public void updateInterviews() {
-
     }
 
     public void update(Interview interview) {

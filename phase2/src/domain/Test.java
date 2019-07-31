@@ -33,7 +33,7 @@ public class Test {
 
     public Test() {
         this.main = new Main();
-        this.infoCenter = new InfoCenter();
+        this.infoCenter = this.main.getInfoCenter();
     }
 
     public static void main(String[] args) {
