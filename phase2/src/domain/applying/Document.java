@@ -2,6 +2,7 @@ package domain.applying;
 
 import domain.filter.Filterable;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,34 @@ public class Document implements Filterable {
 
     // Todo
     public Document(String path) {
-        documentName = path;
-        content = path + path;
-        setUsed();
-        update();
+        File file = new File(System.getProperty("user.dir") + "\\phase2\\" + path);
+        if (file.exists()) {
+            documentName = path;
+            content = readContent(file);
+            setUsed();
+            update();
+        }
+    }
+
+    public static void main(String[] args) {
+        Document document = new Document("CV.txt");
+        System.out.println(document.getContent());
+        Document document1 = new Document("Cover.txt");
+        System.out.println(document1.getContent());
+    }
+
+    private String readContent(File file) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                content.append(line.trim());
+                content.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content.toString();
     }
 
     // Get current date. Can rewrite by a self designed Date Time System if desired.
