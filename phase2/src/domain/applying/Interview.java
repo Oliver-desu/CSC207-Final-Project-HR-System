@@ -5,10 +5,11 @@ import domain.storage.Info;
 import domain.storage.InfoHolder;
 import domain.user.CompanyWorker;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Interview implements Filterable, InfoHolder {
+public class Interview implements Filterable, InfoHolder, Serializable {
 
     public enum InterviewStatus {
         UNMATCHED,

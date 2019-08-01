@@ -5,11 +5,12 @@ import domain.job.JobPosting;
 import domain.storage.InfoCenter;
 import domain.user.Applicant;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Application implements Filterable {
+public class Application implements Filterable, Serializable {
 
     public enum ApplicationStatus {
         DRAFT,

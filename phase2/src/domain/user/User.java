@@ -1,9 +1,10 @@
 package domain.user;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class User {
+public class User implements Serializable {
 
     private UserType userType;
 

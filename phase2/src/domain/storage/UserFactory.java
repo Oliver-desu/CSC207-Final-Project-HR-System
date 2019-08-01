@@ -5,9 +5,10 @@ import domain.user.CompanyWorker;
 import domain.user.NullUser;
 import domain.user.User;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class UserFactory {
+public class UserFactory implements Serializable {
 
     private InfoCenter infoCenter;
 

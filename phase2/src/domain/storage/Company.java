@@ -2,10 +2,11 @@ package domain.storage;
 
 import domain.applying.Application;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Company {
+public class Company implements Serializable {
 
     private String id;
     private String generalistId;

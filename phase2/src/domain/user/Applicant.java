@@ -4,11 +4,12 @@ import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Applicant extends User {
+public class Applicant extends User implements Serializable {
 
     private HashMap<String, Application> applications;
     private DocumentManager documentManager;

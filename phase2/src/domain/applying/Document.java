@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Document implements Filterable {
+public class Document implements Filterable, Serializable {
 
     private String documentName;
     private String content;

@@ -4,10 +4,11 @@ import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.JobPosting;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Info {
+public class Info implements Serializable {
 
     private static final String[] INTERVIEW_INFO_LIST = new String[]{
             "Time:", "Duration(min):", "Location:", "Recommendation:", "Dead line:"

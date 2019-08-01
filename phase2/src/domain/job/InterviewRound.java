@@ -4,11 +4,12 @@ import domain.applying.Application;
 import domain.applying.Interview;
 import domain.filter.Filterable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InterviewRound implements Filterable {
+public class InterviewRound implements Filterable, Serializable {
 
     public enum InterviewRoundStatus {
         EMPTY,

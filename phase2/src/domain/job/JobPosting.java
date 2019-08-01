@@ -7,13 +7,14 @@ import domain.storage.Info;
 import domain.storage.InfoCenter;
 import domain.storage.InfoHolder;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobPosting implements Filterable, InfoHolder {
+public class JobPosting implements Filterable, InfoHolder, Serializable {
 
     public enum JobPostingStatus {
         OPEN,

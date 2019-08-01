@@ -1,9 +1,10 @@
 package domain.applying;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DocumentManager {
+public class DocumentManager implements Serializable {
 
     private HashMap<String, Document> documents = new HashMap<>();
     private boolean editable;

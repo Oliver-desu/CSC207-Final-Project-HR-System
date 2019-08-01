@@ -4,11 +4,12 @@ import domain.applying.Interview;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CompanyWorker extends User implements Filterable {
+public class CompanyWorker extends User implements Filterable, Serializable {
 
     private String companyId;
     private ArrayList<Object> files = new ArrayList<>();

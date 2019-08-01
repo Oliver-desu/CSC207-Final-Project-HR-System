@@ -6,10 +6,11 @@ import domain.user.CompanyWorker;
 import domain.user.NullUser;
 import domain.user.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class InfoCenter {
+public class InfoCenter implements Serializable {
 
     private HashMap<User.UserType, ArrayList<User>> users = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();
