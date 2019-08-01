@@ -179,7 +179,7 @@ public class Test {
     public void addDocuments(int num, DocumentManager documentManager) {
         int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
-            documentManager.addDocument(Integer.toString(i), new Document(Integer.toString(i)));
+            documentManager.addDocument(Integer.toString(i), new Document(Integer.toString(i), "Some content"));
         }
     }
 

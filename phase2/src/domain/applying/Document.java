@@ -14,6 +14,14 @@ public class Document implements Filterable, Serializable {
     private LocalDate lastUsedDate;
     private boolean isUsed;
 
+    // For testing purpose
+    public Document(String docName, String content) {
+        this.documentName = docName;
+        this.content = content;
+        this.lastUsedDate = LocalDate.now();
+        this.isUsed = false;
+    }
+
     // Todo
     public Document(String path) {
         File file = new File(System.getProperty("user.dir") + "\\phase2\\" + path);
