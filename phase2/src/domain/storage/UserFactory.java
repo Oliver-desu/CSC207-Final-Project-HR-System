@@ -25,7 +25,9 @@ public class UserFactory implements Serializable {
         else if (registerType.equals(User.UserType.HR_GENERALIST)) user = createGeneralistAndCompany(infoMap);
         else user = new NullUser();
 
-        if (!user.isNull()) this.infoCenter.register(user, registerType);
+        if (!user.isNull()) {
+            this.infoCenter.register(user, registerType);
+        }
         return user;
     }
 
@@ -69,7 +71,7 @@ public class UserFactory implements Serializable {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
             values.put("generalistId", infoMap.get("Username:"));
-            new Company(values);
+            this.infoCenter.registerCompany(new Company(values));
             return new CompanyWorker(infoMap, companyId, User.UserType.HR_GENERALIST);
         } else {
             return new NullUser();

@@ -17,6 +17,7 @@ public class Document implements Filterable, Serializable {
     // Todo
     public Document(String path) {
         File file = new File(System.getProperty("user.dir") + "\\phase2\\" + path);
+        this.lastUsedDate = LocalDate.now();
         if (file.exists()) {
             documentName = path;
             content = readContent(file);

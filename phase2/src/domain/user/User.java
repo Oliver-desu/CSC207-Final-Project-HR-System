@@ -6,6 +6,13 @@ import java.util.HashMap;
 
 public class User implements Serializable {
 
+    public enum UserType {
+        APPLICANT,
+        INTERVIEWER,
+        HR_GENERALIST,
+        HR_COORDINATOR
+    }
+
     private UserType userType;
 
     private String username;
@@ -42,13 +49,6 @@ public class User implements Serializable {
 
     private void setRealName(String firstName, String lastName) {
         this.realName = firstName + " " + lastName;
-    }
-
-    public enum UserType {
-        APPLICANT,
-        INTERVIEWER,
-        HR_GENERALIST,
-        HR_COORDINATOR
     }
 
     public boolean matchPassword(char[] password) {

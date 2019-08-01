@@ -9,6 +9,7 @@ import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.Info;
 import domain.storage.InfoCenter;
+import domain.storage.UserFactory;
 import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import domain.user.User;
@@ -95,19 +96,17 @@ public class Test {
     }
 
     public Company addCompany() {
-        HashMap<String, String> generalistValues = new HashMap<>();
-        generalistValues.put("Username:", Integer.toString(numCompanies));
-        generalistValues.put("Password:", "[h, o, l, y, s, h, i, t]");
-        generalistValues.put("dateCreated", "2019-01-01");
-        CompanyWorker generalist = new CompanyWorker(
-                generalistValues, Integer.toString(numCompanies), User.UserType.HR_GENERALIST);
-        infoCenter.register(generalist, User.UserType.HR_GENERALIST);
+        HashMap<String, String> values = new HashMap<>();
+        values.put("Username:", Integer.toString(numCompanies));
+        values.put("Password:", "[h, o, l, y, s, h, i, t]");
+        values.put("Company id:", Integer.toString(numCompanies));
+        new UserFactory(infoCenter).createUser(values, User.UserType.HR_GENERALIST);
+        CompanyWorker generalist = (CompanyWorker) infoCenter.getUser(values.get("Username:"), User.UserType.HR_GENERALIST);
         Company company = infoCenter.getCompany(generalist.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
         this.addCoordinatorsForCompany(1, company);
-//        this.addJobPostings(1, company);
         return company;
     }
 
