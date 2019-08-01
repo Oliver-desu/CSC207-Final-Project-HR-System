@@ -10,9 +10,8 @@ import domain.storage.Company;
 import domain.storage.Info;
 import domain.storage.InfoCenter;
 import domain.user.Applicant;
-import domain.user.HRCoordinator;
-import domain.user.HRGeneralist;
-import domain.user.Interviewer;
+import domain.user.CompanyWorker;
+import domain.user.User;
 import main.Main;
 
 import java.util.ArrayList;
@@ -56,18 +55,14 @@ public class Test {
         return infoCenter.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
-    public HRGeneralist getRandomGeneralist() {
-        return infoCenter.getHRGeneralist(Integer.toString(new Random().nextInt(numCompanies)));
-    }
-
-    public Interviewer getRandomInterviewer(Company company) {
+    public CompanyWorker getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return infoCenter.getInterviewer(interviewerIds.get(new Random().nextInt(interviewerIds.size())));
+        return infoCenter.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), User.UserType.INTERVIEWER);
     }
 
-    public HRCoordinator getRandomCoordinator(Company company) {
+    public CompanyWorker getRandomCoordinator(Company company) {
         ArrayList<String> coordinatorIds = company.getHRCoordinatorIds();
-        return infoCenter.getHRCoordinator(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())));
+        return infoCenter.getCompanyWorker(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())), User.UserType.HR_COORDINATOR);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
@@ -88,7 +83,7 @@ public class Test {
         values.put("dateCreated", "2019-01-01");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        infoCenter.register(applicant, InfoCenter.UserType.APPLICANT);
+        infoCenter.register(applicant, User.UserType.APPLICANT);
         numApplicants++;
         return applicant;
     }
@@ -104,8 +99,9 @@ public class Test {
         generalistValues.put("Username:", Integer.toString(numCompanies));
         generalistValues.put("Password:", "[h, o, l, y, s, h, i, t]");
         generalistValues.put("dateCreated", "2019-01-01");
-        HRGeneralist generalist = new HRGeneralist(generalistValues, Integer.toString(numCompanies));
-        infoCenter.register(generalist, InfoCenter.UserType.HR_GENERALIST);
+        CompanyWorker generalist = new CompanyWorker(
+                generalistValues, Integer.toString(numCompanies), User.UserType.HR_GENERALIST);
+        infoCenter.register(generalist, User.UserType.HR_GENERALIST);
         Company company = infoCenter.getCompany(generalist.getCompanyId());
         numCompanies++;
 
@@ -122,7 +118,7 @@ public class Test {
     }
 
     public void addInterviewersForCompany(int num, Company company) {
-        Interviewer interviewer;
+        CompanyWorker interviewer;
         HashMap<String, String> values;
         int amount = numInterviewers;
         for (int i=amount; i<amount+num; i++) {
@@ -130,15 +126,15 @@ public class Test {
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
-            interviewer = new Interviewer(values, company.getId());
-            infoCenter.register(interviewer, InfoCenter.UserType.INTERVIEWER);
+            interviewer = new CompanyWorker(values, company.getId(), User.UserType.INTERVIEWER);
+            infoCenter.register(interviewer, User.UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
     }
 
     public void addCoordinatorsForCompany(int num, Company company) {
-        HRCoordinator coordinator;
+        CompanyWorker coordinator;
         HashMap<String, String> values;
         int amount = numCoordinators;
         for (int i=amount; i<amount+num; i++) {
@@ -146,8 +142,8 @@ public class Test {
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("dateCreated", "2019-01-01");
-            coordinator = new HRCoordinator(values, company.getId());
-            infoCenter.register(coordinator, InfoCenter.UserType.HR_COORDINATOR);
+            coordinator = new CompanyWorker(values, company.getId(), User.UserType.HR_COORDINATOR);
+            infoCenter.register(coordinator, User.UserType.HR_COORDINATOR);
             company.addHRCoordinatorId(coordinator.getUsername());
             numCoordinators ++;
         }
@@ -169,7 +165,7 @@ public class Test {
         new Info(jobPosting, values);
         infoCenter.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
-        this.getRandomCoordinator(company).addJobPosting(jobPosting);
+        this.getRandomCoordinator(company).addFile(jobPosting);
         numJobPostings++;
         return jobPosting;
     }
@@ -223,7 +219,7 @@ public class Test {
     public void addNewRoundAndFinishMatching(JobPosting jobPosting, Company company) {
         InterviewRound interviewRound = this.addNewRound(jobPosting);
         Interview interview;
-        Interviewer interviewer;
+        CompanyWorker interviewer;
         Info interviewInfo;
         HashMap<String, String> values;
         for (Application application: interviewRound.getUnmatchedApplications()) {

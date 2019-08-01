@@ -6,7 +6,7 @@ import domain.applying.Document;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.user.Applicant;
-import domain.user.HRCoordinator;
+import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -25,7 +25,7 @@ public class ApplicationScenario extends Scenario {
         Test test = new Test();
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
-        HRCoordinator coordinator = test.getRandomCoordinator(company);
+        CompanyWorker coordinator = test.getRandomCoordinator(company);
         test.addJobPostings(10, company);
         for (JobPosting jobPosting : test.getInfoCenter().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);

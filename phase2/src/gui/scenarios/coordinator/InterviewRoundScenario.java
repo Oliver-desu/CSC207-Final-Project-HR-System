@@ -6,7 +6,7 @@ import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.user.Applicant;
-import domain.user.HRCoordinator;
+import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -33,7 +33,7 @@ public class InterviewRoundScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        HRCoordinator coordinator = test.getRandomCoordinator(company);
+        CompanyWorker coordinator = test.getRandomCoordinator(company);
         JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
         for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);

@@ -1,6 +1,5 @@
 package gui.major;
 
-import domain.storage.InfoCenter;
 import domain.storage.UserFactory;
 import domain.user.User;
 import gui.panels.InputInfoPanel;
@@ -12,9 +11,9 @@ import java.util.HashMap;
 
 public class UserRegister extends Scenario {
 
-    private InfoCenter.UserType registerType;
+    private User.UserType registerType;
 
-    public UserRegister(UserMenu userMenu, InfoCenter.UserType registerType) {
+    public UserRegister(UserMenu userMenu, User.UserType registerType) {
         super(userMenu, LayoutMode.REGISTER);
         this.registerType = registerType;
     }
@@ -22,7 +21,7 @@ public class UserRegister extends Scenario {
     protected void initInput() {
         InputInfoPanel infoPanel = getInputInfoPanel();
         initUserInput(infoPanel);
-        if (registerType.equals(InfoCenter.UserType.APPLICANT)) initApplicantInput(infoPanel);
+        if (registerType.equals(User.UserType.APPLICANT)) initApplicantInput(infoPanel);
         else initStaffInput(infoPanel);
     }
 

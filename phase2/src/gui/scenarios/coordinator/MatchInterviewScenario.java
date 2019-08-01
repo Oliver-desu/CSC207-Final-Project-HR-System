@@ -9,8 +9,7 @@ import domain.storage.Company;
 import domain.storage.Info;
 import domain.storage.InfoCenter;
 import domain.user.Applicant;
-import domain.user.HRCoordinator;
-import domain.user.Interviewer;
+import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -35,7 +34,7 @@ public class MatchInterviewScenario extends Scenario {
         test.addApplicants(10);
         Company company = test.addCompany();
         test.addInterviewersForCompany(9, company);
-        HRCoordinator coordinator = test.getRandomCoordinator(company);
+        CompanyWorker coordinator = test.getRandomCoordinator(company);
         JobPosting jobPosting = test.addJobPosting(company);
         for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
@@ -67,7 +66,7 @@ public class MatchInterviewScenario extends Scenario {
     private void initRightFilter() {
         InfoCenter infoCenter = getMain().getInfoCenter();
         Company company = getUserMenu().getCompany();
-        ArrayList<Interviewer> interviewers = infoCenter.getInterviewers(company.getInterviewerIds());
+        ArrayList<CompanyWorker> interviewers = infoCenter.getInterviewers(company.getInterviewerIds());
         FilterPanel<Object> filterPanel = getFilterPanel(false);
         filterPanel.setFilterContent(new ArrayList<>(interviewers));
     }
@@ -76,7 +75,7 @@ public class MatchInterviewScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             HashMap<String, String> infoMap = getInputInfoMap();
-            Interviewer interviewer = (Interviewer) getFilterPanel(false).getSelectObject();
+            CompanyWorker interviewer = (CompanyWorker) getFilterPanel(false).getSelectObject();
 
             Application application = (Application) getFilterPanel(true).getSelectObject();
             Interview interview;

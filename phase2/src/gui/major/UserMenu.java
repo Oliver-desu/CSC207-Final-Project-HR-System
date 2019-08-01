@@ -2,7 +2,8 @@ package gui.major;
 
 import domain.storage.Company;
 import domain.storage.InfoCenter;
-import domain.user.*;
+import domain.user.Applicant;
+import domain.user.User;
 import gui.scenarios.NullScenario;
 import gui.scenarios.applicant.ApplicationManageScenario;
 import gui.scenarios.applicant.DocumentManageScenario;
@@ -22,8 +23,8 @@ import java.awt.event.ActionListener;
 
 public class UserMenu extends JFrame {
 
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 550;
+    private static final int WIDTH = 1500;
+    private static final int HEIGHT = 750;
 
     static final Dimension SCENARIO_SIZE = new Dimension(WIDTH * 4 / 5, HEIGHT - 50);
     private static final Dimension MENU_SIZE = new Dimension(WIDTH / 6, HEIGHT - 50);
@@ -87,19 +88,19 @@ public class UserMenu extends JFrame {
         menu.setLayout(new FlowLayout());
         User user = getUser();
         if (user.isNull()) registerMenuSetup();
-        else if (user instanceof Applicant) applicantMenuSetup();
-        else if (user instanceof Interviewer) interviewerMenuSetup();
-        else if (user instanceof HRCoordinator) coordinatorMenuSetup();
-        else if (user instanceof HRGeneralist) generalistMenuSetup();
+        else if (user.getUserType().equals(User.UserType.APPLICANT)) applicantMenuSetup();
+        else if (user.getUserType().equals(User.UserType.INTERVIEWER)) interviewerMenuSetup();
+        else if (user.getUserType().equals(User.UserType.HR_COORDINATOR)) coordinatorMenuSetup();
+        else if (user.getUserType().equals(User.UserType.HR_GENERALIST)) generalistMenuSetup();
         addLogoutButton();
         add(menu);
     }
 
     private void registerMenuSetup() {
-        addMenuButton("Applicant", new UserRegister(this, InfoCenter.UserType.APPLICANT));
-        addMenuButton("HR Coordinator", new UserRegister(this, InfoCenter.UserType.HR_COORDINATOR));
-        addMenuButton("HR Generalist", new UserRegister(this, InfoCenter.UserType.HR_GENERALIST));
-        addMenuButton("Interviewer", new UserRegister(this, InfoCenter.UserType.INTERVIEWER));
+        addMenuButton("Applicant", new UserRegister(this, User.UserType.APPLICANT));
+        addMenuButton("HR Coordinator", new UserRegister(this, User.UserType.HR_COORDINATOR));
+        addMenuButton("HR Generalist", new UserRegister(this, User.UserType.HR_GENERALIST));
+        addMenuButton("Interviewer", new UserRegister(this, User.UserType.INTERVIEWER));
     }
 
     private void interviewerMenuSetup() {

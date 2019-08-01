@@ -4,7 +4,8 @@ import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.InfoCenter;
-import domain.user.HRGeneralist;
+import domain.user.CompanyWorker;
+import domain.user.User;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -20,7 +21,7 @@ public class ViewPostingScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        HRGeneralist generalist = test.getInfoCenter().getHRGeneralist(company.getHRGeneralistId());
+        CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(company.getHRGeneralistId(), User.UserType.HR_GENERALIST);
         test.addJobPostings(10, company);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);

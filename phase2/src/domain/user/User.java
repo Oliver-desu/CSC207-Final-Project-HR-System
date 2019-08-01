@@ -1,24 +1,29 @@
 package domain.user;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class User {
 
+    private UserType userType;
+
     private String username;
     private char[] password;
     private String realName;
-    private LocalDate dateCreated;
+
+    public User(HashMap<String, String> map, UserType userType) {
+        this.username = map.get("Username:");
+        setPassword(map.get("Password:"));
+        setRealName(map.get("First name:"), map.get("Last/Family name:"));
+        this.userType = userType;
+    }
 
 
     public User() {
     }
 
-    public User(HashMap<String, String> map) {
-        this.username = map.get("Username:");
-        this.dateCreated = LocalDate.now();
-        setPassword(map.get("Password:"));
+    public UserType getUserType() {
+        return this.userType;
     }
 
     public String getUsername() {
@@ -29,13 +34,20 @@ public class User {
         return this.realName;
     }
 
-    public void setPassword(char[] password) {
-        this.password = password;
-    }
-
-    public void setPassword(String password) {
+    private void setPassword(String password) {
         String validPassword = password.replaceAll(", ", "");
         this.password = validPassword.substring(1, validPassword.length() - 1).toCharArray();
+    }
+
+    private void setRealName(String firstName, String lastName) {
+        this.realName = firstName + " " + lastName;
+    }
+
+    public enum UserType {
+        APPLICANT,
+        INTERVIEWER,
+        HR_GENERALIST,
+        HR_COORDINATOR
     }
 
     public boolean matchPassword(char[] password) {

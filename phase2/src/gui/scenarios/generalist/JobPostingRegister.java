@@ -4,7 +4,8 @@ import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.Info;
-import domain.user.HRGeneralist;
+import domain.user.CompanyWorker;
+import domain.user.User;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.InputInfoPanel;
@@ -27,7 +28,8 @@ public class JobPostingRegister extends Scenario {
         Test test = new Test();
         Company company = test.addCompany();
         test.addCoordinatorsForCompany(9, company);
-        HRGeneralist generalist = test.getInfoCenter().getHRGeneralist(company.getHRGeneralistId());
+        CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(
+                company.getHRGeneralistId(), User.UserType.HR_GENERALIST);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);
         new JobPostingRegister(userMenu).exampleView();
@@ -89,7 +91,8 @@ public class JobPostingRegister extends Scenario {
                 JobPosting jobPosting = new JobPosting();
                 new Info(jobPosting, values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
-                getMain().getInfoCenter().getHRCoordinator(values.get("Coordinator:")).addJobPosting(jobPosting);
+                getMain().getInfoCenter().getCompanyWorker(
+                        values.get("Coordinator:"), User.UserType.HR_COORDINATOR).addFile(jobPosting);
                 getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();
