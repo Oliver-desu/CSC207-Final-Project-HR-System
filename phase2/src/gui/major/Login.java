@@ -1,6 +1,5 @@
 package gui.major;
 
-import domain.storage.InfoCenter;
 import domain.user.NullUser;
 import domain.user.User;
 import gui.panels.ButtonPanel;
@@ -67,7 +66,7 @@ public class Login extends JFrame {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
         String userType = infoMap.get("UserType:").toUpperCase();
         String userName = infoMap.get("Username:");
-        return getMain().getInfoCenter().getUser(userName, InfoCenter.UserType.valueOf(userType));
+        return getMain().getInfoCenter().getUser(userName, User.UserType.valueOf(userType));
     }
 
     private boolean checkUser(User user, char[] password) {

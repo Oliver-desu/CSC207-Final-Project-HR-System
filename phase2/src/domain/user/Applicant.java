@@ -15,7 +15,7 @@ public class Applicant extends User {
 
 
     public Applicant(HashMap<String, String> map) {
-        super(map);
+        super(map, UserType.APPLICANT);
         this.applications = new HashMap<>();
         this.documentManager = new DocumentManager(true);
     }

@@ -1,6 +1,9 @@
 package domain.storage;
 
-import domain.user.*;
+import domain.user.Applicant;
+import domain.user.CompanyWorker;
+import domain.user.NullUser;
+import domain.user.User;
 
 import java.util.HashMap;
 
@@ -13,12 +16,12 @@ public class UserFactory {
         this.infoCenter = userPool;
     }
 
-    public User createUser(HashMap<String, String> infoMap, InfoCenter.UserType registerType) {
+    public User createUser(HashMap<String, String> infoMap, User.UserType registerType) {
         User user;
-        if (registerType.equals(InfoCenter.UserType.APPLICANT)) user = createApplicant(infoMap);
-        else if (registerType.equals(InfoCenter.UserType.HR_COORDINATOR)) user = createCoordinator(infoMap);
-        else if (registerType.equals(InfoCenter.UserType.INTERVIEWER)) user = createInterviewer(infoMap);
-        else if (registerType.equals(InfoCenter.UserType.HR_GENERALIST)) user = createGeneralist(infoMap);
+        if (registerType.equals(User.UserType.APPLICANT)) user = createApplicant(infoMap);
+        else if (registerType.equals(User.UserType.HR_COORDINATOR)) user = createCoordinator(infoMap);
+        else if (registerType.equals(User.UserType.INTERVIEWER)) user = createInterviewer(infoMap);
+        else if (registerType.equals(User.UserType.HR_GENERALIST)) user = createGeneralistAndCompany(infoMap);
         else user = new NullUser();
 
         if (!user.isNull()) this.infoCenter.register(user, registerType);
@@ -37,10 +40,10 @@ public class UserFactory {
     private User createCoordinator(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
-                infoCenter.getHRCoordinator(infoMap.get("Username:")) == null) {
+                infoCenter.getCompanyWorker(infoMap.get("Username:"), User.UserType.HR_COORDINATOR) == null) {
             Company company = infoCenter.getCompany(companyId);
             company.addHRCoordinatorId(infoMap.get("Username:"));
-            return new HRCoordinator(infoMap, companyId);
+            return new CompanyWorker(infoMap, companyId, User.UserType.HR_COORDINATOR);
         } else {
             return new NullUser();
         }
@@ -49,20 +52,24 @@ public class UserFactory {
     private User createInterviewer(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
-                infoCenter.getInterviewer(infoMap.get("Username:")) == null) {
+                infoCenter.getCompanyWorker(infoMap.get("Username:"), User.UserType.INTERVIEWER) == null) {
             Company company = infoCenter.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
-            return new Interviewer(infoMap, companyId);
+            return new CompanyWorker(infoMap, companyId, User.UserType.INTERVIEWER);
         } else {
             return new NullUser();
         }
     }
 
-    private User createGeneralist(HashMap<String, String> infoMap) {
+    private User createGeneralistAndCompany(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (!infoMap.get("Password:").isEmpty() && !companyExists(companyId) &&
-                infoCenter.getHRGeneralist(infoMap.get("Username:")) == null) {
-            return new HRGeneralist(infoMap, companyId);
+                infoCenter.getCompanyWorker(infoMap.get("Username:"), User.UserType.HR_GENERALIST) == null) {
+            HashMap<String, String> values = new HashMap<>();
+            values.put("id", companyId);
+            values.put("generalistId", infoMap.get("Username:"));
+            new Company(values);
+            return new CompanyWorker(infoMap, companyId, User.UserType.HR_GENERALIST);
         } else {
             return new NullUser();
         }

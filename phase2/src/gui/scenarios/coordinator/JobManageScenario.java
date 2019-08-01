@@ -5,7 +5,7 @@ import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.user.Applicant;
-import domain.user.HRCoordinator;
+import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -28,7 +28,7 @@ public class JobManageScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        HRCoordinator coordinator = test.getRandomCoordinator(company);
+        CompanyWorker coordinator = test.getRandomCoordinator(company);
         test.addJobPostings(10, company);
         for (JobPosting jobPosting : test.getInfoCenter().getJobPostings()) {
             for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
@@ -51,7 +51,7 @@ public class JobManageScenario extends Scenario {
 
     private void initLeftFilter() {
         FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-        HRCoordinator hrCoordinator = (HRCoordinator) getUserMenu().getUser();
+        CompanyWorker hrCoordinator = (CompanyWorker) getUserMenu().getUser();
         ArrayList<Object> jobPostings = new ArrayList<>(hrCoordinator.getJobPostings());
         leftFilterPanel.setFilterContent(jobPostings);
         leftFilterPanel.addSelectionListener(new JobManageScenario.LeftFilterListener());

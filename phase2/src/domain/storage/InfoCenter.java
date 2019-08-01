@@ -1,44 +1,37 @@
 package domain.storage;
 
 import domain.job.JobPosting;
-import domain.user.*;
+import domain.user.Applicant;
+import domain.user.CompanyWorker;
+import domain.user.NullUser;
+import domain.user.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InfoCenter {
 
-    public enum UserType {
-        APPLICANT,
-        INTERVIEWER,
-        HR_GENERALIST,
-        HR_COORDINATOR
-    }
-
-    private HashMap<UserType, ArrayList<User>> users = new HashMap<>();
+    private HashMap<User.UserType, ArrayList<User>> users = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();
     private HashMap<String, JobPosting> jobPostings = new HashMap<>();
 
 
     public InfoCenter() {
-        users.put(UserType.APPLICANT, new ArrayList<>());
-        users.put(UserType.HR_COORDINATOR, new ArrayList<>());
-        users.put(UserType.HR_GENERALIST, new ArrayList<>());
-        users.put(UserType.INTERVIEWER, new ArrayList<>());
+        users.put(User.UserType.APPLICANT, new ArrayList<>());
+        users.put(User.UserType.HR_COORDINATOR, new ArrayList<>());
+        users.put(User.UserType.HR_GENERALIST, new ArrayList<>());
+        users.put(User.UserType.INTERVIEWER, new ArrayList<>());
     }
 
-    public void register(User user, UserType userType) {
+    public void register(User user, User.UserType userType) {
         this.users.get(userType).add(user);
-        if (userType.equals(UserType.HR_GENERALIST)) {
-            HRGeneralist generalist = (HRGeneralist) user;
-            HashMap<String, String> values = new HashMap<>();
-            values.put("id", generalist.getCompanyId());
-            values.put("generalistId", generalist.getUsername());
-            companies.put(generalist.getCompanyId(), new Company(values));
-        }
     }
 
-    public User getUser(String userName, UserType userType) {
+    public void registerCompany(Company company) {
+        this.companies.put(company.getId(), company);
+    }
+
+    public User getUser(String userName, User.UserType userType) {
         for (User user : users.get(userType)) {
             if (user.getUsername().equals(userName)) {
                 return user;
@@ -49,7 +42,7 @@ public class InfoCenter {
 
     public Applicant getApplicant(String username) {
         try {
-            return (Applicant) getUser(username, UserType.APPLICANT);
+            return (Applicant) getUser(username, User.UserType.APPLICANT);
         } catch (ClassCastException e) {
             return null;
         }
@@ -59,25 +52,9 @@ public class InfoCenter {
         return companies.get(companyId);
     }
 
-    public Interviewer getInterviewer(String username) {
+    public CompanyWorker getCompanyWorker(String username, User.UserType userType) {
         try {
-            return (Interviewer) getUser(username, UserType.INTERVIEWER);
-        } catch (ClassCastException e) {
-            return null;
-        }
-    }
-
-    public HRGeneralist getHRGeneralist(String username) {
-        try {
-            return (HRGeneralist) getUser(username, UserType.HR_GENERALIST);
-        } catch (ClassCastException e) {
-            return null;
-        }
-    }
-
-    public HRCoordinator getHRCoordinator(String username) {
-        try {
-            return (HRCoordinator) getUser(username, UserType.HR_COORDINATOR);
+            return (CompanyWorker) getUser(username, userType);
         } catch (ClassCastException e) {
             return null;
         }
@@ -85,18 +62,18 @@ public class InfoCenter {
 
     public ArrayList<Applicant> getAllApplicants() {
         ArrayList<Applicant> applicants = new ArrayList<>();
-        for (User user : users.get(UserType.APPLICANT)) {
+        for (User user : users.get(User.UserType.APPLICANT)) {
             applicants.add((Applicant) user);
         }
         return applicants;
     }
 
-    public ArrayList<Interviewer> getInterviewers(ArrayList<String> usernameList) {
-        ArrayList<Interviewer> tempInterviewers = new ArrayList<>();
+    public ArrayList<CompanyWorker> getInterviewers(ArrayList<String> usernameList) {
+        ArrayList<CompanyWorker> interviewers = new ArrayList<>();
         for (String username : usernameList) {
-            tempInterviewers.add(getInterviewer(username));
+            interviewers.add(getCompanyWorker(username, User.UserType.INTERVIEWER));
         }
-        return tempInterviewers;
+        return interviewers;
     }
 
     public ArrayList<JobPosting> getOpenJobPostings() {

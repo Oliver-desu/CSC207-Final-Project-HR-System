@@ -6,7 +6,7 @@ import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.Info;
 import domain.user.Applicant;
-import domain.user.Interviewer;
+import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -26,7 +26,7 @@ public class OngoingInterviewScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        Interviewer interviewer = test.getRandomInterviewer(company);
+        CompanyWorker interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 
         for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
@@ -49,8 +49,8 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     private void setFilterContent(FilterPanel<Object> filterPanel) {
-        Interviewer interviewer = (Interviewer) getUserMenu().getUser();
-        filterPanel.setFilterContent(new ArrayList<>(interviewer.getAllInterviews()));
+        CompanyWorker interviewer = (CompanyWorker) getUserMenu().getUser();
+        filterPanel.setFilterContent(new ArrayList<>(interviewer.getInterviews()));
     }
 
     protected void initButton() {
