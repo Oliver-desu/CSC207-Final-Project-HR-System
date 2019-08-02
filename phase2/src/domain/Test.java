@@ -15,6 +15,7 @@ import domain.user.CompanyWorker;
 import domain.user.User;
 import main.Main;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -154,8 +155,8 @@ public class Test {
         values.put("Company id:", company.getId());
         values.put("Position name:", "Boss");
         values.put("Num of positions:", Integer.toString(2));
-        values.put("Close date:", "2019-08-01");
-        values.put("Post date:", "2019-07-29");
+        values.put("Close date:", LocalDate.now().plusDays(10).toString());
+        values.put("Post date:", LocalDate.now().toString());
         values.put("CV:", "Optional");
         values.put("Cover letter:", "Optional");
         values.put("Reference:", "Optional");
