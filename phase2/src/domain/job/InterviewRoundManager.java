@@ -91,7 +91,7 @@ public class InterviewRoundManager {
     public boolean hire(Application application) {
         if (jobPosting.isProcessing() && application.getStatus().equals(Application.ApplicationStatus.PENDING) &&
                 currentRoundFinished() && jobPosting.getNumOfPositions() > getHiredApplications().size()) {
-            application.hired();
+            application.hire();
             return true;
         } else {
             return false;

@@ -17,13 +17,13 @@ public class User implements Serializable {
 
     private String username;
     private char[] password;
-    private String realName;
+    private HashMap<String, String> userDetail;
 
     public User(HashMap<String, String> map, UserType userType) {
         this.username = map.get("Username:");
         setPassword(map.get("Password:"));
-        setRealName(map.get("First name:"), map.get("Last/Family name:"));
         this.userType = userType;
+        setUserDetail(map);
     }
 
 
@@ -38,17 +38,23 @@ public class User implements Serializable {
         return this.username;
     }
 
+    public HashMap<String, String> getUserDetail() {
+        return userDetail;
+    }
+
+    private void setUserDetail(HashMap<String, String> map) {
+        userDetail = new HashMap<>(map);
+        userDetail.remove("Username:");
+        userDetail.remove("Password:");
+    }
+
     public String getRealName() {
-        return this.realName;
+        return this.userDetail.get("First name:") + " " + this.userDetail.get("Last/Family name:");
     }
 
     private void setPassword(String password) {
         String validPassword = password.replaceAll(", ", "");
         this.password = validPassword.substring(1, validPassword.length() - 1).toCharArray();
-    }
-
-    private void setRealName(String firstName, String lastName) {
-        this.realName = firstName + " " + lastName;
     }
 
     public boolean matchPassword(char[] password) {
@@ -61,5 +67,16 @@ public class User implements Serializable {
 
     public String getCompanyId() {
         return "";
+    }
+
+    @Override
+    public String toString() {
+        return "Username: " + username + "\n" +
+                "Name: " + getRealName() + "\n" +
+                "Email: " + userDetail.get("Email:") + "\n" +
+                "Occupation: " + userDetail.get("Occupation:") + "\n" +
+                "Work experiences: " + userDetail.get("Work experiences:") + "\n" +
+                "Education background: " + userDetail.get("Education background:") + "\n" +
+                "Major in: " + userDetail.get("Major in:");
     }
 }
