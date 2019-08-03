@@ -14,9 +14,8 @@ public class InputInfoPanel extends JScrollPane {
     private HashMap<String, JComponent> componentMap = new HashMap<>();
 
     public InputInfoPanel(Dimension dimension) {
-        boolean vertical = checkVertical(dimension);
-        setup(dimension, vertical);
-        factorySetup(dimension, vertical);
+        setup(dimension, false);
+        factorySetup(dimension, false);
     }
 
     public InputInfoPanel(Dimension dimension, boolean vertical) {
@@ -41,10 +40,6 @@ public class InputInfoPanel extends JScrollPane {
         } else {
             componentFactory = new ComponentFactory(this, dimension.width / 2);
         }
-    }
-
-    private boolean checkVertical(Dimension dimension) {
-        return dimension.height > dimension.width;
     }
 
     public ComponentFactory getComponentFactory() {

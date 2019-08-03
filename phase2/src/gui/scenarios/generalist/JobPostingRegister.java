@@ -36,7 +36,7 @@ public class JobPostingRegister extends Scenario {
     }
 
     protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE);
+        InputInfoPanel infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         String[] coordinators = getUserMenu().getCompany().getHRCoordinatorIds().toArray(new String[0]);
         factory.addComboBox("Coordinator:", coordinators);
