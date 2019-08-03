@@ -11,7 +11,6 @@ import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,7 +45,7 @@ public class JobSearchingScenario extends Scenario {
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
@@ -66,7 +65,7 @@ public class JobSearchingScenario extends Scenario {
                 ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
                 switchScenario(scenario);
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+                showMessage("Failed!");
             }
         }
     }

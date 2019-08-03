@@ -67,6 +67,19 @@ public abstract class Scenario extends JPanel {
         outputInfoPanel.showDocument(documentContent);
     }
 
+    protected void addShowInfoListenerFor(FilterPanel filterPanel) {
+        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
+    }
+
+    protected void showMessage(String message) {
+        JOptionPane.showMessageDialog(getUserMenu(), message, "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    protected boolean confirmAction() {
+        return 0 == JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?",
+                "Confirm Dialog", JOptionPane.YES_NO_OPTION);
+    }
+
     void showColor() {
         setBackground(Color.WHITE);
 //        leftFilterPanel.setBackground(Color.BLACK);
@@ -86,7 +99,7 @@ public abstract class Scenario extends JPanel {
         frame.setVisible(true);
     }
 
-    public class ShowInfoListener implements ListSelectionListener {
+    private class ShowInfoListener implements ListSelectionListener {
         private FilterPanel filterPanel;
 
         public ShowInfoListener(FilterPanel filterPanel) {

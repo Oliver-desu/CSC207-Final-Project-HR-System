@@ -14,7 +14,6 @@ import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 
-import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
@@ -115,7 +114,7 @@ public class JobManageScenario extends Scenario {
                     InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
                     switchScenario(interviewRoundScenario);
                 } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
+                    showMessage("Failed.");
                 }
             }
         }
@@ -128,10 +127,10 @@ public class JobManageScenario extends Scenario {
             String roundName = infoPanel.getInfoMap().get("Round name:");
             if (jobPosting != null && jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
-                JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                showMessage("Succeed!");
                 initRightFilter();
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+                showMessage("Failed!");
             }
         }
     }
@@ -141,10 +140,10 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null && jobPosting.getInterviewRoundManager().nextRound()) {
-                JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
+                showMessage("Succeeds!");
                 initRightFilter();
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+                showMessage("Failed!");
             }
         }
     }
@@ -155,10 +154,10 @@ public class JobManageScenario extends Scenario {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null && !jobPosting.getStatus().equals(JobPostingStatus.FINISHED)) {
                 jobPosting.endJobPosting();
-                JOptionPane.showMessageDialog(getUserMenu(), "The jobPosting is now closed.");
+                showMessage("The jobPosting is now closed.");
                 update();
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
+                showMessage("Failed.");
             }
         }
     }

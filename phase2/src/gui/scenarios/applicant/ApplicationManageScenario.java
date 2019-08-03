@@ -12,7 +12,6 @@ import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -48,7 +47,7 @@ public class ApplicationManageScenario extends Scenario {
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
@@ -80,7 +79,7 @@ public class ApplicationManageScenario extends Scenario {
             if (document != null) {
                 showDocument(document.toString());
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "No document selected.");
+                showMessage("No document selected.");
             }
         }
     }
@@ -94,7 +93,7 @@ public class ApplicationManageScenario extends Scenario {
                         application.getDocumentManager());
                 switchScenario(scenario);
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "The application cannot be edited.");
+                showMessage("The application cannot be edited.");
             }
         }
     }
@@ -105,13 +104,13 @@ public class ApplicationManageScenario extends Scenario {
             Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 if (application.apply(getMain().getInfoCenter())) {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
+                    showMessage("Submission succeeds!");
                     update();
                 } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
+                    showMessage("The process failed.");
                 }
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "This application has been submitted.");
+                showMessage("This application has been submitted.");
             }
         }
     }
@@ -123,15 +122,15 @@ public class ApplicationManageScenario extends Scenario {
 //            conditions are checked in cancel()
             if (application != null && application.getStatus().equals(ApplicationStatus.PENDING)) {
                 if (application.cancel(getMain().getInfoCenter())) {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
+                    showMessage("Withdrawal succeeds!");
                     update();
                 } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
+                    showMessage("The process failed.");
                 }
             } else if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
-                JOptionPane.showMessageDialog(getUserMenu(), "This application has not yet been submitted.");
+                showMessage("This application has not yet been submitted.");
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "This application can no longer be canceled.");
+                showMessage("This application can no longer be canceled.");
             }
         }
     }
@@ -142,12 +141,12 @@ public class ApplicationManageScenario extends Scenario {
             Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 if (applicant.deleteApplication(application)) {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Successfully deleted!");
+                    showMessage("Successfully deleted!");
                     update();
                     return;
                 }
             }
-            JOptionPane.showMessageDialog(getUserMenu(), "Mission failed!");
+            showMessage("Mission failed!");
         }
     }
 }

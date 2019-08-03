@@ -45,13 +45,13 @@ public class ApplicationScenario extends Scenario {
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
-        rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
+        addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }
 

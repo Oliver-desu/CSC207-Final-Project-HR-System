@@ -16,7 +16,6 @@ import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
-import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
@@ -78,7 +77,7 @@ public class InterviewRoundScenario extends Scenario {
 
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
-        rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
+        addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }
 
@@ -99,13 +98,13 @@ public class InterviewRoundScenario extends Scenario {
             if (interviewRound == manager.getCurrentInterviewRound()) {
                 Application application = leftFilter.getSelectObject();
                 if (application != null && manager.hire(application)) {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Successfully hired!");
+                    showMessage("Successfully hired!");
                     initLeftFilter();
                 } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Can not hire this applicant!");
+                    showMessage("Can not hire this applicant!");
                 }
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "JobPosting already finished!");
+                showMessage("JobPosting already finished!");
             }
         }
     }
@@ -118,10 +117,10 @@ public class InterviewRoundScenario extends Scenario {
                 if (interviewRound.getStatus().equals(InterviewRoundStatus.MATCHING)) {
                     menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
                 } else {
-                    JOptionPane.showMessageDialog(menu, "Sorry, cannot match interview now.");
+                    showMessage("Sorry, cannot match interview now.");
                 }
             } else {
-                JOptionPane.showMessageDialog(menu, "JobPosting already finished!");
+                showMessage("JobPosting already finished!");
             }
         }
     }

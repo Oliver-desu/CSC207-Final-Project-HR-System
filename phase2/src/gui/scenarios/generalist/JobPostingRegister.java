@@ -11,7 +11,6 @@ import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -108,20 +107,18 @@ public class JobPostingRegister extends Scenario {
     class CreateJobPostingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            UserMenu userMenu = getUserMenu();
-            int confirm = JOptionPane.showConfirmDialog(userMenu, "Are you sure to post job?");
+            if (!confirmAction()) return;
             HashMap<String, String> values = createJobInfoMap();
-            if (confirm == 0 && isValidJobInfoMap(values).equals("Good")) {
+            if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getInfoCenter().getCompanyWorker(
                         values.get("Coordinator:"), UserType.HR_COORDINATOR).addFile(jobPosting);
                 getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
-                JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
+                showMessage("Successfully post job!");
                 infoPanel.clear();
-            } else if (confirm == 0) {
-                JOptionPane.showMessageDialog(userMenu, isValidJobInfoMap(values));
             }
+            showMessage(isValidJobInfoMap(values));
         }
     }
 }

@@ -15,7 +15,6 @@ import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -90,13 +89,13 @@ public class MatchInterviewScenario extends Scenario {
                 if (interview.getStatus().equals(InterviewStatus.UNMATCHED)) {
                     interview.match(interviewer);
                     application.addInterview(interviewRound.getRoundName(), interview);
-                    JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                    showMessage("Succeed!");
                     update();
                 } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
+                    showMessage("Failed!");
                 }
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "There is no interview to match!");
+                showMessage("There is no interview to match!");
             }
         }
     }

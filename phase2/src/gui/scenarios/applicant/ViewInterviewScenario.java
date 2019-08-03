@@ -41,11 +41,11 @@ public class ViewInterviewScenario extends Scenario {
     protected void update() {
         Applicant applicant = (Applicant) getUserMenu().getUser();
         leftFilter.setFilterContent(applicant.getOngoingInterviews());
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
     }
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
+        addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 }

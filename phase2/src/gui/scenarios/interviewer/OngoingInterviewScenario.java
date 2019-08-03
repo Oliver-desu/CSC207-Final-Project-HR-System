@@ -14,7 +14,6 @@ import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -60,7 +59,7 @@ public class OngoingInterviewScenario extends Scenario {
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
@@ -90,15 +89,15 @@ public class OngoingInterviewScenario extends Scenario {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?") != 0) return;
+            if (!confirmAction()) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
                 interview.setResult(isPass);
                 interview.setRecommendation(getRecommendation());
                 update();
-                JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+                showMessage("Succeed!");
             } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Can not change!");
+                showMessage("Can not change!");
             }
 
         }

@@ -64,13 +64,13 @@ public class DocumentManageScenario extends Scenario {
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
-        rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
+        addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }
 
@@ -98,7 +98,7 @@ public class DocumentManageScenario extends Scenario {
 
                 if (applicantDocument.addDocument(fileName, new Document(path.toString()))) {
                     update();
-                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
+                    showMessage("Change is made successfully!");
                     return;
                 }
 
@@ -106,11 +106,11 @@ public class DocumentManageScenario extends Scenario {
                 Document document = rightFilter.getSelectObject();
                 if (document != null && applicationDocument.addDocument(document.getDocumentName(), document)) {
                     update();
-                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
+                    showMessage("Change is made successfully!");
                     return;
                 }
             }
-            JOptionPane.showMessageDialog(getUserMenu(), "Sorry! Cannot Add!");
+            showMessage("Sorry! Cannot Add!");
         }
     }
 
