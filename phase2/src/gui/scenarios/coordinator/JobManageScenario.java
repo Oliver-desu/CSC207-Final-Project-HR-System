@@ -1,5 +1,6 @@
 package gui.scenarios.coordinator;
 
+import domain.Enums.JobPostingStatus;
 import domain.Test;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
@@ -112,7 +113,7 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             String roundName = getInputInfoMap().get("Round name:");
-            if (jobPosting != null && jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING)) {
+            if (jobPosting != null && jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
                 initRightFilter();
@@ -139,7 +140,7 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            if (jobPosting != null && !jobPosting.getStatus().equals(JobPosting.JobPostingStatus.FINISHED)) {
+            if (jobPosting != null && !jobPosting.getStatus().equals(JobPostingStatus.FINISHED)) {
                 jobPosting.endJobPosting();
                 JOptionPane.showMessageDialog(getUserMenu(), "The jobPosting is now closed.");
                 updateFilterContent();

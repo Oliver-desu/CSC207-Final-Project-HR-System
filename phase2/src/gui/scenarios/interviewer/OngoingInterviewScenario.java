@@ -1,5 +1,6 @@
 package gui.scenarios.interviewer;
 
+import domain.Enums.InterviewStatus;
 import domain.Test;
 import domain.applying.Interview;
 import domain.job.JobPosting;
@@ -75,7 +76,7 @@ public class OngoingInterviewScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             if (JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?") != 0) return;
             Interview interview = leftFilter.getSelectObject();
-            if (interview != null && interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+            if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
                 interview.setResult(isPass);
                 updateFilterContent();
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");

@@ -1,5 +1,6 @@
 package gui.scenarios.coordinator;
 
+import domain.Enums.InterviewStatus;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Interview;
@@ -74,7 +75,7 @@ public class MatchInterviewScenario extends Scenario {
             Interview interview;
             if (application != null) {
                 interview = application.getInterviewByRound(interviewRound.getRoundName());
-                if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
+                if (interview.getStatus().equals(InterviewStatus.UNMATCHED)) {
                     interview.match(interviewer);
                     application.addInterview(interviewRound.getRoundName(), interview);
                     JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");

@@ -1,33 +1,27 @@
 package domain.user;
 
+import domain.Enums.UserType;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class User implements Serializable {
 
-    public enum UserType {
-        APPLICANT,
-        INTERVIEWER,
-        HR_GENERALIST,
-        HR_COORDINATOR
-    }
-
     private UserType userType;
-
     private String username;
     private char[] password;
     private HashMap<String, String> userDetail;
+
+
+    public User() {
+    }
 
     public User(HashMap<String, String> map, UserType userType) {
         this.username = map.get("Username:");
         setPassword(map.get("Password:"));
         this.userType = userType;
         setUserDetail(map);
-    }
-
-
-    public User() {
     }
 
     public UserType getUserType() {

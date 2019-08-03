@@ -1,5 +1,7 @@
 package domain.job;
 
+import domain.Enums.InterviewRoundStatus;
+import domain.Enums.InterviewStatus;
 import domain.applying.Application;
 import domain.applying.Interview;
 import domain.filter.Filterable;
@@ -10,13 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InterviewRound implements Filterable, Serializable {
-
-    public enum InterviewRoundStatus {
-        EMPTY,
-        MATCHING,
-        PENDING,
-        FINISHED
-    }
 
     private String roundName;
     private HashMap<String, Application> applications;  //applicantId->application
@@ -38,10 +33,10 @@ public class InterviewRound implements Filterable, Serializable {
     }
 
     public ArrayList<Application> getUnmatchedApplications() {
-        return getApplicationsByStatus(Interview.InterviewStatus.UNMATCHED);
+        return getApplicationsByStatus(InterviewStatus.UNMATCHED);
     }
 
-    private ArrayList<Application> getApplicationsByStatus(Interview.InterviewStatus status) {
+    private ArrayList<Application> getApplicationsByStatus(InterviewStatus status) {
         ArrayList<Application> passedApplications = new ArrayList<>();
         for (Application application : this.applications.values()) {
             if (application.getInterviewByRound(this.roundName).getStatus().equals(status)) {
@@ -67,11 +62,11 @@ public class InterviewRound implements Filterable, Serializable {
         ArrayList<Interview> interviews = this.getInterviews();
         boolean finished = true;
         for (Interview interview : interviews) {
-            if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
+            if (interview.getStatus().equals(InterviewStatus.UNMATCHED)) {
                 this.setStatus(InterviewRoundStatus.MATCHING);
                 finished = false;
                 break;
-            } else if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+            } else if (interview.getStatus().equals(InterviewStatus.PENDING)) {
                 this.setStatus(InterviewRoundStatus.PENDING);
                 finished = false;
                 break;

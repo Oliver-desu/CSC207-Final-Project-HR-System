@@ -1,5 +1,7 @@
 package gui.scenarios.coordinator;
 
+import domain.Enums.InterviewRoundStatus;
+import domain.Enums.JobPostingStatus;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Interview;
@@ -100,8 +102,8 @@ public class InterviewRoundScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();
-            if (manager.getJobPosting().isProcessing()) {
-                if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.MATCHING)) {
+            if (manager.getJobPosting().getStatus().equals(JobPostingStatus.PROCESSING)) {
+                if (interviewRound.getStatus().equals(InterviewRoundStatus.MATCHING)) {
                     menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
                 } else {
                     JOptionPane.showMessageDialog(menu, "Sorry, cannot match interview now.");

@@ -1,5 +1,7 @@
 package domain.applying;
 
+import domain.Enums.ApplicationStatus;
+import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.storage.InfoCenter;
@@ -11,13 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Application implements Filterable, Serializable {
-
-    public enum ApplicationStatus {
-        DRAFT,
-        PENDING,
-        HIRE,
-        REJECTED
-    }
 
     private HashMap<String, Interview> interviews = new HashMap<>();
     private String applicantId;
@@ -104,7 +99,7 @@ public class Application implements Filterable, Serializable {
     }
 
     public void update(Interview interview) {
-        if (interview.getStatus().equals(Interview.InterviewStatus.FAIL)) {
+        if (interview.getStatus().equals(InterviewStatus.FAIL)) {
             this.setStatus(ApplicationStatus.REJECTED);
         }
     }

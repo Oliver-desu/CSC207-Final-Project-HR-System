@@ -1,11 +1,11 @@
 package gui.scenarios.generalist;
 
+import domain.Enums.UserType;
 import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.InfoCenter;
 import domain.user.CompanyWorker;
-import domain.user.User;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -23,7 +23,7 @@ public class ViewPostingScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(company.getHRGeneralistId(), User.UserType.HR_GENERALIST);
+        CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(company.getHRGeneralistId(), UserType.HR_GENERALIST);
         test.addJobPostings(10, company);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);

@@ -1,5 +1,7 @@
 package domain.user;
 
+import domain.Enums.InterviewStatus;
+import domain.Enums.UserType;
 import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
@@ -71,7 +73,7 @@ public class Applicant extends User implements Serializable {
         ArrayList<Interview> ongoingInterviews = new ArrayList<>();
         for (Application application : this.applications.values()) {
             for (Interview interview : application.getInterviews()) {
-                if (interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+                if (interview.getStatus().equals(InterviewStatus.PENDING)) {
                     ongoingInterviews.add(interview);
                 }
             }

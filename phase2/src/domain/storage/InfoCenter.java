@@ -1,5 +1,7 @@
 package domain.storage;
 
+import domain.Enums.JobPostingStatus;
+import domain.Enums.UserType;
 import domain.job.JobPosting;
 import domain.user.Applicant;
 import domain.user.CompanyWorker;
@@ -12,19 +14,19 @@ import java.util.HashMap;
 
 public class InfoCenter implements Serializable {
 
-    private HashMap<User.UserType, ArrayList<User>> users = new HashMap<>();
+    private HashMap<UserType, ArrayList<User>> users = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();
     private HashMap<String, JobPosting> jobPostings = new HashMap<>();
 
 
     public InfoCenter() {
-        users.put(User.UserType.APPLICANT, new ArrayList<>());
-        users.put(User.UserType.HR_COORDINATOR, new ArrayList<>());
-        users.put(User.UserType.HR_GENERALIST, new ArrayList<>());
-        users.put(User.UserType.INTERVIEWER, new ArrayList<>());
+        users.put(UserType.APPLICANT, new ArrayList<>());
+        users.put(UserType.HR_COORDINATOR, new ArrayList<>());
+        users.put(UserType.HR_GENERALIST, new ArrayList<>());
+        users.put(UserType.INTERVIEWER, new ArrayList<>());
     }
 
-    public void register(User user, User.UserType userType) {
+    public void register(User user, UserType userType) {
         this.users.get(userType).add(user);
     }
 
@@ -32,7 +34,7 @@ public class InfoCenter implements Serializable {
         this.companies.put(company.getId(), company);
     }
 
-    public User getUser(String userName, User.UserType userType) {
+    public User getUser(String userName, UserType userType) {
         for (User user : users.get(userType)) {
             if (user.getUsername().equals(userName)) {
                 return user;
@@ -43,7 +45,7 @@ public class InfoCenter implements Serializable {
 
     public Applicant getApplicant(String username) {
         try {
-            return (Applicant) getUser(username, User.UserType.APPLICANT);
+            return (Applicant) getUser(username, UserType.APPLICANT);
         } catch (ClassCastException e) {
             return null;
         }
@@ -53,7 +55,7 @@ public class InfoCenter implements Serializable {
         return companies.get(companyId);
     }
 
-    public CompanyWorker getCompanyWorker(String username, User.UserType userType) {
+    public CompanyWorker getCompanyWorker(String username, UserType userType) {
         try {
             return (CompanyWorker) getUser(username, userType);
         } catch (ClassCastException e) {
@@ -63,7 +65,7 @@ public class InfoCenter implements Serializable {
 
     public ArrayList<Applicant> getAllApplicants() {
         ArrayList<Applicant> applicants = new ArrayList<>();
-        for (User user : users.get(User.UserType.APPLICANT)) {
+        for (User user : users.get(UserType.APPLICANT)) {
             applicants.add((Applicant) user);
         }
         return applicants;
@@ -72,7 +74,7 @@ public class InfoCenter implements Serializable {
     public ArrayList<CompanyWorker> getInterviewers(ArrayList<String> usernameList) {
         ArrayList<CompanyWorker> interviewers = new ArrayList<>();
         for (String username : usernameList) {
-            interviewers.add(getCompanyWorker(username, User.UserType.INTERVIEWER));
+            interviewers.add(getCompanyWorker(username, UserType.INTERVIEWER));
         }
         return interviewers;
     }
@@ -80,7 +82,7 @@ public class InfoCenter implements Serializable {
     public ArrayList<JobPosting> getOpenJobPostings() {
         ArrayList<JobPosting> openJobPostings = new ArrayList<>();
         for (JobPosting jobPosting : this.jobPostings.values()) {
-            if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.OPEN)) {
+            if (jobPosting.getStatus().equals(JobPostingStatus.OPEN)) {
                 openJobPostings.add(jobPosting);
             }
         }

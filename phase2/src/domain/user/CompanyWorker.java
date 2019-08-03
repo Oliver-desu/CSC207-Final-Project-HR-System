@@ -1,5 +1,6 @@
 package domain.user;
 
+import domain.Enums.UserType;
 import domain.applying.Interview;
 import domain.filter.Filterable;
 import domain.job.JobPosting;

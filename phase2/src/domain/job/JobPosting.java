@@ -1,5 +1,6 @@
 package domain.job;
 
+import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.storage.Company;
@@ -13,12 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class JobPosting implements Filterable, Serializable {
-
-    public enum JobPostingStatus {
-        OPEN,
-        PROCESSING,
-        FINISHED
-    }
 
     private HashMap<String, String> jobDetails;
     private InterviewRoundManager interviewRoundManager;
@@ -62,16 +57,8 @@ public class JobPosting implements Filterable, Serializable {
         return !closeDate.isBefore(LocalDate.now());
     }
 
-    public boolean isOpen() {
-        return status.equals(JobPostingStatus.OPEN);
-    }
-
-    public boolean isProcessing() {
-        return status.equals(JobPostingStatus.PROCESSING);
-    }
-
     public void startProcessing() {
-        if (isOpen() && shouldClose()) {
+        if (status.equals(JobPostingStatus.OPEN) && shouldClose()) {
             this.interviewRoundManager = new InterviewRoundManager(this, applications);
         }
     }

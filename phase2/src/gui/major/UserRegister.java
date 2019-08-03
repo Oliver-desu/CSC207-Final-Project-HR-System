@@ -1,5 +1,6 @@
 package gui.major;
 
+import domain.Enums.UserType;
 import domain.storage.UserFactory;
 import domain.user.User;
 import gui.panels.ComponentFactory;
@@ -13,9 +14,9 @@ import java.util.HashMap;
 
 public class UserRegister extends Scenario {
 
-    private User.UserType registerType;
+    private UserType registerType;
 
-    public UserRegister(UserMenu userMenu, User.UserType registerType) {
+    public UserRegister(UserMenu userMenu, UserType registerType) {
         super(userMenu, LayoutMode.REGISTER);
         this.registerType = registerType;
     }
@@ -24,7 +25,7 @@ public class UserRegister extends Scenario {
         InputInfoPanel infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         initUserInput(factory);
-        if (registerType.equals(User.UserType.APPLICANT)) initApplicantInput(factory);
+        if (registerType.equals(UserType.APPLICANT)) initApplicantInput(factory);
         else initStaffInput(factory);
         return infoPanel;
     }

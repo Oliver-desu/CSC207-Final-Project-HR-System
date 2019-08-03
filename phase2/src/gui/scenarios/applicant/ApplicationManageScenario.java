@@ -1,5 +1,6 @@
 package gui.scenarios.applicant;
 
+import domain.Enums.ApplicationStatus;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Document;
@@ -76,7 +77,7 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-            if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 DocumentManageScenario scenario = new DocumentManageScenario(getUserMenu(),
                         application.getDocumentManager());
                 switchScenario(scenario);
@@ -90,7 +91,7 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-            if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 if (application.apply(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
                     updateFilterContent();
@@ -108,14 +109,14 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
 //            conditions are checked in cancel()
-            if (application != null && application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
+            if (application != null && application.getStatus().equals(ApplicationStatus.PENDING)) {
                 if (application.cancel(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
                     updateFilterContent();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
-            } else if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            } else if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 JOptionPane.showMessageDialog(getUserMenu(), "This application has not yet been submitted.");
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "This application can no longer be canceled.");
@@ -127,7 +128,7 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-            if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
+            if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 if (applicant.deleteApplication(application)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Successfully deleted!");
                     updateFilterContent();

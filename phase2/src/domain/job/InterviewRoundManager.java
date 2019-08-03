@@ -1,5 +1,8 @@
 package domain.job;
 
+import domain.Enums.ApplicationStatus;
+import domain.Enums.InterviewRoundStatus;
+import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ public class InterviewRoundManager {
     public InterviewRound getCurrentInterviewRound() {
         InterviewRound currInterviewRound = null;
         for (InterviewRound interviewRound : interviewRounds) {
-            if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.EMPTY)) {
+            if (interviewRound.getStatus().equals(InterviewRoundStatus.EMPTY)) {
                 break;
             } else {
                 currInterviewRound = interviewRound;
@@ -48,7 +51,7 @@ public class InterviewRoundManager {
     void updateRemainingApplications() {
         ArrayList<Application> tempApplications = new ArrayList<>();
         for (Application application : remainingApplications) {
-            if (!application.getStatus().equals(Application.ApplicationStatus.REJECTED)) {
+            if (!application.getStatus().equals(ApplicationStatus.REJECTED)) {
                 tempApplications.add(application);
             }
         }
@@ -57,7 +60,7 @@ public class InterviewRoundManager {
 
     public boolean nextRound() {
         InterviewRound currentRound = getCurrentInterviewRound();
-        if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING) &&
+        if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
                 (currentRound == null || currentRound.isFinished())) {
             InterviewRound nextRound = interviewRounds.get(interviewRounds.indexOf(currentRound) + 1);
             nextRound.start(remainingApplications);
@@ -76,7 +79,7 @@ public class InterviewRoundManager {
     private ArrayList<Application> getHiredApplications() {
         ArrayList<Application> hiredApplications = new ArrayList<>();
         for (Application application : remainingApplications) {
-            if (application.getStatus().equals(Application.ApplicationStatus.HIRE)) {
+            if (application.getStatus().equals(ApplicationStatus.HIRE)) {
                 hiredApplications.add(application);
             }
         }
@@ -85,12 +88,13 @@ public class InterviewRoundManager {
 
     private boolean currentRoundFinished() {
         InterviewRound currentRound = getCurrentInterviewRound();
-        return currentRound == null || currentRound.getStatus().equals(InterviewRound.InterviewRoundStatus.EMPTY);
+        return currentRound == null || currentRound.getStatus().equals(InterviewRoundStatus.EMPTY);
     }
 
     public boolean hire(Application application) {
-        if (jobPosting.isProcessing() && application.getStatus().equals(Application.ApplicationStatus.PENDING) &&
-                currentRoundFinished() && jobPosting.getNumOfPositions() > getHiredApplications().size()) {
+        if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
+                application.getStatus().equals(ApplicationStatus.PENDING) && currentRoundFinished() &&
+                jobPosting.getNumOfPositions() > getHiredApplications().size()) {
             application.hire();
             return true;
         } else {

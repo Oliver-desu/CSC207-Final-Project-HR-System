@@ -1,5 +1,6 @@
 package gui.major;
 
+import domain.Enums.UserType;
 import domain.user.User;
 import gui.scenarios.applicant.ApplicationManageScenario;
 import gui.scenarios.applicant.DocumentManageScenario;
@@ -34,17 +35,17 @@ public class MenuPanel extends JPanel {
         setLayout(new FlowLayout());
         User user = userMenu.getUser();
         if (user.isNull()) registerMenuSetup();
-        else if (user.getUserType().equals(User.UserType.APPLICANT)) applicantMenuSetup();
-        else if (user.getUserType().equals(User.UserType.INTERVIEWER)) interviewerMenuSetup();
-        else if (user.getUserType().equals(User.UserType.HR_COORDINATOR)) coordinatorMenuSetup();
-        else if (user.getUserType().equals(User.UserType.HR_GENERALIST)) generalistMenuSetup();
+        else if (user.getUserType().equals(UserType.APPLICANT)) applicantMenuSetup();
+        else if (user.getUserType().equals(UserType.INTERVIEWER)) interviewerMenuSetup();
+        else if (user.getUserType().equals(UserType.HR_COORDINATOR)) coordinatorMenuSetup();
+        else if (user.getUserType().equals(UserType.HR_GENERALIST)) generalistMenuSetup();
     }
 
     private void registerMenuSetup() {
-        addMenuButton("Applicant", new UserRegister(userMenu, User.UserType.APPLICANT));
-        addMenuButton("HR Coordinator", new UserRegister(userMenu, User.UserType.HR_COORDINATOR));
-        addMenuButton("HR Generalist", new UserRegister(userMenu, User.UserType.HR_GENERALIST));
-        addMenuButton("Interviewer", new UserRegister(userMenu, User.UserType.INTERVIEWER));
+        addMenuButton("Applicant", new UserRegister(userMenu, UserType.APPLICANT));
+        addMenuButton("HR Coordinator", new UserRegister(userMenu, UserType.HR_COORDINATOR));
+        addMenuButton("HR Generalist", new UserRegister(userMenu, UserType.HR_GENERALIST));
+        addMenuButton("Interviewer", new UserRegister(userMenu, UserType.INTERVIEWER));
     }
 
     private void interviewerMenuSetup() {

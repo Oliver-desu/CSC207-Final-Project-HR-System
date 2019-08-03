@@ -1,10 +1,10 @@
 package gui.scenarios.generalist;
 
+import domain.Enums.UserType;
 import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.user.CompanyWorker;
-import domain.user.User;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ComponentFactory;
@@ -29,7 +29,7 @@ public class JobPostingRegister extends Scenario {
         Company company = test.addCompany();
         test.addCoordinatorsForCompany(9, company);
         CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(
-                company.getHRGeneralistId(), User.UserType.HR_GENERALIST);
+                company.getHRGeneralistId(), UserType.HR_GENERALIST);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);
         new JobPostingRegister(userMenu).exampleView();
@@ -100,7 +100,7 @@ public class JobPostingRegister extends Scenario {
                 JobPosting jobPosting = new JobPosting(values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getInfoCenter().getCompanyWorker(
-                        values.get("Coordinator:"), User.UserType.HR_COORDINATOR).addFile(jobPosting);
+                        values.get("Coordinator:"), UserType.HR_COORDINATOR).addFile(jobPosting);
                 getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();

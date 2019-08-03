@@ -1,5 +1,6 @@
 package domain.applying;
 
+import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
 import domain.user.CompanyWorker;
 
@@ -8,13 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Interview implements Filterable, Serializable {
-
-    public enum InterviewStatus {
-        UNMATCHED,
-        PENDING,
-        PASS,
-        FAIL
-    }
 
     private CompanyWorker interviewer;
     private Application application;

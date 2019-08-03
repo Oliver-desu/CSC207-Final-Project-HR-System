@@ -1,5 +1,6 @@
 package domain;
 
+import domain.Enums.UserType;
 import domain.applying.Application;
 import domain.applying.Document;
 import domain.applying.DocumentManager;
@@ -12,7 +13,6 @@ import domain.storage.InfoCenter;
 import domain.storage.UserFactory;
 import domain.user.Applicant;
 import domain.user.CompanyWorker;
-import domain.user.User;
 import main.Main;
 
 import java.time.LocalDate;
@@ -59,12 +59,12 @@ public class Test {
 
     public CompanyWorker getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return infoCenter.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), User.UserType.INTERVIEWER);
+        return infoCenter.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
     }
 
     public CompanyWorker getRandomCoordinator(Company company) {
         ArrayList<String> coordinatorIds = company.getHRCoordinatorIds();
-        return infoCenter.getCompanyWorker(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())), User.UserType.HR_COORDINATOR);
+        return infoCenter.getCompanyWorker(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())), UserType.HR_COORDINATOR);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
@@ -85,7 +85,7 @@ public class Test {
         values.put("Email:", "shit@gmail.ca");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        infoCenter.register(applicant, User.UserType.APPLICANT);
+        infoCenter.register(applicant, UserType.APPLICANT);
         numApplicants++;
         return applicant;
     }
@@ -102,8 +102,8 @@ public class Test {
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
         values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
-        new UserFactory(infoCenter).createUser(values, User.UserType.HR_GENERALIST);
-        CompanyWorker generalist = (CompanyWorker) infoCenter.getUser(values.get("Username:"), User.UserType.HR_GENERALIST);
+        new UserFactory(infoCenter).createUser(values, UserType.HR_GENERALIST);
+        CompanyWorker generalist = (CompanyWorker) infoCenter.getUser(values.get("Username:"), UserType.HR_GENERALIST);
         Company company = infoCenter.getCompany(generalist.getCompanyId());
         numCompanies++;
 
@@ -127,8 +127,8 @@ public class Test {
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
-            interviewer = new CompanyWorker(values, company.getId(), User.UserType.INTERVIEWER);
-            infoCenter.register(interviewer, User.UserType.INTERVIEWER);
+            interviewer = new CompanyWorker(values, company.getId(), UserType.INTERVIEWER);
+            infoCenter.register(interviewer, UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
@@ -143,8 +143,8 @@ public class Test {
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
-            coordinator = new CompanyWorker(values, company.getId(), User.UserType.HR_COORDINATOR);
-            infoCenter.register(coordinator, User.UserType.HR_COORDINATOR);
+            coordinator = new CompanyWorker(values, company.getId(), UserType.HR_COORDINATOR);
+            infoCenter.register(coordinator, UserType.HR_COORDINATOR);
             company.addHRCoordinatorId(coordinator.getUsername());
             numCoordinators ++;
         }
