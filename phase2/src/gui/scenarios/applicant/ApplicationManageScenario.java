@@ -77,8 +77,9 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
-                DocumentManageScenario documentManageScenario = new DocumentManageScenario(getUserMenu(), applicant.getDocumentManager(), application.getDocumentManager());
-                switchScenario(documentManageScenario);
+                DocumentManageScenario scenario = new DocumentManageScenario(getUserMenu(),
+                        application.getDocumentManager());
+                switchScenario(scenario);
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "The application cannot be edited.");
             }

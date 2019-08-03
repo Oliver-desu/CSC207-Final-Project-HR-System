@@ -39,8 +39,10 @@ public abstract class Scenario extends JPanel {
     }
 
     public void init() {
-        if (numInit != 0) return;
-
+        if (numInit != 0) {
+            updateFilterContent();
+            return;
+        }
         leftFilterPanel = initLeftFilter();
         rightFilterPanel = initRightFilter();
         updateFilterContent();

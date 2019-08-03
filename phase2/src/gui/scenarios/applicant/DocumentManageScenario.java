@@ -25,9 +25,10 @@ public class DocumentManageScenario extends Scenario {
     private FilterPanel<Document> leftFilter; // contains application document
     private FilterPanel<Document> rightFilter; // contains applicant document
 
-    public DocumentManageScenario(UserMenu userMenu, DocumentManager applicantDocument, DocumentManager applicationDocument) {
+    public DocumentManageScenario(UserMenu userMenu, DocumentManager applicationDocument) {
         super(userMenu, LayoutMode.REGULAR);
-        this.applicantDocument = applicantDocument;
+        Applicant applicant = (Applicant) getUserMenu().getUser();
+        this.applicantDocument = applicant.getDocumentManager();
         this.applicationDocument = applicationDocument;
         this.applicantDocument.updateAllDocuments();
     }
@@ -39,7 +40,7 @@ public class DocumentManageScenario extends Scenario {
         JobPosting jobPosting = test.addJobPosting(company);
         Application application = test.addDraftApplicationForJobPosting(applicant, jobPosting);
 
-        new DocumentManageScenario(new UserMenu(), applicant.getDocumentManager(), application.getDocumentManager()).exampleView();
+        new DocumentManageScenario(new UserMenu(), application.getDocumentManager()).exampleView();
     }
 
     @Override
