@@ -8,23 +8,43 @@ import java.util.HashMap;
 
 public class InputInfoPanel extends JScrollPane {
 
-    private JPanel box = new JPanel();
+    private Container box;
     private ComponentFactory componentFactory;
     private JPasswordField[] passwordFields = new JPasswordField[2];
     private HashMap<String, JComponent> componentMap = new HashMap<>();
 
     public InputInfoPanel(Dimension dimension) {
-        setup(dimension);
+        boolean vertical = checkVertical(dimension);
+        setup(dimension, vertical);
+        factorySetup(dimension, vertical);
     }
 
-    public void setup(Dimension dimension) {
+    public InputInfoPanel(Dimension dimension, boolean vertical) {
+        setup(dimension, vertical);
+        factorySetup(dimension, vertical);
+    }
+
+    public void setup(Dimension dimension, boolean vertical) {
         setPreferredSize(dimension);
-        setViewportView(box);
-        if (dimension.width > dimension.height) {
-            componentFactory = new ComponentFactory(this, dimension.width / 2);
+        if (vertical) {
+            box = Box.createVerticalBox();
         } else {
-            componentFactory = new ComponentFactory(this, dimension.width * 3 / 4);
+            box = new JPanel();
+            box.setPreferredSize(dimension);
         }
+        setViewportView(box);
+    }
+
+    private void factorySetup(Dimension dimension, boolean vertical) {
+        if (vertical) {
+            componentFactory = new ComponentFactory(this, dimension.width * 3 / 4);
+        } else {
+            componentFactory = new ComponentFactory(this, dimension.width / 2);
+        }
+    }
+
+    private boolean checkVertical(Dimension dimension) {
+        return dimension.height > dimension.width;
     }
 
     public ComponentFactory getComponentFactory() {

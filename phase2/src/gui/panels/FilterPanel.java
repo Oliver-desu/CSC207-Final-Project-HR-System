@@ -15,6 +15,10 @@ public class FilterPanel<T> extends JPanel {
     private JTable filterTable = new JTable();
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
+    public FilterPanel(Dimension dimension) {
+        setup(dimension);
+    }
+
     private JTable getFilterTable() {
         return filterTable;
     }

@@ -32,7 +32,7 @@ public class JobSearchingScenario extends  Scenario{
 
     @Override
     protected FilterPanel initLeftFilter() {
-        leftFilter = new FilterPanel<>();
+        leftFilter = new FilterPanel<>(LIST_SIZE);
         InfoCenter infoCenter = getMain().getInfoCenter();
         leftFilter.setFilterContent(infoCenter.getOpenJobPostings());
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));

@@ -49,7 +49,7 @@ public class MatchInterviewScenario extends Scenario {
     }
 
     protected FilterPanel initLeftFilter() {
-        leftFilter = new FilterPanel<>();
+        leftFilter = new FilterPanel<>(LIST_SIZE);
         return leftFilter;
     }
 
@@ -62,7 +62,7 @@ public class MatchInterviewScenario extends Scenario {
     }
 
     protected FilterPanel initRightFilter() {
-        rightFilter = new FilterPanel<>();
+        rightFilter = new FilterPanel<>(LIST_SIZE);
         return rightFilter;
     }
 

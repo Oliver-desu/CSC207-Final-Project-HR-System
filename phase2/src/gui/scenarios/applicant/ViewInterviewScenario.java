@@ -34,7 +34,7 @@ public class ViewInterviewScenario extends Scenario {
     @Override
     protected FilterPanel initLeftFilter() {
         Applicant applicant = (Applicant) getUserMenu().getUser();
-        leftFilter = new FilterPanel<>();
+        leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.setFilterContent(applicant.getOngoingInterviews());
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
         return leftFilter;

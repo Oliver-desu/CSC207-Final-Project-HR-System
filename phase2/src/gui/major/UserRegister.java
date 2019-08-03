@@ -21,7 +21,7 @@ public class UserRegister extends Scenario {
     }
 
     protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+        InputInfoPanel infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE);
         ComponentFactory factory = infoPanel.getComponentFactory();
         initUserInput(factory);
         if (registerType.equals(User.UserType.APPLICANT)) initApplicantInput(factory);

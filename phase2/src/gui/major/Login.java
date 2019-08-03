@@ -3,6 +3,7 @@ package gui.major;
 import domain.user.NullUser;
 import domain.user.User;
 import gui.panels.ButtonPanel;
+import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 import main.Main;
 
@@ -22,8 +23,8 @@ public class Login extends JFrame {
     private static final String[] USER_TYPE = new String[]{"Applicant", "HR_Generalist", "HR_Coordinator", "Interviewer"};
 
     private Main main;
-    private InputInfoPanel inputInfoPanel = new InputInfoPanel();
-    private ButtonPanel buttonPanel = new ButtonPanel();
+    private InputInfoPanel inputInfoPanel = new InputInfoPanel(INPUT_SIZE, true);
+    private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
 
     public Login(Main main) {
         this.main = main;
@@ -40,17 +41,16 @@ public class Login extends JFrame {
     }
 
     private void buttonPanelSetup() {
-        buttonPanel.setup(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("Login", new LoginListener());
         buttonPanel.addButton("Register", new RegisterListener());
         add(buttonPanel);
     }
 
     private void infoPanelSetup() {
-        inputInfoPanel.setup(INPUT_SIZE, true);
-        inputInfoPanel.addTextField("Username:");
-        inputInfoPanel.addPasswordField("Password:");
-        inputInfoPanel.addComboBox("UserType:", USER_TYPE, "Applicant", false);
+        ComponentFactory factory = getInputInfoPanel().getComponentFactory();
+        factory.addTextField("Username:");
+        factory.addPasswordField("Password:");
+        factory.addComboBox("UserType:", USER_TYPE, "Applicant", false);
         add(inputInfoPanel);
     }
 

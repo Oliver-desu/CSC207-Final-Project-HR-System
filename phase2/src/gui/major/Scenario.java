@@ -21,10 +21,13 @@ public abstract class Scenario extends JPanel {
 
     protected final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3 - VERTICAL_GAP);
     protected final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
+    protected final Dimension LIST_SIZE = new Dimension(WIDTH / 4 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
+    protected final Dimension OUTPUT_SIZE = new Dimension(WIDTH / 2 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
+    protected final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 6 - VERTICAL_GAP);
 
     private UserMenu userMenu;
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
-    private ButtonPanel buttonPanel = new ButtonPanel();
+    private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
     private LayoutMode mode;
     private int numInit;
 
@@ -54,11 +57,11 @@ public abstract class Scenario extends JPanel {
     }
 
     protected FilterPanel initLeftFilter() {
-        return new FilterPanel();
+        return new FilterPanel(LIST_SIZE);
     }
 
     protected FilterPanel initRightFilter() {
-        return new FilterPanel();
+        return new FilterPanel(LIST_SIZE);
     }
 
     protected void updateFilterContent() {
@@ -69,7 +72,7 @@ public abstract class Scenario extends JPanel {
     }
 
     protected InputInfoPanel initInput() {
-        return new InputInfoPanel();
+        return new InputInfoPanel(REGULAR_INPUT_SIZE);
     }
 
     private void setup() {
@@ -85,11 +88,7 @@ public abstract class Scenario extends JPanel {
     }
 
     private void initLayout() {
-        final Dimension LIST_SIZE = new Dimension(WIDTH / 4 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
-        final Dimension OUTPUT_SIZE = new Dimension(WIDTH / 2 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
-//        final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
-//        final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
-        final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 6 - VERTICAL_GAP);
+
 
         if (mode == LayoutMode.REGULAR) {
             leftFilterPanel.setup(LIST_SIZE);

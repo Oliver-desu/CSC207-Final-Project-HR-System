@@ -11,6 +11,10 @@ public class ButtonPanel extends JPanel {
     private static final int VERTICAL_GAP = 5;
     private Dimension buttonSize;
 
+    public ButtonPanel(Dimension dimension) {
+        setup(dimension);
+    }
+
     private Dimension getButtonSize() {
         return buttonSize;
     }

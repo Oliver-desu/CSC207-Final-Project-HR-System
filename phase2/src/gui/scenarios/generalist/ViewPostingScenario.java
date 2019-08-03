@@ -31,7 +31,7 @@ public class ViewPostingScenario extends Scenario {
     }
 
     protected FilterPanel initLeftFilter() {
-        leftFilter = new FilterPanel<>();
+        leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
         return leftFilter;
     }
