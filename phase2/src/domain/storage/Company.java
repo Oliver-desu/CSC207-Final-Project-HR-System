@@ -14,13 +14,11 @@ public class Company implements Serializable {
     private ArrayList<String> interviewerIds;
     private ArrayList<String> jobPostingIds;
     private HashMap<String, ArrayList<Application>> applications;
-    private String verifyMessage;
 
 
     public Company(HashMap<String, String> values) {
         this.id = values.get("id");
         this.generalistId = values.get("generalistId");
-        this.verifyMessage = values.get("verifyMessage");
         this.coordinatorIds = new ArrayList<>();
         this.interviewerIds = new ArrayList<>();
         this.jobPostingIds = new ArrayList<>();
@@ -29,10 +27,6 @@ public class Company implements Serializable {
 
     public String getId() {
         return this.id;
-    }
-
-    public boolean matchVerifyMessage(String message) {
-        return message.equals(verifyMessage);
     }
 
     public String getHRGeneralistId() {
