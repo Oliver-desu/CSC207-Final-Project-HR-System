@@ -61,6 +61,7 @@ public class JobManageScenario extends Scenario {
         leftFilter.setFilterContent(hrCoordinator.getJobPostings());
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
+            jobPosting.getInterviewRoundManager().checkStatus();
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
         }
     }
@@ -93,12 +94,14 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            InterviewRound interviewRound = rightFilter.getSelectObject();
-            if (interviewRound != null) {
-                InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
-                switchScenario(interviewRoundScenario);
-            } else {
-                JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
+            if (jobPosting != null) {
+                InterviewRound interviewRound = rightFilter.getSelectObject();
+                if (interviewRound != null) {
+                    InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
+                    switchScenario(interviewRoundScenario);
+                } else {
+                    JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
+                }
             }
         }
     }

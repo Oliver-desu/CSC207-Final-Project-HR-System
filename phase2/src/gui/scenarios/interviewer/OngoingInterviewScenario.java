@@ -4,7 +4,6 @@ import domain.Test;
 import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.Info;
 import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
@@ -76,7 +75,6 @@ public class OngoingInterviewScenario extends Scenario {
             if (JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?") != 0) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
-                new Info(interview, getInputInfoMap());
                 interview.setResult(isPass);
                 updateFilterContent();
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");

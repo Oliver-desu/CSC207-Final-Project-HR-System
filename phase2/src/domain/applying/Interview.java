@@ -1,15 +1,13 @@
 package domain.applying;
 
 import domain.filter.Filterable;
-import domain.storage.Info;
-import domain.storage.InfoHolder;
 import domain.user.CompanyWorker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Interview implements Filterable, InfoHolder, Serializable {
+public class Interview implements Filterable, Serializable {
 
     public enum InterviewStatus {
         UNMATCHED,
@@ -21,7 +19,6 @@ public class Interview implements Filterable, InfoHolder, Serializable {
     private CompanyWorker interviewer;
     private Application application;
     private InterviewStatus status = InterviewStatus.UNMATCHED;
-    private Info interviewInfo;
 
 
     public Interview(Application application) {
@@ -36,26 +33,15 @@ public class Interview implements Filterable, InfoHolder, Serializable {
         return application;
     }
 
-    public boolean match(CompanyWorker interviewer, Info info) {
+    public boolean match(CompanyWorker interviewer) {
         if (status.equals(InterviewStatus.UNMATCHED)) {
             this.interviewer = interviewer;
-            setInfo(info);
             setStatus(InterviewStatus.PENDING);
             interviewer.addFile(this);
             return true;
         } else {
             return false;
         }
-    }
-
-    @Override
-    public Info getInfo() {
-        return interviewInfo;
-    }
-
-    @Override
-    public void setInfo(Info info) {
-        interviewInfo = info;
     }
 
     public InterviewStatus getStatus() {
@@ -87,9 +73,6 @@ public class Interview implements Filterable, InfoHolder, Serializable {
             return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
                     "Applicant: " + this.application.getApplicantId() + "\n" +
                     "Interviewer:" + this.interviewer.getUsername() + "\n" +
-                    "Time: " + this.interviewInfo.getSpecificInfo("Time") + "\n" +
-                    "Duration(min): " + this.interviewInfo.getSpecificInfo("Duration(min)") + "\n" +
-                    "Location: " + this.interviewInfo.getSpecificInfo("Location") + "\n" +
                     "Status: " + this.status;
         }
     }

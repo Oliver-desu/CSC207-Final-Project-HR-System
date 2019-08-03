@@ -8,7 +8,6 @@ import domain.job.InterviewRound;
 import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.Info;
 import domain.storage.InfoCenter;
 import domain.storage.UserFactory;
 import domain.user.Applicant;
@@ -212,6 +211,7 @@ public class Test {
         jobPosting.close();
         jobPosting.setInterviewRoundManager();
         InterviewRoundManager manager = jobPosting.getInterviewRoundManager();
+        manager.checkStatus();
         InterviewRound interviewRound = new InterviewRound(Integer.toString(manager.getInterviewRounds().size()));
         manager.addInterviewRound(interviewRound);
         manager.nextRound();
@@ -222,17 +222,10 @@ public class Test {
         InterviewRound interviewRound = this.addNewRound(jobPosting);
         Interview interview;
         CompanyWorker interviewer;
-        Info interviewInfo;
-        HashMap<String, String> values;
         for (Application application: interviewRound.getUnmatchedApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
-            values = new HashMap<>();
             interviewer = this.getRandomInterviewer(company);
-            values.put("Time:", "2019-08-02 10:00");
-            values.put("Location:", "BA1160");
-            values.put("Duration(min):", "30");
-            interviewInfo = new Info(interview, values);
-            interview.match(interviewer, interviewInfo);
+            interview.match(interviewer);
         }
         interviewRound.checkStatus();
     }

@@ -31,8 +31,8 @@ public class InterviewRoundManager {
 
     public InterviewRound getCurrentInterviewRound() {
         InterviewRound interviewRound = null;
-        for (int i = interviewRounds.size() - 1; i >= 0; i--) {
-            if (interviewRounds.get(i).isFinished()) {
+        for (int i = 0; i < interviewRounds.size(); i++) {
+            if (interviewRounds.get(i).getStatus().equals(InterviewRound.InterviewRoundStatus.EMPTY)) {
                 break;
             } else {
                 interviewRound = interviewRounds.get(i);
@@ -57,8 +57,10 @@ public class InterviewRoundManager {
 
     public boolean nextRound() {
         InterviewRound currentRound = getCurrentInterviewRound();
-        if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING) && currentRound != null) {
-            currentRound.start(remainingApplications);
+        if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING) &&
+                (currentRound == null || currentRound.isFinished())) {
+            InterviewRound nextRound = interviewRounds.get(interviewRounds.indexOf(currentRound) + 1);
+            nextRound.start(remainingApplications);
             return true;
         } else {
             return false;
@@ -66,7 +68,8 @@ public class InterviewRoundManager {
     }
 
     public void checkStatus() {
-        getCurrentInterviewRound().checkStatus();
+        InterviewRound interviewRound = getCurrentInterviewRound();
+        if (interviewRound != null) interviewRound.checkStatus();
         updateRemainingApplications();
     }
 

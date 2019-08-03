@@ -6,20 +6,17 @@ import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.Info;
 import domain.storage.InfoCenter;
 import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
-import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MatchInterviewScenario extends Scenario {
 
@@ -47,13 +44,6 @@ public class MatchInterviewScenario extends Scenario {
         new MatchInterviewScenario(new UserMenu(test.getMain(), coordinator), interviewRound).exampleView();
     }
 
-    protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel();
-        infoPanel.setup(REGULAR_INPUT_SIZE, false);
-        infoPanel.addTextField("Dead line:");
-        return infoPanel;
-    }
-
     protected void initButton() {
         addButton("Match", new MatchListener());
     }
@@ -79,18 +69,16 @@ public class MatchInterviewScenario extends Scenario {
     class MatchListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            HashMap<String, String> infoMap = getInputInfoMap();
             CompanyWorker interviewer = rightFilter.getSelectObject();
             Application application = leftFilter.getSelectObject();
             Interview interview;
             if (application != null) {
                 interview = application.getInterviewByRound(interviewRound.getRoundName());
                 if (interview.getStatus().equals(Interview.InterviewStatus.UNMATCHED)) {
-                    Info interviewInfo = new Info(interview, infoMap);
-                    interview.match(interviewer, interviewInfo);
+                    interview.match(interviewer);
                     application.addInterview(interviewRound.getRoundName(), interview);
                     JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
-                    initLeftFilter();
+                    updateFilterContent();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
                 }

@@ -33,20 +33,12 @@ public class InterviewRound implements Filterable, Serializable {
         return this.roundName;
     }
 
-    public HashMap<String, Application> getApplicationMap() {
-        return this.applications;
-    }
-
     public ArrayList<Application> getCurrentRoundApplications() {
         return new ArrayList<>(this.applications.values());
     }
 
     public ArrayList<Application> getUnmatchedApplications() {
         return getApplicationsByStatus(Interview.InterviewStatus.UNMATCHED);
-    }
-
-    public ArrayList<Application> getPassedApplications() {
-        return getApplicationsByStatus(Interview.InterviewStatus.PASS);
     }
 
     private ArrayList<Application> getApplicationsByStatus(Interview.InterviewStatus status) {
