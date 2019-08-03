@@ -34,8 +34,7 @@ public class UserRegister extends Scenario {
         infoPanel.addPasswordField("Confirm Password:");
         infoPanel.addTextField("First name:");
         infoPanel.addTextField("Last/Family name:");
-        infoPanel.addPasswordField("Age:");
-        infoPanel.addPasswordField("Email Address:");
+        infoPanel.addTextField("Email:");
     }
 
     private void initApplicantInput(InputInfoPanel infoPanel) {

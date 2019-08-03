@@ -32,7 +32,7 @@ public class UserFactory implements Serializable {
     }
 
     private User createApplicant(HashMap<String, String> infoMap) {
-        if (!infoMap.get("Password:").isEmpty() &&
+        if (validValues(infoMap) &&
                 infoCenter.getApplicant(infoMap.get("Username:")) == null) {
             return new Applicant(infoMap);
         } else {
@@ -42,7 +42,7 @@ public class UserFactory implements Serializable {
 
     private User createCoordinator(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
-        if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
+        if (validValues(infoMap) && companyExists(companyId) &&
                 infoCenter.getCompanyWorker(infoMap.get("Username:"), User.UserType.HR_COORDINATOR) == null) {
             Company company = infoCenter.getCompany(companyId);
             company.addHRCoordinatorId(infoMap.get("Username:"));
@@ -54,7 +54,7 @@ public class UserFactory implements Serializable {
 
     private User createInterviewer(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
-        if (!infoMap.get("Password:").isEmpty() && companyExists(companyId) &&
+        if (validValues(infoMap) && companyExists(companyId) &&
                 infoCenter.getCompanyWorker(infoMap.get("Username:"), User.UserType.INTERVIEWER) == null) {
             Company company = infoCenter.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
@@ -66,7 +66,7 @@ public class UserFactory implements Serializable {
 
     private User createGeneralistAndCompany(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
-        if (!infoMap.get("Password:").isEmpty() && !companyExists(companyId) &&
+        if (validValues(infoMap) && !companyExists(companyId) &&
                 infoCenter.getCompanyWorker(infoMap.get("Username:"), User.UserType.HR_GENERALIST) == null) {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
@@ -80,6 +80,11 @@ public class UserFactory implements Serializable {
 
     private boolean companyExists(String companyId) {
         return infoCenter.getCompany(companyId) != null;
+    }
+
+    private boolean validValues(HashMap<String, String> infoMap) {
+        return !infoMap.get("Password:").equals("[]") &&
+                infoMap.get("Email:").matches(".+@(.+\\.)com");
     }
 
 

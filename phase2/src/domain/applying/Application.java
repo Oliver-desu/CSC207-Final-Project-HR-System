@@ -33,10 +33,6 @@ public class Application implements Filterable, Serializable {
         this.status = ApplicationStatus.DRAFT;
     }
 
-    public HashMap<String, Interview> getInterviewMap() {
-        return this.interviews;
-    }
-
     public ArrayList<Interview> getInterviews() {
         return new ArrayList<>(this.interviews.values());
     }
@@ -103,11 +99,11 @@ public class Application implements Filterable, Serializable {
         }
     }
 
-    public void hired() {
+    public void hire() {
         this.setStatus(ApplicationStatus.HIRE);
     }
 
-    public void rejected() {
+    public void reject() {
         this.setStatus(ApplicationStatus.REJECTED);
     }
 
@@ -115,6 +111,14 @@ public class Application implements Filterable, Serializable {
         if (interview.getStatus().equals(Interview.InterviewStatus.FAIL)) {
             this.setStatus(ApplicationStatus.REJECTED);
         }
+    }
+
+    public String detailedToString(InfoCenter infoCenter) {
+        Applicant applicant = infoCenter.getApplicant(applicantId);
+        return "JobPosting id:" + jobPostingId + "\n" +
+                "Status: " + status + "\n" +
+                "\n" +
+                "Applicant information:\n" + applicant.toString();
     }
 
     @Override

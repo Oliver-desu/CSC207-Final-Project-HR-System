@@ -82,7 +82,7 @@ public class Test {
         HashMap<String, String> values = new HashMap<>();
         values.put("Username:", Integer.toString(numApplicants));
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
-        values.put("dateCreated", "2019-01-01");
+        values.put("Email:", "shit@gmail.ca");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
         infoCenter.register(applicant, User.UserType.APPLICANT);
@@ -100,6 +100,7 @@ public class Test {
         HashMap<String, String> values = new HashMap<>();
         values.put("Username:", Integer.toString(numCompanies));
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
+        values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
         new UserFactory(infoCenter).createUser(values, User.UserType.HR_GENERALIST);
         CompanyWorker generalist = (CompanyWorker) infoCenter.getUser(values.get("Username:"), User.UserType.HR_GENERALIST);
@@ -125,7 +126,7 @@ public class Test {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
-            values.put("dateCreated", "2019-01-01");
+            values.put("Email:", "shit@gmail.com");
             interviewer = new CompanyWorker(values, company.getId(), User.UserType.INTERVIEWER);
             infoCenter.register(interviewer, User.UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
@@ -141,7 +142,7 @@ public class Test {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
-            values.put("dateCreated", "2019-01-01");
+            values.put("Email:", "shit@gmail.com");
             coordinator = new CompanyWorker(values, company.getId(), User.UserType.HR_COORDINATOR);
             infoCenter.register(coordinator, User.UserType.HR_COORDINATOR);
             company.addHRCoordinatorId(coordinator.getUsername());

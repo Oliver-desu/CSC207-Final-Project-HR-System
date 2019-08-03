@@ -82,7 +82,7 @@ public class JobPosting implements Filterable, Serializable {
     public void endJobPosting() {
         this.status = JobPostingStatus.FINISHED;
         for (Application application : interviewRoundManager.getRemainingApplications()) {
-            application.setStatus(Application.ApplicationStatus.REJECTED);
+            application.reject();
         }
         interviewRoundManager.updateRemainingApplications();
     }
