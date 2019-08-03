@@ -60,7 +60,9 @@ public class JobManageScenario extends Scenario {
         CompanyWorker hrCoordinator = (CompanyWorker) getUserMenu().getUser();
         leftFilter.setFilterContent(hrCoordinator.getJobPostings());
         JobPosting jobPosting = leftFilter.getSelectObject();
-        if (jobPosting != null) rightFilter.setFilterContent(jobPosting.getAllInterviewRounds());
+        if (jobPosting != null) {
+            rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
+        }
     }
 
     protected FilterPanel initRightFilter() {
@@ -81,7 +83,7 @@ public class JobManageScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null) {
-                rightFilter.setFilterContent(jobPosting.getAllInterviewRounds());
+                rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
                 setOutputText(jobPosting.toString());
             }
         }
@@ -107,8 +109,7 @@ public class JobManageScenario extends Scenario {
             JobPosting jobPosting = leftFilter.getSelectObject();
             String roundName = getInputInfoMap().get("Round name:");
             if (jobPosting != null && jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING)) {
-                InterviewRound interviewRound = new InterviewRound(roundName);
-                jobPosting.addInterviewRound(interviewRound);
+                jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
                 initRightFilter();
             } else {
@@ -121,7 +122,7 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            if (jobPosting != null && jobPosting.nextRound()) {
+            if (jobPosting != null && jobPosting.getInterviewRoundManager().nextRound()) {
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
                 initRightFilter();
             } else {

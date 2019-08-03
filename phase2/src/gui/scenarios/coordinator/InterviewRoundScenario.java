@@ -4,6 +4,7 @@ import domain.Test;
 import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
+import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.user.Applicant;
@@ -21,14 +22,14 @@ import java.awt.event.ActionListener;
 public class InterviewRoundScenario extends Scenario {
 
     private InterviewRound interviewRound;
-    private JobPosting jobPosting;
+    private InterviewRoundManager manager;
     private FilterPanel<Application> leftFilter;
     private FilterPanel<Interview> rightFilter;
 
     public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
         super(userMenu, LayoutMode.REGULAR);
         this.interviewRound = interviewRound;
-        this.jobPosting = jobPosting;
+        this.manager = jobPosting.getInterviewRoundManager();
     }
 
     public static void main(String[] args) {
@@ -42,7 +43,7 @@ public class InterviewRoundScenario extends Scenario {
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
 
-        new InterviewRoundScenario(new UserMenu(test.getMain(), coordinator), jobPosting.getCurrentInterviewRound(), jobPosting).exampleView();
+        new InterviewRoundScenario(new UserMenu(test.getMain(), coordinator), jobPosting.getInterviewRoundManager().getCurrentInterviewRound(), jobPosting).exampleView();
 
     }
 
@@ -81,9 +82,9 @@ public class InterviewRoundScenario extends Scenario {
     class HireListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (interviewRound == jobPosting.getCurrentInterviewRound()) {
+            if (interviewRound == manager.getCurrentInterviewRound()) {
                 Application application = leftFilter.getSelectObject();
-                if (application != null && jobPosting.hire(application)) {
+                if (application != null && manager.hire(application)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Successfully hired!");
                     initLeftFilter();
                 } else {
@@ -99,7 +100,7 @@ public class InterviewRoundScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();
-            if (jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING)) {
+            if (manager.getJobPosting().isProcessing()) {
                 if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.MATCHING)) {
                     menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
                 } else {

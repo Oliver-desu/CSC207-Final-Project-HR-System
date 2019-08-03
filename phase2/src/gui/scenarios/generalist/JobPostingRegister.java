@@ -3,7 +3,6 @@ package gui.scenarios.generalist;
 import domain.Test;
 import domain.job.JobPosting;
 import domain.storage.Company;
-import domain.storage.Info;
 import domain.user.CompanyWorker;
 import domain.user.User;
 import gui.major.Scenario;
@@ -97,8 +96,7 @@ public class JobPostingRegister extends Scenario {
             int confirm = JOptionPane.showConfirmDialog(userMenu, "Are you sure to post job?");
             HashMap<String, String> values = createJobInfoMap();
             if (confirm == 0 && isValidJobInfoMap(values).equals("Good")) {
-                JobPosting jobPosting = new JobPosting();
-                new Info(jobPosting, values);
+                JobPosting jobPosting = new JobPosting(values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getInfoCenter().getCompanyWorker(
                         values.get("Coordinator:"), User.UserType.HR_COORDINATOR).addFile(jobPosting);

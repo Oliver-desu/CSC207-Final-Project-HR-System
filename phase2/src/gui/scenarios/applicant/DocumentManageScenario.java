@@ -63,7 +63,9 @@ public class DocumentManageScenario extends Scenario {
     }
 
     protected void updateFilterContent() {
-        leftFilter.setFilterContent(applicationDocument.getAllDocuments());
+        if (applicationDocument != null) {
+            leftFilter.setFilterContent(applicationDocument.getAllDocuments());
+        }
         rightFilter.setFilterContent(applicantDocument.getAllDocuments());
     }
 

@@ -5,6 +5,7 @@ import domain.applying.Document;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
+import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.Info;
@@ -161,8 +162,7 @@ public class Test {
         values.put("Cover letter:", "Optional");
         values.put("Reference:", "Optional");
         values.put("Extra document:", "Optional");
-        JobPosting jobPosting = new JobPosting();
-        new Info(jobPosting, values);
+        JobPosting jobPosting = new JobPosting(values);
         infoCenter.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomCoordinator(company).addFile(jobPosting);
@@ -210,9 +210,11 @@ public class Test {
 
     public InterviewRound addNewRound(JobPosting jobPosting) {
         jobPosting.close();
-        InterviewRound interviewRound = new InterviewRound(Integer.toString(jobPosting.getAllInterviewRounds().size()));
-        jobPosting.addInterviewRound(interviewRound);
-        jobPosting.nextRound();
+        jobPosting.setInterviewRoundManager();
+        InterviewRoundManager manager = jobPosting.getInterviewRoundManager();
+        InterviewRound interviewRound = new InterviewRound(Integer.toString(manager.getInterviewRounds().size()));
+        manager.addInterviewRound(interviewRound);
+        manager.nextRound();
         return interviewRound;
     }
 
@@ -236,7 +238,7 @@ public class Test {
     }
 
     public void endCurrentRound(JobPosting jobPosting) {
-        InterviewRound interviewRound = jobPosting.getCurrentInterviewRound();
+        InterviewRound interviewRound = jobPosting.getInterviewRoundManager().getCurrentInterviewRound();
         Interview interview;
         for (Application application : interviewRound.getCurrentRoundApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
@@ -246,8 +248,9 @@ public class Test {
     }
 
     public void hireApplicants(JobPosting jobPosting) {
-        for (Application application : jobPosting.getRemainingApplications()) {
-            jobPosting.hire(application);
+        InterviewRoundManager manager = jobPosting.getInterviewRoundManager();
+        for (Application application : manager.getRemainingApplications()) {
+            manager.hire(application);
         }
         jobPosting.endJobPosting();
     }
