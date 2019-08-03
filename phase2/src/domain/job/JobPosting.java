@@ -48,7 +48,7 @@ public class JobPosting implements Filterable, Serializable {
         return jobDetails.get("Job id:");
     }
 
-    public int getNumOfPositions() {
+    int getNumOfPositions() {
         return Integer.parseInt(jobDetails.get("Num of positions:"));
     }
 
@@ -70,12 +70,9 @@ public class JobPosting implements Filterable, Serializable {
         return status.equals(JobPostingStatus.PROCESSING);
     }
 
-    public boolean startProcessing() {
+    public void startProcessing() {
         if (isOpen() && shouldClose()) {
             this.interviewRoundManager = new InterviewRoundManager(this, applications);
-            return true;
-        } else {
-            return false;
         }
     }
 

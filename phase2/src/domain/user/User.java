@@ -48,7 +48,7 @@ public class User implements Serializable {
         userDetail.remove("Password:");
     }
 
-    public String getRealName() {
+    private String getRealName() {
         return this.userDetail.get("First name:") + " " + this.userDetail.get("Last/Family name:");
     }
 

@@ -65,7 +65,7 @@ public class Company implements Serializable {
         this.jobPostingIds.add(id);
     }
 
-    public void addApplication(Application application) {
+    private void addApplication(Application application) {
         String applicantId = application.getApplicantId();
         if (!this.applications.containsKey(applicantId)) {
             this.applications.put(applicantId, new ArrayList<>());

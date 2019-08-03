@@ -49,12 +49,8 @@ public class Application implements Filterable, Serializable {
         return infoCenter.getApplicant(this.applicantId);
     }
 
-    public String getJobPostingId() {
+    String getJobPostingId() {
         return this.jobPostingId;
-    }
-
-    public JobPosting getJobPosting(InfoCenter infoCenter) {
-        return infoCenter.getJobPosting(this.jobPostingId);
     }
 
     public DocumentManager getDocumentManager() {
@@ -76,7 +72,7 @@ public class Application implements Filterable, Serializable {
     public boolean apply(InfoCenter infoCenter) {
         // apply will ask JobPosting whether it is allowed to apply or not, and modify things if permitted, then return
         // whether succeeded or not
-        boolean succeed = this.getJobPosting(infoCenter).applicationSubmit(this, infoCenter);
+        boolean succeed = infoCenter.getJobPosting(jobPostingId).applicationSubmit(this, infoCenter);
         if (succeed) {
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
@@ -88,7 +84,7 @@ public class Application implements Filterable, Serializable {
         // cancel will ask JobPosting whether it is allowed to cancel or not, and modify things if permitted, then
         // return whether succeeded or not
         if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
-            boolean succeed = this.getJobPosting(infoCenter).applicationCancel(this, infoCenter);
+            boolean succeed = infoCenter.getJobPosting(jobPostingId).applicationCancel(this, infoCenter);
             if (succeed) {
                 this.documentManager.setEditable(true);
                 this.setStatus(ApplicationStatus.DRAFT);

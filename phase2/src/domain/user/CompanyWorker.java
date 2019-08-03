@@ -48,8 +48,8 @@ public class CompanyWorker extends User implements Filterable, Serializable {
         this.files.add(file);
     }
 
-    public boolean removeFile(Object file) {
-        return this.files.remove(file);
+    public void removeFile(Object file) {
+        this.files.remove(file);
     }
 
     @Override

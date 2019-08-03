@@ -11,7 +11,7 @@ public class InterviewRoundManager {
     private ArrayList<Application> remainingApplications;
 
 
-    public InterviewRoundManager(JobPosting jobPosting, ArrayList<Application> applications) {
+    InterviewRoundManager(JobPosting jobPosting, ArrayList<Application> applications) {
         this.jobPosting = jobPosting;
         this.interviewRounds = new ArrayList<>();
         this.remainingApplications = applications;
@@ -30,22 +30,22 @@ public class InterviewRoundManager {
     }
 
     public InterviewRound getCurrentInterviewRound() {
-        InterviewRound interviewRound = null;
-        for (int i = 0; i < interviewRounds.size(); i++) {
-            if (interviewRounds.get(i).getStatus().equals(InterviewRound.InterviewRoundStatus.EMPTY)) {
+        InterviewRound currInterviewRound = null;
+        for (InterviewRound interviewRound : interviewRounds) {
+            if (interviewRound.getStatus().equals(InterviewRound.InterviewRoundStatus.EMPTY)) {
                 break;
             } else {
-                interviewRound = interviewRounds.get(i);
+                currInterviewRound = interviewRound;
             }
         }
-        return interviewRound;
+        return currInterviewRound;
     }
 
     public void addInterviewRound(InterviewRound interviewRound) {
         interviewRounds.add(interviewRound);
     }
 
-    public void updateRemainingApplications() {
+    void updateRemainingApplications() {
         ArrayList<Application> tempApplications = new ArrayList<>();
         for (Application application : remainingApplications) {
             if (!application.getStatus().equals(Application.ApplicationStatus.REJECTED)) {
@@ -73,7 +73,7 @@ public class InterviewRoundManager {
         updateRemainingApplications();
     }
 
-    public ArrayList<Application> getHiredApplications() {
+    private ArrayList<Application> getHiredApplications() {
         ArrayList<Application> hiredApplications = new ArrayList<>();
         for (Application application : remainingApplications) {
             if (application.getStatus().equals(Application.ApplicationStatus.HIRE)) {

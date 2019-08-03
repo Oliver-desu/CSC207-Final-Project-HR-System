@@ -51,11 +51,7 @@ public class InterviewRound implements Filterable, Serializable {
         return passedApplications;
     }
 
-    public Application getApplication(String applicantId) {
-        return this.applications.get(applicantId);
-    }
-
-    public boolean isFinished() {
+    boolean isFinished() {
         return status.equals(InterviewRoundStatus.FINISHED);
     }
 
@@ -94,7 +90,7 @@ public class InterviewRound implements Filterable, Serializable {
         return interviews;
     }
 
-    public void start(ArrayList<Application> applications) {
+    void start(ArrayList<Application> applications) {
         this.setStatus(InterviewRoundStatus.MATCHING);
         for (Application application: applications) {
             this.applications.put(application.getApplicantId(), application);

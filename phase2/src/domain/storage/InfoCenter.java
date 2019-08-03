@@ -28,7 +28,7 @@ public class InfoCenter implements Serializable {
         this.users.get(userType).add(user);
     }
 
-    public void registerCompany(Company company) {
+    void registerCompany(Company company) {
         this.companies.put(company.getId(), company);
     }
 
