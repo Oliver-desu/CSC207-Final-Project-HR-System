@@ -9,9 +9,11 @@ public class ComponentFactory {
 
     private static final int COMPONENT_HEIGHT = 45;
 
+    private InputInfoPanel infoPanel;
     private HashMap<ComponentType, Dimension> sizes = new HashMap<>();
 
-    public ComponentFactory(int width) {
+    public ComponentFactory(InputInfoPanel infoPanel, int width) {
+        this.infoPanel = infoPanel;
         setComponentComponentTypes(width);
     }
 
@@ -27,35 +29,47 @@ public class ComponentFactory {
 
     }
 
+    public void addTextField(String name) {
+        addTextField(name, "", true);
+    }
+
+    public void addComboBox(String name, String[] options) {
+        addComboBox(name, options, null, false);
+    }
+
+    public void addTextArea(String name) {
+        addTextArea(name, "", true);
+    }
+
     public JComponent getLabel(String name) {
         JLabel label = new JLabel(name);
         label.setPreferredSize(getComponentSize(ComponentType.LABEL));
         return label;
     }
 
-    public JComponent getComboBox(String[] options, String defaultValue, boolean editable) {
+    public void addComboBox(String name, String[] options, String defaultValue, boolean editable) {
         JComboBox<String> comboBox = new JComboBox<>(options);
         comboBox.setSelectedItem(defaultValue);
         comboBox.setEditable(editable);
         comboBox.setPreferredSize(getComponentSize(ComponentType.COMBO_BOX));
-        return comboBox;
+        infoPanel.addComponent(name, comboBox);
     }
 
-    public JComponent getTextField(String defaultValue, boolean editable) {
+    public void addTextField(String name, String defaultValue, boolean editable) {
         JTextField textField = new JTextField();
         textField.setText(defaultValue);
         textField.setEditable(editable);
         textField.setPreferredSize(getComponentSize(ComponentType.FIELD));
-        return textField;
+        infoPanel.addComponent(name, textField);
     }
 
-    public JPasswordField getPasswordField() {
+    public void addPasswordField(String name) {
         JPasswordField passwordField = new JPasswordField();
         passwordField.setPreferredSize(getComponentSize(ComponentType.FIELD));
-        return passwordField;
+        infoPanel.addComponent(name, passwordField);
     }
 
-    public JComponent getTextArea(String defaultValue, boolean editable) {
+    public void addTextArea(String name, String defaultValue, boolean editable) {
         JTextArea textArea = new JTextArea();
         textArea.setFont(OutputInfoPanel.FONT);
         textArea.setLineWrap(true);
@@ -64,6 +78,6 @@ public class ComponentFactory {
 
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(getComponentSize(ComponentType.AREA));
-        return scrollPane;
+        infoPanel.addComponent(name, scrollPane);
     }
 }

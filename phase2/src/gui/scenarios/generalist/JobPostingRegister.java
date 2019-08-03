@@ -7,6 +7,7 @@ import domain.user.CompanyWorker;
 import domain.user.User;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
@@ -35,19 +36,19 @@ public class JobPostingRegister extends Scenario {
     }
 
     protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel();
-        infoPanel.setup(REGISTER_INPUT_SIZE, true);
+        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+        ComponentFactory factory = infoPanel.getComponentFactory();
         String[] coordinators = getUserMenu().getCompany().getHRCoordinatorIds().toArray(new String[0]);
-        infoPanel.addComboBox("Coordinator:", coordinators);
-        infoPanel.addTextField("Position name:");
-        infoPanel.addTextField("Num of positions:");
-        infoPanel.addTextField("Close date:");
+        factory.addComboBox("Coordinator:", coordinators);
+        factory.addTextField("Position name:");
+        factory.addTextField("Num of positions:");
+        factory.addTextField("Close date:");
         String[] documentsOption = new String[]{"Required", "Optional"};
         String[] extraDocumentsOption = new String[]{"Not allowed", "Allowed 1", "Allowed up to 3", "No restriction"};
-        infoPanel.addComboBox("CV:", documentsOption);
-        infoPanel.addComboBox("Cover letter:", documentsOption);
-        infoPanel.addComboBox("Reference:", documentsOption);
-        infoPanel.addComboBox("Extra document:", extraDocumentsOption);
+        factory.addComboBox("CV:", documentsOption);
+        factory.addComboBox("Cover letter:", documentsOption);
+        factory.addComboBox("Reference:", documentsOption);
+        factory.addComboBox("Extra document:", extraDocumentsOption);
         return infoPanel;
     }
 

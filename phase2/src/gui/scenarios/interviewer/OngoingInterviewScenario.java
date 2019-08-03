@@ -8,6 +8,7 @@ import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 
@@ -40,9 +41,9 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel();
-        infoPanel.setup(REGULAR_INPUT_SIZE, false);
-        infoPanel.addTextField("Recommendation:");
+        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+        ComponentFactory factory = infoPanel.getComponentFactory();
+        factory.addTextField("Recommendation:");
         return infoPanel;
     }
 

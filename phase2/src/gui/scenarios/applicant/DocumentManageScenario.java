@@ -9,6 +9,7 @@ import domain.storage.Company;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 
@@ -45,9 +46,9 @@ public class DocumentManageScenario extends Scenario {
 
     @Override
     protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel();
-        infoPanel.setup(REGULAR_INPUT_SIZE, false);
-        infoPanel.addTextField("File name:");
+        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+        ComponentFactory factory = infoPanel.getComponentFactory();
+        factory.addTextField("File name:");
         return infoPanel;
     }
 

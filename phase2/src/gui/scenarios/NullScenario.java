@@ -49,9 +49,9 @@ public class NullScenario extends Scenario {
     }
 
     private void setupExampleInfoPanelLayout() {
-        getInputInfoPanel().addTextField("text field:");
-        getInputInfoPanel().addComboBox("combo box:", new String[]{"1", "2", "3"});
-        getInputInfoPanel().addTextArea("text area:");
+//        getInputInfoPanel().addTextField("text field:");
+//        getInputInfoPanel().addComboBox("combo box:", new String[]{"1", "2", "3"});
+//        getInputInfoPanel().addTextArea("text area:");
         getInputInfoPanel().updateUI();
     }
 

@@ -2,6 +2,7 @@ package gui.major;
 
 import domain.storage.UserFactory;
 import domain.user.User;
+import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
@@ -20,40 +21,40 @@ public class UserRegister extends Scenario {
     }
 
     protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel();
-        infoPanel.setup(REGISTER_INPUT_SIZE, true);
-        initUserInput(infoPanel);
-        if (registerType.equals(User.UserType.APPLICANT)) initApplicantInput(infoPanel);
-        else initStaffInput(infoPanel);
+        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+        ComponentFactory factory = infoPanel.getComponentFactory();
+        initUserInput(factory);
+        if (registerType.equals(User.UserType.APPLICANT)) initApplicantInput(factory);
+        else initStaffInput(factory);
         return infoPanel;
     }
 
-    private void initUserInput(InputInfoPanel infoPanel) {
-        infoPanel.addTextField("Username:");
-        infoPanel.addPasswordField("Password:");
-        infoPanel.addPasswordField("Confirm Password:");
-        infoPanel.addTextField("First name:");
-        infoPanel.addTextField("Last/Family name:");
-        infoPanel.addTextField("Email:");
+    private void initUserInput(ComponentFactory factory) {
+        factory.addTextField("Username:");
+        factory.addPasswordField("Password:");
+        factory.addPasswordField("Confirm Password:");
+        factory.addTextField("First name:");
+        factory.addTextField("Last/Family name:");
+        factory.addTextField("Email:");
     }
 
-    private void initApplicantInput(InputInfoPanel infoPanel) {
+    private void initApplicantInput(ComponentFactory factory) {
         String[] occupations = new String[]{"Student", "Worker", "Other"};
-        infoPanel.addComboBox("Occupation:", occupations);
+        factory.addComboBox("Occupation:", occupations);
         String[] experiences = new String[]{"0-3 years", "3-5 years", "5-8 years", "8+ years"};
-        infoPanel.addComboBox("Work experiences:", experiences);
+        factory.addComboBox("Work experiences:", experiences);
         String[] diplomas = new String[]{"High School", "Bachelor", "Master", "Doctor", "Other"};
-        infoPanel.addComboBox("Education background:", diplomas);
+        factory.addComboBox("Education background:", diplomas);
         String[] major = new String[]{
                 "Math", "CompScience", "Economics", "Finance", "Education", "Art", "Engineer", "Statistics", "Other"
         };
-        infoPanel.addComboBox("Major in:", major);
+        factory.addComboBox("Major in:", major);
     }
 
-    private void initStaffInput(InputInfoPanel infoPanel) {
-        infoPanel.addTextField("Company id:");
-        infoPanel.addTextField("Work id:");
-        infoPanel.addTextArea("Verify message:");
+    private void initStaffInput(ComponentFactory factory) {
+        factory.addTextField("Company id:");
+        factory.addTextField("Work id:");
+        factory.addTextArea("Verify message:");
     }
 
     protected void initButton() {
