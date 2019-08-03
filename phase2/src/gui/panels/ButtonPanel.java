@@ -20,10 +20,12 @@ public class ButtonPanel extends JPanel {
     }
 
     public void setup(Dimension dimension) {
+        System.out.println(dimension.height);
         setPreferredSize(dimension);
         setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
         Dimension buttonSize = new Dimension(dimension.width / MAX_BUTTON_NUM - HORIZONTAL_GAP,
                 dimension.height - VERTICAL_GAP * 2);
+        System.out.println(buttonSize.height);
         setButtonSize(buttonSize);
     }
 

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class ViewPostingScenario extends Scenario {
 
+    private FilterPanel<JobPosting> leftFilter;
+
     public ViewPostingScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
     }
@@ -28,14 +30,17 @@ public class ViewPostingScenario extends Scenario {
         new ViewPostingScenario(userMenu).exampleView();
     }
 
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        return leftFilter;
+    }
+
     @Override
-    protected void initFilter() {
+    protected void updateFilterContent() {
         Company company = getUserMenu().getCompany();
         InfoCenter infoCenter = getMain().getInfoCenter();
         ArrayList<JobPosting> jobPostings = infoCenter.getJobPostingsByIds(company.getJobPostingIds());
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        filterPanel.setFilterContent(new ArrayList<>(jobPostings));
-        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
+        leftFilter.setFilterContent(jobPostings);
     }
-
 }

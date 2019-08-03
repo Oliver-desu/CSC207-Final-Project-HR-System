@@ -2,6 +2,7 @@ package gui.scenarios.coordinator;
 
 import domain.Test;
 import domain.applying.Application;
+import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.storage.Company;
@@ -16,12 +17,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class InterviewRoundScenario extends Scenario {
 
     private InterviewRound interviewRound;
     private JobPosting jobPosting;
+    private FilterPanel<Application> leftFilter;
+    private FilterPanel<Interview> rightFilter;
 
     public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
         super(userMenu, LayoutMode.REGULAR);
@@ -44,39 +46,33 @@ public class InterviewRoundScenario extends Scenario {
 
     }
 
-    @Override
-    public void init() {
-        super.init();
-        initButtonPanel();
-        initLeftFilter();
-        initRightFilter();
-    }
-
-    private void initButtonPanel() {
+    protected void initButton() {
         addButton("Match Interview", new MatchInterviewListener());
         addButton("Hire", new HireListener());
     }
 
-    private void initLeftFilter() {
-        ArrayList<Object> filterContent = new ArrayList<>(interviewRound.getApplicationMap().values());
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        filterPanel.setFilterContent(filterContent);
-        filterPanel.addSelectionListener(new LeftFilterListener());
+    protected void updateFilterContent() {
+        leftFilter.setFilterContent(interviewRound.getCurrentRoundApplications());
     }
 
-    private void initRightFilter() {
-        FilterPanel<Object> rightFilter = getFilterPanel(false);
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        leftFilter.addSelectionListener(new LeftFilterListener());
+        return leftFilter;
+    }
+
+    protected FilterPanel initRightFilter() {
+        rightFilter = new FilterPanel<>();
         rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
+        return rightFilter;
     }
 
     class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            FilterPanel<Object> filterPanel = getFilterPanel(true);
-            Application application = (Application) filterPanel.getSelectObject();
+            Application application = leftFilter.getSelectObject();
             if (application != null) {
-                ArrayList<Object> filterContent = new ArrayList<>(application.getInterviews());
-                getFilterPanel(false).setFilterContent(filterContent);
+                rightFilter.setFilterContent(application.getInterviews());
                 setOutputText(application.toString());
             }
         }
@@ -86,8 +82,7 @@ public class InterviewRoundScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (interviewRound == jobPosting.getCurrentInterviewRound()) {
-                FilterPanel<Object> filterPanel = getFilterPanel(true);
-                Application application = (Application) filterPanel.getSelectObject();
+                Application application = leftFilter.getSelectObject();
                 if (application != null && jobPosting.hire(application)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Successfully hired!");
                     initLeftFilter();

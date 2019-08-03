@@ -72,6 +72,7 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
     }
 
     public ArrayList<InterviewRound> getAllInterviewRounds() {
+        // Todo: may want to also check status at this point
         return new ArrayList<>(this.interviewRounds.values());
     }
 

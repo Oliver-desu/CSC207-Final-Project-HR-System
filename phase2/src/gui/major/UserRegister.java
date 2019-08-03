@@ -18,11 +18,13 @@ public class UserRegister extends Scenario {
         this.registerType = registerType;
     }
 
-    protected void initInput() {
-        InputInfoPanel infoPanel = getInputInfoPanel();
+    protected InputInfoPanel initInput() {
+        InputInfoPanel infoPanel = new InputInfoPanel();
+        infoPanel.setup(REGISTER_INPUT_SIZE, true);
         initUserInput(infoPanel);
         if (registerType.equals(User.UserType.APPLICANT)) initApplicantInput(infoPanel);
         else initStaffInput(infoPanel);
+        return infoPanel;
     }
 
     private void initUserInput(InputInfoPanel infoPanel) {

@@ -10,17 +10,19 @@ import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
+import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class OngoingInterviewScenario extends Scenario {
 
     public OngoingInterviewScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
     }
+
+    private FilterPanel<Interview> leftFilter;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -38,19 +40,23 @@ public class OngoingInterviewScenario extends Scenario {
         new OngoingInterviewScenario(userMenu).exampleView();
     }
 
-    protected void initInput() {
-        getInputInfoPanel().addTextField("Recommendation:");
+    protected InputInfoPanel initInput() {
+        InputInfoPanel infoPanel = new InputInfoPanel();
+        infoPanel.setup(REGULAR_INPUT_SIZE, false);
+        infoPanel.addTextField("Recommendation:");
+        return infoPanel;
     }
 
-    protected void initFilter() {
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        setFilterContent(filterPanel);
-        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        return leftFilter;
     }
 
-    private void setFilterContent(FilterPanel<Object> filterPanel) {
+    protected void updateFilterContent() {
         CompanyWorker interviewer = (CompanyWorker) getUserMenu().getUser();
-        filterPanel.setFilterContent(new ArrayList<>(interviewer.getInterviews()));
+        leftFilter.setFilterContent(interviewer.getInterviews());
+
     }
 
     protected void initButton() {
@@ -67,19 +73,17 @@ public class OngoingInterviewScenario extends Scenario {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int confirm = JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?");
-            if (confirm == 0) {
-                FilterPanel<Object> filterPanel = getFilterPanel(true);
-                Interview interview = (Interview) filterPanel.getSelectObject();
-                if (interview != null && interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
-                    new Info(interview, getInputInfoMap());
-                    interview.setResult(isPass);
-                    setFilterContent(filterPanel);
-                    JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
-                } else {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Can not change!");
-                }
+            if (JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?") != 0) return;
+            Interview interview = leftFilter.getSelectObject();
+            if (interview != null && interview.getStatus().equals(Interview.InterviewStatus.PENDING)) {
+                new Info(interview, getInputInfoMap());
+                interview.setResult(isPass);
+                updateFilterContent();
+                JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
+            } else {
+                JOptionPane.showMessageDialog(getUserMenu(), "Can not change!");
             }
+
         }
     }
 }

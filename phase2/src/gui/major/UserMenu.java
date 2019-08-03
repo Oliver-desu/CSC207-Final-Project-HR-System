@@ -23,12 +23,12 @@ import java.awt.event.ActionListener;
 
 public class UserMenu extends JFrame {
 
-    private static final int WIDTH = 1500;
-    private static final int HEIGHT = 750;
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 600;
 
-    static final Dimension SCENARIO_SIZE = new Dimension(WIDTH * 4 / 5, HEIGHT - 50);
-    private static final Dimension MENU_SIZE = new Dimension(WIDTH / 6, HEIGHT - 50);
-    private static final Dimension BUTTON_SIZE = new Dimension(WIDTH / 7, 50);
+    static final Dimension SCENARIO_SIZE = new Dimension(WIDTH * 4 / 5 - 20, HEIGHT - 50);
+    private static final Dimension MENU_SIZE = new Dimension(WIDTH / 5 - 20, HEIGHT - 50);
+    private static final Dimension BUTTON_SIZE = new Dimension(WIDTH / 6, 50);
 
     private Main main;
     private User user;

@@ -9,13 +9,13 @@ import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
+import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 
 public class JobManageScenario extends Scenario {
@@ -23,6 +23,9 @@ public class JobManageScenario extends Scenario {
     public JobManageScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
     }
+
+    private FilterPanel<JobPosting> leftFilter;
+    private FilterPanel<InterviewRound> rightFilter;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -40,32 +43,29 @@ public class JobManageScenario extends Scenario {
         new JobManageScenario(new UserMenu(test.getMain(), coordinator)).exampleView();
     }
 
-    protected void initInput() {
-        getInputInfoPanel().addTextField("Round name:");
+    protected InputInfoPanel initInput() {
+        InputInfoPanel infoPanel = new InputInfoPanel();
+        infoPanel.setup(REGULAR_INPUT_SIZE, false);
+        infoPanel.addTextField("Round name:");
+        return infoPanel;
     }
 
-    protected void initFilter() {
-        initLeftFilter();
-        initRightFilter();
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        leftFilter.addSelectionListener(new JobManageScenario.LeftFilterListener());
+        return leftFilter;
     }
 
-    private void initLeftFilter() {
-        FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
+    protected void updateFilterContent() {
         CompanyWorker hrCoordinator = (CompanyWorker) getUserMenu().getUser();
-        ArrayList<Object> jobPostings = new ArrayList<>(hrCoordinator.getJobPostings());
-        leftFilterPanel.setFilterContent(jobPostings);
-        leftFilterPanel.addSelectionListener(new JobManageScenario.LeftFilterListener());
+        leftFilter.setFilterContent(hrCoordinator.getJobPostings());
+        JobPosting jobPosting = leftFilter.getSelectObject();
+        if (jobPosting != null) rightFilter.setFilterContent(jobPosting.getAllInterviewRounds());
     }
 
-    private void initRightFilter() {
-        FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
-        JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-        ArrayList<Object> interviewRounds = new ArrayList<>();
-        if (jobPosting != null) {
-            interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
-        }
-        rightFilterPanel.setFilterContent(interviewRounds);
-
+    protected FilterPanel initRightFilter() {
+        rightFilter = new FilterPanel<>();
+        return rightFilter;
     }
 
     protected void initButton() {
@@ -79,13 +79,9 @@ public class JobManageScenario extends Scenario {
     class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
+            JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null) {
-                ArrayList<Object> interviewRounds = new ArrayList<>(jobPosting.getAllInterviewRounds());
-                for (Object interviewRound : interviewRounds) {
-                    ((InterviewRound) interviewRound).checkStatus();
-                }
-                getFilterPanel(false).setFilterContent(interviewRounds);
+                rightFilter.setFilterContent(jobPosting.getAllInterviewRounds());
                 setOutputText(jobPosting.toString());
             }
         }
@@ -94,8 +90,8 @@ public class JobManageScenario extends Scenario {
     class ViewEditListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
-            InterviewRound interviewRound = (InterviewRound) getFilterPanel(false).getSelectObject();
+            JobPosting jobPosting = leftFilter.getSelectObject();
+            InterviewRound interviewRound = rightFilter.getSelectObject();
             if (interviewRound != null) {
                 InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
                 switchScenario(interviewRoundScenario);
@@ -108,7 +104,7 @@ public class JobManageScenario extends Scenario {
     class AddRoundListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
+            JobPosting jobPosting = leftFilter.getSelectObject();
             String roundName = getInputInfoMap().get("Round name:");
             if (jobPosting != null && jobPosting.getStatus().equals(JobPosting.JobPostingStatus.PROCESSING)) {
                 InterviewRound interviewRound = new InterviewRound(roundName);
@@ -124,7 +120,7 @@ public class JobManageScenario extends Scenario {
     class NextRoundListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
+            JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null && jobPosting.nextRound()) {
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeeds!");
                 initRightFilter();
@@ -137,11 +133,11 @@ public class JobManageScenario extends Scenario {
     class EndJobPostingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
+            JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null && !jobPosting.getStatus().equals(JobPosting.JobPostingStatus.FINISHED)) {
                 jobPosting.endJobPosting();
                 JOptionPane.showMessageDialog(getUserMenu(), "The jobPosting is now closed.");
-                initFilter();
+                updateFilterContent();
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "Failed.");
             }

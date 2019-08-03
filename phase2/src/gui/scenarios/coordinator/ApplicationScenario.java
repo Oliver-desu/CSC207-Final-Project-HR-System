@@ -21,6 +21,9 @@ public class ApplicationScenario extends Scenario {
         super(userMenu, LayoutMode.REGULAR);
     }
 
+    private FilterPanel<Application> leftFilter;
+    private FilterPanel<Document> rightFilter;
+
     public static void main(String[] args) {
         Test test = new Test();
         Applicant applicant = test.addApplicant();
@@ -35,39 +38,36 @@ public class ApplicationScenario extends Scenario {
         new ApplicationScenario(userMenu).exampleView();
     }
 
-    @Override
-    protected void initFilter() {
-        FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-        FilterPanel<Object> rightFilterPanel = getFilterPanel(false);
-        setLeftFilterContent(leftFilterPanel);
-        setRightFilterContent(leftFilterPanel, rightFilterPanel);
-        leftFilterPanel.addSelectionListener(new LeftFilterListener());
-        leftFilterPanel.addSelectionListener(new ShowInfoListener(leftFilterPanel));
-        rightFilterPanel.addSelectionListener(new ShowInfoListener(rightFilterPanel));
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        leftFilter.addSelectionListener(new LeftFilterListener());
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        return leftFilter;
     }
 
-    private void setLeftFilterContent(FilterPanel<Object> leftFilterPanel) {
+    protected FilterPanel initRightFilter() {
+        rightFilter = new FilterPanel<>();
+        rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
+        return rightFilter;
+    }
+
+    protected void updateFilterContent() {
         Company company = getUserMenu().getCompany();
-        leftFilterPanel.setFilterContent(new ArrayList<>(company.getAllApplications()));
-    }
-
-    private void setRightFilterContent(FilterPanel<Object> leftFilterPanel, FilterPanel<Object> rightFilterPanel) {
-        Application application = (Application) leftFilterPanel.getSelectObject();
+        leftFilter.setFilterContent(company.getAllApplications());
+        Application application = leftFilter.getSelectObject();
         ArrayList<Document> documents;
         if (application != null) {
             documents = application.getDocumentManager().getAllDocuments();
         } else {
             documents = new ArrayList<>();
         }
-        rightFilterPanel.setFilterContent(new ArrayList<>(documents));
+        rightFilter.setFilterContent(documents);
     }
 
     class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            setRightFilterContent(getFilterPanel(true), getFilterPanel(false));
+            updateFilterContent();
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package gui.scenarios.applicant;
 
 import domain.Test;
+import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.user.Applicant;
@@ -8,13 +9,13 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
-import java.util.ArrayList;
-
 public class ViewInterviewScenario extends Scenario {
 
     public ViewInterviewScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
     }
+
+    private FilterPanel<Interview> leftFilter;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -30,11 +31,12 @@ public class ViewInterviewScenario extends Scenario {
 
     }
 
-    protected void initFilter() {
+    @Override
+    protected FilterPanel initLeftFilter() {
         Applicant applicant = (Applicant) getUserMenu().getUser();
-        ArrayList<Object> contentList = new ArrayList<>(applicant.getOngoingInterviews());
-        FilterPanel<Object> leftFilterPanel = getFilterPanel(true);
-        leftFilterPanel.setFilterContent(contentList);
-        leftFilterPanel.addSelectionListener(new ShowInfoListener(leftFilterPanel));
+        leftFilter = new FilterPanel<>();
+        leftFilter.setFilterContent(applicant.getOngoingInterviews());
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        return leftFilter;
     }
 }
