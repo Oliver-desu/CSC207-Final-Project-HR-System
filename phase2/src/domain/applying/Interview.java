@@ -12,8 +12,8 @@ public class Interview implements Filterable, Serializable {
 
     private CompanyWorker interviewer;
     private Application application;
+    private String recommendation;
     private InterviewStatus status = InterviewStatus.UNMATCHED;
-
 
     public Interview(Application application) {
         this.application = application;
@@ -36,6 +36,10 @@ public class Interview implements Filterable, Serializable {
         } else {
             return false;
         }
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
     }
 
     public InterviewStatus getStatus() {

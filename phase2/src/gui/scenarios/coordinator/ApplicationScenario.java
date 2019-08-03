@@ -11,14 +11,12 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 
 public class ApplicationScenario extends Scenario {
 
     public ApplicationScenario(UserMenu userMenu) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
     }
 
     private FilterPanel<Application> leftFilter;
@@ -38,20 +36,27 @@ public class ApplicationScenario extends Scenario {
         new ApplicationScenario(userMenu).exampleView();
     }
 
-    protected FilterPanel initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new LeftFilterListener());
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+    @Override
+    protected void initComponents() {
+        initLeftFilter();
+        initRightFilter();
+        initOutputInfoPanel();
     }
 
-    protected FilterPanel initRightFilter() {
+    protected void initLeftFilter() {
+        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        add(leftFilter);
+    }
+
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
         rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
-        return rightFilter;
+        add(rightFilter);
     }
 
-    protected void updateFilterContent() {
+    @Override
+    protected void update() {
         Company company = getUserMenu().getCompany();
         leftFilter.setFilterContent(company.getAllApplications());
         Application application = leftFilter.getSelectObject();
@@ -62,12 +67,5 @@ public class ApplicationScenario extends Scenario {
             documents = new ArrayList<>();
         }
         rightFilter.setFilterContent(documents);
-    }
-
-    class LeftFilterListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            updateFilterContent();
-        }
     }
 }

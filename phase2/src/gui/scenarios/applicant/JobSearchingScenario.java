@@ -8,15 +8,16 @@ import domain.storage.InfoCenter;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class JobSearchingScenario extends  Scenario{
+public class JobSearchingScenario extends Scenario {
     public JobSearchingScenario(UserMenu userMenu) {
-        super(userMenu , Scenario.LayoutMode.REGULAR);
+        super(userMenu);
     }
 
     private FilterPanel<JobPosting> leftFilter;
@@ -31,16 +32,28 @@ public class JobSearchingScenario extends  Scenario{
     }
 
     @Override
-    protected FilterPanel initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+    protected void initComponents() {
+        initLeftFilter();
+        initOutputInfoPanel();
+        initButton();
+    }
+
+    @Override
+    protected void update() {
         InfoCenter infoCenter = getMain().getInfoCenter();
         leftFilter.setFilterContent(infoCenter.getOpenJobPostings());
+    }
+
+    protected void initLeftFilter() {
+        leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+        add(leftFilter);
     }
 
     protected void initButton() {
-        addButton("Create Application", new CreateApplicationListener());
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Create Application", new CreateApplicationListener());
+        add(buttonPanel);
     }
 
     class CreateApplicationListener implements ActionListener {

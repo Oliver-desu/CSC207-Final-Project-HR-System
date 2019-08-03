@@ -1,8 +1,6 @@
 package gui.major;
 
-import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import gui.panels.InputInfoPanel;
 import gui.panels.OutputInfoPanel;
 import main.Main;
 
@@ -10,8 +8,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 public abstract class Scenario extends JPanel {
     private static final int HORIZONTAL_GAP = 5;
@@ -26,91 +22,29 @@ public abstract class Scenario extends JPanel {
     protected final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 6 - VERTICAL_GAP);
 
     private UserMenu userMenu;
-    private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
-    private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
-    private LayoutMode mode;
-    private int numInit;
+    private OutputInfoPanel outputInfoPanel = new OutputInfoPanel(OUTPUT_SIZE);
+    private boolean hasInit;
 
-    // likely to dependency injection.
-    private FilterPanel leftFilterPanel;
-    private FilterPanel rightFilterPanel;
-    private InputInfoPanel inputInfoPanel;
-
-    protected Scenario(UserMenu userMenu, LayoutMode mode) {
+    protected Scenario(UserMenu userMenu) {
         this.userMenu = userMenu;
-        this.mode = mode;
     }
 
     public void init() {
-        if (numInit != 0) {
-            updateFilterContent();
-            return;
+        if (!hasInit) {
+            setPreferredSize(new Dimension(WIDTH, HEIGHT));
+            setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
+            initComponents();
+            hasInit = true;
         }
-        leftFilterPanel = initLeftFilter();
-        rightFilterPanel = initRightFilter();
-        updateFilterContent();
-        initButton();
-        inputInfoPanel = initInput();
-        initLayout();
-        setup();
-        numInit++;
+        update();
     }
 
-    protected FilterPanel initLeftFilter() {
-        return new FilterPanel(LIST_SIZE);
-    }
+    abstract protected void initComponents();
 
-    protected FilterPanel initRightFilter() {
-        return new FilterPanel(LIST_SIZE);
-    }
+    abstract protected void update();
 
-    protected void updateFilterContent() {
-
-    }
-
-    protected void initButton() {
-    }
-
-    protected InputInfoPanel initInput() {
-        return new InputInfoPanel(REGULAR_INPUT_SIZE);
-    }
-
-    private void setup() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
-        if (mode.equals(LayoutMode.REGULAR)) {
-            add(leftFilterPanel);
-            add(rightFilterPanel);
-            add(outputInfoPanel);
-        }
-        add(inputInfoPanel);
-        add(buttonPanel);
-    }
-
-    private void initLayout() {
-
-
-        if (mode == LayoutMode.REGULAR) {
-            leftFilterPanel.setup(LIST_SIZE);
-            rightFilterPanel.setup(LIST_SIZE);
-            outputInfoPanel.setup(OUTPUT_SIZE);
-//            inputInfoPanel.setup(REGULAR_INPUT_SIZE, false);
-//        } else if (mode == LayoutMode.REGISTER) {
-//            inputInfoPanel.setup(REGISTER_INPUT_SIZE, true);
-        }
-        buttonPanel.setup(BUTTON_PANEL_SIZE);
-    }
-
-    protected HashMap<String, String> getInputInfoMap() {
-        return inputInfoPanel.getInfoMap();
-    }
-
-    protected InputInfoPanel getInputInfoPanel() {
-        return inputInfoPanel;
-    }
-
-    protected void addButton(String buttonName, ActionListener listener) {
-        buttonPanel.addButton(buttonName, listener);
+    protected void initOutputInfoPanel() {
+        add(outputInfoPanel);
     }
 
     protected void switchScenario(Scenario scenario) {
@@ -135,11 +69,11 @@ public abstract class Scenario extends JPanel {
 
     void showColor() {
         setBackground(Color.WHITE);
-        leftFilterPanel.setBackground(Color.BLACK);
-        rightFilterPanel.setBackground(Color.RED);
+//        leftFilterPanel.setBackground(Color.BLACK);
+//        rightFilterPanel.setBackground(Color.RED);
         outputInfoPanel.setBackground(Color.BLUE);
-        inputInfoPanel.setBackground(Color.darkGray);
-        buttonPanel.setBackground(Color.GREEN);
+//        inputInfoPanel.setBackground(Color.darkGray);
+//        buttonPanel.setBackground(Color.GREEN);
     }
 
     protected void exampleView() {
@@ -167,6 +101,4 @@ public abstract class Scenario extends JPanel {
             }
         }
     }
-
-    protected enum LayoutMode {REGULAR, REGISTER, VIEW_ONLY}
 }

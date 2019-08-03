@@ -13,6 +13,7 @@ import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class InterviewRoundScenario extends Scenario {
     private FilterPanel<Interview> rightFilter;
 
     public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
         this.interviewRound = interviewRound;
         this.manager = jobPosting.getInterviewRoundManager();
     }
@@ -49,25 +50,36 @@ public class InterviewRoundScenario extends Scenario {
 
     }
 
-    protected void initButton() {
-        addButton("Match Interview", new MatchInterviewListener());
-        addButton("Hire", new HireListener());
+    @Override
+    protected void initComponents() {
+        initLeftFilter();
+        initRightFilter();
+        initOutputInfoPanel();
+        initButton();
     }
 
-    protected void updateFilterContent() {
+    protected void initButton() {
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Match Interview", new MatchInterviewListener());
+        buttonPanel.addButton("Hire", new HireListener());
+        add(buttonPanel);
+    }
+
+    @Override
+    protected void update() {
         leftFilter.setFilterContent(interviewRound.getCurrentRoundApplications());
     }
 
-    protected FilterPanel initLeftFilter() {
+    protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.addSelectionListener(new LeftFilterListener());
-        return leftFilter;
+        add(leftFilter);
     }
 
-    protected FilterPanel initRightFilter() {
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
         rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
-        return rightFilter;
+        add(rightFilter);
     }
 
     class LeftFilterListener implements ListSelectionListener {

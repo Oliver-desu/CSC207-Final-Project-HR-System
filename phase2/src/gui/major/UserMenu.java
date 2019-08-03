@@ -3,7 +3,6 @@ package gui.major;
 import domain.storage.Company;
 import domain.storage.InfoCenter;
 import domain.user.User;
-import gui.scenarios.NullScenario;
 import main.Main;
 
 import javax.swing.*;
@@ -23,7 +22,7 @@ public class UserMenu extends JFrame {
     private Main main;
     private User user;
     private JPanel menu;
-    private Scenario scenario = new NullScenario(this);
+    private Scenario scenario;
 
     public UserMenu() {
     }
@@ -56,7 +55,7 @@ public class UserMenu extends JFrame {
     }
 
     private void clearScenario() {
-        remove(this.scenario);
+        if (scenario != null) remove(this.scenario);
     }
 
     public void setScenario(Scenario scenario) {

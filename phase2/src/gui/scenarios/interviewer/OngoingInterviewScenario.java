@@ -9,6 +9,7 @@ import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
@@ -20,10 +21,11 @@ import java.awt.event.ActionListener;
 public class OngoingInterviewScenario extends Scenario {
 
     public OngoingInterviewScenario(UserMenu userMenu) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
     }
 
     private FilterPanel<Interview> leftFilter;
+    private InputInfoPanel infoPanel;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -41,28 +43,42 @@ public class OngoingInterviewScenario extends Scenario {
         new OngoingInterviewScenario(userMenu).exampleView();
     }
 
-    protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+    @Override
+    protected void initComponents() {
+        initLeftFilter();
+        initOutputInfoPanel();
+        initInput();
+        initButton();
+    }
+
+    protected void initInput() {
+        infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
         ComponentFactory factory = infoPanel.getComponentFactory();
         factory.addTextField("Recommendation:");
-        return infoPanel;
+        add(infoPanel);
     }
 
-    protected FilterPanel initLeftFilter() {
+    protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+        add(leftFilter);
     }
 
-    protected void updateFilterContent() {
+    @Override
+    protected void update() {
         CompanyWorker interviewer = (CompanyWorker) getUserMenu().getUser();
         leftFilter.setFilterContent(interviewer.getInterviews());
-
     }
 
     protected void initButton() {
-        addButton("Pass", new SetResultListener(true));
-        addButton("Fail", new SetResultListener(false));
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Pass", new SetResultListener(true));
+        buttonPanel.addButton("Fail", new SetResultListener(false));
+        add(buttonPanel);
+    }
+
+    private String getRecommendation() {
+        return infoPanel.getInfoMap().get("Recommendation:");
     }
 
     class SetResultListener implements ActionListener {
@@ -78,7 +94,8 @@ public class OngoingInterviewScenario extends Scenario {
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
                 interview.setResult(isPass);
-                updateFilterContent();
+                interview.setRecommendation(getRecommendation());
+                update();
                 JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
             } else {
                 JOptionPane.showMessageDialog(getUserMenu(), "Can not change!");

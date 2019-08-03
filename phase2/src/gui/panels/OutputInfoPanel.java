@@ -9,6 +9,10 @@ public class OutputInfoPanel extends JPanel {
     private static final Dimension OUTPUT_SIZE = new Dimension(400, 600);
     private JTextArea textArea = new JTextArea();
 
+    public OutputInfoPanel(Dimension dimension) {
+        setup(dimension);
+    }
+
     public void setup(Dimension dimension) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -27,8 +31,7 @@ public class OutputInfoPanel extends JPanel {
     }
 
     public void showDocument(String documentContent) {
-        OutputInfoPanel document = new OutputInfoPanel();
-        document.setup(OUTPUT_SIZE);
+        OutputInfoPanel document = new OutputInfoPanel(OUTPUT_SIZE);
         document.setOutputText(documentContent);
         new DocumentFrame(document);
     }

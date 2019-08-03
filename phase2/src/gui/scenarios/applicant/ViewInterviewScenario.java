@@ -12,7 +12,7 @@ import gui.panels.FilterPanel;
 public class ViewInterviewScenario extends Scenario {
 
     public ViewInterviewScenario(UserMenu userMenu) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
     }
 
     private FilterPanel<Interview> leftFilter;
@@ -32,11 +32,20 @@ public class ViewInterviewScenario extends Scenario {
     }
 
     @Override
-    protected FilterPanel initLeftFilter() {
+    protected void initComponents() {
+        initLeftFilter();
+        initOutputInfoPanel();
+    }
+
+    @Override
+    protected void update() {
         Applicant applicant = (Applicant) getUserMenu().getUser();
-        leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.setFilterContent(applicant.getOngoingInterviews());
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+    }
+
+    protected void initLeftFilter() {
+        leftFilter = new FilterPanel<>(LIST_SIZE);
+        add(leftFilter);
     }
 }

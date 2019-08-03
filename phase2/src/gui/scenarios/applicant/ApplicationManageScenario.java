@@ -9,6 +9,7 @@ import domain.storage.Company;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class ApplicationManageScenario extends Scenario {
     private FilterPanel<Document> rightFilter;
 
     public ApplicationManageScenario(UserMenu userMenu) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
         this.applicant = (Applicant) getUserMenu().getUser();
     }
 
@@ -37,28 +38,39 @@ public class ApplicationManageScenario extends Scenario {
         new ApplicationManageScenario(new UserMenu(test.getMain(), applicant)).exampleView();
     }
 
-    protected FilterPanel initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
-        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+    @Override
+    protected void initComponents() {
+        initLeftFilter();
+        initRightFilter();
+        initOutputInfoPanel();
+        initButton();
     }
 
-    protected void updateFilterContent() {
+    protected void initLeftFilter() {
+        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        add(leftFilter);
+    }
+
+    @Override
+    protected void update() {
         leftFilter.setFilterContent(applicant.getApplications());
         rightFilter.setFilterContent(applicant.getDocumentManager().getAllDocuments());
     }
 
-    protected FilterPanel initRightFilter() {
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
-        return rightFilter;
+        add(rightFilter);
     }
 
     protected void initButton() {
-        addButton("Edit Application", new EditApplicationListener());
-        addButton("Delete Application", new DeleteApplicationListener());
-        addButton("Apply", new ApplyListener());
-        addButton("Withdraw", new WithdrawListener());
-        addButton("View Document", new ViewDocumentListener());
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Edit Application", new EditApplicationListener());
+        buttonPanel.addButton("Delete Application", new DeleteApplicationListener());
+        buttonPanel.addButton("Apply", new ApplyListener());
+        buttonPanel.addButton("Withdraw", new WithdrawListener());
+        buttonPanel.addButton("View Document", new ViewDocumentListener());
+        add(buttonPanel);
     }
 
     class ViewDocumentListener implements ActionListener {
@@ -94,7 +106,7 @@ public class ApplicationManageScenario extends Scenario {
             if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 if (application.apply(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
-                    updateFilterContent();
+                    update();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
@@ -112,7 +124,7 @@ public class ApplicationManageScenario extends Scenario {
             if (application != null && application.getStatus().equals(ApplicationStatus.PENDING)) {
                 if (application.cancel(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
-                    updateFilterContent();
+                    update();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
@@ -131,7 +143,7 @@ public class ApplicationManageScenario extends Scenario {
             if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 if (applicant.deleteApplication(application)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Successfully deleted!");
-                    updateFilterContent();
+                    update();
                     return;
                 }
             }

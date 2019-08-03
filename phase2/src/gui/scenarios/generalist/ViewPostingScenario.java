@@ -17,7 +17,7 @@ public class ViewPostingScenario extends Scenario {
     private FilterPanel<JobPosting> leftFilter;
 
     public ViewPostingScenario(UserMenu userMenu) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
     }
 
     public static void main(String[] args) {
@@ -30,14 +30,20 @@ public class ViewPostingScenario extends Scenario {
         new ViewPostingScenario(userMenu).exampleView();
     }
 
-    protected FilterPanel initLeftFilter() {
+    @Override
+    protected void initComponents() {
+        initLeftFilter();
+        initOutputInfoPanel();
+    }
+
+    protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+        add(leftFilter);
     }
 
     @Override
-    protected void updateFilterContent() {
+    protected void update() {
         Company company = getUserMenu().getCompany();
         InfoCenter infoCenter = getMain().getInfoCenter();
         ArrayList<JobPosting> jobPostings = infoCenter.getJobPostingsByIds(company.getJobPostingIds());

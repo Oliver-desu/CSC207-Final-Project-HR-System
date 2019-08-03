@@ -12,6 +12,7 @@ import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class MatchInterviewScenario extends Scenario {
     private FilterPanel<CompanyWorker> rightFilter;
 
     public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
         this.interviewRound = interviewRound;
     }
 
@@ -45,16 +46,27 @@ public class MatchInterviewScenario extends Scenario {
         new MatchInterviewScenario(new UserMenu(test.getMain(), coordinator), interviewRound).exampleView();
     }
 
+    @Override
+    protected void initComponents() {
+        initLeftFilter();
+        initRightFilter();
+        initOutputInfoPanel();
+        initButton();
+    }
+
     protected void initButton() {
-        addButton("Match", new MatchListener());
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Match", new MatchListener());
+        add(buttonPanel);
     }
 
-    protected FilterPanel initLeftFilter() {
+    protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        return leftFilter;
+        add(leftFilter);
     }
 
-    protected void updateFilterContent() {
+    @Override
+    protected void update() {
         leftFilter.setFilterContent(interviewRound.getUnmatchedApplications());
         InfoCenter infoCenter = getMain().getInfoCenter();
         Company company = getUserMenu().getCompany();
@@ -62,9 +74,9 @@ public class MatchInterviewScenario extends Scenario {
         rightFilter.setFilterContent(interviewers);
     }
 
-    protected FilterPanel initRightFilter() {
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
-        return rightFilter;
+        add(rightFilter);
     }
 
     class MatchListener implements ActionListener {
@@ -79,7 +91,7 @@ public class MatchInterviewScenario extends Scenario {
                     interview.match(interviewer);
                     application.addInterview(interviewRound.getRoundName(), interview);
                     JOptionPane.showMessageDialog(getUserMenu(), "Succeed!");
-                    updateFilterContent();
+                    update();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "Failed!");
                 }

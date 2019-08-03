@@ -9,6 +9,7 @@ import domain.storage.Company;
 import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
@@ -25,9 +26,10 @@ public class DocumentManageScenario extends Scenario {
     private DocumentManager applicationDocument;
     private FilterPanel<Document> leftFilter; // contains application document
     private FilterPanel<Document> rightFilter; // contains applicant document
+    private InputInfoPanel infoPanel;
 
     public DocumentManageScenario(UserMenu userMenu, DocumentManager applicationDocument) {
-        super(userMenu, LayoutMode.REGULAR);
+        super(userMenu);
         Applicant applicant = (Applicant) getUserMenu().getUser();
         this.applicantDocument = applicant.getDocumentManager();
         this.applicationDocument = applicationDocument;
@@ -45,26 +47,35 @@ public class DocumentManageScenario extends Scenario {
     }
 
     @Override
-    protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
+    protected void initComponents() {
+        initLeftFilter();
+        initRightFilter();
+        initOutputInfoPanel();
+        initInput();
+        initButton();
+    }
+
+    protected void initInput() {
+        infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
         ComponentFactory factory = infoPanel.getComponentFactory();
         factory.addTextField("File name:");
-        return infoPanel;
+        add(infoPanel);
     }
 
-    protected FilterPanel initLeftFilter() {
+    protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
         leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
-        return leftFilter;
+        add(leftFilter);
     }
 
-    protected FilterPanel initRightFilter() {
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
         rightFilter.addSelectionListener(new ShowInfoListener(rightFilter));
-        return rightFilter;
+        add(rightFilter);
     }
 
-    protected void updateFilterContent() {
+    @Override
+    protected void update() {
         if (applicationDocument != null) {
             leftFilter.setFilterContent(applicationDocument.getAllDocuments());
         }
@@ -72,19 +83,21 @@ public class DocumentManageScenario extends Scenario {
     }
 
     protected void initButton() {
-        addButton("Add", new AddDocumentListener());
-        addButton("Delete", new DeleteDocumentListener());
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Add", new AddDocumentListener());
+        buttonPanel.addButton("Delete", new DeleteDocumentListener());
+        add(buttonPanel);
     }
 
     class AddDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (applicationDocument == null) {
-                Path path = Paths.get(getInputInfoMap().get("File name:"));
+                Path path = Paths.get(infoPanel.getInfoMap().get("File name:"));
                 String fileName = path.getFileName().toString().split("[.]")[0];
 
                 if (applicantDocument.addDocument(fileName, new Document(path.toString()))) {
-                    updateFilterContent();
+                    update();
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     return;
                 }
@@ -92,7 +105,7 @@ public class DocumentManageScenario extends Scenario {
             } else {
                 Document document = rightFilter.getSelectObject();
                 if (document != null && applicationDocument.addDocument(document.getDocumentName(), document)) {
-                    updateFilterContent();
+                    update();
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     return;
                 }
@@ -108,14 +121,14 @@ public class DocumentManageScenario extends Scenario {
                 Document document = rightFilter.getSelectObject();
                 if (document != null && applicantDocument.removeDocument(document)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
-                    updateFilterContent();
+                    update();
                     return;
                 }
             } else {
                 Document document = leftFilter.getSelectObject();
                 if (document != null && applicationDocument.removeDocument(document)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
-                    updateFilterContent();
+                    update();
                     return;
                 }
             }

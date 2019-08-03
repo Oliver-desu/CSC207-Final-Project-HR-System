@@ -3,6 +3,7 @@ package gui.major;
 import domain.Enums.UserType;
 import domain.storage.UserFactory;
 import domain.user.User;
+import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
@@ -15,19 +16,31 @@ import java.util.HashMap;
 public class UserRegister extends Scenario {
 
     private UserType registerType;
+    private InputInfoPanel infoPanel;
 
     public UserRegister(UserMenu userMenu, UserType registerType) {
-        super(userMenu, LayoutMode.REGISTER);
+        super(userMenu);
         this.registerType = registerType;
     }
 
-    protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
+    @Override
+    protected void initComponents() {
+        initInput();
+        initButton();
+    }
+
+    @Override
+    protected void update() {
+        infoPanel.clear();
+    }
+
+    protected void initInput() {
+        infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         initUserInput(factory);
         if (registerType.equals(UserType.APPLICANT)) initApplicantInput(factory);
         else initStaffInput(factory);
-        return infoPanel;
+        add(infoPanel);
     }
 
     private void initUserInput(ComponentFactory factory) {
@@ -59,12 +72,14 @@ public class UserRegister extends Scenario {
     }
 
     protected void initButton() {
-        addButton("Create User", new CreateUserListener());
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Create User", new CreateUserListener());
+        add(buttonPanel);
     }
 
     private User createUserAndRegister() {
-        HashMap<String, String> infoMap = getInputInfoMap();
-        infoMap.put("Password:", Arrays.toString(getInputInfoPanel().getPassword()));
+        HashMap<String, String> infoMap = infoPanel.getInfoMap();
+        infoMap.put("Password:", Arrays.toString(infoPanel.getPassword()));
         return new UserFactory(getMain().getInfoCenter()).createUser(infoMap, registerType);
     }
 

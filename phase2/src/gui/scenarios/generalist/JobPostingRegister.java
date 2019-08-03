@@ -7,6 +7,7 @@ import domain.storage.Company;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
@@ -20,8 +21,10 @@ import java.util.HashMap;
 
 public class JobPostingRegister extends Scenario {
 
+    private InputInfoPanel infoPanel;
+
     public JobPostingRegister(UserMenu userMenu) {
-        super(userMenu, LayoutMode.REGISTER);
+        super(userMenu);
     }
 
     public static void main(String[] args) {
@@ -35,8 +38,19 @@ public class JobPostingRegister extends Scenario {
         new JobPostingRegister(userMenu).exampleView();
     }
 
-    protected InputInfoPanel initInput() {
-        InputInfoPanel infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
+    @Override
+    protected void initComponents() {
+        initInput();
+        initButton();
+    }
+
+    @Override
+    protected void update() {
+        infoPanel.clear();
+    }
+
+    protected void initInput() {
+        infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         String[] coordinators = getUserMenu().getCompany().getHRCoordinatorIds().toArray(new String[0]);
         factory.addComboBox("Coordinator:", coordinators);
@@ -49,15 +63,17 @@ public class JobPostingRegister extends Scenario {
         factory.addComboBox("Cover letter:", documentsOption);
         factory.addComboBox("Reference:", documentsOption);
         factory.addComboBox("Extra document:", extraDocumentsOption);
-        return infoPanel;
+        add(infoPanel);
     }
 
     protected void initButton() {
-        addButton("Post job", new CreateJobPostingListener());
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("Post job", new CreateJobPostingListener());
+        add(buttonPanel);
     }
 
     private HashMap<String, String> createJobInfoMap() {
-        HashMap<String, String> infoMap = getInputInfoMap();
+        HashMap<String, String> infoMap = infoPanel.getInfoMap();
         Company company = getUserMenu().getCompany();
         infoMap.put("Post date:", LocalDate.now().toString());
         infoMap.put("Company id:", company.getId());
@@ -77,7 +93,6 @@ public class JobPostingRegister extends Scenario {
             return false;
         }
     }
-
 
     private String isValidJobInfoMap(HashMap<String, String> map) {
         if (map.containsValue("")) {
@@ -103,7 +118,7 @@ public class JobPostingRegister extends Scenario {
                         values.get("Coordinator:"), UserType.HR_COORDINATOR).addFile(jobPosting);
                 getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
-                getInputInfoPanel().clear();
+                infoPanel.clear();
             } else if (confirm == 0) {
                 JOptionPane.showMessageDialog(userMenu, isValidJobInfoMap(values));
             }
