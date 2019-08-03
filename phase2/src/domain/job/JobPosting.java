@@ -37,10 +37,12 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         this.applications = new HashMap<>();
     }
 
+    // InterviewRoundManager
     public ArrayList<Application> getApplications() {
         return new ArrayList<>(this.applications.values());
     }
 
+    // InterviewRoundManager
     public ArrayList<Application> getRemainingApplications() {
         ArrayList<Application> remainingApplications = new ArrayList<>();
         for (Application application : this.applications.values()) {
@@ -51,14 +53,17 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         return remainingApplications;
     }
 
+    // JobPosting
     public String getJobId() {
         return this.jobInfo.getSpecificInfo("Job id:");
     }
 
+    // JobPosting
     public Application getApplication(String applicationId) {
         return this.applications.get(applicationId);
     }
 
+    // JobPosting
     public LocalDate getCloseDate() {
         try {
             return LocalDate.parse(jobInfo.getSpecificInfo("Close date:"));
@@ -67,22 +72,27 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         }
     }
 
+    // InterviewRoundManager
     public InterviewRound getCurrentInterviewRound() {
         return this.interviewRounds.get(this.currRound);
     }
 
+    // InterviewRoundManager
     public ArrayList<InterviewRound> getAllInterviewRounds() {
         return new ArrayList<>(this.interviewRounds.values());
     }
 
+    // JobPosting
     public JobPostingStatus getStatus() {
         return this.status;
     }
 
+    // InterviewRoundManager
     public void addInterviewRound(InterviewRound interviewRound) {
         this.interviewRounds.put(this.interviewRounds.size(), interviewRound);
     }
 
+    // JobPosting
     public boolean startProcessing() {
         if (status.equals(JobPostingStatus.OPEN) && !LocalDate.now().isBefore(getCloseDate())) {
             this.status = JobPostingStatus.PROCESSING;
@@ -97,6 +107,7 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         this.status = JobPostingStatus.PROCESSING;
     }
 
+    // InterviewRoundManager
     public boolean nextRound() {
 //        set to next round
         InterviewRound currentRound = interviewRounds.get(currRound);
@@ -110,6 +121,7 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         }
     }
 
+    // InterviewRoundManager
     public boolean hire(Application application) {
         if (application.getStatus().equals(Application.ApplicationStatus.PENDING) &&
                 status.equals(JobPostingStatus.PROCESSING) && getCurrentInterviewRound().isFinished() &&
@@ -122,6 +134,7 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         }
     }
 
+    // JobPosting
     public void endJobPosting() {
         this.status = JobPostingStatus.FINISHED;
         for (Application application : this.getRemainingApplications()) {
@@ -129,6 +142,7 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         }
     }
 
+    // JobPosting
     public boolean applicationSubmit(Application application, InfoCenter infoCenter) {
         if (!this.applications.containsValue(application) && status.equals(JobPostingStatus.OPEN)) {
             Company company = infoCenter.getCompany(this.jobInfo.getSpecificInfo("Company id:"));
@@ -140,6 +154,7 @@ public class JobPosting implements Filterable, InfoHolder, Serializable {
         }
     }
 
+    // JobPosting
     public boolean applicationCancel(Application application, InfoCenter infoCenter) {
         if (!status.equals(JobPostingStatus.FINISHED)) {
             for (String applicantId : this.applications.keySet()) {
