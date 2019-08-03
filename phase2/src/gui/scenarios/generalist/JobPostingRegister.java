@@ -76,9 +76,16 @@ public class JobPostingRegister extends Scenario {
         }
     }
 
-    private boolean isValidJobInfoMap(HashMap<String, String> map) {
-        return !map.containsValue("") && isValidInt(map.get("Num of positions:")) &&
-                isValidDate(map.get("Close date:"));
+
+    private String isValidJobInfoMap(HashMap<String, String> map) {
+        if (map.containsValue("")) {
+            return "Please fill all information";
+        } else if (!isValidInt(map.get("Num of positions:"))) {
+            return "Please type in right form of Number of positions";
+        } else if (!isValidDate(map.get("Close date:"))) {
+            return "Please type in right form of Close date";
+        }
+        return "Good";
     }
 
     class CreateJobPostingListener implements ActionListener {
@@ -87,7 +94,7 @@ public class JobPostingRegister extends Scenario {
             UserMenu userMenu = getUserMenu();
             int confirm = JOptionPane.showConfirmDialog(userMenu, "Are you sure to post job?");
             HashMap<String, String> values = createJobInfoMap();
-            if (confirm == 0 && isValidJobInfoMap(values)) {
+            if (confirm == 0 && isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting();
                 new Info(jobPosting, values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
@@ -97,7 +104,7 @@ public class JobPostingRegister extends Scenario {
                 JOptionPane.showMessageDialog(userMenu, "Successfully post job!");
                 getInputInfoPanel().clear();
             } else if (confirm == 0) {
-                JOptionPane.showMessageDialog(userMenu, "Please correctly fill in the necessary information!");
+                JOptionPane.showMessageDialog(userMenu, isValidJobInfoMap(values));
             }
         }
     }
