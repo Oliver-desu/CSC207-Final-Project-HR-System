@@ -19,7 +19,8 @@ public abstract class Scenario extends JPanel {
     private static final int WIDTH = UserMenu.SCENARIO_SIZE.width;
     private static final int HEIGHT = UserMenu.SCENARIO_SIZE.height;
 
-    private static final Dimension OUTPUT_SIZE = new Dimension(WIDTH * 3 / 5 - HORIZONTAL_GAP, HEIGHT / 2);
+    protected final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3 - VERTICAL_GAP);
+    protected final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
 
     private UserMenu userMenu;
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel();
@@ -28,9 +29,9 @@ public abstract class Scenario extends JPanel {
     private int numInit;
 
     // likely to dependency injection.
-    private FilterPanel<Object> leftFilterPanel = new FilterPanel<>();
-    private FilterPanel<Object> rightFilterPanel = new FilterPanel<>();
-    private InputInfoPanel inputInfoPanel = new InputInfoPanel();
+    private FilterPanel leftFilterPanel;
+    private FilterPanel rightFilterPanel;
+    private InputInfoPanel inputInfoPanel;
 
     protected Scenario(UserMenu userMenu, LayoutMode mode) {
         this.userMenu = userMenu;
@@ -39,23 +40,34 @@ public abstract class Scenario extends JPanel {
 
     public void init() {
         if (numInit != 0) return;
-        setup();
-        initLayout();
-        if (mode.equals(LayoutMode.REGULAR)) {
-            initFilter();
-        }
+
+        leftFilterPanel = initLeftFilter();
+        rightFilterPanel = initRightFilter();
+        updateFilterContent();
         initButton();
-        initInput();
+        inputInfoPanel = initInput();
+        initLayout();
+        setup();
         numInit++;
     }
 
-    protected void initFilter() {
+    protected FilterPanel initLeftFilter() {
+        return new FilterPanel();
+    }
+
+    protected FilterPanel initRightFilter() {
+        return new FilterPanel();
+    }
+
+    protected void updateFilterContent() {
+
     }
 
     protected void initButton() {
     }
 
-    protected void initInput() {
+    protected InputInfoPanel initInput() {
+        return new InputInfoPanel();
     }
 
     private void setup() {
@@ -71,26 +83,21 @@ public abstract class Scenario extends JPanel {
     }
 
     private void initLayout() {
-        final Dimension LIST_SIZE = new Dimension(WIDTH / 4 - HORIZONTAL_GAP, HEIGHT / 2);
-        final Dimension OUTPUT_SIZE = new Dimension(WIDTH / 2 - HORIZONTAL_GAP, HEIGHT / 2);
-        final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
-        final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
-        final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 8);
+        final Dimension LIST_SIZE = new Dimension(WIDTH / 4 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
+        final Dimension OUTPUT_SIZE = new Dimension(WIDTH / 2 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
+//        final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3);
+//        final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
+        final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 6 - VERTICAL_GAP);
 
         if (mode == LayoutMode.REGULAR) {
             leftFilterPanel.setup(LIST_SIZE);
             rightFilterPanel.setup(LIST_SIZE);
             outputInfoPanel.setup(OUTPUT_SIZE);
-            inputInfoPanel.setup(REGULAR_INPUT_SIZE, false);
-        } else if (mode == LayoutMode.REGISTER) {
-            inputInfoPanel.setup(REGISTER_INPUT_SIZE, true);
+//            inputInfoPanel.setup(REGULAR_INPUT_SIZE, false);
+//        } else if (mode == LayoutMode.REGISTER) {
+//            inputInfoPanel.setup(REGISTER_INPUT_SIZE, true);
         }
         buttonPanel.setup(BUTTON_PANEL_SIZE);
-    }
-
-    protected FilterPanel<Object> getFilterPanel(boolean left) {
-        if (left) return leftFilterPanel;
-        else return rightFilterPanel;
     }
 
     protected HashMap<String, String> getInputInfoMap() {
@@ -122,21 +129,7 @@ public abstract class Scenario extends JPanel {
     }
 
     protected void showDocument(String documentContent) {
-        OutputInfoPanel document = new OutputInfoPanel();
-        document.setup(OUTPUT_SIZE);
-        document.setOutputText(documentContent);
-        new DocumentFrame(document);
-    }
-
-    class DocumentFrame extends JFrame {
-
-        DocumentFrame(JPanel document) {
-            setResizable(false);
-            setSize(new Dimension(OUTPUT_SIZE.width + 20, OUTPUT_SIZE.height + 45));
-            setLayout(new FlowLayout());
-            add(document);
-            setVisible(true);
-        }
+        outputInfoPanel.showDocument(documentContent);
     }
 
     void showColor() {
@@ -158,10 +151,10 @@ public abstract class Scenario extends JPanel {
         frame.setVisible(true);
     }
 
-    protected class ShowInfoListener implements ListSelectionListener {
-        private FilterPanel<Object> filterPanel;
+    public class ShowInfoListener implements ListSelectionListener {
+        private FilterPanel filterPanel;
 
-        public ShowInfoListener(FilterPanel<Object> filterPanel) {
+        public ShowInfoListener(FilterPanel filterPanel) {
             this.filterPanel = filterPanel;
         }
 

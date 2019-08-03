@@ -13,6 +13,7 @@ import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
+import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,8 @@ import java.util.HashMap;
 public class MatchInterviewScenario extends Scenario {
 
     private InterviewRound interviewRound;
+    private FilterPanel<Application> leftFilter;
+    private FilterPanel<CompanyWorker> rightFilter;
 
     public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
         super(userMenu, LayoutMode.REGULAR);
@@ -44,40 +47,41 @@ public class MatchInterviewScenario extends Scenario {
         new MatchInterviewScenario(new UserMenu(test.getMain(), coordinator), interviewRound).exampleView();
     }
 
-    protected void initInput() {
-        getInputInfoPanel().addTextField("Dead line:");
+    protected InputInfoPanel initInput() {
+        InputInfoPanel infoPanel = new InputInfoPanel();
+        infoPanel.setup(REGULAR_INPUT_SIZE, false);
+        infoPanel.addTextField("Dead line:");
+        return infoPanel;
     }
 
     protected void initButton() {
         addButton("Match", new MatchListener());
     }
 
-    protected void initFilter() {
-        initLeftFilter();
-        initRightFilter();
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        return leftFilter;
     }
 
-    private void initLeftFilter() {
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        ArrayList<Object> applications = new ArrayList<>(interviewRound.getUnmatchedApplications());
-        filterPanel.setFilterContent(applications);
-    }
-
-    private void initRightFilter() {
+    protected void updateFilterContent() {
+        leftFilter.setFilterContent(interviewRound.getUnmatchedApplications());
         InfoCenter infoCenter = getMain().getInfoCenter();
         Company company = getUserMenu().getCompany();
         ArrayList<CompanyWorker> interviewers = infoCenter.getInterviewers(company.getInterviewerIds());
-        FilterPanel<Object> filterPanel = getFilterPanel(false);
-        filterPanel.setFilterContent(new ArrayList<>(interviewers));
+        rightFilter.setFilterContent(interviewers);
+    }
+
+    protected FilterPanel initRightFilter() {
+        rightFilter = new FilterPanel<>();
+        return rightFilter;
     }
 
     class MatchListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             HashMap<String, String> infoMap = getInputInfoMap();
-            CompanyWorker interviewer = (CompanyWorker) getFilterPanel(false).getSelectObject();
-
-            Application application = (Application) getFilterPanel(true).getSelectObject();
+            CompanyWorker interviewer = rightFilter.getSelectObject();
+            Application application = leftFilter.getSelectObject();
             Interview interview;
             if (application != null) {
                 interview = application.getInterviewByRound(interviewRound.getRoundName());

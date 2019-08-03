@@ -3,7 +3,6 @@ package gui.scenarios;
 import domain.filter.ExampleFilterable;
 import gui.major.Scenario;
 import gui.major.UserMenu;
-import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
@@ -43,10 +42,10 @@ public class NullScenario extends Scenario {
     }
 
     private void setupExampleFilter() {
-        ArrayList<Object> strings = new ArrayList<>(getFilterContentExamples());
-        FilterPanel<Object> left = getFilterPanel(true);
-        left.setFilterContent(strings);
-        left.addSelectionListener(new ExampleSelectListener(this));
+//        ArrayList<Object> strings = new ArrayList<>(getFilterContentExamples());
+//        FilterPanel<Object> left = getFilterPanel(true);
+//        left.setFilterContent(strings);
+//        left.addSelectionListener(new ExampleSelectListener(this));
     }
 
     private void setupExampleInfoPanelLayout() {
@@ -93,8 +92,8 @@ public class NullScenario extends Scenario {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            Object object = getFilterPanel(true).getSelectObject();
-            System.out.println(object);
+//            Object object = getFilterPanel(true).getSelectObject();
+//            System.out.println(object);
             JOptionPane.showMessageDialog(parent, "Select Value is Changed");
         }
     }

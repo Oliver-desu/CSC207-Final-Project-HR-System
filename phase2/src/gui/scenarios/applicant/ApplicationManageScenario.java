@@ -13,10 +13,11 @@ import gui.panels.FilterPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class ApplicationManageScenario extends Scenario {
     private Applicant applicant;
+    private FilterPanel<Application> leftFilter;
+    private FilterPanel<Document> rightFilter;
 
     public ApplicationManageScenario(UserMenu userMenu) {
         super(userMenu, LayoutMode.REGULAR);
@@ -35,27 +36,20 @@ public class ApplicationManageScenario extends Scenario {
         new ApplicationManageScenario(new UserMenu(test.getMain(), applicant)).exampleView();
     }
 
-    protected void initFilter() {
-        initLeftFilter();
-        initRightFilter();
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        return leftFilter;
     }
 
-    private void initLeftFilter() {
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        setLeftFilterContent();
-        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
+    protected void updateFilterContent() {
+        leftFilter.setFilterContent(applicant.getApplications());
+        rightFilter.setFilterContent(applicant.getDocumentManager().getAllDocuments());
     }
 
-    private void setLeftFilterContent() {
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        ArrayList<Object> applications = new ArrayList<>(this.applicant.getApplications());
-        filterPanel.setFilterContent(applications);
-    }
-
-    private void initRightFilter() {
-        FilterPanel<Object> filterPanel = getFilterPanel(false);
-        ArrayList<Object> documents = new ArrayList<>(this.applicant.getDocumentManager().getAllDocuments());
-        filterPanel.setFilterContent(documents);
+    protected FilterPanel initRightFilter() {
+        rightFilter = new FilterPanel<>();
+        return rightFilter;
     }
 
     protected void initButton() {
@@ -69,7 +63,7 @@ public class ApplicationManageScenario extends Scenario {
     class ViewDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Document document = (Document) getFilterPanel(false).getSelectObject();
+            Document document = rightFilter.getSelectObject();
             if (document != null) {
                 showDocument(document.toString());
             } else {
@@ -81,7 +75,7 @@ public class ApplicationManageScenario extends Scenario {
     class EditApplicationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Application application = (Application) getFilterPanel(true).getSelectObject();
+            Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 DocumentManageScenario documentManageScenario = new DocumentManageScenario(getUserMenu(), applicant.getDocumentManager(), application.getDocumentManager());
                 switchScenario(documentManageScenario);
@@ -94,11 +88,11 @@ public class ApplicationManageScenario extends Scenario {
     class ApplyListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Application application = (Application) getFilterPanel(true).getSelectObject();
+            Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 if (application.apply(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Submission succeeds!");
-                    setLeftFilterContent();
+                    updateFilterContent();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
@@ -111,12 +105,12 @@ public class ApplicationManageScenario extends Scenario {
     class WithdrawListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Application application = (Application) getFilterPanel(true).getSelectObject();
+            Application application = leftFilter.getSelectObject();
 //            conditions are checked in cancel()
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.PENDING)) {
                 if (application.cancel(getMain().getInfoCenter())) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Withdrawal succeeds!");
-                    setLeftFilterContent();
+                    updateFilterContent();
                 } else {
                     JOptionPane.showMessageDialog(getUserMenu(), "The process failed.");
                 }
@@ -131,12 +125,11 @@ public class ApplicationManageScenario extends Scenario {
     class DeleteApplicationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            FilterPanel<Object> filterPanel = getFilterPanel(true);
-            Application application = (Application) filterPanel.getSelectObject();
+            Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(Application.ApplicationStatus.DRAFT)) {
                 if (applicant.deleteApplication(application)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Successfully deleted!");
-                    setLeftFilterContent();
+                    updateFilterContent();
                     return;
                 }
             }

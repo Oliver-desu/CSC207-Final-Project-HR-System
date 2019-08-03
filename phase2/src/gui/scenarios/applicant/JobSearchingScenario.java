@@ -13,12 +13,13 @@ import gui.panels.FilterPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class JobSearchingScenario extends  Scenario{
     public JobSearchingScenario(UserMenu userMenu) {
         super(userMenu , Scenario.LayoutMode.REGULAR);
     }
+
+    private FilterPanel<JobPosting> leftFilter;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -29,11 +30,13 @@ public class JobSearchingScenario extends  Scenario{
         new JobSearchingScenario(new UserMenu(test.getMain(), applicant)).exampleView();
     }
 
-    protected void initFilter() {
+    @Override
+    protected FilterPanel initLeftFilter() {
+        leftFilter = new FilterPanel<>();
         InfoCenter infoCenter = getMain().getInfoCenter();
-        FilterPanel<Object> filterPanel = getFilterPanel(true);
-        filterPanel.setFilterContent(new ArrayList<>(infoCenter.getOpenJobPostings()));
-        filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
+        leftFilter.setFilterContent(infoCenter.getOpenJobPostings());
+        leftFilter.addSelectionListener(new ShowInfoListener(leftFilter));
+        return leftFilter;
     }
 
     protected void initButton() {
@@ -43,7 +46,7 @@ public class JobSearchingScenario extends  Scenario{
     class CreateApplicationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JobPosting jobPosting = (JobPosting) getFilterPanel(true).getSelectObject();
+            JobPosting jobPosting = leftFilter.getSelectObject();
             Applicant applicant = (Applicant) getUserMenu().getUser();
             if (jobPosting != null &&
                     applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting))) {

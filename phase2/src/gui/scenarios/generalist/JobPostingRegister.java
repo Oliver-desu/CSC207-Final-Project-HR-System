@@ -35,8 +35,9 @@ public class JobPostingRegister extends Scenario {
         new JobPostingRegister(userMenu).exampleView();
     }
 
-    protected void initInput() {
-        InputInfoPanel infoPanel = getInputInfoPanel();
+    protected InputInfoPanel initInput() {
+        InputInfoPanel infoPanel = new InputInfoPanel();
+        infoPanel.setup(REGISTER_INPUT_SIZE, true);
         String[] coordinators = getUserMenu().getCompany().getHRCoordinatorIds().toArray(new String[0]);
         infoPanel.addComboBox("Coordinator:", coordinators);
         infoPanel.addTextField("Position name:");
@@ -48,6 +49,7 @@ public class JobPostingRegister extends Scenario {
         infoPanel.addComboBox("Cover letter:", documentsOption);
         infoPanel.addComboBox("Reference:", documentsOption);
         infoPanel.addComboBox("Extra document:", extraDocumentsOption);
+        return infoPanel;
     }
 
     protected void initButton() {
