@@ -7,6 +7,7 @@ import gui.panels.InputInfoPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class UserRegister extends Scenario {
@@ -62,6 +63,7 @@ public class UserRegister extends Scenario {
 
     private User createUserAndRegister() {
         HashMap<String, String> infoMap = getInputInfoMap();
+        infoMap.put("Password:", Arrays.toString(getInputInfoPanel().getPassword()));
         return new UserFactory(getMain().getInfoCenter()).createUser(infoMap, registerType);
     }
 

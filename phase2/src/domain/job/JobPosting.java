@@ -122,19 +122,16 @@ public class JobPosting implements Filterable, Serializable {
 
     @Override
     public String toString() {
+        String[] titles = {"Company id:", "Position name:", "Num of positions:", "Post date:", "Close date:",
+                "CV:", "Cover letter:", "Reference:", "Extra document:"};
         StringBuilder sb = new StringBuilder();
-        for (String key : jobDetails.keySet()) {
-            if (!key.equals("Job id:")) {
-                sb.append(key);
-                sb.append(" ");
-                sb.append(jobDetails.get(key));
-                sb.append("\n");
-            }
+        for (String title : titles) {
+            sb.append(title);
+            sb.append(" ");
+            sb.append(jobDetails.get(title));
+            sb.append("\n");
         }
-        sb.append("Status: ");
-        sb.append(" ");
-        sb.append(status);
-        return sb.toString();
+        return sb.toString() + "Status: " + status;
     }
 
     @Override
