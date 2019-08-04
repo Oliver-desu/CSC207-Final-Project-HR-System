@@ -43,7 +43,7 @@ public abstract class User implements Serializable {
         userDetail.remove("Password:");
     }
 
-    private String getRealName() {
+    String getRealName() {
         return this.userDetail.get("First name:") + " " + this.userDetail.get("Last/Family name:");
     }
 

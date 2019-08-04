@@ -56,16 +56,16 @@ public class CompanyWorker extends User implements Filterable, Serializable {
     @Override
     public String[] getHeadings() {
         List<String> headings = new ArrayList<>();
-        headings.add("companyId");
-        headings.add("userName");
+        headings.add("Username");
+        headings.add("Real name");
         return headings.toArray(new String[0]);
     }
 
     @Override
     public String[] getSearchValues() {
         List<String> values = new ArrayList<>();
-        values.add(this.getCompanyId());
         values.add(this.getUsername());
+        values.add(this.getRealName());
         return values.toArray(new String[0]);
     }
 

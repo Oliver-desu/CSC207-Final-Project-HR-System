@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class JobManageScenario extends Scenario {
@@ -74,8 +75,9 @@ public class JobManageScenario extends Scenario {
         leftFilter.setFilterContent(hrCoordinator.getJobPostings());
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
-            jobPosting.getInterviewRoundManager().checkStatus();
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
+        } else {
+            rightFilter.setFilterContent(new ArrayList<>());
         }
     }
 
@@ -98,6 +100,7 @@ public class JobManageScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null) {
+                jobPosting.getInterviewRoundManager().checkStatus();
                 rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
                 setOutputText(jobPosting.toString());
             }
@@ -129,7 +132,7 @@ public class JobManageScenario extends Scenario {
             if (jobPosting != null && jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 showMessage("Succeed!");
-                initRightFilter();
+                update();
             } else {
                 showMessage("Failed!");
             }
@@ -142,7 +145,7 @@ public class JobManageScenario extends Scenario {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null && jobPosting.getInterviewRoundManager().nextRound()) {
                 showMessage("Succeeds!");
-                initRightFilter();
+                update();
             } else {
                 showMessage("Failed!");
             }

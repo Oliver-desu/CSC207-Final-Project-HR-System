@@ -117,8 +117,9 @@ public class JobPostingRegister extends Scenario {
                 getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
                 showMessage("Successfully post job!");
                 infoPanel.clear();
+            } else {
+                showMessage(isValidJobInfoMap(values));
             }
-            showMessage(isValidJobInfoMap(values));
         }
     }
 }

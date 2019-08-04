@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 public class UserMenu extends JFrame {
 
-    private static final int WIDTH = 1000;
+    private static final int WIDTH = 1500;
     private static final int HEIGHT = 600;
 
     static final Dimension SCENARIO_SIZE = new Dimension(WIDTH * 4 / 5 - 20, HEIGHT - 50);
