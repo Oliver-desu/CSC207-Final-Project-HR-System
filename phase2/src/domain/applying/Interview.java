@@ -7,6 +7,7 @@ import domain.user.CompanyWorker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Interview implements Filterable, Serializable {
@@ -105,4 +106,14 @@ public class Interview implements Filterable, Serializable {
         values.add(getStatus().toString());
         return values.toArray(new String[3]);
     }
+
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("applicant", getApplication().getApplicantId());
+        map.put("interviewer", getInterviewer() == null ? "N/A" : interviewer.getUsername());
+        map.put("status", status.toString());
+        return map;
+    }
+
 }

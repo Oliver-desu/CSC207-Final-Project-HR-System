@@ -136,4 +136,14 @@ public class Application implements Filterable, Serializable {
         values.add(this.status.toString());
         return values.toArray(new String[3]);
     }
+
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("applicant", getApplicantId());
+        map.put("job posting", jobPostingId);
+        map.put("status", status.toString());
+        return map;
+    }
+
 }
