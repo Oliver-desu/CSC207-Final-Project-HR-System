@@ -97,7 +97,7 @@ public class Document implements Filterable, Serializable, ShowAble {
     public String toString() {
         return getInfoString("Name", documentName) +
                 getInfoString("Last used date", lastUsedDate.toString()) +
-                getInfoString("Content", content.substring(0, 100) + "...");
+                getInfoString("Content", content);
     }
 
     @Override

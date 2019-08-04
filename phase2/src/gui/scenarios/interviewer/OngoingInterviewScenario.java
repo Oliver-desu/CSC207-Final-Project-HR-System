@@ -55,7 +55,7 @@ public class OngoingInterviewScenario extends Scenario {
     protected void initInput() {
         infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
         ComponentFactory factory = infoPanel.getComponentFactory();
-        factory.addTextField("Recommendation:");
+        factory.addTextArea("Recommendation:");
         add(infoPanel);
     }
 

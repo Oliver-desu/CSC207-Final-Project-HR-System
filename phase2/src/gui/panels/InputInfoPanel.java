@@ -29,7 +29,7 @@ public class InputInfoPanel extends JScrollPane {
             box = Box.createVerticalBox();
         } else {
             box = new JPanel();
-            box.setPreferredSize(dimension);
+            box.setPreferredSize(new Dimension(dimension.width - 20, dimension.height - 20));
         }
         setViewportView(box);
     }

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import static java.lang.Integer.min;
+
 public class ButtonPanel extends JPanel {
 
     private static final int MAX_BUTTON_NUM = 5;
@@ -26,9 +28,9 @@ public class ButtonPanel extends JPanel {
     public void setup(Dimension dimension) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
-        Dimension buttonSize = new Dimension(dimension.width / MAX_BUTTON_NUM - HORIZONTAL_GAP,
-                dimension.height - VERTICAL_GAP * 2);
-        setButtonSize(buttonSize);
+        int buttonWidth = dimension.width / MAX_BUTTON_NUM - HORIZONTAL_GAP;
+        int buttonHeight = min(dimension.height - VERTICAL_GAP * 2, 50);
+        setButtonSize(new Dimension(buttonWidth, buttonHeight));
     }
 
     public void addButton(String buttonName, ActionListener listener) {
