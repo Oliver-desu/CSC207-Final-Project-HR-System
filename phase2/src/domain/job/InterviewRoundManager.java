@@ -95,12 +95,17 @@ public class InterviewRoundManager {
         if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
                 application.getStatus().equals(ApplicationStatus.PENDING) && currentRoundFinished() &&
                 jobPosting.getNumOfPositions() > getHiredApplications().size()) {
-            application.hire();
+            application.setStatus(ApplicationStatus.HIRE);
             return true;
         } else {
             return false;
         }
     }
 
+    void applicationCancel(Application application) {
+        remainingApplications.remove(application);
+        InterviewRound interviewRound = getCurrentInterviewRound();
+        if (interviewRound != null) interviewRound.applicationCancel(application);
+    }
 
 }

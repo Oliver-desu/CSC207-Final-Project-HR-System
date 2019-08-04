@@ -59,6 +59,13 @@ public class Interview implements Filterable, Serializable, ShowAble {
         else setStatus(InterviewStatus.FAIL);
     }
 
+    public void cancel() {
+        if (status.equals(InterviewStatus.PENDING)) {
+            interviewer.removeFile(this);
+            setResult(false);
+        }
+    }
+
     private void notifyHolders() {
         application.update(this);
         interviewer.removeFile(this);
