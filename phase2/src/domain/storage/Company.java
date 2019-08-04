@@ -77,16 +77,13 @@ public class Company implements Serializable {
         this.addApplication(application);
     }
 
-    public boolean cancelApplication(Application application) {
+    public void cancelApplication(Application application) {
         String applicantId = application.getApplicantId();
-        if (!this.applications.containsKey(applicantId) || !this.applications.get(applicantId).contains(application)) {
-            return false;
-        } else {
+        if (this.applications.containsKey(applicantId)) {
             this.applications.get(applicantId).remove(application);
-            if (this.applications.get(applicantId).isEmpty()) {
-                this.applications.remove(applicantId);
-            }
-            return true;
+        }
+        if (this.applications.get(applicantId).isEmpty()) {
+            this.applications.remove(applicantId);
         }
     }
 }

@@ -2,6 +2,7 @@ package domain.applying;
 
 import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
+import domain.show.ShowAble;
 import domain.storage.InfoCenter;
 import domain.user.CompanyWorker;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Interview implements Filterable, Serializable {
+public class Interview implements Filterable, Serializable, ShowAble {
 
     private CompanyWorker interviewer;
     private Application application;
@@ -71,18 +72,12 @@ public class Interview implements Filterable, Serializable {
 
     @Override
     public String toString() {
-        String result = "JobPosting id: " + application.getJobPostingId() + "\n" +
-                "Applicant: " + application.getApplicantId() + "\n" +
-                "Status: " + status;
-        if (status.equals(InterviewStatus.UNMATCHED)) {
-            return result;
-        } else if (status.equals(InterviewStatus.PENDING)) {
-            return result + "\n" + "Interviewer: " + interviewer.getUsername();
-        } else {
-            return result + "\n" +
-                    "Interviewer: " + interviewer.getUsername() + "\n" +
-                    "Recommendation: " + recommendation;
-        }
+        return getInfoString("JobPosting", application.getJobPostingId()) +
+                getInfoString("Applicant", application.getApplicantId()) +
+                getInfoString("Interviewer",
+                        status.equals(InterviewStatus.UNMATCHED) ? "N/A" : interviewer.getUsername()) +
+                getInfoString("Recommendation", recommendation) +
+                getInfoString("Status", status.toString());
     }
 
     @Override

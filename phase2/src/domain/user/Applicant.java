@@ -9,7 +9,6 @@ import domain.applying.Interview;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Applicant extends User implements Serializable {
 
@@ -39,25 +38,12 @@ public class Applicant extends User implements Serializable {
         }
     }
 
-    /**
-     * Delete an application before submitting it.
-     **/
-    public boolean deleteApplication(String jobId) {
-        boolean isDeleted = false;
-        if (this.applications.containsKey(jobId)) {
-            this.applications.remove(jobId);
-            isDeleted = true;
-        }
-        return isDeleted;
-    }
-
     public boolean deleteApplication(Application application) {
-        if (this.applications.containsValue(application)) {
-            for (Map.Entry<String, Application> entry : this.applications.entrySet()) {
-                if (application.equals(entry.getValue())) {
-                    this.applications.remove(entry.getKey(), application);
-                    return true;
-                }
+        String jobPostingId = application.getJobPostingId();
+        for (String jobId : applications.keySet()) {
+            if (jobId.equals(jobPostingId)) {
+                applications.remove(jobPostingId);
+                return true;
             }
         }
         return false;

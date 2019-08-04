@@ -1,6 +1,7 @@
 package domain.applying;
 
 import domain.filter.Filterable;
+import domain.show.ShowAble;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Document implements Filterable, Serializable {
+public class Document implements Filterable, Serializable, ShowAble {
 
     private String documentName = "";
     private String content;
@@ -94,9 +95,9 @@ public class Document implements Filterable, Serializable {
 
     @Override
     public String toString() {
-        return "Name: " + this.documentName + "\n" +
-                "Last used date: " + this.lastUsedDate + "\n" +
-                "Content: " + "\n" + this.content;
+        return getInfoString("Name", documentName) +
+                getInfoString("Last used date", lastUsedDate.toString()) +
+                getInfoString("Content", content.substring(0, 100) + "...");
     }
 
     @Override

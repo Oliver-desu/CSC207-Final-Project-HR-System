@@ -3,6 +3,7 @@ package domain.job;
 import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.filter.Filterable;
+import domain.show.ShowAble;
 import domain.storage.Company;
 import domain.storage.InfoCenter;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobPosting implements Filterable, Serializable {
+public class JobPosting implements Filterable, Serializable, ShowAble {
 
     private HashMap<String, String> jobDetails;
     private InterviewRoundManager interviewRoundManager;
@@ -106,16 +107,16 @@ public class JobPosting implements Filterable, Serializable {
 
     @Override
     public String toString() {
-        String[] titles = {"Company id:", "Position name:", "Num of positions:", "Post date:", "Close date:",
-                "CV:", "Cover letter:", "Reference:", "Extra document:"};
-        StringBuilder sb = new StringBuilder();
-        for (String title : titles) {
-            sb.append(title);
-            sb.append(" ");
-            sb.append(jobDetails.get(title));
-            sb.append("\n");
-        }
-        return sb.toString() + "Status: " + status;
+        return getInfoString("Company", jobDetails.get("Company id:")) +
+                getInfoString("Position name", jobDetails.get("Position name:")) +
+                getInfoString("Num of positions", jobDetails.get("Num of positions:")) +
+                getInfoString("Post date", jobDetails.get("Post date:")) +
+                getInfoString("Close date", jobDetails.get("Close date:")) +
+                getInfoString("CV", jobDetails.get("CV:")) +
+                getInfoString("Cover letter", jobDetails.get("Cover letter:")) +
+                getInfoString("Reference", jobDetails.get("Reference:")) +
+                getInfoString("Extra document", jobDetails.get("Extra document:")) +
+                getInfoString("Status", status.toString());
     }
 
     @Override

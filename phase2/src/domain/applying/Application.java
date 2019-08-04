@@ -4,6 +4,7 @@ import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
+import domain.show.ShowAble;
 import domain.storage.InfoCenter;
 import domain.user.Applicant;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Application implements Filterable, Serializable {
+public class Application implements Filterable, Serializable, ShowAble {
 
     private HashMap<String, Interview> interviews = new HashMap<>();
     private String applicantId;
@@ -44,7 +45,7 @@ public class Application implements Filterable, Serializable {
         return infoCenter.getApplicant(this.applicantId);
     }
 
-    String getJobPostingId() {
+    public String getJobPostingId() {
         return this.jobPostingId;
     }
 
@@ -114,9 +115,9 @@ public class Application implements Filterable, Serializable {
 
     @Override
     public String toString() {
-        return "Applicant: " + this.applicantId + "\n" +
-                "JobPosting id:" + this.jobPostingId + "\n" +
-                "Status: " + this.status;
+        return getInfoString("Applicant", applicantId) +
+                getInfoString("JobPosting", jobPostingId) +
+                getInfoString("Status", status.toString());
     }
 
     @Override
