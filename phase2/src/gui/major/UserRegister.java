@@ -23,6 +23,10 @@ public class UserRegister extends Scenario {
         this.registerType = registerType;
     }
 
+    public UserRegister(UserMenu userMenu) {
+        super(userMenu);
+    }
+
     @Override
     protected void initComponents() {
         initInput();
@@ -38,8 +42,8 @@ public class UserRegister extends Scenario {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         initUserInput(factory);
-        if (registerType.equals(UserType.APPLICANT)) initApplicantInput(factory);
-        else initStaffInput(factory);
+        if (registerType == null) initStaffInput(factory);
+        else initApplicantInput(factory);
         add(infoPanel);
     }
 
@@ -66,6 +70,8 @@ public class UserRegister extends Scenario {
     }
 
     private void initStaffInput(ComponentFactory factory) {
+        String[] positions = new String[]{"Interviewer", "HR_Coordinator", "HR_Generalist"};
+        factory.addComboBox("Position:", positions);
         factory.addTextField("Company id:");
     }
 
@@ -77,6 +83,7 @@ public class UserRegister extends Scenario {
 
     private User createUserAndRegister() {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
+        if (registerType == null) registerType = UserType.valueOf(infoMap.get("Position:").toUpperCase());
         infoMap.put("Password:", Arrays.toString(infoPanel.getPassword()));
         return new UserFactory(getMain().getInfoCenter()).createUser(infoMap, registerType);
     }
