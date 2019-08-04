@@ -2,6 +2,7 @@ package domain.applying;
 
 import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
+import domain.storage.InfoCenter;
 import domain.user.CompanyWorker;
 
 import java.io.Serializable;
@@ -61,17 +62,25 @@ public class Interview implements Filterable, Serializable {
         interviewer.removeFile(this);
     }
 
+    public String detailedToStringForCompanyWorker(InfoCenter infoCenter) {
+        return "JobPosting id: " + application.getJobPostingId() + "\n" +
+                "\n" +
+                "Application information:\n" + infoCenter.getApplicant(application.getApplicantId()).toString();
+    }
+
     @Override
     public String toString() {
-        if (this.status.equals(InterviewStatus.UNMATCHED)) {
-            return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
-                    "Applicant: " + this.application.getApplicantId() + "\n" +
-                    "Status: " + this.status;
+        String result = "JobPosting id: " + application.getJobPostingId() + "\n" +
+                "Applicant: " + application.getApplicantId() + "\n" +
+                "Status: " + status;
+        if (status.equals(InterviewStatus.UNMATCHED)) {
+            return result;
+        } else if (status.equals(InterviewStatus.PENDING)) {
+            return result + "\n" + "Interviewer: " + interviewer.getUsername();
         } else {
-            return "JobPosting id: " + this.application.getJobPostingId() + "\n" +
-                    "Applicant: " + this.application.getApplicantId() + "\n" +
-                    "Interviewer:" + this.interviewer.getUsername() + "\n" +
-                    "Status: " + this.status;
+            return result + "\n" +
+                    "Interviewer: " + interviewer.getUsername() + "\n" +
+                    "Recommendation: " + recommendation;
         }
     }
 

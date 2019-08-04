@@ -22,8 +22,8 @@ import java.nio.file.Paths;
 
 public class DocumentManageScenario extends Scenario {
 
-    private DocumentManager applicantDocument;
-    private DocumentManager applicationDocument;
+    private DocumentManager applicantDocumentManager;
+    private DocumentManager applicationDocumentManager;
     private FilterPanel<Document> leftFilter; // contains application document
     private FilterPanel<Document> rightFilter; // contains applicant document
     private InputInfoPanel infoPanel;
@@ -31,9 +31,9 @@ public class DocumentManageScenario extends Scenario {
     public DocumentManageScenario(UserMenu userMenu, DocumentManager applicationDocument) {
         super(userMenu);
         Applicant applicant = (Applicant) getUserMenu().getUser();
-        this.applicantDocument = applicant.getDocumentManager();
-        this.applicationDocument = applicationDocument;
-        this.applicantDocument.updateAllDocuments();
+        this.applicantDocumentManager = applicant.getDocumentManager();
+        this.applicationDocumentManager = applicationDocument;
+        this.applicantDocumentManager.updateAllDocuments();
     }
 
     public static void main(String[] args) {
@@ -76,10 +76,10 @@ public class DocumentManageScenario extends Scenario {
 
     @Override
     protected void update() {
-        if (applicationDocument != null) {
-            leftFilter.setFilterContent(applicationDocument.getAllDocuments());
+        if (applicationDocumentManager != null) {
+            leftFilter.setFilterContent(applicationDocumentManager.getAllDocuments());
         }
-        rightFilter.setFilterContent(applicantDocument.getAllDocuments());
+        rightFilter.setFilterContent(applicantDocumentManager.getAllDocuments());
     }
 
     protected void initButton() {
@@ -92,11 +92,11 @@ public class DocumentManageScenario extends Scenario {
     class AddDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (applicationDocument == null) {
+            if (applicationDocumentManager == null) {
                 Path path = Paths.get(infoPanel.getInfoMap().get("File name:"));
                 String fileName = path.getFileName().toString().split("[.]")[0];
 
-                if (applicantDocument.addDocument(fileName, new Document(path.toString()))) {
+                if (applicantDocumentManager.addDocument(fileName, new Document(path.toString()))) {
                     update();
                     showMessage("Change is made successfully!");
                     return;
@@ -104,7 +104,7 @@ public class DocumentManageScenario extends Scenario {
 
             } else {
                 Document document = rightFilter.getSelectObject();
-                if (document != null && applicationDocument.addDocument(document.getDocumentName(), document)) {
+                if (document != null && applicationDocumentManager.addDocument(document.getDocumentName(), document)) {
                     update();
                     showMessage("Change is made successfully!");
                     return;
@@ -117,16 +117,16 @@ public class DocumentManageScenario extends Scenario {
     class DeleteDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (applicationDocument == null) {
+            if (applicationDocumentManager == null) {
                 Document document = rightFilter.getSelectObject();
-                if (document != null && applicantDocument.removeDocument(document)) {
+                if (document != null && applicantDocumentManager.removeDocument(document)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     update();
                     return;
                 }
             } else {
                 Document document = leftFilter.getSelectObject();
-                if (document != null && applicationDocument.removeDocument(document)) {
+                if (document != null && applicationDocumentManager.removeDocument(document)) {
                     JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
                     update();
                     return;

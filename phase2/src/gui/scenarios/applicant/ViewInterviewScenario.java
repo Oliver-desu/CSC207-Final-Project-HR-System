@@ -40,7 +40,7 @@ public class ViewInterviewScenario extends Scenario {
     @Override
     protected void update() {
         Applicant applicant = (Applicant) getUserMenu().getUser();
-        leftFilter.setFilterContent(applicant.getOngoingInterviews());
+        leftFilter.setFilterContent(applicant.getInterviews());
     }
 
     protected void initLeftFilter() {

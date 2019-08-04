@@ -14,6 +14,8 @@ import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -59,7 +61,7 @@ public class OngoingInterviewScenario extends Scenario {
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        addShowInfoListenerFor(leftFilter);
+        leftFilter.addSelectionListener(new OngoingInterviewScenario.LeftFilterListener());
         add(leftFilter);
     }
 
@@ -78,6 +80,16 @@ public class OngoingInterviewScenario extends Scenario {
 
     private String getRecommendation() {
         return infoPanel.getInfoMap().get("Recommendation:");
+    }
+
+    class LeftFilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            Interview interview = leftFilter.getSelectObject();
+            if (interview != null) {
+                setOutputText(interview.detailedToStringForCompanyWorker(getMain().getInfoCenter()));
+            }
+        }
     }
 
     class SetResultListener implements ActionListener {

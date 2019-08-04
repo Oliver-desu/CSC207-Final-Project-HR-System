@@ -67,8 +67,6 @@ public class UserRegister extends Scenario {
 
     private void initStaffInput(ComponentFactory factory) {
         factory.addTextField("Company id:");
-        factory.addTextField("Work id:");
-        factory.addTextArea("Verify message:");
     }
 
     protected void initButton() {

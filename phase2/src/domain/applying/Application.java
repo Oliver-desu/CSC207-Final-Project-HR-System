@@ -104,7 +104,7 @@ public class Application implements Filterable, Serializable {
         }
     }
 
-    public String detailedToString(InfoCenter infoCenter) {
+    public String detailedToStringForCompanyWorker(InfoCenter infoCenter) {
         Applicant applicant = infoCenter.getApplicant(applicantId);
         return "JobPosting id:" + jobPostingId + "\n" +
                 "Status: " + status + "\n" +

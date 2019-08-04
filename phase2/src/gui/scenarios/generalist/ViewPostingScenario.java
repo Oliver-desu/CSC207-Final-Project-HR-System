@@ -2,6 +2,7 @@ package gui.scenarios.generalist;
 
 import domain.Enums.UserType;
 import domain.Test;
+import domain.applying.Application;
 import domain.job.JobPosting;
 import domain.storage.Company;
 import domain.storage.InfoCenter;
@@ -10,11 +11,14 @@ import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 
 public class ViewPostingScenario extends Scenario {
 
     private FilterPanel<JobPosting> leftFilter;
+    private FilterPanel<Application> rightFilter;
 
     public ViewPostingScenario(UserMenu userMenu) {
         super(userMenu);
@@ -33,13 +37,20 @@ public class ViewPostingScenario extends Scenario {
     @Override
     protected void initComponents() {
         initLeftFilter();
+        initRightFilter();
         initOutputInfoPanel();
     }
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        addShowInfoListenerFor(leftFilter);
+        leftFilter.addSelectionListener(new ViewPostingScenario.LeftFilterListener());
         add(leftFilter);
+    }
+
+    protected void initRightFilter() {
+        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter.addSelectionListener(new ViewPostingScenario.RightFilterListener());
+        add(rightFilter);
     }
 
     @Override
@@ -48,5 +59,31 @@ public class ViewPostingScenario extends Scenario {
         InfoCenter infoCenter = getMain().getInfoCenter();
         ArrayList<JobPosting> jobPostings = infoCenter.getJobPostingsByIds(company.getJobPostingIds());
         leftFilter.setFilterContent(jobPostings);
+        JobPosting jobPosting = leftFilter.getSelectObject();
+        if (jobPosting != null) {
+            rightFilter.setFilterContent(jobPosting.getApplications());
+        }
     }
+
+    class LeftFilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            JobPosting jobPosting = leftFilter.getSelectObject();
+            if (jobPosting != null) {
+                rightFilter.setFilterContent(jobPosting.getApplications());
+                setOutputText(jobPosting.toString());
+            }
+        }
+    }
+
+    class RightFilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            Application application = rightFilter.getSelectObject();
+            if (application != null) {
+                setOutputText(application.detailedToStringForCompanyWorker(getMain().getInfoCenter()));
+            }
+        }
+    }
+
 }

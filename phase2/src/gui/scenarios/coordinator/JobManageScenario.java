@@ -111,7 +111,8 @@ public class JobManageScenario extends Scenario {
             if (jobPosting != null) {
                 InterviewRound interviewRound = rightFilter.getSelectObject();
                 if (interviewRound != null) {
-                    InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(getUserMenu(), interviewRound, jobPosting);
+                    InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(
+                            getUserMenu(), interviewRound, jobPosting);
                     switchScenario(interviewRoundScenario);
                 } else {
                     showMessage("Failed.");

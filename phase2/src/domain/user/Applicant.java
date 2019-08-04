@@ -1,6 +1,5 @@
 package domain.user;
 
-import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
 import domain.Exceptions.NotCompanyWorkerException;
 import domain.applying.Application;
@@ -21,10 +20,6 @@ public class Applicant extends User implements Serializable {
         super(map, UserType.APPLICANT);
         this.applications = new HashMap<>();
         this.documentManager = new DocumentManager(true);
-    }
-
-    public HashMap<String, Application> getApplicationMap() {
-        return this.applications;
     }
 
     public ArrayList<Application> getApplications() {
@@ -68,17 +63,13 @@ public class Applicant extends User implements Serializable {
         return false;
     }
 
-    public ArrayList<Interview> getOngoingInterviews() {
+    public ArrayList<Interview> getInterviews() {
 //        application->interview->status
-        ArrayList<Interview> ongoingInterviews = new ArrayList<>();
+        ArrayList<Interview> interviews = new ArrayList<>();
         for (Application application : this.applications.values()) {
-            for (Interview interview : application.getInterviews()) {
-                if (interview.getStatus().equals(InterviewStatus.PENDING)) {
-                    ongoingInterviews.add(interview);
-                }
-            }
+            interviews.addAll(application.getInterviews());
         }
-        return ongoingInterviews;
+        return interviews;
     }
 
     @Override

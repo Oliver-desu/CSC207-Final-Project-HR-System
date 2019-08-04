@@ -9,8 +9,13 @@ import domain.user.Applicant;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;
+import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ApplicationScenario extends Scenario {
@@ -41,18 +46,25 @@ public class ApplicationScenario extends Scenario {
         initLeftFilter();
         initRightFilter();
         initOutputInfoPanel();
+        initButton();
     }
 
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE);
-        addShowInfoListenerFor(leftFilter);
+        leftFilter.addSelectionListener(new ApplicationScenario.LeftFilterListener());
         add(leftFilter);
     }
 
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE);
-        addShowInfoListenerFor(rightFilter);
+        rightFilter.addSelectionListener(new ApplicationScenario.RightFilterListener());
         add(rightFilter);
+    }
+
+    protected void initButton() {
+        ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
+        buttonPanel.addButton("View Document", new ViewDocumentListener());
+        add(buttonPanel);
     }
 
     @Override
@@ -68,4 +80,38 @@ public class ApplicationScenario extends Scenario {
         }
         rightFilter.setFilterContent(documents);
     }
+
+    class LeftFilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            Application application = leftFilter.getSelectObject();
+            if (application != null) {
+                rightFilter.setFilterContent(application.getDocumentManager().getAllDocuments());
+                setOutputText(application.detailedToStringForCompanyWorker(getMain().getInfoCenter()));
+            }
+        }
+    }
+
+    class RightFilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            Document document = rightFilter.getSelectObject();
+            if (document != null) {
+                setOutputText(document.toString());
+            }
+        }
+    }
+
+    class ViewDocumentListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Document document = rightFilter.getSelectObject();
+            if (document != null) {
+                showDocument(document.toString());
+            } else {
+                showMessage("No document selected.");
+            }
+        }
+    }
+
 }

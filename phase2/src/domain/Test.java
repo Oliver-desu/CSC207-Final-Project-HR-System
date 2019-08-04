@@ -81,8 +81,10 @@ public class Test {
     public Applicant addApplicant() {
         HashMap<String, String> values = new HashMap<>();
         values.put("Username:", Integer.toString(numApplicants));
+        values.put("First name:", "Holy");
+        values.put("Last/Family name:", "Shit");
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
-        values.put("Email:", "shit@gmail.ca");
+        values.put("Email:", "shit@gmail.com");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
         infoCenter.register(applicant, UserType.APPLICANT);
