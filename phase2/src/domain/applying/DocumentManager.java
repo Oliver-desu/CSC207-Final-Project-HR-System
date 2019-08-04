@@ -36,23 +36,14 @@ public class DocumentManager implements Serializable {
     }
 
     public boolean removeDocument(Document document) {
-        // removeDocument can not deal with situation where two identical documents are submitted with different
-        // docNames, currently it just deletes whichever one comes first
-        if (this.isEditable()) {
-            for (String docName : this.documents.keySet()) {
-                if (this.documents.get(docName).equals(document)) {
-                    this.documents.remove(docName);
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return false;
+        if (documents.values().contains(document)) {
+            return removeDocument(document.getDocumentName());
         }
+        return false;
     }
 
-    public boolean removeDocument(String docName) {
-        if (this.editable && this.documents.containsKey(docName)) {
+    private boolean removeDocument(String docName) {
+        if (isEditable() && this.documents.containsKey(docName)) {
             this.documents.remove(docName);
             return true;
         }

@@ -22,12 +22,11 @@ public class Document implements Filterable, Serializable {
         this.isUsed = false;
     }
 
-    // Todo
     public Document(String path) {
-        File file = new File(System.getProperty("user.dir") + "\\phase2\\" + path);
+        File file = new File(path);
         this.lastUsedDate = LocalDate.now();
         if (file.exists()) {
-            documentName = path;
+            documentName = file.getName();
             content = readContent(file);
             setUsed();
             update();
@@ -35,6 +34,7 @@ public class Document implements Filterable, Serializable {
     }
 
     public static void main(String[] args) {
+        // Todo: warning, path not complete.
         Document document = new Document("CV.txt");
         System.out.println(document.getContent());
         Document document1 = new Document("Cover.txt");

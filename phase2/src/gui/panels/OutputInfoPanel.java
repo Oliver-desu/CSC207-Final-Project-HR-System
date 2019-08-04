@@ -1,12 +1,14 @@
 package gui.panels;
 
+import domain.applying.Document;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class OutputInfoPanel extends JPanel {
-    static final Font FONT = new Font("Times New Roman", Font.PLAIN, 15);
 
-    private static final Dimension OUTPUT_SIZE = new Dimension(400, 600);
+    static final Font FONT = new Font("Times New Roman", Font.PLAIN, 15);
+    private static final Dimension DOCUMENT_FRAME_SIZE = new Dimension(600, 400);
     private JTextArea textArea = new JTextArea();
 
     public OutputInfoPanel(Dimension dimension) {
@@ -30,17 +32,18 @@ public class OutputInfoPanel extends JPanel {
         textArea.setText(text);
     }
 
-    public void showDocument(String documentContent) {
-        OutputInfoPanel document = new OutputInfoPanel(OUTPUT_SIZE);
-        document.setOutputText(documentContent);
-        new DocumentFrame(document);
+    public void showDocument(Document document) {
+        OutputInfoPanel outputInfo = new OutputInfoPanel(DOCUMENT_FRAME_SIZE);
+        outputInfo.setOutputText(document.toString());
+        new DocumentFrame(document.getDocumentName(), outputInfo);
     }
 
     private class DocumentFrame extends JFrame {
 
-        DocumentFrame(JPanel document) {
+        DocumentFrame(String title, JPanel document) {
+            setTitle(title);
             setResizable(false);
-            setSize(new Dimension(OUTPUT_SIZE.width + 20, OUTPUT_SIZE.height + 45));
+            setSize(new Dimension(DOCUMENT_FRAME_SIZE.width + 20, DOCUMENT_FRAME_SIZE.height + 45));
             setLayout(new FlowLayout());
             add(document);
             setVisible(true);

@@ -107,7 +107,7 @@ public class ApplicationScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Document document = rightFilter.getSelectObject();
             if (document != null) {
-                showDocument(document.toString());
+                showDocument(document);
             } else {
                 showMessage("No document selected.");
             }

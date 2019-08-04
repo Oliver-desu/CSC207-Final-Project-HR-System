@@ -10,15 +10,12 @@ import domain.user.Applicant;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
-import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
-import gui.panels.InputInfoPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DocumentManageScenario extends Scenario {
 
@@ -26,7 +23,6 @@ public class DocumentManageScenario extends Scenario {
     private DocumentManager applicationDocumentManager;
     private FilterPanel<Document> leftFilter; // contains application document
     private FilterPanel<Document> rightFilter; // contains applicant document
-    private InputInfoPanel infoPanel;
 
     public DocumentManageScenario(UserMenu userMenu, DocumentManager applicationDocument) {
         super(userMenu);
@@ -51,15 +47,7 @@ public class DocumentManageScenario extends Scenario {
         initLeftFilter();
         initRightFilter();
         initOutputInfoPanel();
-        initInput();
         initButton();
-    }
-
-    protected void initInput() {
-        infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
-        ComponentFactory factory = infoPanel.getComponentFactory();
-        factory.addTextField("File name:");
-        add(infoPanel);
     }
 
     protected void initLeftFilter() {
@@ -89,14 +77,18 @@ public class DocumentManageScenario extends Scenario {
         add(buttonPanel);
     }
 
+    private String getSubmitFileName() {
+        FileDialog fileDialog = new FileDialog(getUserMenu());
+        fileDialog.setVisible(true);
+        return fileDialog.getDirectory() + "\\" + fileDialog.getFile();
+    }
+
     class AddDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (applicationDocumentManager == null) {
-                Path path = Paths.get(infoPanel.getInfoMap().get("File name:"));
-                String fileName = path.getFileName().toString().split("[.]")[0];
-
-                if (applicantDocumentManager.addDocument(fileName, new Document(path.toString()))) {
+                Document document = new Document(getSubmitFileName());
+                if (applicantDocumentManager.addDocument(document.getDocumentName(), document)) {
                     update();
                     showMessage("Change is made successfully!");
                     return;

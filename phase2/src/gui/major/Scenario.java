@@ -1,5 +1,6 @@
 package gui.major;
 
+import domain.applying.Document;
 import gui.panels.FilterPanel;
 import gui.panels.OutputInfoPanel;
 import main.Main;
@@ -63,8 +64,8 @@ public abstract class Scenario extends JPanel {
         outputInfoPanel.setOutputText(text);
     }
 
-    protected void showDocument(String documentContent) {
-        outputInfoPanel.showDocument(documentContent);
+    protected void showDocument(Document document) {
+        outputInfoPanel.showDocument(document);
     }
 
     protected void addShowInfoListenerFor(FilterPanel filterPanel) {
@@ -92,7 +93,7 @@ public abstract class Scenario extends JPanel {
     private class ShowInfoListener implements ListSelectionListener {
         private FilterPanel filterPanel;
 
-        public ShowInfoListener(FilterPanel filterPanel) {
+        private ShowInfoListener(FilterPanel filterPanel) {
             this.filterPanel = filterPanel;
         }
 
