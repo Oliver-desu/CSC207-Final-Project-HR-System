@@ -11,11 +11,12 @@ import gui.panels.FilterPanel;
 
 public class ViewInterviewScenario extends Scenario {
 
+    private FilterPanel<Interview> leftFilter;
+    private FilterPanel<Interview> rightFilter;
+
     public ViewInterviewScenario(UserMenu userMenu) {
         super(userMenu, "View Interview");
     }
-
-    private FilterPanel<Interview> leftFilter;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -34,18 +35,27 @@ public class ViewInterviewScenario extends Scenario {
     @Override
     protected void initComponents() {
         initLeftFilter();
+        initRightFilter();
         initOutputInfoPanel();
     }
 
     @Override
     protected void update() {
+        // Todo: need left filter be ongoing interviews, right filter be past interviews
         Applicant applicant = (Applicant) getUserMenu().getUser();
         leftFilter.setFilterContent(applicant.getInterviews());
+        rightFilter.setFilterContent(applicant.getInterviews());
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE, "My Interviews");
+        leftFilter = new FilterPanel<>(LIST_SIZE, "My Ongoing Interviews");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
+    }
+
+    protected void initRightFilter() {
+        rightFilter = new FilterPanel<>(LIST_SIZE, "My Past Interviews");
+        addShowInfoListenerFor(rightFilter);
+        add(rightFilter);
     }
 }
