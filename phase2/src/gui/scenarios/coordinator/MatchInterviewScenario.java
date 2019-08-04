@@ -26,7 +26,7 @@ public class MatchInterviewScenario extends Scenario {
     private FilterPanel<CompanyWorker> rightFilter;
 
     public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
-        super(userMenu);
+        super(userMenu, "Match Interview");
         this.interviewRound = interviewRound;
     }
 
@@ -60,7 +60,7 @@ public class MatchInterviewScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Unmatched Applications");
         add(leftFilter);
     }
 
@@ -74,7 +74,7 @@ public class MatchInterviewScenario extends Scenario {
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "Company Interviewers");
         add(rightFilter);
     }
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ApplicationScenario extends Scenario {
 
     public ApplicationScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "View Company Applications");
     }
 
     private FilterPanel<Application> leftFilter;
@@ -50,13 +50,13 @@ public class ApplicationScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "All Applications");
         leftFilter.addSelectionListener(new ApplicationScenario.LeftFilterListener());
         add(leftFilter);
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         rightFilter.addSelectionListener(new ApplicationScenario.RightFilterListener());
         add(rightFilter);
     }

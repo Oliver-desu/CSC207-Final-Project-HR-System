@@ -25,7 +25,7 @@ public class DocumentManageScenario extends Scenario {
     private FilterPanel<Document> rightFilter; // contains applicant document
 
     public DocumentManageScenario(UserMenu userMenu, DocumentManager applicationDocument) {
-        super(userMenu);
+        super(userMenu, "Document Manager");
         Applicant applicant = (Applicant) getUserMenu().getUser();
         this.applicantDocumentManager = applicant.getDocumentManager();
         this.applicationDocumentManager = applicationDocument;
@@ -51,13 +51,13 @@ public class DocumentManageScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "My Documents");
         addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }

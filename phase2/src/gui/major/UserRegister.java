@@ -19,12 +19,12 @@ public class UserRegister extends Scenario {
     private InputInfoPanel infoPanel;
 
     public UserRegister(UserMenu userMenu, UserType registerType) {
-        super(userMenu);
+        super(userMenu, "User Register");
         this.registerType = registerType;
     }
 
     public UserRegister(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "User Register");
     }
 
     @Override

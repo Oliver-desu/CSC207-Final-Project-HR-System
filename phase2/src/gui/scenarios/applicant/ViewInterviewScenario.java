@@ -12,7 +12,7 @@ import gui.panels.FilterPanel;
 public class ViewInterviewScenario extends Scenario {
 
     public ViewInterviewScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "View Interview");
     }
 
     private FilterPanel<Interview> leftFilter;
@@ -44,7 +44,7 @@ public class ViewInterviewScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "My Interviews");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }

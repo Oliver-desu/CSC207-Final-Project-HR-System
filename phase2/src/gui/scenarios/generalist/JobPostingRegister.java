@@ -23,7 +23,7 @@ public class JobPostingRegister extends Scenario {
     private InputInfoPanel infoPanel;
 
     public JobPostingRegister(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "Create Job Posting");
     }
 
     public static void main(String[] args) {

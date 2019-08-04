@@ -21,7 +21,7 @@ public class ViewPostingScenario extends Scenario {
     private FilterPanel<Application> rightFilter;
 
     public ViewPostingScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "View Company Job Postings");
     }
 
     public static void main(String[] args) {
@@ -42,13 +42,13 @@ public class ViewPostingScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "All JobPostings");
         leftFilter.addSelectionListener(new ViewPostingScenario.LeftFilterListener());
         add(leftFilter);
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "JobPosting Applications");
         rightFilter.addSelectionListener(new ViewPostingScenario.RightFilterListener());
         add(rightFilter);
     }

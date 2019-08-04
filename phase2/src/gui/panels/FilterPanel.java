@@ -21,8 +21,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
     private JTable filterTable = new JTable();
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
-    public FilterPanel(Dimension dimension) {
-        setup(dimension, "Unnamed");
+    public FilterPanel(Dimension dimension, String title) {
+        setup(dimension, title);
     }
 
     private JTable getFilterTable() {

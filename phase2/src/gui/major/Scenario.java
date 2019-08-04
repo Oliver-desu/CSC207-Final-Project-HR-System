@@ -26,8 +26,9 @@ public abstract class Scenario extends JPanel {
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel(OUTPUT_SIZE);
     private boolean hasInit;
 
-    protected Scenario(UserMenu userMenu) {
+    protected Scenario(UserMenu userMenu, String title) {
         this.userMenu = userMenu;
+        setTitle(title);
     }
 
     public void init() {
@@ -79,6 +80,10 @@ public abstract class Scenario extends JPanel {
     protected boolean confirmAction() {
         return 0 == JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?",
                 "Confirm Dialog", JOptionPane.YES_NO_OPTION);
+    }
+
+    protected void setTitle(String title) {
+        getUserMenu().setTitle(title);
     }
 
     protected void exampleView() {

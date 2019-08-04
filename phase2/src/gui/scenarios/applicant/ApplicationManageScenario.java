@@ -21,7 +21,7 @@ public class ApplicationManageScenario extends Scenario {
     private FilterPanel<Document> rightFilter;
 
     public ApplicationManageScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "Application Manager");
         this.applicant = (Applicant) getUserMenu().getUser();
     }
 
@@ -46,7 +46,7 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "My Applications");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
@@ -58,7 +58,7 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         add(rightFilter);
     }
 

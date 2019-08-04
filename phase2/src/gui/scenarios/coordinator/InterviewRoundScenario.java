@@ -29,7 +29,7 @@ public class InterviewRoundScenario extends Scenario {
     private FilterPanel<Interview> rightFilter;
 
     public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
-        super(userMenu);
+        super(userMenu, "Interview Round Manager");
         this.interviewRound = interviewRound;
         this.manager = jobPosting.getInterviewRoundManager();
     }
@@ -70,13 +70,13 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Remaining Applications");
         leftFilter.addSelectionListener(new LeftFilterListener());
         add(leftFilter);
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "Application Interviews");
         addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }

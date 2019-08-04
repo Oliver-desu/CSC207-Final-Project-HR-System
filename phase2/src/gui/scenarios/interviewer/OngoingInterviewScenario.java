@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 public class OngoingInterviewScenario extends Scenario {
 
     public OngoingInterviewScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "Ongoing Interview Manager");
     }
 
     private FilterPanel<Interview> leftFilter;
@@ -60,7 +60,7 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Ongoing Interviews");
         leftFilter.addSelectionListener(new OngoingInterviewScenario.LeftFilterListener());
         add(leftFilter);
     }

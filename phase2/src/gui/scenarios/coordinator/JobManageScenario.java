@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class JobManageScenario extends Scenario {
 
     public JobManageScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "Job Manager");
     }
 
     private FilterPanel<JobPosting> leftFilter;
@@ -64,7 +64,7 @@ public class JobManageScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Jobs I Responsible to");
         leftFilter.addSelectionListener(new JobManageScenario.LeftFilterListener());
         add(leftFilter);
     }
@@ -82,7 +82,7 @@ public class JobManageScenario extends Scenario {
     }
 
     protected void initRightFilter() {
-        rightFilter = new FilterPanel<>(LIST_SIZE);
+        rightFilter = new FilterPanel<>(LIST_SIZE, "Job Interview Rounds");
         add(rightFilter);
     }
 

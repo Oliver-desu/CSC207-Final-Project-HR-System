@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 
 public class JobSearchingScenario extends Scenario {
     public JobSearchingScenario(UserMenu userMenu) {
-        super(userMenu);
+        super(userMenu, "Job Searching");
     }
 
     private FilterPanel<JobPosting> leftFilter;
@@ -44,7 +44,7 @@ public class JobSearchingScenario extends Scenario {
     }
 
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE);
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Open Jobs");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
