@@ -16,9 +16,9 @@ import java.util.HashMap;
  * Class {@code Application} stores the information about a particular
  * application and deals with the whole applying procedure.
  *
+ * @author group 0120 of CSC207 summer 2019
  * @see     Interview
  * @see     DocumentManager
- * @author group 0120 of CSC207 summer 2019
  * @since 2019-08-04
  */
 public class Application implements Filterable, Serializable, ShowAble {
