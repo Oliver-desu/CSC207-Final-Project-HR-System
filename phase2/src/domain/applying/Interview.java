@@ -7,9 +7,7 @@ import domain.storage.InfoCenter;
 import domain.user.CompanyWorker;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Interview implements Filterable, Serializable, ShowAble {
 
@@ -85,28 +83,6 @@ public class Interview implements Filterable, Serializable, ShowAble {
                         status.equals(InterviewStatus.UNMATCHED) ? "N/A" : interviewer.getUsername()) +
                 getInfoString("Recommendation", recommendation) +
                 getInfoString("Status", status.toString());
-    }
-
-    @Override
-    public String[] getHeadings() {
-        List<String> headings = new ArrayList<>();
-        headings.add("Applicant id");
-        headings.add("Interviewer id");
-        headings.add("Status");
-        return headings.toArray(new String[3]);
-    }
-
-    @Override
-    public String[] getSearchValues() {
-        List<String> values = new ArrayList<>();
-        values.add(getApplication().getApplicantId());
-        if (getInterviewer() == null) {
-            values.add("no interviewer");
-        } else {
-            values.add(getInterviewer().getUsername());
-        }
-        values.add(getStatus().toString());
-        return values.toArray(new String[3]);
     }
 
     @Override

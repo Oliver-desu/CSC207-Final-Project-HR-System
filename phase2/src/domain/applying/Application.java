@@ -11,7 +11,6 @@ import domain.user.Applicant;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Application implements Filterable, Serializable, ShowAble {
 
@@ -106,24 +105,6 @@ public class Application implements Filterable, Serializable, ShowAble {
         return getInfoString("Applicant", applicantId) +
                 getInfoString("JobPosting", jobPostingId) +
                 getInfoString("Status", status.toString());
-    }
-
-    @Override
-    public String[] getHeadings() {
-        List<String> headings = new ArrayList<>();
-        headings.add("Applicant id");
-        headings.add("JobPosting id");
-        headings.add("Status");
-        return headings.toArray(new String[3]);
-    }
-
-    @Override
-    public String[] getSearchValues() {
-        List<String> values = new ArrayList<>();
-        values.add(this.applicantId);
-        values.add(this.jobPostingId);
-        values.add(this.status.toString());
-        return values.toArray(new String[3]);
     }
 
     @Override

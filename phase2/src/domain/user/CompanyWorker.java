@@ -8,7 +8,6 @@ import domain.job.JobPosting;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CompanyWorker extends User implements Filterable, Serializable {
 
@@ -51,22 +50,6 @@ public class CompanyWorker extends User implements Filterable, Serializable {
 
     public void removeFile(Object file) {
         this.files.remove(file);
-    }
-
-    @Override
-    public String[] getHeadings() {
-        List<String> headings = new ArrayList<>();
-        headings.add("Username");
-        headings.add("Real name");
-        return headings.toArray(new String[0]);
-    }
-
-    @Override
-    public String[] getSearchValues() {
-        List<String> values = new ArrayList<>();
-        values.add(this.getUsername());
-        values.add(this.getRealName());
-        return values.toArray(new String[0]);
     }
 
     @Override

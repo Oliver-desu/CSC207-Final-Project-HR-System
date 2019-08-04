@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class JobPosting implements Filterable, Serializable, ShowAble {
 
@@ -112,24 +111,6 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
                 getInfoString("Reference", jobDetails.get("Reference:")) +
                 getInfoString("Extra document", jobDetails.get("Extra document:")) +
                 getInfoString("Status", status.toString());
-    }
-
-    @Override
-    public String[] getHeadings() {
-        List<String> headings = new ArrayList<>();
-        headings.add("companyId");
-        headings.add("positionName");
-        headings.add("closeDate");
-        return headings.toArray(new String[0]);
-    }
-
-    @Override
-    public String[] getSearchValues() {
-        List<String> values = new ArrayList<>();
-        values.add(jobDetails.get("Company id:"));
-        values.add(jobDetails.get("Position name:"));
-        values.add(jobDetails.get("Close date:"));
-        return values.toArray(new String[0]);
     }
 
     @Override

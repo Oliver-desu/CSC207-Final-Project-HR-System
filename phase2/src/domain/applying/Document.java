@@ -5,9 +5,7 @@ import domain.show.ShowAble;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Document implements Filterable, Serializable, ShowAble {
 
@@ -98,22 +96,6 @@ public class Document implements Filterable, Serializable, ShowAble {
         return getInfoString("Name", documentName) +
                 getInfoString("Last used date", lastUsedDate.toString()) +
                 getInfoString("Content", content);
-    }
-
-    @Override
-    public String[] getHeadings() {
-        List<String> headings = new ArrayList<>();
-        headings.add("Last used date");
-        headings.add("Document name");
-        return headings.toArray(new String[2]);
-    }
-
-    @Override
-    public String[] getSearchValues() {
-        List<String> values = new ArrayList<>();
-        values.add(getLastUsedDate().toString());
-        values.add(getDocumentName());
-        return values.toArray(new String[2]);
     }
 
     @Override

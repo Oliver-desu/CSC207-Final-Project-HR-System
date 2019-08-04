@@ -1,5 +1,6 @@
 package domain.storage;
 
+import domain.Enums.UserType;
 import domain.applying.Application;
 
 import java.io.Serializable;
@@ -9,18 +10,18 @@ import java.util.HashMap;
 public class Company implements Serializable {
 
     private String id;
-    private String generalistId;
-    private ArrayList<String> coordinatorIds;
-    private ArrayList<String> interviewerIds;
+    private HashMap<UserType, ArrayList<String>> workerIds;
     private ArrayList<String> jobPostingIds;
     private HashMap<String, ArrayList<Application>> applications;
 
 
     public Company(HashMap<String, String> values) {
         this.id = values.get("id");
-        this.generalistId = values.get("generalistId");
-        this.coordinatorIds = new ArrayList<>();
-        this.interviewerIds = new ArrayList<>();
+        this.workerIds = new HashMap<>();
+        this.workerIds.put(UserType.HR_GENERALIST, new ArrayList<>());
+        this.workerIds.put(UserType.HR_COORDINATOR, new ArrayList<>());
+        this.workerIds.put(UserType.INTERVIEWER, new ArrayList<>());
+        this.workerIds.get(UserType.HR_GENERALIST).add(values.get("generalistId"));
         this.jobPostingIds = new ArrayList<>();
         this.applications = new HashMap<>();
     }
@@ -30,15 +31,15 @@ public class Company implements Serializable {
     }
 
     public String getHRGeneralistId() {
-        return this.generalistId;
+        return this.workerIds.get(UserType.HR_GENERALIST).get(0);
     }
 
     public ArrayList<String> getHRCoordinatorIds() {
-        return this.coordinatorIds;
+        return this.workerIds.get(UserType.HR_COORDINATOR);
     }
 
     public ArrayList<String> getInterviewerIds() {
-        return this.interviewerIds;
+        return this.workerIds.get(UserType.INTERVIEWER);
     }
 
     public ArrayList<String> getJobPostingIds() {
@@ -54,11 +55,11 @@ public class Company implements Serializable {
     }
 
     public void addHRCoordinatorId(String id) {
-        this.coordinatorIds.add(id);
+        this.workerIds.get(UserType.HR_COORDINATOR).add(id);
     }
 
     public void addInterviewerId(String id) {
-        this.interviewerIds.add(id);
+        this.workerIds.get(UserType.INTERVIEWER).add(id);
     }
 
     public void addJobPostingId(String id) {
