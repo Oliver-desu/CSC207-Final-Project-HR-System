@@ -14,14 +14,14 @@ import java.util.List;
 public class InterviewRound implements Filterable, Serializable {
 
     private String roundName;
-    private HashMap<String, Application> applications;  //applicantId->application
+    private ArrayList<Application> applications;
     private InterviewRoundStatus status;
 
 
     public InterviewRound(String roundName) {
         this.roundName = roundName;
         this.status = InterviewRoundStatus.EMPTY;
-        this.applications = new HashMap<>();
+        this.applications = new ArrayList<>();
     }
 
     public String getRoundName() {
@@ -29,7 +29,7 @@ public class InterviewRound implements Filterable, Serializable {
     }
 
     public ArrayList<Application> getCurrentRoundApplications() {
-        return new ArrayList<>(this.applications.values());
+        return this.applications;
     }
 
     public ArrayList<Application> getUnmatchedApplications() {
@@ -38,7 +38,7 @@ public class InterviewRound implements Filterable, Serializable {
 
     private ArrayList<Application> getApplicationsByStatus(InterviewStatus status) {
         ArrayList<Application> passedApplications = new ArrayList<>();
-        for (Application application : this.applications.values()) {
+        for (Application application : this.applications) {
             if (application.getInterviewByRound(this.roundName).getStatus().equals(status)) {
                 passedApplications.add(application);
             }
@@ -75,7 +75,7 @@ public class InterviewRound implements Filterable, Serializable {
 
     private ArrayList<Interview> getInterviews() {
         ArrayList<Interview> interviews = new ArrayList<>();
-        for (Application application : this.applications.values()) {
+        for (Application application : this.applications) {
             interviews.add(application.getInterviewByRound(this.roundName));
         }
         return interviews;
@@ -84,9 +84,15 @@ public class InterviewRound implements Filterable, Serializable {
     void start(ArrayList<Application> applications) {
         this.setStatus(InterviewRoundStatus.MATCHING);
         for (Application application: applications) {
-            this.applications.put(application.getApplicantId(), application);
+            this.applications.add(application);
             application.addInterview(this.roundName, new Interview(application));
         }
+    }
+
+    void applicationCancel(Application application) {
+        applications.remove(application);
+        Interview interview = application.getInterviewByRound(roundName);
+        interview.cancel();
     }
 
     @Override

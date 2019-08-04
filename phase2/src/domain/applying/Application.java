@@ -77,26 +77,14 @@ public class Application implements Filterable, Serializable, ShowAble {
     }
 
     public boolean cancel(InfoCenter infoCenter) {
-        // cancel will ask JobPosting whether it is allowed to cancel or not, and modify things if permitted, then
-        // return whether succeeded or not
-        if (!this.status.equals(ApplicationStatus.HIRE) && !this.status.equals(ApplicationStatus.REJECTED)) {
-            boolean succeed = infoCenter.getJobPosting(jobPostingId).applicationCancel(this, infoCenter);
-            if (succeed) {
-                this.documentManager.setEditable(true);
-                this.setStatus(ApplicationStatus.DRAFT);
-            }
-            return succeed;
+        if (this.status.equals(ApplicationStatus.PENDING)) {
+            infoCenter.getJobPosting(jobPostingId).applicationCancel(this, infoCenter);
+            this.documentManager.setEditable(true);
+            this.setStatus(ApplicationStatus.DRAFT);
+            return true;
         } else {
             return false;
         }
-    }
-
-    public void hire() {
-        this.setStatus(ApplicationStatus.HIRE);
-    }
-
-    public void reject() {
-        this.setStatus(ApplicationStatus.REJECTED);
     }
 
     public void update(Interview interview) {

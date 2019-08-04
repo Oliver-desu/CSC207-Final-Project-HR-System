@@ -1,5 +1,6 @@
 package domain.job;
 
+import domain.Enums.ApplicationStatus;
 import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.filter.Filterable;
@@ -67,7 +68,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     public void endJobPosting() {
         this.status = JobPostingStatus.FINISHED;
         for (Application application : interviewRoundManager.getRemainingApplications()) {
-            application.reject();
+            application.setStatus(ApplicationStatus.REJECTED);
         }
         interviewRoundManager.updateRemainingApplications();
     }
@@ -92,17 +93,11 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         }
     }
 
-    public boolean applicationCancel(Application application, InfoCenter infoCenter) {
-        if (!status.equals(JobPostingStatus.FINISHED)) {
-            boolean contain = applications.remove(application);
-            if (contain) {
-                Company company = infoCenter.getCompany(jobDetails.get("Company id:"));
-                company.cancelApplication(application);
-            }
-            return contain;
-        } else {
-            return false;
-        }
+    public void applicationCancel(Application application, InfoCenter infoCenter) {
+        applications.remove(application);
+        Company company = infoCenter.getCompany(jobDetails.get("Company id:"));
+        company.cancelApplication(application);
+        interviewRoundManager.applicationCancel(application);
     }
 
     @Override
@@ -141,8 +136,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     public HashMap<String, String> getFilterMap() {
         HashMap<String, String> map = new HashMap<>();
         map.put("company", jobDetails.get("Company id:"));
-        map.put("position name", jobDetails.get("Position name:"));
-        map.put("num of positions", jobDetails.get("Num of positions:"));
+        map.put("position (no.)", jobDetails.get("Position name:") + "(" + jobDetails.get("Num of positions:") + ")");
         map.put("close date", jobDetails.get("Close date:"));
         return map;
     }
