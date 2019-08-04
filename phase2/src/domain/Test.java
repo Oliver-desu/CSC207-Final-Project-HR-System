@@ -182,7 +182,7 @@ public class Test {
     public void addDocuments(int num, DocumentManager documentManager) {
         int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
-            documentManager.addDocument(Integer.toString(i), new Document(Integer.toString(i), "Some content"));
+            documentManager.addDocument(new Document(Integer.toString(i), "Some content"));
         }
     }
 
@@ -190,7 +190,7 @@ public class Test {
         // add application for applicant and submit to jobPosting
         Application application = new Application(applicant, jobPosting);
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
-        application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
+        application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
         application.apply(infoCenter);
     }
@@ -198,7 +198,7 @@ public class Test {
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = new Application(applicant, jobPosting);
         for (String docName : applicant.getDocumentManager().getAllDocNames()) {
-            application.getDocumentManager().addDocument(docName, applicant.getDocumentManager().findDocument(docName));
+            application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
         }
         applicant.addApplication(jobPosting.getJobId(), application);
         return application;

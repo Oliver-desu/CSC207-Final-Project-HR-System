@@ -22,13 +22,17 @@ public class DocumentManager implements Serializable {
         return this.editable;
     }
 
+    private boolean isValid(Document document) {
+        return !document.getDocumentName().equals("") && !documents.values().contains(document);
+    }
+
     void setEditable(boolean editable) {
         this.editable = editable;
     }
 
-    public boolean addDocument(String docName, Document document) {
-        if (this.isEditable() && !this.documents.containsKey(docName)) {
-            this.documents.put(docName, document);
+    public boolean addDocument(Document document) {
+        if (this.isEditable() && isValid(document)) {
+            this.documents.put(document.getDocumentName(), document);
             return true;
         } else {
             return false;

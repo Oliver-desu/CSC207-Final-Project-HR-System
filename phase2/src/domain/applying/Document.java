@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Document implements Filterable, Serializable {
 
-    private String documentName;
+    private String documentName = "";
     private String content;
     private LocalDate lastUsedDate;
     private boolean isUsed;

@@ -87,8 +87,7 @@ public class DocumentManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (applicationDocumentManager == null) {
-                Document document = new Document(getSubmitFileName());
-                if (applicantDocumentManager.addDocument(document.getDocumentName(), document)) {
+                if (applicantDocumentManager.addDocument(new Document(getSubmitFileName()))) {
                     update();
                     showMessage("Change is made successfully!");
                     return;
@@ -96,7 +95,7 @@ public class DocumentManageScenario extends Scenario {
 
             } else {
                 Document document = rightFilter.getSelectObject();
-                if (document != null && applicationDocumentManager.addDocument(document.getDocumentName(), document)) {
+                if (document != null && applicationDocumentManager.addDocument(document)) {
                     update();
                     showMessage("Change is made successfully!");
                     return;
