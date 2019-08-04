@@ -1,20 +1,45 @@
 package domain.filter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class Filter<T> {
+public class Filter<T extends Filterable> {
 
     private ArrayList<T> filterContent;
     private ArrayList<T> results = new ArrayList<>();
+    private String filterString = "";
 
     public void setFilterContent(ArrayList<T> filterContent) {
         this.filterContent = filterContent;
-        filter();
     }
 
-    // Todo: implement actual filter in future.
-    private void filter() {
-        if (filterContent != null) results = filterContent;
+    private String[] getFilterValues() {
+        return filterString.split("[;]");
+    }
+
+    public void setFilterString(String filterString) {
+        this.filterString = filterString;
+    }
+
+    private boolean isValueMatched(String value, String filterValue) {
+        return value.toLowerCase().startsWith(filterValue.toLowerCase());
+    }
+
+    private boolean isMatched(T filterable) {
+        for (String value : filterable.getFilterMap().values()) {
+            for (String filterValue : getFilterValues()) {
+                if (isValueMatched(value, filterValue)) return true;
+            }
+        }
+        return false;
+    }
+
+    public void filter() {
+        results.clear();
+        if (filterContent == null) return;
+        for (T filterable : filterContent) {
+            if (isMatched(filterable)) results.add(filterable);
+        }
     }
 
     public T getSelectedItem(int index) {
@@ -26,8 +51,17 @@ public class Filter<T> {
     }
 
     public String[] getHeadings() {
-        if (results.size() != 0 && results.get(0) instanceof Filterable) {
-            return ((Filterable) results.get(0)).getHeadings();
+        if (results.size() != 0) {
+            Collection<String> headingCollection = results.get(0).getFilterMap().keySet();
+            return new ArrayList<>(headingCollection).toArray(new String[0]);
         } else return null;
+    }
+
+    public String[] getSearchValues(T filterable, String[] headings) {
+        String[] searchValues = new String[headings.length];
+        for (int i = 0; i < headings.length; i++) {
+            searchValues[i] = filterable.getFilterMap().get(headings[i]);
+        }
+        return searchValues;
     }
 }

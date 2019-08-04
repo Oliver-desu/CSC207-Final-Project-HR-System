@@ -7,16 +7,22 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class FilterPanel<T> extends JPanel {
+public class FilterPanel<T extends Filterable> extends JPanel {
+
+    private static final int TITLE_HEIGHT = 30;
+    private static final int SEARCH_BUTTON_WIDTH = 80;
+    private static final int SEARCH_BUTTON_HEIGHT = 30;
 
     private Filter<T> filter = new Filter<>();
     private JTable filterTable = new JTable();
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
     public FilterPanel(Dimension dimension) {
-        setup(dimension);
+        setup(dimension, "Unnamed");
     }
 
     private JTable getFilterTable() {
@@ -33,25 +39,50 @@ public class FilterPanel<T> extends JPanel {
 
     private void update() {
         getTableModel().setRowCount(0);
-        String[] headings = getFilter().getHeadings();
-        if (headings != null) {
-            getTableModel().setColumnIdentifiers(headings);
-            for (T result : getFilter().getResults()) {
-                getTableModel().addRow(((Filterable) result).getSearchValues());
-            }
+        Filter<T> filter = getFilter();
+        filter.filter();
+        String[] headings = filter.getHeadings();
+        if (headings == null) return;
+        getTableModel().setColumnIdentifiers(headings);
+        for (T result : getFilter().getResults()) {
+            getTableModel().addRow(filter.getSearchValues(result, headings));
         }
         getFilterTable().updateUI();
         updateUI();
     }
 
-    public void setup(Dimension dimension) {
+    public void setup(Dimension dimension, String title) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout());
-        getFilterTable().setModel(getTableModel());
+        int width = dimension.width - 10;
+        titleSectionSetup(new Dimension(width, TITLE_HEIGHT), title);
+        searchSectionSetup(width);
+        filterTableSetup(new Dimension(width, dimension.height - TITLE_HEIGHT - SEARCH_BUTTON_HEIGHT - 30));
+    }
 
-        Dimension scrollPaneSize = dimension;
-        JScrollPane scrollPane = new JScrollPane(getFilterTable());
-        scrollPane.setPreferredSize(scrollPaneSize);
+    private void titleSectionSetup(Dimension dimension, String title) {
+        JLabel label = new JLabel(title);
+        label.setPreferredSize(dimension);
+        add(label);
+    }
+
+    private void searchSectionSetup(int width) {
+        JTextField textField = new JTextField("XXX; XX; XXX");
+        textField.setPreferredSize(new Dimension(width - SEARCH_BUTTON_WIDTH - 10, SEARCH_BUTTON_HEIGHT));
+
+        JButton button = new JButton("Search");
+        button.setPreferredSize(new Dimension(SEARCH_BUTTON_WIDTH, SEARCH_BUTTON_HEIGHT));
+        button.addActionListener(new SearchListener(textField));
+
+        add(button);
+        add(textField);
+    }
+
+    private void filterTableSetup(Dimension dimension) {
+        JTable filterTable = getFilterTable();
+        filterTable.setModel(getTableModel());
+        JScrollPane scrollPane = new JScrollPane(filterTable);
+        scrollPane.setPreferredSize(dimension);
         add(scrollPane);
     }
 
@@ -70,10 +101,25 @@ public class FilterPanel<T> extends JPanel {
         update();
     }
 
-    class NotEditableTableModel extends DefaultTableModel {
+    private class NotEditableTableModel extends DefaultTableModel {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
+        }
+    }
+
+    private class SearchListener implements ActionListener {
+
+        private JTextField textField;
+
+        private SearchListener(JTextField textField) {
+            this.textField = textField;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            getFilter().setFilterString(textField.getText());
+            update();
         }
     }
 }
