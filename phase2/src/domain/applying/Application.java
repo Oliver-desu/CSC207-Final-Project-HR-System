@@ -44,7 +44,7 @@ public class Application implements Filterable, Serializable {
         return infoCenter.getApplicant(this.applicantId);
     }
 
-    String getJobPostingId() {
+    public String getJobPostingId() {
         return this.jobPostingId;
     }
 

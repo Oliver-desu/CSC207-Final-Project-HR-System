@@ -46,10 +46,6 @@ public class InterviewRound implements Filterable, Serializable {
         return passedApplications;
     }
 
-    boolean isFinished() {
-        return status.equals(InterviewRoundStatus.FINISHED);
-    }
-
     public InterviewRoundStatus getStatus() {
         return this.status;
     }

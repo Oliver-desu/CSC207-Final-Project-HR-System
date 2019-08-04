@@ -61,7 +61,7 @@ public class InterviewRoundManager {
     public boolean nextRound() {
         InterviewRound currentRound = getCurrentInterviewRound();
         if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
-                (currentRound == null || currentRound.isFinished())) {
+                (currentRound == null || currentRound.getStatus().equals(InterviewRoundStatus.FINISHED))) {
             InterviewRound nextRound = interviewRounds.get(interviewRounds.indexOf(currentRound) + 1);
             nextRound.start(remainingApplications);
             return true;
