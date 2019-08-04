@@ -110,4 +110,13 @@ public class InterviewRound implements Filterable, Serializable {
         values.add(this.status.toString());
         return values.toArray(new String[0]);
     }
+
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("round name", getRoundName());
+        map.put("remaining applications", Integer.toString(this.getCurrentRoundApplications().size()));
+        map.put("status", status.toString());
+        return map;
+    }
 }

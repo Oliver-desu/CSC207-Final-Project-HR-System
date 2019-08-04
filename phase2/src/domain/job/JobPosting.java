@@ -136,6 +136,15 @@ public class JobPosting implements Filterable, Serializable {
         return values.toArray(new String[0]);
     }
 
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("company", jobDetails.get("Company id:"));
+        map.put("position name", jobDetails.get("Position name:"));
+        map.put("num of positions", jobDetails.get("Num of positions:"));
+        map.put("close date", jobDetails.get("Close date:"));
+        return map;
+    }
 
     // The following methods are only for testing!
     public void close() {

@@ -1,6 +1,7 @@
 package domain.filter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ExampleFilterable implements Filterable {
 
@@ -26,4 +27,13 @@ public class ExampleFilterable implements Filterable {
         String[] strings = new String[searchValues.size()];
         return searchValues.toArray(strings);
     }
+
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("heading 1", "1111");
+        map.put("heading 2", "2222");
+        return map;
+    }
+
 }

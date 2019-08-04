@@ -69,4 +69,12 @@ public class CompanyWorker extends User implements Filterable, Serializable {
         return values.toArray(new String[0]);
     }
 
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("username", getUsername());
+        map.put("real name", getRealName());
+        map.put("company", getCompanyId());
+        return map;
+    }
 }

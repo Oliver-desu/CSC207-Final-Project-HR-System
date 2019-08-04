@@ -5,6 +5,7 @@ import domain.filter.Filterable;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Document implements Filterable, Serializable {
@@ -113,4 +114,13 @@ public class Document implements Filterable, Serializable {
         values.add(getDocumentName());
         return values.toArray(new String[2]);
     }
+
+    @Override
+    public HashMap<String, String> getFilterMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("last used date", getLastUsedDate().toString());
+        map.put("document name", getDocumentName());
+        return map;
+    }
+
 }
