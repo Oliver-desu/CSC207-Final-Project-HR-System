@@ -2,6 +2,7 @@ package domain.user;
 
 import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
+import domain.Exceptions.NotCompanyWorkerException;
 import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
@@ -15,7 +16,6 @@ public class Applicant extends User implements Serializable {
 
     private HashMap<String, Application> applications;
     private DocumentManager documentManager;
-
 
     public Applicant(HashMap<String, String> map) {
         super(map, UserType.APPLICANT);
@@ -81,4 +81,8 @@ public class Applicant extends User implements Serializable {
         return ongoingInterviews;
     }
 
+    @Override
+    public String getCompanyId() throws NotCompanyWorkerException {
+        throw new NotCompanyWorkerException();
+    }
 }

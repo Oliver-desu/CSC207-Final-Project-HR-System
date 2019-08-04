@@ -1,5 +1,6 @@
 package gui.major;
 
+import domain.Exceptions.NotCompanyWorkerException;
 import domain.storage.Company;
 import domain.storage.InfoCenter;
 import domain.user.User;
@@ -36,7 +37,6 @@ public class UserMenu extends JFrame {
 
     private void showColor() {
         menu.setBackground(Color.BLUE);
-        scenario.showColor();
     }
 
     private void setup() {
@@ -51,7 +51,11 @@ public class UserMenu extends JFrame {
 
     public Company getCompany() {
         InfoCenter infoCenter = getMain().getInfoCenter();
-        return infoCenter.getCompany(user.getCompanyId());
+        try {
+            return infoCenter.getCompany(user.getCompanyId());
+        } catch (NotCompanyWorkerException e) {
+            return null;
+        }
     }
 
     private void clearScenario() {

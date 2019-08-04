@@ -1,12 +1,13 @@
 package domain.user;
 
 import domain.Enums.UserType;
+import domain.Exceptions.NotCompanyWorkerException;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class User implements Serializable {
+public abstract class User implements Serializable {
 
     private UserType userType;
     private String username;
@@ -59,9 +60,7 @@ public class User implements Serializable {
         return false;
     }
 
-    public String getCompanyId() {
-        return "";
-    }
+    public abstract String getCompanyId() throws NotCompanyWorkerException;
 
     @Override
     public String toString() {
