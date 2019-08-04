@@ -4,6 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class {@code DocumentManager} deals with all the documents for either
+ * an {@code Applicant} or an {@code Application}.
+ *
+ * @arthur group 0120 of CSC207 summer 2019
+ * @see domain.user.Applicant
+ * @see Application
+ * @since 2019-08-04
+ */
 public class DocumentManager implements Serializable {
 
     private HashMap<String, Document> documents = new HashMap<>();

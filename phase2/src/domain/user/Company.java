@@ -1,4 +1,4 @@
-package domain.storage;
+package domain.user;
 
 import domain.Enums.UserType;
 import domain.applying.Application;

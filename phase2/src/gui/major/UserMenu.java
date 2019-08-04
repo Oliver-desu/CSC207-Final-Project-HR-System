@@ -1,8 +1,8 @@
 package gui.major;
 
 import domain.Exceptions.NotCompanyWorkerException;
-import domain.storage.Company;
 import domain.storage.InfoCenter;
+import domain.user.Company;
 import domain.user.User;
 import main.Main;
 

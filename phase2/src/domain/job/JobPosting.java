@@ -5,8 +5,8 @@ import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
-import domain.storage.Company;
 import domain.storage.InfoCenter;
+import domain.user.Company;
 
 import java.io.Serializable;
 import java.time.LocalDate;

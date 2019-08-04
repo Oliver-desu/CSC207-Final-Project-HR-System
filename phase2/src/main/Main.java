@@ -2,8 +2,8 @@ package main;
 
 import domain.Test;
 import domain.job.JobPosting;
-import domain.storage.Company;
 import domain.storage.InfoCenter;
+import domain.user.Company;
 import gui.major.Login;
 
 public class Main {

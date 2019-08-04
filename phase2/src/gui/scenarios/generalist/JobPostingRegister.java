@@ -3,7 +3,7 @@ package gui.scenarios.generalist;
 import domain.Enums.UserType;
 import domain.Test;
 import domain.job.JobPosting;
-import domain.storage.Company;
+import domain.user.Company;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
 import gui.major.UserMenu;

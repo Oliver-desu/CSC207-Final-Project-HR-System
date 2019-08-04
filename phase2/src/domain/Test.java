@@ -8,10 +8,10 @@ import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
-import domain.storage.Company;
 import domain.storage.InfoCenter;
 import domain.storage.UserFactory;
 import domain.user.Applicant;
+import domain.user.Company;
 import domain.user.CompanyWorker;
 import main.Main;
 

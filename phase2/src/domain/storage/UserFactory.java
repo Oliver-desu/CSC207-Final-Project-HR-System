@@ -4,10 +4,7 @@ import domain.Enums.UserType;
 import domain.Exceptions.UnmatchedPasswordException;
 import domain.Exceptions.UserAlreadyExistsException;
 import domain.Exceptions.WrongEmailFormatException;
-import domain.user.Applicant;
-import domain.user.CompanyWorker;
-import domain.user.NullUser;
-import domain.user.User;
+import domain.user.*;
 
 import java.io.Serializable;
 import java.util.HashMap;

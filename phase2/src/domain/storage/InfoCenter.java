@@ -3,10 +3,7 @@ package domain.storage;
 import domain.Enums.JobPostingStatus;
 import domain.Enums.UserType;
 import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.CompanyWorker;
-import domain.user.NullUser;
-import domain.user.User;
+import domain.user.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;

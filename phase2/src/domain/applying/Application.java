@@ -16,9 +16,9 @@ import java.util.HashMap;
  * Class {@code Application} stores the information about a particular
  * application and deals with the whole applying procedure.
  *
+ * @see     Interview
+ * @see     DocumentManager
  * @author group 0120 of CSC207 summer 2019
- * @see Interview
- * @see DocumentManager
  * @since 2019-08-04
  */
 public class Application implements Filterable, Serializable, ShowAble {
@@ -136,7 +136,7 @@ public class Application implements Filterable, Serializable, ShowAble {
     }
 
     /**
-     * Ask the job posting whether it is allowed to apply or not, then set the document manager
+     * Ask the job posting whether it is allowed to apply or not. If allowed, set the document manager
      * to be uneditable and status to be {@code ApplicationStatus.PENDING}. Then return true
      * if and only if the application is submitted successfully.
      * @param infoCenter    the {@code InfoCenter} that contains information about job postings
