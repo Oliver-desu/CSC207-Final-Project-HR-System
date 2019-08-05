@@ -1,28 +1,36 @@
 package domain.Enums;
 
-import domain.applying.Application;
-import domain.applying.Interview;
-import domain.job.InterviewRoundManager;
-import domain.job.JobPosting;
-import domain.storage.Storage;
-import domain.user.Applicant;
-
 /**
- * Class {@code ApplicationStatus} storage the different status of application
+ * Enum {@code ApplicationStatus} contains different status of {@code Application}.
  *
- * @see domain.applying.Application#Application(Applicant, JobPosting)
- * @see domain.applying.Application#apply(Storage)
- * @see domain.applying.Application#cancel(Storage)
- * @see domain.applying.Application#update(Interview)
- * @see  InterviewRoundManager#hire(Application)
- * @see JobPosting#endJobPosting()
  * @author group 0120 of CSC207 summer 2019
+ * @see domain.applying.Application
+ * @since 2019-08-04
  */
 public enum ApplicationStatus {
 
+    /**
+     * {@code DRAFT} means the {@code Application} has not been submitted yet,
+     * and is allowed to modify.
+     */
     DRAFT,
+
+    /**
+     * {@code PENDING} means the {@code Application} has been submitted but is
+     * still waiting for final result.
+     */
     PENDING,
-    HIRE,
+
+    /**
+     * {@code HIRE} means the {@code Applicant} that holds the {@code Application}
+     * has been hired by the company.
+     */
+    HIRED,
+
+    /**
+     * {@code REJECTED} means the {@code Applicant} that holds the {@code Application}
+     * has been rejected by the company.
+     */
     REJECTED
 
 }

@@ -176,7 +176,7 @@ public class Application implements Filterable, Serializable, ShowAble {
     /**
      * Update the status of this application according to the result of interview. If interview failed,
      * then set status to {@code ApplicationStatus.REJECTED}, else do nothing and wait for future
-     * interviews.
+     * updates.
      * @param interview the interview that will updates the status of this application
      */
     public void update(Interview interview) {

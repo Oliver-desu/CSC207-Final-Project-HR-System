@@ -1,5 +1,6 @@
 package domain;
 
+import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
 import domain.applying.Application;
 import domain.applying.Document;
@@ -47,10 +48,6 @@ public class Test {
 
     public Storage getStorage() {
         return Storage;
-    }
-
-    public Applicant getRandomApplicant() {
-        return Storage.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
     }
 
     public Company getRandomCompany() {
@@ -112,12 +109,6 @@ public class Test {
         this.addInterviewersForCompany(1, company);
         this.addRecruitersForCompany(1, company);
         return company;
-    }
-
-    public void addCompanies(int num) {
-        for (int i = 0; i < num; i++) {
-            this.addCompany();
-        }
     }
 
     public void addInterviewersForCompany(int num, Company company) {
@@ -238,7 +229,11 @@ public class Test {
         Interview interview;
         for (Application application : interviewRound.getCurrentRoundApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
-            interview.setResult(new Random().nextBoolean());
+            if (new Random().nextBoolean()) {
+                interview.setStatus(InterviewStatus.FAIL);
+            } else {
+                interview.setStatus(InterviewStatus.PASS);
+            }
         }
         interviewRound.checkStatus();
     }
