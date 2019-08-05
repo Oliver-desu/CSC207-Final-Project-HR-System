@@ -29,8 +29,8 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * A hash map that contains all the details for this job posting.
      * Keys are fixed and can be found in {@code JobPostingRegister}.
      *
-     * @see     gui.scenarios.hiringManager.JobPostingRegister
-     * @see     #toString()
+     * @see gui.scenarios.hiringManager.JobPostingRegister
+     * @see #toString()
      */
     private HashMap<String, String> jobDetails;
 
@@ -39,10 +39,10 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * with events related to interview rounds.
      * It should be {@code null} when the job posting is opened.
      *
-     * @see     InterviewRoundManager
-     * @see     InterviewRound
-     * @see     JobPostingStatus
-     * @see     #startProcessing()
+     * @see InterviewRoundManager
+     * @see InterviewRound
+     * @see JobPostingStatus
+     * @see #startProcessing()
      */
     private InterviewRoundManager interviewRoundManager;
 
@@ -50,17 +50,17 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * An array list that contains all the applications applied for
      * this job posting initially.
      *
-     * @see     #applicationSubmit(Application, Storage)
-     * @see     #applicationCancel(Application, Storage)
-     * @see     #getApplications()
+     * @see #applicationSubmit(Application, Storage)
+     * @see #applicationCancel(Application, Storage)
+     * @see #getApplications()
      */
     private ArrayList<Application> applications;
 
     /**
      * Keep track of the status of this {@code JobPosting}.
      *
-     * @see     JobPostingStatus
-     * @see     #getStatus()
+     * @see JobPostingStatus
+     * @see #getStatus()
      */
     private JobPostingStatus status;
 

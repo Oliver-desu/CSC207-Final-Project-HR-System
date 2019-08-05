@@ -21,26 +21,26 @@ public class InterviewRoundManager {
     /**
      * The {@code JobPosting} that this manager is served for.
      *
-     * @see     #getJobPosting()
+     * @see #getJobPosting()
      */
     private JobPosting jobPosting;
 
     /**
      * All the {@code InterviewRound} this manager has.
      *
-     * @see     InterviewRound
-     * @see     #getCurrentInterviewRound()
-     * @see     #getInterviewRounds()
-     * @see     #addInterviewRound(InterviewRound)
+     * @see InterviewRound
+     * @see #getCurrentInterviewRound()
+     * @see #getInterviewRounds()
+     * @see #addInterviewRound(InterviewRound)
      */
     private ArrayList<InterviewRound> interviewRounds;
 
     /**
      * All the remaining {@code Application} that has not been rejected.
      *
-     * @see     #getRemainingApplications()
-     * @see     #getHiredApplications()
-     * @see     #applicationCancel(Application)
+     * @see #getRemainingApplications()
+     * @see #getHiredApplications()
+     * @see #applicationCancel(Application)
      */
     private ArrayList<Application> remainingApplications;
 

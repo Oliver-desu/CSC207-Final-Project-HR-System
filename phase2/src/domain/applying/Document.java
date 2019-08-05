@@ -22,15 +22,15 @@ public class Document implements Filterable, Serializable, ShowAble {
     /**
      * The title of the document.
      *
-     * @see     #getDocumentName()
+     * @see #getDocumentName()
      */
     private String documentName = "";
 
     /**
      * The content of the document.
      *
-     * @see     #getContent()
-     * @see     #readContent(File)
+     * @see #getContent()
+     * @see #readContent(File)
      */
     private String content;
 
@@ -39,9 +39,9 @@ public class Document implements Filterable, Serializable, ShowAble {
      * Any document that has not been used for the past 30 days will
      * be deleted automatically.
      *
-     * @see     #getLastUsedDate()
-     * @see     #update()
-     * @see     #shouldDelete()
+     * @see #getLastUsedDate()
+     * @see #update()
+     * @see #shouldDelete()
      */
     private LocalDate lastUsedDate;
 

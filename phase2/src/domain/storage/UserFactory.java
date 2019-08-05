@@ -26,8 +26,8 @@ public class UserFactory implements Serializable {
     /**
      * The {@code Storage} used to store all the users created.
      *
-     * @see     Storage
-     * @see     #createUser(HashMap, UserType)
+     * @see Storage
+     * @see #createUser(HashMap, UserType)
      */
     private Storage Storage;
 

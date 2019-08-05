@@ -17,9 +17,9 @@ import java.util.HashMap;
  * application and deals with the whole applying procedure.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see     Interview
- * @see     DocumentManager
- * @see     ApplicationStatus
+ * @see Interview
+ * @see DocumentManager
+ * @see ApplicationStatus
  * @since 2019-08-04
  */
 public class Application implements Filterable, Serializable, ShowAble {
@@ -27,50 +27,50 @@ public class Application implements Filterable, Serializable, ShowAble {
      * A hash map where the key is the name of interview round and
      * the value is the interview this applicant has during that round.
      *
-     * @see     #getInterviews()
-     * @see     #getInterviewByRound(String)
-     * @see     #addInterview(String, Interview)
+     * @see #getInterviews()
+     * @see #getInterviewByRound(String)
+     * @see #addInterview(String, Interview)
      */
     private HashMap<String, Interview> interviews = new HashMap<>();
 
     /**
      * The username of the applicant.
      *
-     * @see     #getApplicantId()
-     * @see     #getApplicant(Storage)
+     * @see #getApplicantId()
+     * @see #getApplicant(Storage)
      */
     private String applicantId;
 
     /**
      * The id of the job posting.
      *
-     * @see     JobPosting
-     * @see     #getJobPostingId()
+     * @see JobPosting
+     * @see #getJobPostingId()
      */
     private String jobPostingId;
 
     /**
      * The document manager of this application.
      *
-     * @see     DocumentManager
-     * @see     #getDocumentManager()
+     * @see DocumentManager
+     * @see #getDocumentManager()
      */
     private DocumentManager documentManager;
 
     /**
      * The status of this application.
      *
-     * @see     ApplicationStatus
-     * @see     #getStatus()
-     * @see     #setStatus(ApplicationStatus)
+     * @see ApplicationStatus
+     * @see #getStatus()
+     * @see #setStatus(ApplicationStatus)
      */
     private ApplicationStatus status;
 
 
     /**
      * Create a new application.
-     * @param applicant     the applicant who applied
-     * @param jobPosting    the job posting that is applied for
+     * @param applicant the applicant who applied
+     * @param jobPosting the job posting that is applied for
      */
     public Application(Applicant applicant, JobPosting jobPosting) {
         this.applicantId = applicant.getUsername();
@@ -89,7 +89,7 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return the interview corresponds to the round name.
-     * @param round     the name of current round
+     * @param round the name of current round
      * @return the interview corresponds to the round name
      */
     public Interview getInterviewByRound(String round) {
@@ -102,10 +102,10 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return the {@code Applicant} who holds this application.
-     * @param Storage    the {@code Storage} that contains all users
+     * @param Storage the {@code Storage} that contains all users
      * @return the {@code Applicant} who holds this application
-     * @see     Applicant
-     * @see     Storage
+     * @see Applicant
+     * @see Storage
      */
     public Applicant getApplicant(Storage Storage) {
         return Storage.getApplicant(this.applicantId);
@@ -129,8 +129,8 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Add the round, interview pair to {@code this.interviews}.
-     * @param round     the round name
-     * @param interview     the interview corresponds to round name
+     * @param round the round name
+     * @param interview the interview corresponds to round name
      */
     public void addInterview(String round, Interview interview) {
         this.interviews.put(round, interview);
@@ -140,10 +140,10 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Ask the job posting whether it is allowed to apply or not. If allowed, set the document manager
      * to be uneditable and status to be {@code ApplicationStatus.PENDING}. Then return true
      * if and only if the application is submitted successfully.
-     * @param Storage    the {@code Storage} that contains information about job postings
+     * @param Storage the {@code Storage} that contains information about job postings
      * @return true if and only if the application is submitted successfully
-     * @see     JobPosting#applicationSubmit(Application, Storage)
-     * @see     DocumentManager#setEditable(boolean)
+     * @see JobPosting#applicationSubmit(Application, Storage)
+     * @see DocumentManager#setEditable(boolean)
      */
     public boolean apply(Storage Storage) {
         boolean succeed = Storage.getJobPosting(jobPostingId).applicationSubmit(this, Storage);
@@ -158,9 +158,9 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Cancel the application if and only if the status is {@code ApplicationStatus.PENDING}, then notify
      * the corresponding job posting and document manager. Return true if and only if application is
      * successfully cancelled.
-     * @param Storage    the {@code Storage} that contains information about job postings
+     * @param Storage the {@code Storage} that contains information about job postings
      * @return true if and only if application is successfully cancelled
-     * @see     JobPosting#applicationCancel(Application, Storage)
+     * @see JobPosting#applicationCancel(Application, Storage)
      */
     public boolean cancel(Storage Storage) {
         if (this.status.equals(ApplicationStatus.PENDING)) {
@@ -177,7 +177,7 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Update the status of this application according to the result of interview. If interview failed,
      * then set status to {@code ApplicationStatus.REJECTED}, else do nothing and wait for future
      * interviews.
-     * @param interview     the interview that will updates the status of this application
+     * @param interview the interview that will updates the status of this application
      */
     public void update(Interview interview) {
         if (interview.getStatus().equals(InterviewStatus.FAIL)) {
@@ -187,7 +187,7 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return basic information about this application and detailed information about applicant.
-     * @param Storage    the {@code Storage} that contains all users
+     * @param Storage the {@code Storage} that contains all users
      * @return basic information about this application and detailed information about applicant
      */
     public String detailedToStringForCompanyWorker(Storage Storage) {
@@ -201,7 +201,7 @@ public class Application implements Filterable, Serializable, ShowAble {
     /**
      * Overrides the method in interface {@code ShowAble}.
      * @return a string that contains basic information about this application
-     * @see     ShowAble
+     * @see ShowAble
      */
     @Override
     public String toString() {
@@ -213,7 +213,7 @@ public class Application implements Filterable, Serializable, ShowAble {
     /**
      * Return a hash map of headings and corresponding values about this application.
      * @return a hash map of headings and corresponding values about this application
-     * @see     Filterable
+     * @see Filterable
      */
     @Override
     public HashMap<String, String> getFilterMap() {

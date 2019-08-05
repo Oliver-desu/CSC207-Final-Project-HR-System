@@ -9,8 +9,8 @@ import java.util.HashMap;
  * an {@code Applicant} or an {@code Application}.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see     domain.user.Applicant
- * @see     Application
+ * @see domain.user.Applicant
+ * @see Application
  * @since 2019-08-04
  */
 public class DocumentManager implements Serializable {
@@ -32,8 +32,8 @@ public class DocumentManager implements Serializable {
      * That happens if the holder is {@code Applicant} or if the holder
      * is {@code Application} and it has not been submitted yet.
      *
-     * @see     #isEditable()
-     * @see     #setEditable(boolean)
+     * @see #isEditable()
+     * @see #setEditable(boolean)
      */
     private boolean editable;
 

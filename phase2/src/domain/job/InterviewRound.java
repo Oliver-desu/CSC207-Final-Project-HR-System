@@ -26,27 +26,27 @@ public class InterviewRound implements Filterable, Serializable {
     /**
      * The name of this interview round.
      *
-     * @see     #getRoundName()
+     * @see #getRoundName()
      */
     private String roundName;
 
     /**
      * All the applications that made into this interview round.
      *
-     * @see     #getInterviews()
-     * @see     #getCurrentRoundApplications()
-     * @see     #getUnmatchedApplications()
-     * @see     #getApplicationsByStatus(InterviewStatus)
+     * @see #getInterviews()
+     * @see #getCurrentRoundApplications()
+     * @see #getUnmatchedApplications()
+     * @see #getApplicationsByStatus(InterviewStatus)
      */
     private ArrayList<Application> applications;
 
     /**
      * The status of this interview round, values are from {@code InterviewRoundStatus}.
      *
-     * @see     InterviewRoundStatus
-     * @see     #getStatus()
-     * @see     #setStatus(InterviewRoundStatus)
-     * @see     #checkStatus()
+     * @see InterviewRoundStatus
+     * @see #getStatus()
+     * @see #setStatus(InterviewRoundStatus)
+     * @see #checkStatus()
      */
     private InterviewRoundStatus status;
 

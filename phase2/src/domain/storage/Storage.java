@@ -25,20 +25,20 @@ public class Storage implements Serializable {
      * A hash map whose key is {@code UserType} and value is an array list
      * of the corresponding users.
      *
-     * @see     UserType
-     * @see     Applicant
-     * @see     Employee
-     * @see     #getUser(String, UserType)
-     * @see     #register(User, UserType)
+     * @see UserType
+     * @see Applicant
+     * @see Employee
+     * @see #getUser(String, UserType)
+     * @see #register(User, UserType)
      */
     private HashMap<UserType, ArrayList<User>> users = new HashMap<>();
 
     /**
      * An array list containing all the companies registered.
      *
-     * @see     Company
-     * @see     #getCompany(String)
-     * @see     #registerCompany(Company)
+     * @see Company
+     * @see #getCompany(String)
+     * @see #registerCompany(Company)
      */
     private ArrayList<Company> companies = new ArrayList<>();
 
