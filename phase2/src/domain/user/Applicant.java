@@ -6,6 +6,8 @@ import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
 import domain.show.ShowAble;
+import domain.storage.Storage;
+import gui.major.UserMenu;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,20 +42,37 @@ public class Applicant extends User implements Serializable, ShowAble {
      */
     private DocumentManager documentManager;
 
+    /**
+     * Create a new applicant
+     *
+     * @param map the map store the the username and password
+     */
     public Applicant(HashMap<String, String> map) {
         super(map, UserType.APPLICANT);
         this.applications = new HashMap<>();
         this.documentManager = new DocumentManager(true);
     }
 
+    /**
+     * @return All applications stored in the applications.
+     */
     public ArrayList<Application> getApplications() {
         return new ArrayList<>(applications.values());
     }
 
+    /**
+     * @return the documentManager of this applicant
+     */
     public DocumentManager getDocumentManager() {
         return this.documentManager;
     }
 
+    /**
+     * @param jobId       a string represent  the job
+     * @param application the application need to be added
+     * @return true if  application is not exist in  this job  and to be added
+     * successfully , false otherwise
+     */
     public boolean addApplication(String jobId, Application application) {
         if (!this.applications.containsKey(jobId)) {
             this.applications.put(jobId, application);
@@ -63,6 +82,11 @@ public class Applicant extends User implements Serializable, ShowAble {
         }
     }
 
+    /**
+     * @param application the application needed to be deleted from this applicant
+     * @return true if deleted successfully
+     * @see null
+     */
     public boolean deleteApplication(Application application) {
         String jobPostingId = application.getJobPostingId();
         for (String jobId : applications.keySet()) {
@@ -74,8 +98,13 @@ public class Applicant extends User implements Serializable, ShowAble {
         return false;
     }
 
+    /**
+     *return a list of interviews of this application
+     * @return a list of interviews of this
+     * @see null
+     */
     public ArrayList<Interview> getInterviews() {
-//        application->interview->status
+        //        application->interview->status
         ArrayList<Interview> interviews = new ArrayList<>();
         for (Application application : this.applications.values()) {
             interviews.addAll(application.getInterviews());
@@ -83,11 +112,24 @@ public class Applicant extends User implements Serializable, ShowAble {
         return interviews;
     }
 
+    /**
+     * return a string if  # Todo
+     * @return a
+     * @see Employee#getFilterMap()
+     * @see  UserMenu#getCompany()
+     */
     @Override
     public String getCompanyId() throws NotCompanyWorkerException {
         throw new NotCompanyWorkerException();
     }
 
+    /**
+     * return  a string contains username, realname, email,Employment status,Work experiences
+     * Education background,Major of applicant.
+     * @return a string contains username, realname, email,Employment status,Work experiences
+     * Education background,Major of applicant.
+     * @see   domain.applying.Application#detailedToStringForCompanyWorker(Storage)
+     */
     @Override
     public String toString() {
         return getInfoString("Username", getUsername()) +

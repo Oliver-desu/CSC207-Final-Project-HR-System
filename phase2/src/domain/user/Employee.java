@@ -2,6 +2,7 @@ package domain.user;
 
 import domain.Enums.UserType;
 import domain.applying.Interview;
+import domain.filter.Filter;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 
@@ -46,16 +47,35 @@ public class Employee extends User implements Filterable, Serializable {
      */
     private ArrayList<Object> files = new ArrayList<>();
 
-
+    /**
+     * creat a new employee
+     *
+     * @param values    the username and password
+     * @param companyId the string represent the company of this employee
+     * @param userType  represent the type of user{@code UserType}
+     */
     public Employee(HashMap<String, String> values, String companyId, UserType userType) {
         super(values, userType);
         this.companyId = companyId;
     }
 
+    /**
+     * return the company ID of this employee
+     *
+     * @return a string represent the ID of this company
+     * @see null
+     */
+    @Override
     public String getCompanyId() {
         return companyId;
     }
 
+    /**
+     * return a ArrayList of JobPostings posted by employee's company
+     * if this User's UserType is HiringManager{@code UserTpe.HIRING_MANAGER} and Recruiter{@code UserType.RECRUITER}
+     * @return a list represent the ID of th
+     * @see  null
+     */
     public ArrayList<JobPosting> getJobPostings() {
         ArrayList<JobPosting> jobPostings = new ArrayList<>();
         if (this.getUserType().equals(UserType.HIRING_MANAGER) || this.getUserType().equals(UserType.RECRUITER)) {
@@ -66,6 +86,11 @@ public class Employee extends User implements Filterable, Serializable {
         return jobPostings;
     }
 
+    /**
+     * return all interviews of this company
+     * @return a ArrayList of company of this company
+     * @see null
+     */
     public ArrayList<Interview> getInterviews() {
         ArrayList<Interview> interviews = new ArrayList<>();
         if (this.getUserType().equals(UserType.INTERVIEWER)) {
@@ -76,14 +101,28 @@ public class Employee extends User implements Filterable, Serializable {
         return interviews;
     }
 
+    /**
+     * add the given file to this company
+     * @see domain.applying.Interview#match(Employee)
+     */
     public void addFile(Object file) {
         this.files.add(file);
     }
 
+    /**
+     * remove given file from this Employee
+     * @see   null
+     */
     public void removeFile(Object file) {
         this.files.remove(file);
     }
 
+    /**
+     * return  a hashmap contain username , realname , and companyID
+     * @return a hashmap contain username , realname , and companyID
+     * @see  Filter#getHeadings()
+     * @see Filter#getSearchValues(Filterable, String[])
+     */
     @Override
     public HashMap<String, String> getFilterMap() {
         HashMap<String, String> map = new HashMap<>();
