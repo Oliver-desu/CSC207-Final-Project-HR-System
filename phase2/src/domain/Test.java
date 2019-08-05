@@ -1,5 +1,6 @@
 package domain;
 
+import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
 import domain.applying.Application;
 import domain.applying.Document;
@@ -238,7 +239,11 @@ public class Test {
         Interview interview;
         for (Application application : interviewRound.getCurrentRoundApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
-            interview.setResult(new Random().nextBoolean());
+            if (new Random().nextBoolean()) {
+                interview.setStatus(InterviewStatus.FAIL);
+            } else {
+                interview.setStatus(InterviewStatus.PASS);
+            }
         }
         interviewRound.checkStatus();
     }
