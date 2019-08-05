@@ -9,6 +9,15 @@ import domain.user.Employee;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Class {@code Interview} stores information about an interview an
+ * {@code Applicant} has with an {@code Interviewer}.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see domain.user.Applicant
+ * @see Employee
+ * @since 2019-08-04
+ */
 public class Interview implements Filterable, Serializable, ShowAble {
 
     private Employee interviewer;

@@ -23,7 +23,6 @@ public class DocumentManager implements Serializable {
      * @see #addDocument(Document)
      * @see #findDocument(String)
      * @see #removeDocument(Document)
-     * @see #removeDocument(String)
      */
     private HashMap<String, Document> documents = new HashMap<>();
 
@@ -54,6 +53,15 @@ public class DocumentManager implements Serializable {
         return this.editable;
     }
 
+    /**
+     * A new document is valid if and only if the name is not empty and it has not
+     * been added to this document manager already.
+     *
+     * @param document a new document for this document manager
+     * @return true if and only if the name is not empty and it has not been added
+     * to this document manager already
+     * @see #addDocument(Document)
+     */
     private boolean isValid(Document document) {
         return !document.getDocumentName().equals("") && !documents.values().contains(document);
     }
@@ -62,6 +70,15 @@ public class DocumentManager implements Serializable {
         this.editable = editable;
     }
 
+    /**
+     * Add document if and only if this document is valid and holder is allowed to
+     * modify document manager.
+     * @param document a new document to add to this manager
+     * @return true if and only if this document is valid and holder is allowed to
+     * modify document manager
+     * @see #isEditable()
+     * @see #isValid(Document)
+     */
     public boolean addDocument(Document document) {
         if (this.isEditable() && isValid(document)) {
             this.documents.put(document.getDocumentName(), document);
@@ -71,14 +88,15 @@ public class DocumentManager implements Serializable {
         }
     }
 
+    /**
+     * Remove and document and return true if and only if the holder is allowed
+     * to modify the manager and this manager has this document.
+     * @param document the name of the document wished to remove
+     * @return true if and only if the holder is allowed
+     * to modify the manager and this manager has this document.
+     */
     public boolean removeDocument(Document document) {
-        if (documents.values().contains(document)) {
-            return removeDocument(document.getDocumentName());
-        }
-        return false;
-    }
-
-    private boolean removeDocument(String docName) {
+        String docName = document.getDocumentName();
         if (isEditable() && this.documents.containsKey(docName)) {
             this.documents.remove(docName);
             return true;
@@ -98,6 +116,11 @@ public class DocumentManager implements Serializable {
         return this.documents.size();
     }
 
+    /**
+     * Update all the documents it currently hold.
+     * @see Document#update()
+     * @see Document#shouldDelete()
+     */
     public void updateAllDocuments() {
         for (Document document : getAllDocuments()) {
             document.update();
