@@ -43,7 +43,7 @@ public class MenuPanel extends JPanel {
 
     private void registerMenuSetup() {
         addMenuButton("Applicant", new UserRegister(userMenu, UserType.APPLICANT));
-        addMenuButton("Worker", new UserRegister(userMenu));
+        addMenuButton("Employee", new UserRegister(userMenu));
     }
 
     private void interviewerMenuSetup() {

@@ -2,13 +2,12 @@ package domain.user;
 
 import domain.Enums.UserType;
 import domain.Exceptions.NotCompanyWorkerException;
-import domain.show.ShowAble;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public abstract class User implements Serializable, ShowAble {
+public abstract class User implements Serializable {
 
     private UserType userType;
     private String username;
@@ -34,7 +33,7 @@ public abstract class User implements Serializable, ShowAble {
         return this.username;
     }
 
-    public HashMap<String, String> getUserDetail() {
+    HashMap<String, String> getUserDetail() {
         return userDetail;
     }
 
@@ -63,14 +62,4 @@ public abstract class User implements Serializable, ShowAble {
 
     public abstract String getCompanyId() throws NotCompanyWorkerException;
 
-    @Override
-    public String toString() {
-        return getInfoString("Username", username) +
-                getInfoString("Name", getRealName()) +
-                getInfoString("Email", userDetail.get("Email:")) +
-                getInfoString("Occupation", userDetail.get("Occupation:")) +
-                getInfoString("Work experiences", userDetail.get("Work experiences:")) +
-                getInfoString("Education background", userDetail.get("Education background:")) +
-                getInfoString("Major in", userDetail.get("Major in:"));
-    }
 }

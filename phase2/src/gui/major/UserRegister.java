@@ -42,7 +42,7 @@ public class UserRegister extends Scenario {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         initUserInput(factory);
-        if (registerType == null) initStaffInput(factory);
+        if (registerType == null) initEmployeeInput(factory);
         else initApplicantInput(factory);
         add(infoPanel);
     }
@@ -57,8 +57,8 @@ public class UserRegister extends Scenario {
     }
 
     private void initApplicantInput(ComponentFactory factory) {
-        String[] occupations = new String[]{"Student", "Worker", "Other"};
-        factory.addComboBox("Occupation:", occupations);
+        String[] employmentStatus = new String[]{"Student", "Employee", "Other"};
+        factory.addComboBox("Employment status:", employmentStatus);
         String[] experiences = new String[]{"0-3 years", "3-5 years", "5-8 years", "8+ years"};
         factory.addComboBox("Work experiences:", experiences);
         String[] diplomas = new String[]{"High School", "Bachelor", "Master", "Doctor", "Other"};
@@ -69,7 +69,7 @@ public class UserRegister extends Scenario {
         factory.addComboBox("Major in:", major);
     }
 
-    private void initStaffInput(ComponentFactory factory) {
+    private void initEmployeeInput(ComponentFactory factory) {
         String[] positions = new String[]{"Interviewer", "Recruiter", "Hiring_Manager"};
         factory.addComboBox("Position:", positions);
         factory.addTextField("Company id:");

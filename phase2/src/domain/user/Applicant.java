@@ -5,12 +5,13 @@ import domain.Exceptions.NotCompanyWorkerException;
 import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
+import domain.show.ShowAble;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Applicant extends User implements Serializable {
+public class Applicant extends User implements Serializable, ShowAble {
 
     private HashMap<String, Application> applications;
     private DocumentManager documentManager;
@@ -61,5 +62,16 @@ public class Applicant extends User implements Serializable {
     @Override
     public String getCompanyId() throws NotCompanyWorkerException {
         throw new NotCompanyWorkerException();
+    }
+
+    @Override
+    public String toString() {
+        return getInfoString("Username", getUsername()) +
+                getInfoString("Name", getRealName()) +
+                getInfoString("Email", getUserDetail().get("Email:")) +
+                getInfoString("Employment status", getUserDetail().get("Employment status:")) +
+                getInfoString("Work experiences", getUserDetail().get("Work experiences:")) +
+                getInfoString("Education background", getUserDetail().get("Education background:")) +
+                getInfoString("Major in", getUserDetail().get("Major in:"));
     }
 }
