@@ -10,10 +10,44 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class {@code InterviewRound} stores information about a specific round for a
+ * {@code JobPosting} and deals with all the events happened within this round.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see JobPosting
+ * @see InterviewRoundStatus
+ * @see InterviewRoundManager
+ * @see Interview
+ * @since 2019-08-04
+ */
 public class InterviewRound implements Filterable, Serializable {
 
+    /**
+     * The name of this interview round.
+     *
+     * @see     #getRoundName()
+     */
     private String roundName;
+
+    /**
+     * All the applications that made into this interview round.
+     *
+     * @see     #getInterviews()
+     * @see     #getCurrentRoundApplications()
+     * @see     #getUnmatchedApplications()
+     * @see     #getApplicationsByStatus(InterviewStatus)
+     */
     private ArrayList<Application> applications;
+
+    /**
+     * The status of this interview round, values are from {@code InterviewRoundStatus}.
+     *
+     * @see     InterviewRoundStatus
+     * @see     #getStatus()
+     * @see     #setStatus(InterviewRoundStatus)
+     * @see     #checkStatus()
+     */
     private InterviewRoundStatus status;
 
 

@@ -7,10 +7,41 @@ import domain.applying.Application;
 
 import java.util.ArrayList;
 
+/**
+ * Class {@code InterviewRoundManager} contains all the {@code InterviewRound} happened
+ * in a {@code JobPosting}, and processes those interview rounds.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see InterviewRound
+ * @see JobPosting
+ * @since 2019-08-04
+ */
 public class InterviewRoundManager {
 
+    /**
+     * The {@code JobPosting} that this manager is served for.
+     *
+     * @see     #getJobPosting()
+     */
     private JobPosting jobPosting;
+
+    /**
+     * All the {@code InterviewRound} this manager has.
+     *
+     * @see     InterviewRound
+     * @see     #getCurrentInterviewRound()
+     * @see     #getInterviewRounds()
+     * @see     #addInterviewRound(InterviewRound)
+     */
     private ArrayList<InterviewRound> interviewRounds;
+
+    /**
+     * All the remaining {@code Application} that has not been rejected.
+     *
+     * @see     #getRemainingApplications()
+     * @see     #getHiredApplications()
+     * @see     #applicationCancel(Application)
+     */
     private ArrayList<Application> remainingApplications;
 
 

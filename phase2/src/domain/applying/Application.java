@@ -19,6 +19,7 @@ import java.util.HashMap;
  * @author group 0120 of CSC207 summer 2019
  * @see     Interview
  * @see     DocumentManager
+ * @see     ApplicationStatus
  * @since 2019-08-04
  */
 public class Application implements Filterable, Serializable, ShowAble {

@@ -14,11 +14,54 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class {@code JobPosting} contains open position (with their descriptions and requirements)
+ * so that applicants who wish to work in this position may apply.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see InterviewRoundManager
+ * @see JobPostingStatus
+ * @since 2019-08-04
+ */
 public class JobPosting implements Filterable, Serializable, ShowAble {
 
+    /**
+     * A hash map that contains all the details for this job posting.
+     * Keys are fixed and can be found in {@code JobPostingRegister}.
+     *
+     * @see     gui.scenarios.hiringManager.JobPostingRegister
+     * @see     #toString()
+     */
     private HashMap<String, String> jobDetails;
+
+    /**
+     * The {@code InterviewRoundManager} for this job posting that deals
+     * with events related to interview rounds.
+     * It should be {@code null} when the job posting is opened.
+     *
+     * @see     InterviewRoundManager
+     * @see     InterviewRound
+     * @see     JobPostingStatus
+     * @see     #startProcessing()
+     */
     private InterviewRoundManager interviewRoundManager;
+
+    /**
+     * An array list that contains all the applications applied for
+     * this job posting initially.
+     *
+     * @see     #applicationSubmit(Application, Storage)
+     * @see     #applicationCancel(Application, Storage)
+     * @see     #getApplications()
+     */
     private ArrayList<Application> applications;
+
+    /**
+     * Keep track of the status of this {@code JobPosting}.
+     *
+     * @see     JobPostingStatus
+     * @see     #getStatus()
+     */
     private JobPostingStatus status;
 
 
