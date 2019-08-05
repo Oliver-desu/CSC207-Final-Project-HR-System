@@ -9,7 +9,7 @@ import java.util.logging.SimpleFormatter;
 public class Serializer {
     private String filePath;
     private static final Logger logger = Logger.getLogger(Serializer.class.getName());
-    private InfoCenter infoCenter = new InfoCenter(); //for test
+    private Storage Storage = new Storage(); //for test
 
     public Serializer(String filePath) {
         this.filePath = filePath;
@@ -39,12 +39,12 @@ public class Serializer {
         }
     }
 
-    public void setInfoCenter(InfoCenter infoCenter) {
-        this.infoCenter = infoCenter;
+    public Storage getStorage() {
+        return Storage;
     }
 
-    public InfoCenter getInfoCenter() {
-        return infoCenter;
+    public void setStorage(Storage Storage) {
+        this.Storage = Storage;
     }
 
     @SuppressWarnings("unchecked")
@@ -55,9 +55,9 @@ public class Serializer {
 
             Object object = input.readObject();
             input.close();
-            this.infoCenter = (InfoCenter) object;
+            this.Storage = (Storage) object;
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Fail to read InfoCenter object from ser file", e);
+            logger.log(Level.SEVERE, "Fail to read Storage object from ser file", e);
         }
     }
 
@@ -66,10 +66,10 @@ public class Serializer {
             OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(this.filePath));
             ObjectOutput output = new ObjectOutputStream(bufferedOutputStream);
 
-            output.writeObject(this.infoCenter);
+            output.writeObject(this.Storage);
             output.close();
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Fail to write InfoCenter object to ser file", e);
+            logger.log(Level.SEVERE, "Fail to write Storage object to ser file", e);
         }
     }
 }

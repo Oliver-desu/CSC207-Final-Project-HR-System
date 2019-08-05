@@ -3,7 +3,7 @@ package domain.applying;
 import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.CompanyWorker;
 
 import java.io.Serializable;
@@ -69,10 +69,10 @@ public class Interview implements Filterable, Serializable, ShowAble {
         interviewer.removeFile(this);
     }
 
-    public String detailedToStringForCompanyWorker(InfoCenter infoCenter) {
+    public String detailedToStringForCompanyWorker(Storage Storage) {
         return "JobPosting id: " + application.getJobPostingId() + "\n" +
                 "\n" +
-                "Application information:\n" + infoCenter.getApplicant(application.getApplicantId()).toString();
+                "Application information:\n" + Storage.getApplicant(application.getApplicantId()).toString();
     }
 
     @Override

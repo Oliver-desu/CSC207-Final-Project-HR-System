@@ -5,7 +5,7 @@ import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.Company;
 
 import java.io.Serializable;
@@ -81,9 +81,9 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         return false;
     }
 
-    public boolean applicationSubmit(Application application, InfoCenter infoCenter) {
+    public boolean applicationSubmit(Application application, Storage Storage) {
         if (!hasApplication(application) && status.equals(JobPostingStatus.OPEN)) {
-            Company company = infoCenter.getCompany(jobDetails.get("Company id:"));
+            Company company = Storage.getCompany(jobDetails.get("Company id:"));
             company.receiveApplication(application);
             this.applications.add(application);
             return true;
@@ -92,9 +92,9 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         }
     }
 
-    public void applicationCancel(Application application, InfoCenter infoCenter) {
+    public void applicationCancel(Application application, Storage Storage) {
         applications.remove(application);
-        Company company = infoCenter.getCompany(jobDetails.get("Company id:"));
+        Company company = Storage.getCompany(jobDetails.get("Company id:"));
         company.cancelApplication(application);
         interviewRoundManager.applicationCancel(application);
     }

@@ -37,8 +37,8 @@ public class JobManageScenario extends Scenario {
         Company company = test.addCompany();
         CompanyWorker coordinator = test.getRandomCoordinator(company);
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getInfoCenter().getJobPostings()) {
-            for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
+        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
+            for (Applicant applicant : test.getStorage().getAllApplicants()) {
                 test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             }
             test.addNewRoundAndFinishMatching(jobPosting, company);

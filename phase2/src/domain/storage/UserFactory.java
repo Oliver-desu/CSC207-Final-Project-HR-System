@@ -11,11 +11,11 @@ import java.util.HashMap;
 
 public class UserFactory implements Serializable {
 
-    private InfoCenter infoCenter;
+    private Storage Storage;
 
 
-    public UserFactory(InfoCenter userPool) {
-        this.infoCenter = userPool;
+    public UserFactory(Storage userPool) {
+        this.Storage = userPool;
     }
 
     public User createUser(HashMap<String, String> infoMap, UserType registerType) {
@@ -28,7 +28,7 @@ public class UserFactory implements Serializable {
         else user = new NullUser();
 
         if (!user.isNull()) {
-            this.infoCenter.register(user, registerType);
+            this.Storage.register(user, registerType);
         }
         return user;
     }
@@ -40,7 +40,7 @@ public class UserFactory implements Serializable {
     private User createCoordinator(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
-            Company company = infoCenter.getCompany(companyId);
+            Company company = Storage.getCompany(companyId);
             company.addHRCoordinatorId(infoMap.get("Username:"));
             return new CompanyWorker(infoMap, companyId, UserType.HR_COORDINATOR);
         } else {
@@ -51,7 +51,7 @@ public class UserFactory implements Serializable {
     private User createInterviewer(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
-            Company company = infoCenter.getCompany(companyId);
+            Company company = Storage.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
             return new CompanyWorker(infoMap, companyId, UserType.INTERVIEWER);
         } else {
@@ -65,7 +65,7 @@ public class UserFactory implements Serializable {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
             values.put("generalistId", infoMap.get("Username:"));
-            this.infoCenter.registerCompany(new Company(values));
+            this.Storage.registerCompany(new Company(values));
             return new CompanyWorker(infoMap, companyId, UserType.HR_GENERALIST);
         } else {
             return new NullUser();
@@ -73,7 +73,7 @@ public class UserFactory implements Serializable {
     }
 
     private boolean companyExists(String companyId) {
-        return infoCenter.getCompany(companyId) != null;
+        return Storage.getCompany(companyId) != null;
     }
 
     private void validValues(HashMap<String, String> infoMap, UserType registerType) {
@@ -81,7 +81,7 @@ public class UserFactory implements Serializable {
             throw new UnmatchedPasswordException();
         } else if (!infoMap.get("Email:").matches(".+@(.+\\.)com")) {
             throw new WrongEmailFormatException();
-        } else if (infoCenter.getCompanyWorker(infoMap.get("Username:"), registerType) != null) {
+        } else if (Storage.getCompanyWorker(infoMap.get("Username:"), registerType) != null) {
             throw new UserAlreadyExistsException();
         } else if (registerType.equals(UserType.HR_GENERALIST) && companyExists(infoMap.get("Company id:"))) {
 

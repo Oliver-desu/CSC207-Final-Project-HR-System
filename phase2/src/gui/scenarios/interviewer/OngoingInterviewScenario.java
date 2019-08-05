@@ -35,7 +35,7 @@ public class OngoingInterviewScenario extends Scenario {
         CompanyWorker interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 
-        for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
+        for (Applicant applicant : test.getStorage().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
@@ -87,7 +87,7 @@ public class OngoingInterviewScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             Interview interview = leftFilter.getSelectObject();
             if (interview != null) {
-                setOutputText(interview.detailedToStringForCompanyWorker(getMain().getInfoCenter()));
+                setOutputText(interview.detailedToStringForCompanyWorker(getMain().getStorage()));
             }
         }
     }

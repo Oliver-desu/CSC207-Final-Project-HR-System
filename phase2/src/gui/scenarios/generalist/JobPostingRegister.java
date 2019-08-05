@@ -30,7 +30,7 @@ public class JobPostingRegister extends Scenario {
         Test test = new Test();
         Company company = test.addCompany();
         test.addCoordinatorsForCompany(9, company);
-        CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(
+        CompanyWorker generalist = test.getStorage().getCompanyWorker(
                 company.getHRGeneralistId(), UserType.HR_GENERALIST);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);
@@ -112,9 +112,9 @@ public class JobPostingRegister extends Scenario {
             if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
-                getMain().getInfoCenter().getCompanyWorker(
+                getMain().getStorage().getCompanyWorker(
                         values.get("Coordinator:"), UserType.HR_COORDINATOR).addFile(jobPosting);
-                getMain().getInfoCenter().addJobPosting(jobPosting.getJobId(), jobPosting);
+                getMain().getStorage().addJobPosting(jobPosting.getJobId(), jobPosting);
                 showMessage("Successfully post job!");
                 infoPanel.clear();
             } else {

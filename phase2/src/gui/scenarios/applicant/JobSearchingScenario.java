@@ -3,7 +3,7 @@ package gui.scenarios.applicant;
 import domain.Test;
 import domain.applying.Application;
 import domain.job.JobPosting;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.Applicant;
 import domain.user.Company;
 import gui.major.Scenario;
@@ -39,8 +39,8 @@ public class JobSearchingScenario extends Scenario {
 
     @Override
     protected void update() {
-        InfoCenter infoCenter = getMain().getInfoCenter();
-        leftFilter.setFilterContent(infoCenter.getOpenJobPostings());
+        Storage Storage = getMain().getStorage();
+        leftFilter.setFilterContent(Storage.getOpenJobPostings());
     }
 
     protected void initLeftFilter() {

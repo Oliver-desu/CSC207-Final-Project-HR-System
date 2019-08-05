@@ -85,7 +85,7 @@ public class UserRegister extends Scenario {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
         if (registerType == null) registerType = UserType.valueOf(infoMap.get("Position:").toUpperCase());
         infoMap.put("Password:", Arrays.toString(infoPanel.getPassword()));
-        return new UserFactory(getMain().getInfoCenter()).createUser(infoMap, registerType);
+        return new UserFactory(getMain().getStorage()).createUser(infoMap, registerType);
     }
 
     class CreateUserListener implements ActionListener {

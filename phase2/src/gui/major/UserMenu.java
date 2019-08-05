@@ -1,7 +1,7 @@
 package gui.major;
 
 import domain.Exceptions.NotCompanyWorkerException;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.Company;
 import domain.user.User;
 import main.Main;
@@ -50,9 +50,9 @@ public class UserMenu extends JFrame {
     }
 
     public Company getCompany() {
-        InfoCenter infoCenter = getMain().getInfoCenter();
+        Storage storage = getMain().getStorage();
         try {
-            return infoCenter.getCompany(user.getCompanyId());
+            return storage.getCompany(user.getCompanyId());
         } catch (NotCompanyWorkerException e) {
             return null;
         }

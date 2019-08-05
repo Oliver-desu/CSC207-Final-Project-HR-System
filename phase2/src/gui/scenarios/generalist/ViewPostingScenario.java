@@ -4,7 +4,7 @@ import domain.Enums.UserType;
 import domain.Test;
 import domain.applying.Application;
 import domain.job.JobPosting;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.Company;
 import domain.user.CompanyWorker;
 import gui.major.Scenario;
@@ -27,7 +27,7 @@ public class ViewPostingScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        CompanyWorker generalist = test.getInfoCenter().getCompanyWorker(company.getHRGeneralistId(), UserType.HR_GENERALIST);
+        CompanyWorker generalist = test.getStorage().getCompanyWorker(company.getHRGeneralistId(), UserType.HR_GENERALIST);
         test.addJobPostings(10, company);
 
         UserMenu userMenu = new UserMenu(test.getMain(), generalist);
@@ -56,8 +56,8 @@ public class ViewPostingScenario extends Scenario {
     @Override
     protected void update() {
         Company company = getUserMenu().getCompany();
-        InfoCenter infoCenter = getMain().getInfoCenter();
-        ArrayList<JobPosting> jobPostings = infoCenter.getJobPostingsByIds(company.getJobPostingIds());
+        Storage Storage = getMain().getStorage();
+        ArrayList<JobPosting> jobPostings = Storage.getJobPostingsByIds(company.getJobPostingIds());
         leftFilter.setFilterContent(jobPostings);
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
@@ -81,7 +81,7 @@ public class ViewPostingScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             Application application = rightFilter.getSelectObject();
             if (application != null) {
-                setOutputText(application.detailedToStringForCompanyWorker(getMain().getInfoCenter()));
+                setOutputText(application.detailedToStringForCompanyWorker(getMain().getStorage()));
             }
         }
     }

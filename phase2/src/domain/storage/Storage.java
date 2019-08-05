@@ -9,14 +9,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class InfoCenter implements Serializable {
+public class Storage implements Serializable {
 
     private HashMap<UserType, ArrayList<User>> users = new HashMap<>();
     private HashMap<String, Company> companies = new HashMap<>();
     private HashMap<String, JobPosting> jobPostings = new HashMap<>();
 
 
-    public InfoCenter() {
+    public Storage() {
         users.put(UserType.APPLICANT, new ArrayList<>());
         users.put(UserType.HR_COORDINATOR, new ArrayList<>());
         users.put(UserType.HR_GENERALIST, new ArrayList<>());

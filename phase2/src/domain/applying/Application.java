@@ -5,7 +5,7 @@ import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.show.ShowAble;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.Applicant;
 
 import java.io.Serializable;
@@ -36,7 +36,7 @@ public class Application implements Filterable, Serializable, ShowAble {
      * The username of the applicant.
      *
      * @see     #getApplicantId()
-     * @see     #getApplicant(InfoCenter)
+     * @see     #getApplicant(Storage)
      */
     private String applicantId;
 
@@ -101,13 +101,13 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return the {@code Applicant} who holds this application.
-     * @param infoCenter    the {@code InfoCenter} that contains all users
+     * @param Storage    the {@code Storage} that contains all users
      * @return the {@code Applicant} who holds this application
      * @see     Applicant
-     * @see     InfoCenter
+     * @see     Storage
      */
-    public Applicant getApplicant(InfoCenter infoCenter) {
-        return infoCenter.getApplicant(this.applicantId);
+    public Applicant getApplicant(Storage Storage) {
+        return Storage.getApplicant(this.applicantId);
     }
 
     public String getJobPostingId() {
@@ -139,13 +139,13 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Ask the job posting whether it is allowed to apply or not. If allowed, set the document manager
      * to be uneditable and status to be {@code ApplicationStatus.PENDING}. Then return true
      * if and only if the application is submitted successfully.
-     * @param infoCenter    the {@code InfoCenter} that contains information about job postings
+     * @param Storage    the {@code Storage} that contains information about job postings
      * @return true if and only if the application is submitted successfully
-     * @see     JobPosting#applicationSubmit(Application, InfoCenter)
+     * @see     JobPosting#applicationSubmit(Application, Storage)
      * @see     DocumentManager#setEditable(boolean)
      */
-    public boolean apply(InfoCenter infoCenter) {
-        boolean succeed = infoCenter.getJobPosting(jobPostingId).applicationSubmit(this, infoCenter);
+    public boolean apply(Storage Storage) {
+        boolean succeed = Storage.getJobPosting(jobPostingId).applicationSubmit(this, Storage);
         if (succeed) {
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
@@ -157,13 +157,13 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Cancel the application if and only if the status is {@code ApplicationStatus.PENDING}, then notify
      * the corresponding job posting and document manager. Return true if and only if application is
      * successfully cancelled.
-     * @param infoCenter    the {@code InfoCenter} that contains information about job postings
+     * @param Storage    the {@code Storage} that contains information about job postings
      * @return true if and only if application is successfully cancelled
-     * @see     JobPosting#applicationCancel(Application, InfoCenter)
+     * @see     JobPosting#applicationCancel(Application, Storage)
      */
-    public boolean cancel(InfoCenter infoCenter) {
+    public boolean cancel(Storage Storage) {
         if (this.status.equals(ApplicationStatus.PENDING)) {
-            infoCenter.getJobPosting(jobPostingId).applicationCancel(this, infoCenter);
+            Storage.getJobPosting(jobPostingId).applicationCancel(this, Storage);
             this.documentManager.setEditable(true);
             this.setStatus(ApplicationStatus.DRAFT);
             return true;
@@ -186,11 +186,11 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return basic information about this application and detailed information about applicant.
-     * @param infoCenter    the {@code InfoCenter} that contains all users
+     * @param Storage    the {@code Storage} that contains all users
      * @return basic information about this application and detailed information about applicant
      */
-    public String detailedToStringForCompanyWorker(InfoCenter infoCenter) {
-        Applicant applicant = infoCenter.getApplicant(applicantId);
+    public String detailedToStringForCompanyWorker(Storage Storage) {
+        Applicant applicant = Storage.getApplicant(applicantId);
         return "JobPosting id:" + jobPostingId + "\n" +
                 "Status: " + status + "\n" +
                 "\n" +

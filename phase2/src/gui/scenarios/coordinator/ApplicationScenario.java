@@ -33,7 +33,7 @@ public class ApplicationScenario extends Scenario {
         Company company = test.addCompany();
         CompanyWorker coordinator = test.getRandomCoordinator(company);
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getInfoCenter().getJobPostings()) {
+        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
 
@@ -87,7 +87,7 @@ public class ApplicationScenario extends Scenario {
             Application application = leftFilter.getSelectObject();
             if (application != null) {
                 rightFilter.setFilterContent(application.getDocumentManager().getAllDocuments());
-                setOutputText(application.detailedToStringForCompanyWorker(getMain().getInfoCenter()));
+                setOutputText(application.detailedToStringForCompanyWorker(getMain().getStorage()));
             }
         }
     }

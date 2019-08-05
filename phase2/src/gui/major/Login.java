@@ -67,7 +67,7 @@ public class Login extends JFrame {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
         String userType = infoMap.get("UserType:").toUpperCase();
         String userName = infoMap.get("Username:");
-        return getMain().getInfoCenter().getUser(userName, UserType.valueOf(userType));
+        return getMain().getStorage().getUser(userName, UserType.valueOf(userType));
     }
 
     private boolean checkUser(User user, char[] password) {
@@ -90,7 +90,7 @@ public class Login extends JFrame {
             User user = getUser();
             char[] password = getInputInfoPanel().getPassword();
             if (checkUser(user, password)) {
-                getMain().getInfoCenter().updateOpenJobPostings();
+                getMain().getStorage().updateOpenJobPostings();
                 login(user);
             }
         }

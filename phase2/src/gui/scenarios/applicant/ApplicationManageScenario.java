@@ -30,7 +30,7 @@ public class ApplicationManageScenario extends Scenario {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getInfoCenter().getJobPostings()) {
+        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
             test.addDraftApplicationForJobPosting(applicant, jobPosting);
         }
 
@@ -103,7 +103,7 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
             if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
-                if (application.apply(getMain().getInfoCenter())) {
+                if (application.apply(getMain().getStorage())) {
                     showMessage("Submission succeeds!");
                     update();
                 } else {
@@ -121,7 +121,7 @@ public class ApplicationManageScenario extends Scenario {
             Application application = leftFilter.getSelectObject();
 //            conditions are checked in cancel()
             if (application != null && application.getStatus().equals(ApplicationStatus.PENDING)) {
-                if (application.cancel(getMain().getInfoCenter())) {
+                if (application.cancel(getMain().getStorage())) {
                     showMessage("Withdrawal succeeds!");
                     update();
                 } else {

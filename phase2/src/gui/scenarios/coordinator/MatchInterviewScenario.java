@@ -6,7 +6,7 @@ import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.user.Applicant;
 import domain.user.Company;
 import domain.user.CompanyWorker;
@@ -37,7 +37,7 @@ public class MatchInterviewScenario extends Scenario {
         test.addInterviewersForCompany(9, company);
         CompanyWorker coordinator = test.getRandomCoordinator(company);
         JobPosting jobPosting = test.addJobPosting(company);
-        for (Applicant applicant : test.getInfoCenter().getAllApplicants()) {
+        for (Applicant applicant : test.getStorage().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         InterviewRound interviewRound = test.addNewRound(jobPosting);
@@ -67,9 +67,9 @@ public class MatchInterviewScenario extends Scenario {
     @Override
     protected void update() {
         leftFilter.setFilterContent(interviewRound.getUnmatchedApplications());
-        InfoCenter infoCenter = getMain().getInfoCenter();
+        Storage Storage = getMain().getStorage();
         Company company = getUserMenu().getCompany();
-        ArrayList<CompanyWorker> interviewers = infoCenter.getInterviewers(company.getInterviewerIds());
+        ArrayList<CompanyWorker> interviewers = Storage.getInterviewers(company.getInterviewerIds());
         rightFilter.setFilterContent(interviewers);
     }
 

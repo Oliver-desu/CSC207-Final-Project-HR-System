@@ -8,7 +8,7 @@ import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
-import domain.storage.InfoCenter;
+import domain.storage.Storage;
 import domain.storage.UserFactory;
 import domain.user.Applicant;
 import domain.user.Company;
@@ -29,47 +29,47 @@ public class Test {
     private int numJobPostings;
 
     private Main main;
-    private InfoCenter infoCenter;
+    private Storage Storage;
 
 
     public Test() {
         this.main = new Main();
-        this.infoCenter = this.main.getInfoCenter();
+        this.Storage = this.main.getStorage();
     }
 
     public static void main(String[] args) {
-        Test test = new Test();
+        new Test();
     }
 
     public Main getMain() {
         return main;
     }
 
-    public InfoCenter getInfoCenter() {
-        return infoCenter;
+    public Storage getStorage() {
+        return Storage;
     }
 
     public Applicant getRandomApplicant() {
-        return infoCenter.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
+        return Storage.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
     }
 
     public Company getRandomCompany() {
-        return infoCenter.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
+        return Storage.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
     public CompanyWorker getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return infoCenter.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
+        return Storage.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
     }
 
     public CompanyWorker getRandomCoordinator(Company company) {
         ArrayList<String> coordinatorIds = company.getHRCoordinatorIds();
-        return infoCenter.getCompanyWorker(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())), UserType.HR_COORDINATOR);
+        return Storage.getCompanyWorker(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())), UserType.HR_COORDINATOR);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
         ArrayList<String> jobPostingIds = company.getJobPostingIds();
-        return infoCenter.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
+        return Storage.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
     public String getRandomDocumentName(DocumentManager documentManager) {
@@ -87,7 +87,7 @@ public class Test {
         values.put("Email:", "shit@gmail.com");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        infoCenter.register(applicant, UserType.APPLICANT);
+        Storage.register(applicant, UserType.APPLICANT);
         numApplicants++;
         return applicant;
     }
@@ -104,9 +104,9 @@ public class Test {
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
         values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
-        new UserFactory(infoCenter).createUser(values, UserType.HR_GENERALIST);
-        CompanyWorker generalist = (CompanyWorker) infoCenter.getUser(values.get("Username:"), UserType.HR_GENERALIST);
-        Company company = infoCenter.getCompany(generalist.getCompanyId());
+        new UserFactory(Storage).createUser(values, UserType.HR_GENERALIST);
+        CompanyWorker generalist = (CompanyWorker) Storage.getUser(values.get("Username:"), UserType.HR_GENERALIST);
+        Company company = Storage.getCompany(generalist.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
@@ -130,7 +130,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
             interviewer = new CompanyWorker(values, company.getId(), UserType.INTERVIEWER);
-            infoCenter.register(interviewer, UserType.INTERVIEWER);
+            Storage.register(interviewer, UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
@@ -146,7 +146,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
             coordinator = new CompanyWorker(values, company.getId(), UserType.HR_COORDINATOR);
-            infoCenter.register(coordinator, UserType.HR_COORDINATOR);
+            Storage.register(coordinator, UserType.HR_COORDINATOR);
             company.addHRCoordinatorId(coordinator.getUsername());
             numCoordinators ++;
         }
@@ -165,7 +165,7 @@ public class Test {
         values.put("Reference:", "Optional");
         values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting(values);
-        infoCenter.addJobPosting(jobPosting.getJobId(), jobPosting);
+        Storage.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomCoordinator(company).addFile(jobPosting);
         numJobPostings++;
@@ -192,7 +192,7 @@ public class Test {
         String docName = this.getRandomDocumentName(applicant.getDocumentManager());
         application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
         applicant.addApplication(jobPosting.getJobId(), application);
-        application.apply(infoCenter);
+        application.apply(Storage);
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
@@ -206,7 +206,7 @@ public class Test {
 
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
-        application.apply(infoCenter);
+        application.apply(Storage);
         return application;
     }
 
