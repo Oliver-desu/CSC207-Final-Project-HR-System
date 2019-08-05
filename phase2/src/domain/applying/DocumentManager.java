@@ -15,10 +15,33 @@ import java.util.HashMap;
  */
 public class DocumentManager implements Serializable {
 
+    /**
+     * A hash map where the key is document name and value is the corresponding document.
+     *
+     * @see #getAllDocuments()
+     * @see #getAllDocNames()
+     * @see #addDocument(Document)
+     * @see #findDocument(String)
+     * @see #removeDocument(Document)
+     * @see #removeDocument(String)
+     */
     private HashMap<String, Document> documents = new HashMap<>();
+
+    /**
+     * True if and only if the holder is able to add/remove document.
+     * That happens if the holder is {@code Applicant} or if the holder
+     * is {@code Application} and it has not been submitted yet.
+     *
+     * @see     #isEditable()
+     * @see     #setEditable(boolean)
+     */
     private boolean editable;
 
 
+    /**
+     * Create a new document manager.
+     * @param editable  determines whether the holder is allowed to modify documents
+     */
     public DocumentManager(boolean editable) {
         this.editable = editable;
     }
