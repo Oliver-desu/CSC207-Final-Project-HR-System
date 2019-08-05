@@ -104,7 +104,7 @@ public class OngoingInterviewScenario extends Scenario {
             if (!confirmAction()) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
-                interview.setResult(isPass);
+                interview.setStatus(InterviewStatus.PASS);
                 interview.setRecommendation(getRecommendation());
                 update();
                 showMessage("Succeed!");
