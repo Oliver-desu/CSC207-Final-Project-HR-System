@@ -7,11 +7,47 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+/**
+ * Class {@code Document} is used by {@code Applicant} when applying for a
+ * {@code JobPosting} as required by the company.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see domain.user.Applicant
+ * @see domain.job.JobPosting
+ * @see Application
+ * @since 2019-08-04
+ */
 public class Document implements Filterable, Serializable, ShowAble {
 
+    /**
+     * The title of the document.
+     *
+     * @see     #getDocumentName()
+     */
     private String documentName = "";
+
+    /**
+     * The content of the document.
+     *
+     * @see     #getContent()
+     * @see     #readContent(File)
+     */
     private String content;
+
+    /**
+     * Last date that this document is used for any application.
+     * Any document that has not been used for the past 30 days will
+     * be deleted automatically.
+     *
+     * @see     #getLastUsedDate()
+     * @see     #update()
+     * @see     #shouldDelete()
+     */
     private LocalDate lastUsedDate;
+
+    /**
+     *
+     */
     private boolean isUsed;
 
     // For testing purpose
