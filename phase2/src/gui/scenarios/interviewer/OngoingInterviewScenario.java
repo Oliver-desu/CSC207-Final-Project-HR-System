@@ -93,10 +93,10 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     class SetResultListener implements ActionListener {
-        private boolean isPass;
+        private InterviewStatus result;
 
         SetResultListener(boolean isPass) {
-            this.isPass = isPass;
+            this.result = isPass ? InterviewStatus.PASS : InterviewStatus.FAIL;
         }
 
         @Override
@@ -104,7 +104,7 @@ public class OngoingInterviewScenario extends Scenario {
             if (!confirmAction()) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
-                interview.setStatus(InterviewStatus.PASS);
+                interview.setStatus(result);
                 interview.setRecommendation(getRecommendation());
                 update();
                 showMessage("Succeed!");

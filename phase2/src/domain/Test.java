@@ -50,10 +50,6 @@ public class Test {
         return Storage;
     }
 
-    public Applicant getRandomApplicant() {
-        return Storage.getApplicant(Integer.toString(new Random().nextInt(numApplicants)));
-    }
-
     public Company getRandomCompany() {
         return Storage.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
@@ -113,12 +109,6 @@ public class Test {
         this.addInterviewersForCompany(1, company);
         this.addRecruitersForCompany(1, company);
         return company;
-    }
-
-    public void addCompanies(int num) {
-        for (int i = 0; i < num; i++) {
-            this.addCompany();
-        }
     }
 
     public void addInterviewersForCompany(int num, Company company) {
