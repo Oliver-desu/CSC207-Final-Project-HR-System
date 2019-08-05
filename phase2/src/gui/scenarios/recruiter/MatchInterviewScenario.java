@@ -9,7 +9,7 @@ import domain.job.JobPosting;
 import domain.storage.Storage;
 import domain.user.Applicant;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
@@ -23,7 +23,7 @@ public class MatchInterviewScenario extends Scenario {
 
     private InterviewRound interviewRound;
     private FilterPanel<Application> leftFilter;
-    private FilterPanel<CompanyWorker> rightFilter;
+    private FilterPanel<Employee> rightFilter;
 
     public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
         super(userMenu, "Match Interview");
@@ -35,7 +35,7 @@ public class MatchInterviewScenario extends Scenario {
         test.addApplicants(10);
         Company company = test.addCompany();
         test.addInterviewersForCompany(9, company);
-        CompanyWorker recruiter = test.getRandomRecruiter(company);
+        Employee recruiter = test.getRandomRecruiter(company);
         JobPosting jobPosting = test.addJobPosting(company);
         for (Applicant applicant : test.getStorage().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
@@ -69,7 +69,7 @@ public class MatchInterviewScenario extends Scenario {
         leftFilter.setFilterContent(interviewRound.getUnmatchedApplications());
         Storage Storage = getMain().getStorage();
         Company company = getUserMenu().getCompany();
-        ArrayList<CompanyWorker> interviewers = Storage.getInterviewers(company.getInterviewerIds());
+        ArrayList<Employee> interviewers = Storage.getInterviewers(company.getInterviewerIds());
         rightFilter.setFilterContent(interviewers);
     }
 
@@ -81,7 +81,7 @@ public class MatchInterviewScenario extends Scenario {
     class MatchListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            CompanyWorker interviewer = rightFilter.getSelectObject();
+            Employee interviewer = rightFilter.getSelectObject();
             Application application = leftFilter.getSelectObject();
             Interview interview;
             if (application != null) {

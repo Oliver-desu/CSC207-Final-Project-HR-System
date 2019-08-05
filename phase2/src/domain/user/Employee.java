@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CompanyWorker extends User implements Filterable, Serializable {
+public class Employee extends User implements Filterable, Serializable {
 
     private String companyId;
     private ArrayList<Object> files = new ArrayList<>();
 
 
-    public CompanyWorker(HashMap<String, String> values, String companyId, UserType userType) {
+    public Employee(HashMap<String, String> values, String companyId, UserType userType) {
         super(values, userType);
         this.companyId = companyId;
     }

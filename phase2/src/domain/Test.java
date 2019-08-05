@@ -12,7 +12,7 @@ import domain.storage.Storage;
 import domain.storage.UserFactory;
 import domain.user.Applicant;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import main.Main;
 
 import java.time.LocalDate;
@@ -57,14 +57,14 @@ public class Test {
         return Storage.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
-    public CompanyWorker getRandomInterviewer(Company company) {
+    public Employee getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return Storage.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
+        return Storage.getEmployee(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
     }
 
-    public CompanyWorker getRandomRecruiter(Company company) {
+    public Employee getRandomRecruiter(Company company) {
         ArrayList<String> recruiterIds = company.getRecruiterIds();
-        return Storage.getCompanyWorker(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
+        return Storage.getEmployee(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
@@ -105,7 +105,7 @@ public class Test {
         values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
         new UserFactory(Storage).createUser(values, UserType.HIRING_MANAGER);
-        CompanyWorker generalist = (CompanyWorker) Storage.getUser(values.get("Username:"), UserType.HIRING_MANAGER);
+        Employee generalist = (Employee) Storage.getUser(values.get("Username:"), UserType.HIRING_MANAGER);
         Company company = Storage.getCompany(generalist.getCompanyId());
         numCompanies++;
 
@@ -121,7 +121,7 @@ public class Test {
     }
 
     public void addInterviewersForCompany(int num, Company company) {
-        CompanyWorker interviewer;
+        Employee interviewer;
         HashMap<String, String> values;
         int amount = numInterviewers;
         for (int i=amount; i<amount+num; i++) {
@@ -129,7 +129,7 @@ public class Test {
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
-            interviewer = new CompanyWorker(values, company.getId(), UserType.INTERVIEWER);
+            interviewer = new Employee(values, company.getId(), UserType.INTERVIEWER);
             Storage.register(interviewer, UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
@@ -137,7 +137,7 @@ public class Test {
     }
 
     public void addRecruitersForCompany(int num, Company company) {
-        CompanyWorker recruiter;
+        Employee recruiter;
         HashMap<String, String> values;
         int amount = numRecruiters;
         for (int i=amount; i<amount+num; i++) {
@@ -145,7 +145,7 @@ public class Test {
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
-            recruiter = new CompanyWorker(values, company.getId(), UserType.RECRUITER);
+            recruiter = new Employee(values, company.getId(), UserType.RECRUITER);
             Storage.register(recruiter, UserType.RECRUITER);
             company.addRecruiterId(recruiter.getUsername());
             numRecruiters++;
@@ -224,7 +224,7 @@ public class Test {
     public void addNewRoundAndFinishMatching(JobPosting jobPosting, Company company) {
         InterviewRound interviewRound = this.addNewRound(jobPosting);
         Interview interview;
-        CompanyWorker interviewer;
+        Employee interviewer;
         for (Application application: interviewRound.getUnmatchedApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
             interviewer = this.getRandomInterviewer(company);

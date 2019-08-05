@@ -6,7 +6,7 @@ import domain.job.InterviewRound;
 import domain.job.JobPosting;
 import domain.user.Applicant;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
@@ -35,7 +35,7 @@ public class JobManageScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        CompanyWorker recruiter = test.getRandomRecruiter(company);
+        Employee recruiter = test.getRandomRecruiter(company);
         test.addJobPostings(10, company);
         for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
             for (Applicant applicant : test.getStorage().getAllApplicants()) {
@@ -71,7 +71,7 @@ public class JobManageScenario extends Scenario {
 
     @Override
     protected void update() {
-        CompanyWorker recruiter = (CompanyWorker) getUserMenu().getUser();
+        Employee recruiter = (Employee) getUserMenu().getUser();
         leftFilter.setFilterContent(recruiter.getJobPostings());
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {

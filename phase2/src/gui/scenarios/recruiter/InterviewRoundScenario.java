@@ -10,7 +10,7 @@ import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
 import domain.user.Applicant;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
@@ -38,7 +38,7 @@ public class InterviewRoundScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        CompanyWorker recruiter = test.getRandomRecruiter(company);
+        Employee recruiter = test.getRandomRecruiter(company);
         JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
         for (Applicant applicant : test.getStorage().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);

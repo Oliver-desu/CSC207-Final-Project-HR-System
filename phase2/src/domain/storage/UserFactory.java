@@ -42,7 +42,7 @@ public class UserFactory implements Serializable {
         if (companyExists(companyId)) {
             Company company = Storage.getCompany(companyId);
             company.addRecruiterId(infoMap.get("Username:"));
-            return new CompanyWorker(infoMap, companyId, UserType.RECRUITER);
+            return new Employee(infoMap, companyId, UserType.RECRUITER);
         } else {
             return new NullUser();
         }
@@ -53,7 +53,7 @@ public class UserFactory implements Serializable {
         if (companyExists(companyId)) {
             Company company = Storage.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
-            return new CompanyWorker(infoMap, companyId, UserType.INTERVIEWER);
+            return new Employee(infoMap, companyId, UserType.INTERVIEWER);
         } else {
             return new NullUser();
         }
@@ -66,7 +66,7 @@ public class UserFactory implements Serializable {
             values.put("id", companyId);
             values.put("hiringManagerId", infoMap.get("Username:"));
             this.Storage.registerCompany(new Company(values));
-            return new CompanyWorker(infoMap, companyId, UserType.HIRING_MANAGER);
+            return new Employee(infoMap, companyId, UserType.HIRING_MANAGER);
         } else {
             return new NullUser();
         }
@@ -81,7 +81,7 @@ public class UserFactory implements Serializable {
             throw new UnmatchedPasswordException();
         } else if (!infoMap.get("Email:").matches(".+@(.+\\.)com")) {
             throw new WrongEmailFormatException();
-        } else if (Storage.getCompanyWorker(infoMap.get("Username:"), registerType) != null) {
+        } else if (Storage.getEmployee(infoMap.get("Username:"), registerType) != null) {
             throw new UserAlreadyExistsException();
         } else if (registerType.equals(UserType.HIRING_MANAGER) && companyExists(infoMap.get("Company id:"))) {
 

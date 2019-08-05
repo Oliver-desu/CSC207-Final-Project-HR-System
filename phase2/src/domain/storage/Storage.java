@@ -52,9 +52,9 @@ public class Storage implements Serializable {
         return companies.get(companyId);
     }
 
-    public CompanyWorker getCompanyWorker(String username, UserType userType) {
+    public Employee getEmployee(String username, UserType userType) {
         try {
-            return (CompanyWorker) getUser(username, userType);
+            return (Employee) getUser(username, userType);
         } catch (ClassCastException e) {
             return null;
         }
@@ -68,10 +68,10 @@ public class Storage implements Serializable {
         return applicants;
     }
 
-    public ArrayList<CompanyWorker> getInterviewers(ArrayList<String> usernameList) {
-        ArrayList<CompanyWorker> interviewers = new ArrayList<>();
+    public ArrayList<Employee> getInterviewers(ArrayList<String> usernameList) {
+        ArrayList<Employee> interviewers = new ArrayList<>();
         for (String username : usernameList) {
-            interviewers.add(getCompanyWorker(username, UserType.INTERVIEWER));
+            interviewers.add(getEmployee(username, UserType.INTERVIEWER));
         }
         return interviewers;
     }

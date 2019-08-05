@@ -6,7 +6,7 @@ import domain.applying.Application;
 import domain.job.JobPosting;
 import domain.storage.Storage;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.FilterPanel;
@@ -27,7 +27,7 @@ public class ViewPostingScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        CompanyWorker hiringManager = test.getStorage().getCompanyWorker(company.getHiringManagerId(), UserType.HIRING_MANAGER);
+        Employee hiringManager = test.getStorage().getEmployee(company.getHiringManagerId(), UserType.HIRING_MANAGER);
         test.addJobPostings(10, company);
 
         UserMenu userMenu = new UserMenu(test.getMain(), hiringManager);

@@ -4,7 +4,7 @@ import domain.Enums.UserType;
 import domain.Test;
 import domain.job.JobPosting;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
@@ -30,7 +30,7 @@ public class JobPostingRegister extends Scenario {
         Test test = new Test();
         Company company = test.addCompany();
         test.addRecruitersForCompany(9, company);
-        CompanyWorker hiringManager = test.getStorage().getCompanyWorker(
+        Employee hiringManager = test.getStorage().getEmployee(
                 company.getHiringManagerId(), UserType.HIRING_MANAGER);
 
         UserMenu userMenu = new UserMenu(test.getMain(), hiringManager);
@@ -112,7 +112,7 @@ public class JobPostingRegister extends Scenario {
             if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
-                getMain().getStorage().getCompanyWorker(
+                getMain().getStorage().getEmployee(
                         values.get("Recruiter:"), UserType.RECRUITER).addFile(jobPosting);
                 getMain().getStorage().addJobPosting(jobPosting.getJobId(), jobPosting);
                 showMessage("Successfully post job!");

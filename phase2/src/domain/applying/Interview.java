@@ -4,14 +4,14 @@ import domain.Enums.InterviewStatus;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
 import domain.storage.Storage;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 public class Interview implements Filterable, Serializable, ShowAble {
 
-    private CompanyWorker interviewer;
+    private Employee interviewer;
     private Application application;
     private String recommendation;
     private InterviewStatus status = InterviewStatus.UNMATCHED;
@@ -20,7 +20,7 @@ public class Interview implements Filterable, Serializable, ShowAble {
         this.application = application;
     }
 
-    public CompanyWorker getInterviewer() {
+    public Employee getInterviewer() {
         return interviewer;
     }
 
@@ -28,7 +28,7 @@ public class Interview implements Filterable, Serializable, ShowAble {
         return application;
     }
 
-    public boolean match(CompanyWorker interviewer) {
+    public boolean match(Employee interviewer) {
         if (status.equals(InterviewStatus.UNMATCHED)) {
             this.interviewer = interviewer;
             setStatus(InterviewStatus.PENDING);

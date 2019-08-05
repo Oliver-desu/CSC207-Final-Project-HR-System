@@ -6,7 +6,7 @@ import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.user.Applicant;
 import domain.user.Company;
-import domain.user.CompanyWorker;
+import domain.user.Employee;
 import gui.major.Scenario;
 import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
@@ -32,7 +32,7 @@ public class OngoingInterviewScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        CompanyWorker interviewer = test.getRandomInterviewer(company);
+        Employee interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 
         for (Applicant applicant : test.getStorage().getAllApplicants()) {
@@ -67,7 +67,7 @@ public class OngoingInterviewScenario extends Scenario {
 
     @Override
     protected void update() {
-        CompanyWorker interviewer = (CompanyWorker) getUserMenu().getUser();
+        Employee interviewer = (Employee) getUserMenu().getUser();
         leftFilter.setFilterContent(interviewer.getInterviews());
     }
 
