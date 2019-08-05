@@ -11,14 +11,49 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Class {@code FilterPanel} setup gui panel for showing a list of instances(filterable)
+ * and be able to search and filter through instances
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see gui.major.Scenario
+ * @since 2019-08-05
+ */
 public class FilterPanel<T extends Filterable> extends JPanel {
 
+    // Settings related to components sizes
     private static final int TITLE_HEIGHT = 30;
     private static final int SEARCH_BUTTON_WIDTH = 80;
     private static final int SEARCH_BUTTON_HEIGHT = 30;
 
+    /**
+     * The filter that calculate remaining instance
+     *
+     * @see Filter
+     * @see SearchListener
+     * @see #getFilter()
+     * @see #update()
+     * @see #setFilterContent(ArrayList)
+     */
     private Filter<T> filter = new Filter<>();
+
+    /**
+     * The filter table that shows results to users
+     *
+     * @see #getFilterTable()
+     * @see #filterTableSetup(Dimension)
+     * @see #getSelectObject()
+     * @see #addSelectionListener(ListSelectionListener)
+     */
     private JTable filterTable = new JTable();
+
+    /**
+     * The table model that updates result in filter table
+     *
+     * @see NotEditableTableModel
+     * @see #update()
+     * @see #filterTableSetup(Dimension)
+     */
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
     public FilterPanel(Dimension dimension, String title) {
@@ -47,7 +82,6 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         for (T result : getFilter().getResults()) {
             getTableModel().addRow(filter.getSearchValues(result, headings));
         }
-        getFilterTable().updateUI();
         updateUI();
     }
 
@@ -57,7 +91,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         int width = dimension.width - 10;
         titleSectionSetup(new Dimension(width, TITLE_HEIGHT), title);
         searchSectionSetup(width);
-        filterTableSetup(new Dimension(width, dimension.height - TITLE_HEIGHT - SEARCH_BUTTON_HEIGHT - 30));
+        int tableHeight = dimension.height - TITLE_HEIGHT - SEARCH_BUTTON_HEIGHT - 30;
+        filterTableSetup(new Dimension(width, tableHeight));
     }
 
     private void titleSectionSetup(Dimension dimension, String title) {

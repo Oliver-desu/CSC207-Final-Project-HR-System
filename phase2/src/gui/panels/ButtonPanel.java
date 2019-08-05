@@ -6,11 +6,31 @@ import java.awt.event.ActionListener;
 
 import static java.lang.Integer.min;
 
+/**
+ * Class {@code ButtonPanel} setup gui panel for buttons in horizontal layout
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see gui.major.Scenario
+ * @see gui.major.Login
+ * @since 2019-08-05
+ */
 public class ButtonPanel extends JPanel {
 
+    // Maximum buttons num
     private static final int MAX_BUTTON_NUM = 5;
+
+    // Gaps between buttons and borders
     private static final int HORIZONTAL_GAP = 5;
     private static final int VERTICAL_GAP = 5;
+
+    /**
+     * The dimension of buttons
+     *
+     * @see #getButtonSize()
+     * @see #setButtonSize(Dimension)
+     * @see #setup(Dimension)
+     * @see #addButton(String, ActionListener)
+     */
     private Dimension buttonSize;
 
     public ButtonPanel(Dimension dimension) {

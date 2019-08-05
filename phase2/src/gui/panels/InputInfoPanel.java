@@ -6,11 +6,51 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Class {@code InputInfoPanel} setup gui panel to show output text to users
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see gui.major.Scenario
+ * @see gui.major.Login
+ * @see ComponentFactory
+ * @since 2019-08-05
+ */
 public class InputInfoPanel extends JScrollPane {
 
-    private Container box;
+    /**
+     * The container of showed components
+     *
+     * @see #addComponent(String, JComponent)
+     * @see #setup(Dimension, boolean)
+     */
+    private Container container;
+
+    /**
+     * The ComponentFactory that responsible for adding components
+     *
+     * @see ComponentFactory
+     * @see #addComponent(String, JComponent)
+     * @see #getComponentFactory()
+     * @see #factorySetup(Dimension, boolean)
+     */
     private ComponentFactory componentFactory;
+
+    /**
+     * The password fields that handles user entered password
+     *
+     * @see #addComponent(String, JComponent)
+     * @see #passwordMatched()
+     * @see #getPassword()
+     */
     private JPasswordField[] passwordFields = new JPasswordField[2];
+
+    /**
+     * The collection of components that handles user input
+     *
+     * @see #addComponent(String, JComponent)
+     * @see #clear()
+     * @see #getInfoMap()
+     */
     private HashMap<String, JComponent> componentMap = new HashMap<>();
 
     public InputInfoPanel(Dimension dimension) {
@@ -26,12 +66,12 @@ public class InputInfoPanel extends JScrollPane {
     public void setup(Dimension dimension, boolean vertical) {
         setPreferredSize(dimension);
         if (vertical) {
-            box = Box.createVerticalBox();
+            container = Box.createVerticalBox();
         } else {
-            box = new JPanel();
-            box.setPreferredSize(new Dimension(dimension.width - 20, dimension.height - 20));
+            container = new JPanel();
+            container.setPreferredSize(new Dimension(dimension.width - 20, dimension.height - 20));
         }
-        setViewportView(box);
+        setViewportView(container);
     }
 
     private void factorySetup(Dimension dimension, boolean vertical) {
@@ -50,7 +90,7 @@ public class InputInfoPanel extends JScrollPane {
         JPanel panel = new JPanel();
         panel.add(componentFactory.getLabel(name));
         panel.add(component);
-        box.add(panel);
+        container.add(panel);
         if (component instanceof JPasswordField) {
             if (passwordFields[0] == null) passwordFields[0] = (JPasswordField) component;
             else if (passwordFields[1] == null) passwordFields[1] = (JPasswordField) component;

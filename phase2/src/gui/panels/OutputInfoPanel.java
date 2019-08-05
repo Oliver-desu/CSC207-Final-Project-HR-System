@@ -5,10 +5,27 @@ import domain.applying.Document;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class {@code OutputInfoPanel} setup gui panel to show output text to users
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see gui.major.Scenario
+ * @since 2019-08-05
+ */
 public class OutputInfoPanel extends JPanel {
 
+    // The font that is used
     static final Font FONT = new Font("Times New Roman", Font.PLAIN, 15);
+
+    // The dimension of frames showing document content
     private static final Dimension DOCUMENT_FRAME_SIZE = new Dimension(600, 400);
+
+    /**
+     * The text area to show text
+     *
+     * @see #setup(Dimension)
+     * @see #setOutputText(String)
+     */
     private JTextArea textArea = new JTextArea();
 
     public OutputInfoPanel(Dimension dimension) {
