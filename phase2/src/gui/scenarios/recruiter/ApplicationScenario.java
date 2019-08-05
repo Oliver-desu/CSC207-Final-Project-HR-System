@@ -1,4 +1,4 @@
-package gui.scenarios.coordinator;
+package gui.scenarios.recruiter;
 
 import domain.Test;
 import domain.applying.Application;
@@ -31,13 +31,13 @@ public class ApplicationScenario extends Scenario {
         Test test = new Test();
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
-        CompanyWorker coordinator = test.getRandomCoordinator(company);
+        CompanyWorker recruiter = test.getRandomRecruiter(company);
         test.addJobPostings(10, company);
         for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
 
-        UserMenu userMenu = new UserMenu(test.getMain(), coordinator);
+        UserMenu userMenu = new UserMenu(test.getMain(), recruiter);
         new ApplicationScenario(userMenu).exampleView();
     }
 

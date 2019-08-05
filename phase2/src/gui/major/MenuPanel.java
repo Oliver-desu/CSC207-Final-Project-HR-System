@@ -6,11 +6,11 @@ import gui.scenarios.applicant.ApplicationManageScenario;
 import gui.scenarios.applicant.DocumentManageScenario;
 import gui.scenarios.applicant.JobSearchingScenario;
 import gui.scenarios.applicant.ViewInterviewScenario;
-import gui.scenarios.coordinator.ApplicationScenario;
-import gui.scenarios.coordinator.JobManageScenario;
-import gui.scenarios.generalist.JobPostingRegister;
-import gui.scenarios.generalist.ViewPostingScenario;
+import gui.scenarios.hiringManager.JobPostingRegister;
+import gui.scenarios.hiringManager.ViewPostingScenario;
 import gui.scenarios.interviewer.OngoingInterviewScenario;
+import gui.scenarios.recruiter.ApplicationScenario;
+import gui.scenarios.recruiter.JobManageScenario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,8 +37,8 @@ public class MenuPanel extends JPanel {
         if (user.isNull()) registerMenuSetup();
         else if (user.getUserType().equals(UserType.APPLICANT)) applicantMenuSetup();
         else if (user.getUserType().equals(UserType.INTERVIEWER)) interviewerMenuSetup();
-        else if (user.getUserType().equals(UserType.HR_COORDINATOR)) coordinatorMenuSetup();
-        else if (user.getUserType().equals(UserType.HR_GENERALIST)) generalistMenuSetup();
+        else if (user.getUserType().equals(UserType.RECRUITER)) recruiterMenuSetup();
+        else if (user.getUserType().equals(UserType.HIRING_MANAGER)) hiringManagerMenuSetup();
     }
 
     private void registerMenuSetup() {
@@ -50,12 +50,12 @@ public class MenuPanel extends JPanel {
         addMenuButton("Ongoing Interview", new OngoingInterviewScenario(userMenu));
     }
 
-    private void coordinatorMenuSetup() {
+    private void recruiterMenuSetup() {
         addMenuButton("All Applications", new ApplicationScenario(userMenu));
         addMenuButton("JobManaging", new JobManageScenario(userMenu));
     }
 
-    private void generalistMenuSetup() {
+    private void hiringManagerMenuSetup() {
         addMenuButton("Create Posting", new JobPostingRegister(userMenu));
         addMenuButton("View Posting", new ViewPostingScenario(userMenu));
     }

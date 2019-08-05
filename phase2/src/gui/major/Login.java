@@ -21,7 +21,7 @@ public class Login extends JFrame {
 
     private static final Dimension INPUT_SIZE = new Dimension(WIDTH - 20, HEIGHT - 100);
     private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - 20, 50);
-    private static final String[] USER_TYPE = new String[]{"Applicant", "HR_Generalist", "HR_Coordinator", "Interviewer"};
+    private static final String[] USER_TYPE = new String[]{"Applicant", "HiringManager", "Recruiter", "Interviewer"};
 
     private Main main;
     private InputInfoPanel inputInfoPanel = new InputInfoPanel(INPUT_SIZE, true);

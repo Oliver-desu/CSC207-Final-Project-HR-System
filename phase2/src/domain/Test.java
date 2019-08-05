@@ -25,7 +25,7 @@ public class Test {
     private int numApplicants;
     private int numInterviewers;
     private int numCompanies;
-    private int numCoordinators;
+    private int numRecruiters;
     private int numJobPostings;
 
     private Main main;
@@ -62,9 +62,9 @@ public class Test {
         return Storage.getCompanyWorker(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
     }
 
-    public CompanyWorker getRandomCoordinator(Company company) {
-        ArrayList<String> coordinatorIds = company.getHRCoordinatorIds();
-        return Storage.getCompanyWorker(coordinatorIds.get(new Random().nextInt(coordinatorIds.size())), UserType.HR_COORDINATOR);
+    public CompanyWorker getRandomRecruiter(Company company) {
+        ArrayList<String> recruiterIds = company.getRecruiterIds();
+        return Storage.getCompanyWorker(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
@@ -104,13 +104,13 @@ public class Test {
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
         values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
-        new UserFactory(Storage).createUser(values, UserType.HR_GENERALIST);
-        CompanyWorker generalist = (CompanyWorker) Storage.getUser(values.get("Username:"), UserType.HR_GENERALIST);
+        new UserFactory(Storage).createUser(values, UserType.HIRING_MANAGER);
+        CompanyWorker generalist = (CompanyWorker) Storage.getUser(values.get("Username:"), UserType.HIRING_MANAGER);
         Company company = Storage.getCompany(generalist.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
-        this.addCoordinatorsForCompany(1, company);
+        this.addRecruitersForCompany(1, company);
         return company;
     }
 
@@ -136,19 +136,19 @@ public class Test {
         }
     }
 
-    public void addCoordinatorsForCompany(int num, Company company) {
-        CompanyWorker coordinator;
+    public void addRecruitersForCompany(int num, Company company) {
+        CompanyWorker recruiter;
         HashMap<String, String> values;
-        int amount = numCoordinators;
+        int amount = numRecruiters;
         for (int i=amount; i<amount+num; i++) {
             values = new HashMap<>();
             values.put("Username:", Integer.toString(i));
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
-            coordinator = new CompanyWorker(values, company.getId(), UserType.HR_COORDINATOR);
-            Storage.register(coordinator, UserType.HR_COORDINATOR);
-            company.addHRCoordinatorId(coordinator.getUsername());
-            numCoordinators ++;
+            recruiter = new CompanyWorker(values, company.getId(), UserType.RECRUITER);
+            Storage.register(recruiter, UserType.RECRUITER);
+            company.addRecruiterId(recruiter.getUsername());
+            numRecruiters++;
         }
     }
 
@@ -167,7 +167,7 @@ public class Test {
         JobPosting jobPosting = new JobPosting(values);
         Storage.addJobPosting(jobPosting.getJobId(), jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
-        this.getRandomCoordinator(company).addFile(jobPosting);
+        this.getRandomRecruiter(company).addFile(jobPosting);
         numJobPostings++;
         return jobPosting;
     }

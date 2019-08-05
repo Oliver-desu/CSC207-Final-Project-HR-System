@@ -1,4 +1,4 @@
-package gui.scenarios.generalist;
+package gui.scenarios.hiringManager;
 
 import domain.Enums.UserType;
 import domain.Test;
@@ -27,10 +27,10 @@ public class ViewPostingScenario extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        CompanyWorker generalist = test.getStorage().getCompanyWorker(company.getHRGeneralistId(), UserType.HR_GENERALIST);
+        CompanyWorker hiringManager = test.getStorage().getCompanyWorker(company.getHiringManagerId(), UserType.HIRING_MANAGER);
         test.addJobPostings(10, company);
 
-        UserMenu userMenu = new UserMenu(test.getMain(), generalist);
+        UserMenu userMenu = new UserMenu(test.getMain(), hiringManager);
         new ViewPostingScenario(userMenu).exampleView();
     }
 

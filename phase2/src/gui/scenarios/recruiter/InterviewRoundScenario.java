@@ -1,4 +1,4 @@
-package gui.scenarios.coordinator;
+package gui.scenarios.recruiter;
 
 import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
@@ -38,14 +38,14 @@ public class InterviewRoundScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        CompanyWorker coordinator = test.getRandomCoordinator(company);
+        CompanyWorker recruiter = test.getRandomRecruiter(company);
         JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
         for (Applicant applicant : test.getStorage().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
 
-        new InterviewRoundScenario(new UserMenu(test.getMain(), coordinator), jobPosting.getInterviewRoundManager().getCurrentInterviewRound(), jobPosting).exampleView();
+        new InterviewRoundScenario(new UserMenu(test.getMain(), recruiter), jobPosting.getInterviewRoundManager().getCurrentInterviewRound(), jobPosting).exampleView();
 
     }
 

@@ -18,10 +18,10 @@ public class Company implements Serializable {
     public Company(HashMap<String, String> values) {
         this.id = values.get("id");
         this.workerIds = new HashMap<>();
-        this.workerIds.put(UserType.HR_GENERALIST, new ArrayList<>());
-        this.workerIds.put(UserType.HR_COORDINATOR, new ArrayList<>());
+        this.workerIds.put(UserType.HIRING_MANAGER, new ArrayList<>());
+        this.workerIds.put(UserType.RECRUITER, new ArrayList<>());
         this.workerIds.put(UserType.INTERVIEWER, new ArrayList<>());
-        this.workerIds.get(UserType.HR_GENERALIST).add(values.get("generalistId"));
+        this.workerIds.get(UserType.HIRING_MANAGER).add(values.get("hiringManagerId"));
         this.jobPostingIds = new ArrayList<>();
         this.applications = new HashMap<>();
     }
@@ -30,12 +30,12 @@ public class Company implements Serializable {
         return this.id;
     }
 
-    public String getHRGeneralistId() {
-        return this.workerIds.get(UserType.HR_GENERALIST).get(0);
+    public String getHiringManagerId() {
+        return this.workerIds.get(UserType.HIRING_MANAGER).get(0);
     }
 
-    public ArrayList<String> getHRCoordinatorIds() {
-        return this.workerIds.get(UserType.HR_COORDINATOR);
+    public ArrayList<String> getRecruiterIds() {
+        return this.workerIds.get(UserType.RECRUITER);
     }
 
     public ArrayList<String> getInterviewerIds() {
@@ -54,8 +54,8 @@ public class Company implements Serializable {
         return allApplications;
     }
 
-    public void addHRCoordinatorId(String id) {
-        this.workerIds.get(UserType.HR_COORDINATOR).add(id);
+    public void addRecruiterId(String id) {
+        this.workerIds.get(UserType.RECRUITER).add(id);
     }
 
     public void addInterviewerId(String id) {

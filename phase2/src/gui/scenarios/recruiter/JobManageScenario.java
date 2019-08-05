@@ -1,4 +1,4 @@
-package gui.scenarios.coordinator;
+package gui.scenarios.recruiter;
 
 import domain.Enums.JobPostingStatus;
 import domain.Test;
@@ -35,7 +35,7 @@ public class JobManageScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
-        CompanyWorker coordinator = test.getRandomCoordinator(company);
+        CompanyWorker recruiter = test.getRandomRecruiter(company);
         test.addJobPostings(10, company);
         for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
             for (Applicant applicant : test.getStorage().getAllApplicants()) {
@@ -44,7 +44,7 @@ public class JobManageScenario extends Scenario {
             test.addNewRoundAndFinishMatching(jobPosting, company);
         }
 
-        new JobManageScenario(new UserMenu(test.getMain(), coordinator)).exampleView();
+        new JobManageScenario(new UserMenu(test.getMain(), recruiter)).exampleView();
     }
 
     @Override
@@ -71,8 +71,8 @@ public class JobManageScenario extends Scenario {
 
     @Override
     protected void update() {
-        CompanyWorker hrCoordinator = (CompanyWorker) getUserMenu().getUser();
-        leftFilter.setFilterContent(hrCoordinator.getJobPostings());
+        CompanyWorker recruiter = (CompanyWorker) getUserMenu().getUser();
+        leftFilter.setFilterContent(recruiter.getJobPostings());
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());

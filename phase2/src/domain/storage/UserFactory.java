@@ -22,9 +22,9 @@ public class UserFactory implements Serializable {
         validValues(infoMap, registerType);
         User user;
         if (registerType.equals(UserType.APPLICANT)) user = createApplicant(infoMap);
-        else if (registerType.equals(UserType.HR_COORDINATOR)) user = createCoordinator(infoMap);
+        else if (registerType.equals(UserType.RECRUITER)) user = createRecruiter(infoMap);
         else if (registerType.equals(UserType.INTERVIEWER)) user = createInterviewer(infoMap);
-        else if (registerType.equals(UserType.HR_GENERALIST)) user = createGeneralistAndCompany(infoMap);
+        else if (registerType.equals(UserType.HIRING_MANAGER)) user = createHiringManagerAndCompany(infoMap);
         else user = new NullUser();
 
         if (!user.isNull()) {
@@ -37,12 +37,12 @@ public class UserFactory implements Serializable {
         return new Applicant(infoMap);
     }
 
-    private User createCoordinator(HashMap<String, String> infoMap) {
+    private User createRecruiter(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
             Company company = Storage.getCompany(companyId);
-            company.addHRCoordinatorId(infoMap.get("Username:"));
-            return new CompanyWorker(infoMap, companyId, UserType.HR_COORDINATOR);
+            company.addRecruiterId(infoMap.get("Username:"));
+            return new CompanyWorker(infoMap, companyId, UserType.RECRUITER);
         } else {
             return new NullUser();
         }
@@ -59,14 +59,14 @@ public class UserFactory implements Serializable {
         }
     }
 
-    private User createGeneralistAndCompany(HashMap<String, String> infoMap) {
+    private User createHiringManagerAndCompany(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (!companyExists(companyId)) {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
-            values.put("generalistId", infoMap.get("Username:"));
+            values.put("hiringManagerId", infoMap.get("Username:"));
             this.Storage.registerCompany(new Company(values));
-            return new CompanyWorker(infoMap, companyId, UserType.HR_GENERALIST);
+            return new CompanyWorker(infoMap, companyId, UserType.HIRING_MANAGER);
         } else {
             return new NullUser();
         }
@@ -83,7 +83,7 @@ public class UserFactory implements Serializable {
             throw new WrongEmailFormatException();
         } else if (Storage.getCompanyWorker(infoMap.get("Username:"), registerType) != null) {
             throw new UserAlreadyExistsException();
-        } else if (registerType.equals(UserType.HR_GENERALIST) && companyExists(infoMap.get("Company id:"))) {
+        } else if (registerType.equals(UserType.HIRING_MANAGER) && companyExists(infoMap.get("Company id:"))) {
 
         }
     }

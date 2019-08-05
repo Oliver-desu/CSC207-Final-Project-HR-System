@@ -70,7 +70,7 @@ public class UserRegister extends Scenario {
     }
 
     private void initStaffInput(ComponentFactory factory) {
-        String[] positions = new String[]{"Interviewer", "HR_Coordinator", "HR_Generalist"};
+        String[] positions = new String[]{"Interviewer", "Recruiter", "Hiring_Manager"};
         factory.addComboBox("Position:", positions);
         factory.addTextField("Company id:");
     }

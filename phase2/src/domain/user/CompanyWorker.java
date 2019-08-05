@@ -26,7 +26,7 @@ public class CompanyWorker extends User implements Filterable, Serializable {
 
     public ArrayList<JobPosting> getJobPostings() {
         ArrayList<JobPosting> jobPostings = new ArrayList<>();
-        if (this.getUserType().equals(UserType.HR_GENERALIST) || this.getUserType().equals(UserType.HR_COORDINATOR)) {
+        if (this.getUserType().equals(UserType.HIRING_MANAGER) || this.getUserType().equals(UserType.RECRUITER)) {
             for (Object file : files) {
                 jobPostings.add((JobPosting) file);
             }

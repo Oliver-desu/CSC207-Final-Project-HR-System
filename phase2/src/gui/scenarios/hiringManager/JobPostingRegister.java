@@ -1,4 +1,4 @@
-package gui.scenarios.generalist;
+package gui.scenarios.hiringManager;
 
 import domain.Enums.UserType;
 import domain.Test;
@@ -29,11 +29,11 @@ public class JobPostingRegister extends Scenario {
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        test.addCoordinatorsForCompany(9, company);
-        CompanyWorker generalist = test.getStorage().getCompanyWorker(
-                company.getHRGeneralistId(), UserType.HR_GENERALIST);
+        test.addRecruitersForCompany(9, company);
+        CompanyWorker hiringManager = test.getStorage().getCompanyWorker(
+                company.getHiringManagerId(), UserType.HIRING_MANAGER);
 
-        UserMenu userMenu = new UserMenu(test.getMain(), generalist);
+        UserMenu userMenu = new UserMenu(test.getMain(), hiringManager);
         new JobPostingRegister(userMenu).exampleView();
     }
 
@@ -51,8 +51,8 @@ public class JobPostingRegister extends Scenario {
     protected void initInput() {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
-        String[] coordinators = getUserMenu().getCompany().getHRCoordinatorIds().toArray(new String[0]);
-        factory.addComboBox("Coordinator:", coordinators);
+        String[] recruiters = getUserMenu().getCompany().getRecruiterIds().toArray(new String[0]);
+        factory.addComboBox("Recruiter:", recruiters);
         factory.addTextField("Position name:");
         factory.addTextField("Num of positions:");
         factory.addTextField("Close date:");
@@ -113,7 +113,7 @@ public class JobPostingRegister extends Scenario {
                 JobPosting jobPosting = new JobPosting(values);
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getStorage().getCompanyWorker(
-                        values.get("Coordinator:"), UserType.HR_COORDINATOR).addFile(jobPosting);
+                        values.get("Recruiter:"), UserType.RECRUITER).addFile(jobPosting);
                 getMain().getStorage().addJobPosting(jobPosting.getJobId(), jobPosting);
                 showMessage("Successfully post job!");
                 infoPanel.clear();

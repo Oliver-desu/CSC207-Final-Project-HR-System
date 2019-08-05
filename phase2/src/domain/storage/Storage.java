@@ -18,8 +18,8 @@ public class Storage implements Serializable {
 
     public Storage() {
         users.put(UserType.APPLICANT, new ArrayList<>());
-        users.put(UserType.HR_COORDINATOR, new ArrayList<>());
-        users.put(UserType.HR_GENERALIST, new ArrayList<>());
+        users.put(UserType.RECRUITER, new ArrayList<>());
+        users.put(UserType.HIRING_MANAGER, new ArrayList<>());
         users.put(UserType.INTERVIEWER, new ArrayList<>());
     }
 
