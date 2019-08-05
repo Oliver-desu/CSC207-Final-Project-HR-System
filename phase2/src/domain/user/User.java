@@ -7,11 +7,48 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Class {@code User} is an abstract class that contains basic information
+ * for different types of users. All types of user must extend {@code User}.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserType
+ * @see Applicant
+ * @see Employee
+ * @since 2019-08-04
+ */
 public abstract class User implements Serializable {
 
+    /**
+     * The type of the {@code User}.
+     *
+     * @see UserType
+     * @see #getUserType()
+     */
     private UserType userType;
+
+    /**
+     * The username used to log in, also the id for the {@code User} because
+     * username is always unique.
+     *
+     * @see #getUsername()
+     */
     private String username;
+
+    /**
+     * The password for the user to log in.
+     *
+     * @see #matchPassword(char[])
+     * @see #setPassword(String)
+     */
     private char[] password;
+
+    /**
+     * Stores any other information besides username and password.
+     *
+     * @see #setUserDetail(HashMap)
+     * @see #getUserDetail()
+     */
     private HashMap<String, String> userDetail;
 
 

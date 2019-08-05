@@ -11,9 +11,33 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class {@code Applicant} is a type of {@code User} that can apply to jobs.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserType
+ * @see User
+ * @since 2019-08-04
+ */
 public class Applicant extends User implements Serializable, ShowAble {
 
+    /**
+     * A hash map where the key is applicant's username and value is
+     * the application submitted.
+     *
+     * @see Application
+     * @see #getApplications()
+     * @see #addApplication(String, Application)
+     * @see #deleteApplication(Application)
+     */
     private HashMap<String, Application> applications;
+
+    /**
+     * The document manager that manages all the documents.
+     *
+     * @see domain.applying.DocumentManager
+     * @see #getDocumentManager()
+     */
     private DocumentManager documentManager;
 
     public Applicant(HashMap<String, String> map) {

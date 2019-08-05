@@ -9,9 +9,41 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class {@code Employee} is a type of {@code User} that works for a company.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserType
+ * @see User
+ * @see Company
+ * @since 2019-08-04
+ */
 public class Employee extends User implements Filterable, Serializable {
 
+    /**
+     * The name of {@code Company} this {@code Employee} works for.
+     *
+     * @see Company
+     * @see #getCompanyId()
+     */
     private String companyId;
+
+    /**
+     * All the files this employee are responsible for. Different type
+     * of employee may have different type of files to handle.
+     * For {@code INTERVIEWER}, the files are interviews.
+     * For {@code RECRUITER} and {@code HIRING_MANAGER}, the files are
+     * job postings.
+     *
+     * @see UserType
+     * @see User
+     * @see Interview
+     * @see JobPosting
+     * @see #addFile(Object)
+     * @see #removeFile(Object)
+     * @see #getInterviews()
+     * @see #getJobPostings()
+     */
     private ArrayList<Object> files = new ArrayList<>();
 
 
