@@ -3,10 +3,40 @@ package domain.filter;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Class {@code Filter} filter through a list of instances(filterable) and calculate the result
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see gui.panels.FilterPanel
+ * @see Filterable
+ * @since 2019-08-05
+ */
 public class Filter<T extends Filterable> {
 
+    /**
+     * The list of instances(filterable) to filter through
+     *
+     * @see #getHeadings()
+     * @see #setFilterContent(ArrayList)
+     * @see #filter()
+     */
     private ArrayList<T> filterContent;
+
+    /**
+     * The result list of instances(filterable) after calculation
+     *
+     * @see #getResults()
+     * @see #getSelectedItem(int)
+     * @see #filter()
+     */
     private ArrayList<T> results = new ArrayList<>();
+
+    /**
+     * The string provides keywords for filtering
+     *
+     * @see #getFilterValues()
+     * @see #setFilterString(String)
+     */
     private String filterString = "";
 
     public void setFilterContent(ArrayList<T> filterContent) {
@@ -51,8 +81,8 @@ public class Filter<T extends Filterable> {
     }
 
     public String[] getHeadings() {
-        if (results.size() != 0) {
-            Collection<String> headingCollection = results.get(0).getFilterMap().keySet();
+        if (filterContent.size() != 0) {
+            Collection<String> headingCollection = filterContent.get(0).getFilterMap().keySet();
             return new ArrayList<>(headingCollection).toArray(new String[0]);
         } else return null;
     }
