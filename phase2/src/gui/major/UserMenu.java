@@ -11,18 +11,62 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class {@code UserMenu} setup gui frame for user menu with common buttons and provide getters of information
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see Main
+ * @see User
+ * @see MenuPanel
+ * @see Scenario
+ * @since 2019-08-05
+ */
 public class UserMenu extends JFrame {
 
+    // Frame Size
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 600;
 
+    // Related dimension of components in certain ratio
     static final Dimension SCENARIO_SIZE = new Dimension(WIDTH * 4 / 5 - 20, HEIGHT - 50);
     private static final Dimension MENU_SIZE = new Dimension(WIDTH / 5 - 20, HEIGHT - 50);
     private static final Dimension BUTTON_SIZE = new Dimension(WIDTH / 6, 50);
 
+    /**
+     * Todo
+     *
+     * @see Main
+     * @see #getMain()
+     * @see #logout()
+     */
     private Main main;
+
+    /**
+     * The user
+     *
+     * @see User
+     * @see #getUser()
+     * @see #getCompany()
+     * @see #addLogoutButton()
+     */
     private User user;
-    private JPanel menu;
+
+    /**
+     * The panel contains all buttons
+     *
+     * @see MenuPanel
+     * @see #setup()
+     * @see #addLogoutButton()
+     */
+    private MenuPanel menu;
+
+    /**
+     * The panel be able to do main operations
+     *
+     * @see Scenario
+     * @see #clearScenario()
+     * @see #setScenario(Scenario)
+     */
     private Scenario scenario;
 
     public UserMenu() {
@@ -43,6 +87,7 @@ public class UserMenu extends JFrame {
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
         menu = new MenuPanel(this, MENU_SIZE, BUTTON_SIZE);
+        menu.setBackground(Color.BLUE);
         addLogoutButton();
         add(menu);
         ((JButton) menu.getComponent(0)).doClick();
@@ -88,7 +133,7 @@ public class UserMenu extends JFrame {
         menu.add(button);
     }
 
-    private void Logout() {
+    private void logout() {
         this.setVisible(false);
         getMain().returnToLogin();
     }
@@ -96,7 +141,7 @@ public class UserMenu extends JFrame {
     private class LogoutListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Logout();
+            logout();
         }
     }
 }

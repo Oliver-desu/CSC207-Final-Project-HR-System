@@ -13,9 +13,34 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Class {@code UserRegister} setup a Scenario that deal with user register
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserType
+ * @see InputInfoPanel
+ * @see ButtonPanel
+ * @see Scenario
+ * @since 2019-08-05
+ */
 public class UserRegister extends Scenario {
 
+    /**
+     * The type of user that going to create
+     *
+     * @see UserType
+     * @see #createUserAndRegister()
+     * @see #initInput()
+     */
     private UserType registerType;
+
+    /**
+     * The panel deal with all user input
+     *
+     * @see InputInfoPanel
+     * @see #createUserAndRegister()
+     * @see #initInput()
+     */
     private InputInfoPanel infoPanel;
 
     public UserRegister(UserMenu userMenu, UserType registerType) {

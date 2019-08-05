@@ -17,10 +17,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class {@code MenuPanel} setup gui panel for buttons that varies in different types of user menu
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserMenu
+ * @since 2019-08-05
+ */
 public class MenuPanel extends JPanel {
 
+    /**
+     * The user menu that contains this panel
+     *
+     * @see SwitchScenarioListener
+     * @see #setup()
+     */
     private UserMenu userMenu;
+
+    /**
+     * The dimension of buttons
+     *
+     * @see #addMenuButton(String, Scenario)
+     */
     private Dimension buttonSize;
+
+    /**
+     * The dimension of menu
+     *
+     * @see #setup()
+     */
     private Dimension menuSize;
 
     public MenuPanel(UserMenu userMenu, Dimension menuSize, Dimension buttonSize) {

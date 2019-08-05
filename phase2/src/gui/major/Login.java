@@ -14,17 +14,53 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+/**
+ * Class {@code Login} setup gui frame for login and deal with user input
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see InputInfoPanel
+ * @see ButtonPanel
+ * @see Main
+ * @since 2019-08-05
+ */
 public class Login extends JFrame {
 
+    // Frame size
     private static final int WIDTH = 520;
     private static final int HEIGHT = 300;
 
+    // Related dimension of components in certain ratio
     private static final Dimension INPUT_SIZE = new Dimension(WIDTH - 20, HEIGHT - 100);
     private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - 20, 50);
-    private static final String[] USER_TYPE = new String[]{"Applicant", "HiringManager", "Recruiter", "Interviewer"};
 
+    // Login user types
+    private static final String[] USER_TYPE = new String[]{"Applicant", "Hiring_Manager", "Recruiter", "Interviewer"};
+
+    /**
+     * Todo
+     *
+     * @see #getMain()
+     * @see #login(User)
+     */
     private Main main;
+
+    /**
+     * The panel deal with all user input
+     *
+     * @see InputInfoPanel
+     * @see LoginListener
+     * @see #getInputInfoPanel()
+     * @see #infoPanelSetup()
+     * @see #getUser()
+     */
     private InputInfoPanel inputInfoPanel = new InputInfoPanel(INPUT_SIZE, true);
+
+    /**
+     * The panel deal with all buttons
+     *
+     * @see ButtonPanel
+     * @see #buttonPanelSetup()
+     */
     private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
 
     public Login(Main main) {
@@ -52,7 +88,7 @@ public class Login extends JFrame {
         factory.addTextField("Username:");
         factory.addPasswordField("Password:");
         factory.addComboBox("UserType:", USER_TYPE, "Applicant", false);
-        add(inputInfoPanel);
+        add(getInputInfoPanel());
     }
 
     public Main getMain() {

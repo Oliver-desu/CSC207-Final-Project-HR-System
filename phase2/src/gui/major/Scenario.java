@@ -10,20 +10,54 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
+/**
+ * Class {@code Scenario} setup the panel where main operation take place and
+ * contains useful shared methods that all child classes have
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserMenu
+ * @see OutputInfoPanel
+ * @since 2019-08-05
+ */
 public abstract class Scenario extends JPanel {
-    private static final int HORIZONTAL_GAP = 5;
-    private static final int VERTICAL_GAP = 5;
+
+    // Panel size
     private static final int WIDTH = UserMenu.SCENARIO_SIZE.width;
     private static final int HEIGHT = UserMenu.SCENARIO_SIZE.height;
 
-    protected final Dimension REGULAR_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT / 3 - VERTICAL_GAP);
-    protected final Dimension REGISTER_INPUT_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, HEIGHT * 3 / 4);
-    protected final Dimension LIST_SIZE = new Dimension(WIDTH / 4 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
-    protected final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - HORIZONTAL_GAP, 70);
-    protected final Dimension OUTPUT_SIZE = new Dimension(WIDTH / 2 - HORIZONTAL_GAP, HEIGHT / 2 - VERTICAL_GAP);
+    // Related dimension of components in certain ratio
+    protected final Dimension REGULAR_INPUT_SIZE = getDimensionByRatio(1, 0.3);
+    protected final Dimension REGISTER_INPUT_SIZE = getDimensionByRatio(1, 0.8);
+    protected final Dimension LIST_SIZE = getDimensionByRatio(0.3, 0.5);
+    protected final Dimension BUTTON_PANEL_SIZE = getDimensionByRatio(1, 0.2);
+    protected final Dimension OUTPUT_SIZE = getDimensionByRatio(0.4, 0.5);
 
+    /**
+     * The user menu that contains this panel
+     *
+     * @see UserMenu
+     * @see #getUserMenu()
+     * @see #getMain()
+     * @see #showMessage(String)
+     * @see #confirmAction()
+     */
     private UserMenu userMenu;
+
+    /**
+     * The panel deal with output text to users
+     *
+     * @see OutputInfoPanel
+     * @see #initOutputInfoPanel()
+     * @see #setOutputText(String)
+     * @see #showDocument(Document)
+     */
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel(OUTPUT_SIZE);
+
+    /**
+     * The boolean that check whether this panel has initialized
+     *
+     * @see #init()
+     */
     private boolean hasInit;
 
     protected Scenario(UserMenu userMenu, String title) {
@@ -34,7 +68,7 @@ public abstract class Scenario extends JPanel {
     public void init() {
         if (!hasInit) {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
-            setLayout(new FlowLayout(FlowLayout.CENTER, HORIZONTAL_GAP, VERTICAL_GAP));
+            setLayout(new FlowLayout());
             initComponents();
             hasInit = true;
         }
@@ -44,6 +78,10 @@ public abstract class Scenario extends JPanel {
     abstract protected void initComponents();
 
     abstract protected void update();
+
+    private Dimension getDimensionByRatio(double horizontalRatio, double verticalRatio) {
+        return new Dimension((int) (WIDTH * horizontalRatio) - 5, (int) (HEIGHT * verticalRatio) - 5);
+    }
 
     protected void initOutputInfoPanel() {
         add(outputInfoPanel);
