@@ -9,8 +9,26 @@ import domain.user.*;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Class {@code UserFactory} is a factory class that creates {@code User}
+ * for other classes.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see UserType
+ * @see User
+ * @see Applicant
+ * @see Employee
+ * @see Company
+ * @since 2019-08-04
+ */
 public class UserFactory implements Serializable {
 
+    /**
+     * The {@code Storage} used to store all the users created.
+     *
+     * @see     Storage
+     * @see     #createUser(HashMap, UserType)
+     */
     private Storage Storage;
 
 
@@ -83,8 +101,6 @@ public class UserFactory implements Serializable {
             throw new WrongEmailFormatException();
         } else if (Storage.getEmployee(infoMap.get("Username:"), registerType) != null) {
             throw new UserAlreadyExistsException();
-        } else if (registerType.equals(UserType.HIRING_MANAGER) && companyExists(infoMap.get("Company id:"))) {
-
         }
     }
 

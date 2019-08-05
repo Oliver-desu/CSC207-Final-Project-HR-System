@@ -114,7 +114,7 @@ public class JobPostingRegister extends Scenario {
                 getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
                 getMain().getStorage().getEmployee(
                         values.get("Recruiter:"), UserType.RECRUITER).addFile(jobPosting);
-                getMain().getStorage().addJobPosting(jobPosting.getJobId(), jobPosting);
+                getMain().getStorage().addJobPosting(jobPosting);
                 showMessage("Successfully post job!");
                 infoPanel.clear();
             } else {

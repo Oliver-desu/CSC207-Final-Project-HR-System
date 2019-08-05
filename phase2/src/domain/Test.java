@@ -165,7 +165,7 @@ public class Test {
         values.put("Reference:", "Optional");
         values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting(values);
-        Storage.addJobPosting(jobPosting.getJobId(), jobPosting);
+        Storage.addJobPosting(jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomRecruiter(company).addFile(jobPosting);
         numJobPostings++;

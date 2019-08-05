@@ -9,11 +9,50 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class {@code Storage} stores all the {@code User}, {@code Company} and
+ * {@code JobPosting} for classes who need them.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see User
+ * @see Company
+ * @see JobPosting
+ * @since 2019-08-04
+ */
 public class Storage implements Serializable {
 
+    /**
+     * A hash map whose key is {@code UserType} and value is an array list
+     * of the corresponding users.
+     *
+     * @see     UserType
+     * @see     Applicant
+     * @see     Employee
+     * @see     #getUser(String, UserType)
+     * @see     #register(User, UserType)
+     */
     private HashMap<UserType, ArrayList<User>> users = new HashMap<>();
-    private HashMap<String, Company> companies = new HashMap<>();
-    private HashMap<String, JobPosting> jobPostings = new HashMap<>();
+
+    /**
+     * An array list containing all the companies registered.
+     *
+     * @see     Company
+     * @see     #getCompany(String)
+     * @see     #registerCompany(Company)
+     */
+    private ArrayList<Company> companies = new ArrayList<>();
+
+    /**
+     * An array list containing all the job postings created.
+     *
+     * @see JobPosting
+     * @see #getJobPosting(String)
+     * @see #getJobPostings()
+     * @see #getJobPostingsByIds(ArrayList)
+     * @see #getOpenJobPostings()
+     * @see #addJobPosting(JobPosting)
+     */
+    private ArrayList<JobPosting> jobPostings = new ArrayList<>();
 
 
     public Storage() {
@@ -28,7 +67,7 @@ public class Storage implements Serializable {
     }
 
     void registerCompany(Company company) {
-        this.companies.put(company.getId(), company);
+        this.companies.add(company);
     }
 
     public User getUser(String userName, UserType userType) {
@@ -49,7 +88,12 @@ public class Storage implements Serializable {
     }
 
     public Company getCompany(String companyId) {
-        return companies.get(companyId);
+        for (Company company : companies) {
+            if (company.getId().equals(companyId)) {
+                return company;
+            }
+        }
+        return null;
     }
 
     public Employee getEmployee(String username, UserType userType) {
@@ -78,7 +122,7 @@ public class Storage implements Serializable {
 
     public ArrayList<JobPosting> getOpenJobPostings() {
         ArrayList<JobPosting> openJobPostings = new ArrayList<>();
-        for (JobPosting jobPosting : this.jobPostings.values()) {
+        for (JobPosting jobPosting : this.jobPostings) {
             if (jobPosting.getStatus().equals(JobPostingStatus.OPEN)) {
                 openJobPostings.add(jobPosting);
             }
@@ -87,23 +131,28 @@ public class Storage implements Serializable {
     }
 
     public ArrayList<JobPosting> getJobPostings() {
-        return new ArrayList<>(this.jobPostings.values());
+        return new ArrayList<>(this.jobPostings);
     }
 
     public ArrayList<JobPosting> getJobPostingsByIds(ArrayList<String> ids) {
         ArrayList<JobPosting> listJobPostings = new ArrayList<>();
         for (String id : ids) {
-            listJobPostings.add(this.jobPostings.get(id));
+            listJobPostings.add(getJobPosting(id));
         }
         return listJobPostings;
     }
 
     public JobPosting getJobPosting(String id) {
-        return this.jobPostings.get(id);
+        for (JobPosting jobPosting : jobPostings) {
+            if (jobPosting.getJobId().equals(id)) {
+                return jobPosting;
+            }
+        }
+        return null;
     }
 
-    public void addJobPosting(String id, JobPosting jobPosting) {
-        this.jobPostings.put(id, jobPosting);
+    public void addJobPosting(JobPosting jobPosting) {
+        this.jobPostings.add(jobPosting);
     }
 
     public void updateOpenJobPostings() {
