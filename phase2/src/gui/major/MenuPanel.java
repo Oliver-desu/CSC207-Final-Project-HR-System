@@ -177,7 +177,7 @@ public class MenuPanel extends JPanel {
         }
 
         /**
-         * set the action of the Listener
+         * overrides the method in interface class{@code ActionListener}
          * @param e the ActionEvent that be passed in
          */
         @Override

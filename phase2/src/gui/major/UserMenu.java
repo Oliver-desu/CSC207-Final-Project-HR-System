@@ -89,6 +89,11 @@ public class UserMenu extends JFrame {
         menu.setBackground(Color.BLUE);
     }
 
+    /**
+     * setup the width and height , set the Layout to flowout and set visible to true
+     *
+     * @see #UserMenu(Main, User)
+     */
     private void setup() {
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
@@ -100,6 +105,12 @@ public class UserMenu extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * return a {@code Company} that this {@code User} belongs to
+     *
+     * @return a {@code Company} that this {@code User}  belongs to
+     * @throws NotEmployeeException if this user is not a Employee.
+     */
     public Company getCompany() {
         Storage storage = getMain().getStorage();
         try {
@@ -109,6 +120,9 @@ public class UserMenu extends JFrame {
         }
     }
 
+    /**
+     * remove scenario from Jframe
+     */
     private void clearScenario() {
         if (scenario != null) remove(this.scenario);
     }
@@ -129,6 +143,10 @@ public class UserMenu extends JFrame {
         return main;
     }
 
+    /**
+     * add the LogoutButton to {@code UserMenu}  if the user is not a {@code NullUser} , then ,
+     * add the LogoutListener to this button
+     */
     private void addLogoutButton() {
         String text;
         if (user.isNull()) text = "Back";
@@ -139,12 +157,27 @@ public class UserMenu extends JFrame {
         menu.add(button);
     }
 
+    /**
+     * set this {@code UserMenu to be invisible and return to login scenario}
+     */
     private void logout() {
         this.setVisible(false);
         getMain().returnToLogin();
     }
 
+    /**
+     * Class {@code LogoutListener} The listener used for logout event
+     *
+     * @author group 0120 of CSC207 summer 2019
+     * @see UserMenu
+     * @since 2019-08-05
+     */
     private class LogoutListener implements ActionListener {
+        /**
+         * overrides the method  in parent class{@code ActionListener}
+         *
+         * @param e the actionevent
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             logout();

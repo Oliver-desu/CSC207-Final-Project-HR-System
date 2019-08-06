@@ -207,6 +207,7 @@ public abstract class Scenario extends JPanel {
         }
 
         /**
+         * overrides the method in interface{@code ListSelectionListener}
          * get the object select by the user , then  set the object.tostring() to the outputpanel
          * @param e ListSelectionEvent
          */
