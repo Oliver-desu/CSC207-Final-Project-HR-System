@@ -168,7 +168,7 @@ public class UserRegister extends Scenario {
          * override the method in interface {ActionListener} ,
          * create a new user, if successfully created show a dialog "Successfully registered!" ,
          * if not  show a dialog "Incorrect input or username already used by others!"
-         * @param e Actionevent 
+         * @param e Actionevent
          */
         @Override
         public void actionPerformed(ActionEvent e) {
