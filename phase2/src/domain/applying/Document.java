@@ -46,7 +46,7 @@ public class Document implements Filterable, Serializable, ShowAble {
     private LocalDate lastUsedDate;
 
     /**
-     *
+     * True if and only if the document is used.
      */
     private boolean isUsed;
 
@@ -58,6 +58,12 @@ public class Document implements Filterable, Serializable, ShowAble {
         this.isUsed = false;
     }
 
+    /**
+     * Create a new {@code Document} from the file path.
+     *
+     * @param path the path of this document
+     * @see gui.scenarios.applicant.DocumentManageScenario
+     */
     public Document(String path) {
         File file = new File(path);
         this.lastUsedDate = LocalDate.now();
@@ -70,13 +76,20 @@ public class Document implements Filterable, Serializable, ShowAble {
     }
 
     public static void main(String[] args) {
-        // Todo: warning, path not complete.
+        // todo: warning, path not complete.
         Document document = new Document("CV.txt");
         System.out.println(document.getContent());
         Document document1 = new Document("Cover.txt");
         System.out.println(document1.getContent());
     }
 
+    /**
+     * Read the content of a given file.
+     *
+     * @param file the {@code File} that need to be converted
+     * @return the content of the file in String form
+     * @see #Document(String)
+     */
     private String readContent(File file) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -91,6 +104,13 @@ public class Document implements Filterable, Serializable, ShowAble {
         return content.toString();
     }
 
+    /**
+     * A helper function that returns the current date.
+     *
+     * @return the current date
+     * @see #update()
+     * @see #shouldDelete()
+     */
     // Get current date. Can rewrite by a self designed Date Time System if desired.
     private LocalDate getCurrentDate() {
         return LocalDate.now();
@@ -104,18 +124,34 @@ public class Document implements Filterable, Serializable, ShowAble {
         return this.content;
     }
 
-    public LocalDate getLastUsedDate() {
+    private LocalDate getLastUsedDate() {
         return this.lastUsedDate;
     }
 
-    public void setUsed() {
+    /**
+     * Set {@code isUsed} true.
+     *
+     * @see #Document(String)
+     */
+    private void setUsed() {
         isUsed = true;
     }
 
+    /**
+     * Set {@code isUsed} false.
+     *
+     * @see #update()
+     */
     private void clearUsage() {
         isUsed = false;
     }
 
+    /**
+     * Clear the usage and update {@code lastUsedDate} if the document is used.
+     *
+     * @see #Document(String)
+     * @see DocumentManager#updateAllDocuments()
+     */
     public void update() {
         if (isUsed) {
             clearUsage();
@@ -123,10 +159,24 @@ public class Document implements Filterable, Serializable, ShowAble {
         }
     }
 
-    public boolean shouldDelete() {
+    /**
+     * Check and return whether the document should be deleted.
+     *
+     * @return true only when last time the document being used is over thirty days ago
+     * @see DocumentManager#updateAllDocuments()
+     */
+    boolean shouldDelete() {
         return getLastUsedDate().plusDays(30).isBefore(getCurrentDate());
     }
 
+
+    /**
+     * Overrides the method {@code toString}
+     *
+     * @return a string that contains basic information about the document
+     * @see gui.panels.OutputInfoPanel#showDocument(Document)
+     * @see gui.scenarios.recruiter.ApplicationScenario
+     */
     @Override
     public String toString() {
         return getInfoString("Name", documentName) +
@@ -134,6 +184,11 @@ public class Document implements Filterable, Serializable, ShowAble {
                 getInfoString("Content", content);
     }
 
+    /**
+     * Return a hash map of headings and corresponding values about this document.
+     *
+     * @return a hash map of headings and corresponding values about this document
+     */
     @Override
     public HashMap<String, String> getFilterMap() {
         HashMap<String, String> map = new HashMap<>();

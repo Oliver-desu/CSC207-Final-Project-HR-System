@@ -6,7 +6,6 @@ import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.storage.Storage;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
@@ -163,7 +162,7 @@ public class InterviewRoundManager {
     private ArrayList<Application> getHiredApplications() {
         ArrayList<Application> hiredApplications = new ArrayList<>();
         for (Application application : remainingApplications) {
-            if (application.getStatus().equals(ApplicationStatus.HIRE)) {
+            if (application.getStatus().equals(ApplicationStatus.HIRED)) {
                 hiredApplications.add(application);
             }
         }
@@ -198,7 +197,7 @@ public class InterviewRoundManager {
         if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
                 application.getStatus().equals(ApplicationStatus.PENDING) && currentRoundFinished() &&
                 jobPosting.getNumOfPositions() > getHiredApplications().size()) {
-            application.setStatus(ApplicationStatus.HIRE);
+            application.setStatus(ApplicationStatus.HIRED);
             return true;
         } else {
             return false;

@@ -65,6 +65,11 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     private JobPostingStatus status;
 
 
+    /**
+     * Create a new job posting.
+     *
+     * @param jobDetails a hash map containing all details about the job
+     */
     public JobPosting(HashMap<String, String> jobDetails) {
         this.jobDetails = jobDetails;
         this.applications = new ArrayList<>();
@@ -91,6 +96,12 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         return Integer.parseInt(jobDetails.get("Num of positions:"));
     }
 
+    /**
+     * Return whether the close date has been passed or not. This is a helper function for {@code startProcessing}.
+     *
+     * @return whether the close date has been passed.
+     * @see JobPosting#startProcessing()
+     */
     private boolean shouldClose() {
         LocalDate closeDate;
         try {
@@ -101,12 +112,23 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         return !closeDate.isBefore(LocalDate.now());
     }
 
+    /**
+     * Create an {@code InterviewRoundManager} if status equals {@code JobPosting.OPEN} and the job should be closed.
+     *
+     * @see Storage#updateOpenJobPostings()
+     */
     public void startProcessing() {
         if (status.equals(JobPostingStatus.OPEN) && shouldClose()) {
             this.interviewRoundManager = new InterviewRoundManager(this, applications);
         }
     }
 
+    /**
+     * The method is called when the job posting process is finished. It sets the status to {@code JobPostingStatus.FINISHED}
+     * and empty {@code remainingApplications} list of the interview round manager.
+     *
+     * @see gui.scenarios.recruiter.JobManageScenario
+     */
     public void endJobPosting() {
         this.status = JobPostingStatus.FINISHED;
         for (Application application : interviewRoundManager.getRemainingApplications()) {
@@ -115,6 +137,13 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         interviewRoundManager.updateRemainingApplications();
     }
 
+    /**
+     * It is a helper function for {@code applicationSubmit}. Return the existence of a certain application.
+     *
+     * @param application the application of which existence will be checked
+     * @return whether the application already exists in the list of applications: {@code applications}
+     * @see JobPosting#applicationSubmit(Application, Storage)
+     */
     private boolean hasApplication(Application application) {
         for (Application app : applications) {
             if (app.getApplicantId().equals(application.getApplicantId())) {
@@ -124,6 +153,15 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         return false;
     }
 
+    /**
+     * Submit an application and check whether this application submission process succeeds.
+     * Here we need to update {@code applications} as well as notify the company to which the job posting belongs
+     *
+     * @param application the application that is ready to be submitted
+     * @param Storage     the place where the company information is stored
+     * @return whether an application is submitted successfully
+     * @see Application#apply(Storage)
+     */
     public boolean applicationSubmit(Application application, Storage Storage) {
         if (!hasApplication(application) && status.equals(JobPostingStatus.OPEN)) {
             Company company = Storage.getCompany(jobDetails.get("Company id:"));
@@ -135,6 +173,13 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         }
     }
 
+    /**
+     * Cancel an application by removing it from {@code applications} and notifying the company and {@code interviewRoundManager}.
+     *
+     * @param application the application that waits to be canceled
+     * @param Storage     the place where the company information is stored
+     * @see Application#cancel(Storage)
+     */
     public void applicationCancel(Application application, Storage Storage) {
         applications.remove(application);
         Company company = Storage.getCompany(jobDetails.get("Company id:"));
@@ -142,6 +187,13 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         interviewRoundManager.applicationCancel(application);
     }
 
+    /**
+     * Overrides the method {@code toString}
+     *
+     * @return a string that contains basic information about the job posting
+     * @see gui.scenarios.hiringManager.ViewPostingScenario
+     * @see gui.scenarios.recruiter.JobManageScenario
+     */
     @Override
     public String toString() {
         return getInfoString("Company", jobDetails.get("Company id:")) +
@@ -156,6 +208,11 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
                 getInfoString("Status", status.toString());
     }
 
+    /**
+     * Return a hash map of headings and corresponding values about this job posting.
+     *
+     * @return a hash map of headings and corresponding values about this job posting
+     */
     @Override
     public HashMap<String, String> getFilterMap() {
         HashMap<String, String> map = new HashMap<>();

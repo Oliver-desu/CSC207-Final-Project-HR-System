@@ -43,8 +43,8 @@ public class ViewInterviewScenario extends Scenario {
     protected void update() {
         // Todo: need left filter be ongoing interviews, right filter be past interviews
         Applicant applicant = (Applicant) getUserMenu().getUser();
-        leftFilter.setFilterContent(applicant.getInterviews());
-        rightFilter.setFilterContent(applicant.getInterviews());
+        leftFilter.setFilterContent(applicant.getOngoingInterviews());
+        rightFilter.setFilterContent(applicant.getPastInterviews());
     }
 
     protected void initLeftFilter() {

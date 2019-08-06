@@ -56,6 +56,11 @@ public class FilterPanel<T extends Filterable> extends JPanel {
      */
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
+    /**
+     * Create a filter with given dimension and title.
+     * @param dimension
+     * @param title
+     */
     public FilterPanel(Dimension dimension, String title) {
         setup(dimension, title);
     }
@@ -72,6 +77,9 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         return filter;
     }
 
+    /**
+     *TODO
+     */
     private void update() {
         getTableModel().setRowCount(0);
         Filter<T> filter = getFilter();
@@ -85,6 +93,11 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         updateUI();
     }
 
+    /**
+     * Set up a new filter with given dimension and title of what the filter is for.
+     * @param dimension
+     * @param title
+     */
     public void setup(Dimension dimension, String title) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout());
@@ -95,6 +108,12 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         filterTableSetup(new Dimension(width, tableHeight));
     }
 
+
+    /**
+     * Set up the title for the filter.
+     * @param dimension
+     * @param title
+     */
     private void titleSectionSetup(Dimension dimension, String title) {
         JLabel label = new JLabel(title);
         label.setPreferredSize(dimension);
