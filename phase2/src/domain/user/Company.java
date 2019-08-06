@@ -19,6 +19,8 @@ import java.util.HashMap;
  */
 public class Company implements Serializable {
 
+    private static final long serialVersionUID = 4339413084182647159L;
+
     /**
      * The name of the company, will be used as identification
      * for other classes.

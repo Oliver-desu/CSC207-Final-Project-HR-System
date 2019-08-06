@@ -23,6 +23,9 @@ import java.util.HashMap;
  * @since 2019-08-04
  */
 public class Application implements Filterable, Serializable, ShowAble {
+
+    private static final long serialVersionUID = 8995030037783037903L;
+
     /**
      * A hash map where the key is the name of interview round and
      * the value is the interview this applicant has during that round.

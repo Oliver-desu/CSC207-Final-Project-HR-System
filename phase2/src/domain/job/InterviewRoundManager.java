@@ -5,7 +5,9 @@ import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.storage.Storage;
+import jdk.internal.org.objectweb.asm.commons.SerialVersionUIDAdder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,9 @@ import java.util.ArrayList;
  * @see JobPosting
  * @since 2019-08-04
  */
-public class InterviewRoundManager {
+public class InterviewRoundManager implements Serializable {
+
+    private static final long serialVersionUID = 153669577076528602L;
 
     /**
      * The {@code JobPosting} that this manager is served for.
@@ -44,7 +48,6 @@ public class InterviewRoundManager {
      * @see #applicationCancel(Application)
      */
     private ArrayList<Application> remainingApplications;
-
 
     /**
      * Create a new interviewRoundManager.
