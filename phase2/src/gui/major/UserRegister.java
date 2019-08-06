@@ -43,26 +43,51 @@ public class UserRegister extends Scenario {
      */
     private InputInfoPanel infoPanel;
 
+    /**
+     * Constructor for new {@code UserRegister} ,
+     *
+     * @param userMenu     given usermenu
+     * @param registerType given {@code UserType}
+     */
     public UserRegister(UserMenu userMenu, UserType registerType) {
         super(userMenu, "User Register");
         this.registerType = registerType;
     }
 
+    /**
+     * Constructor for new {@code UserRegister}
+     *
+     * @param userMenu given usermenu
+     */
     public UserRegister(UserMenu userMenu) {
         super(userMenu, "User Register");
     }
 
+    /**
+     * overrides the method in parent class{@code Scenario}, initial the inputInfoPanel and ButtonPanel
+     */
     @Override
     protected void initComponents() {
         initInput();
         initButton();
     }
 
+    /**
+     * overrides the method in parent class{@code Scenario}, clear the text in the text area.
+     * @see  Scenario#init()
+     *
+     */
     @Override
     protected void update() {
         infoPanel.clear();
     }
 
+    /**
+     * initial InputInfoPanel with given size , then initial all the components in the page ,
+     * then if registerType is null , initial the register page for {@code Employee} , otherwise
+     * initial the register page for {@code Applicant} , lastly add the page just initialed to
+     * this frame
+     */
     protected void initInput() {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
@@ -72,6 +97,11 @@ public class UserRegister extends Scenario {
         add(infoPanel);
     }
 
+    /**
+     * Initial the information that need  {@code User} to be filled , include username , password,
+     * first name , last name and email.
+     * @param factory the factory that construct the page
+     */
     private void initUserInput(ComponentFactory factory) {
         factory.addTextField("Username:");
         factory.addPasswordField("Password:");
@@ -81,6 +111,11 @@ public class UserRegister extends Scenario {
         factory.addTextField("Email:");
     }
 
+    /**
+     * Initial the information that need  {@code Applicant} to be filled, include employmentStatus ,
+     * working experiences,diplomas amd major
+     * @param factory the factory that construct the page
+     */
     private void initApplicantInput(ComponentFactory factory) {
         String[] employmentStatus = new String[]{"Student", "Employee", "Other"};
         factory.addComboBox("Employment status:", employmentStatus);
@@ -94,17 +129,26 @@ public class UserRegister extends Scenario {
         factory.addComboBox("Major in:", major);
     }
 
+    /**
+     * Initial the information that need  {@code Employeee} to be filled , include the position and companyID.
+     * @param factory the factory that construct the page
+     */
     private void initEmployeeInput(ComponentFactory factory) {
         String[] positions = new String[]{"Interviewer", "Recruiter", "Hiring_Manager"};
         factory.addComboBox("Position:", positions);
         factory.addTextField("Company id:");
     }
 
+    /**
+     * initial the buttonPanel and create a new button called "create User" with a new {@code CreateUserListener}
+     * @see  #initComponents()
+     */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("Create User", new CreateUserListener());
         add(buttonPanel);
     }
+
 
     private User createUserAndRegister() {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
@@ -113,7 +157,19 @@ public class UserRegister extends Scenario {
         return new UserFactory(getMain().getStorage()).createUser(infoMap, registerType);
     }
 
+    /**
+     * Class {@code CreateUserListener} Listener to register a new user
+     *
+     * @see UserRegister
+     * @since 2019-08-05
+     */
     class CreateUserListener implements ActionListener {
+        /**
+         * override the method in interface {ActionListener} ,
+         * create a new user, if successfully created show a dialog "Successfully registered!" ,
+         * if not  show a dialog "Incorrect input or username already used by others!"
+         * @param e Actionevent 
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             User user = createUserAndRegister();
