@@ -19,6 +19,13 @@ public class NullUser extends User {
     public NullUser() {
     }
 
+    /**
+     * Override method in {@code User} to indicate that this is a {@code NullUser}.
+     *
+     * @return true which indicates this is a {@code NullUser}
+     * @see User#isNull()
+     */
+    @Override
     public boolean isNull() {
         return true;
     }
