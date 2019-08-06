@@ -1,6 +1,7 @@
 package domain.applying;
 
 import domain.Exceptions.CanNotEditDocumentManagerException;
+import domain.Exceptions.DocumentAlreadyExistsException;
 import domain.Exceptions.EmptyDocumentNameException;
 
 import java.io.Serializable;
@@ -71,13 +72,17 @@ public class DocumentManager implements Serializable {
      * @param document a new document to add to this manager
      * @throws CanNotEditDocumentManagerException holder is not allowed to modify document manager
      * @throws EmptyDocumentNameException document name is empty, can not add
+     * @throws DocumentAlreadyExistsException document already exists
      * @see #isEditable()
      */
-    public void addDocument(Document document) throws CanNotEditDocumentManagerException, EmptyDocumentNameException {
+    public void addDocument(Document document) throws CanNotEditDocumentManagerException, EmptyDocumentNameException,
+            DocumentAlreadyExistsException {
         if (!this.isEditable()) {
             throw new CanNotEditDocumentManagerException();
         } else if (document.getDocumentName().equals("")) {
             throw new EmptyDocumentNameException();
+        } else if (documents.contains(document)) {
+            throw new DocumentAlreadyExistsException();
         } else {
             documents.add(document);
         }

@@ -18,7 +18,6 @@ public class Main {
         for (int numCompanies = 0; numCompanies < 2; numCompanies++) {
             company = test.addCompany();
             test.addInterviewersForCompany(4, company);
-            test.addRecruitersForCompany(1, company);
         }
 
         company = test.getStorage().getCompany("0");

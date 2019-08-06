@@ -1,6 +1,7 @@
 package gui.scenarios.applicant;
 
 import domain.Exceptions.CanNotEditDocumentManagerException;
+import domain.Exceptions.DocumentAlreadyExistsException;
 import domain.Exceptions.EmptyDocumentNameException;
 import domain.Test;
 import domain.applying.Application;
@@ -145,13 +146,21 @@ public class DocumentManageScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            Document document = applicantDocumentManager == null ?
-                    new Document(getSubmitFileName()) : rightFilter.getSelectObject();
+            Document document;
+            DocumentManager manager;
+            if (applicationDocumentManager == null) {
+                document = new Document(getSubmitFileName());
+                manager = applicantDocumentManager;
+            } else {
+                document = rightFilter.getSelectObject();
+                manager = applicationDocumentManager;
+            }
+
             try {
-                applicantDocumentManager.addDocument(document);
+                manager.addDocument(document);
                 update();
                 showMessage("Succeed!");
-            } catch (CanNotEditDocumentManagerException | EmptyDocumentNameException e1) {
+            } catch (CanNotEditDocumentManagerException | EmptyDocumentNameException | DocumentAlreadyExistsException e1) {
                 showMessage(e1.getMessage());
             } catch (NullPointerException e1) {
                 showMessage("No document selected!");
@@ -180,7 +189,7 @@ public class DocumentManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Document document;
             DocumentManager manager;
-            if (applicantDocumentManager == null) {
+            if (applicationDocumentManager == null) {
                 document = rightFilter.getSelectObject();
                 manager = applicantDocumentManager;
             } else {
