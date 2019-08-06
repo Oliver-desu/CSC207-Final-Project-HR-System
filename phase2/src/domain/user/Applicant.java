@@ -6,8 +6,6 @@ import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
 import domain.show.ShowAble;
-import domain.storage.Storage;
-import gui.major.UserMenu;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,9 +41,9 @@ public class Applicant extends User implements Serializable, ShowAble {
     private DocumentManager documentManager;
 
     /**
-     * Create a new applicant
-     *
-     * @param map the map store the the username and password
+     * Constructor for {@code Applicant}.
+     * @param map the hash map that stores the information about this {@code Applicant}
+     * @see User#User(HashMap, UserType)
      */
     public Applicant(HashMap<String, String> map) {
         super(map, UserType.APPLICANT);
@@ -53,25 +51,21 @@ public class Applicant extends User implements Serializable, ShowAble {
         this.documentManager = new DocumentManager(true);
     }
 
-    /**
-     * @return All applications stored in the applications.
-     */
     public ArrayList<Application> getApplications() {
         return new ArrayList<>(applications.values());
     }
 
-    /**
-     * @return the documentManager of this applicant
-     */
     public DocumentManager getDocumentManager() {
         return this.documentManager;
     }
 
     /**
-     * @param jobId       a string represent  the job
-     * @param application the application need to be added
-     * @return true if  application is not exist in  this job  and to be added
-     * successfully , false otherwise
+     * Add the new {@code Application} to this {@code Applicant} and return true if succeeded.
+     * Each {@code Applicant} can only have one {@code Application} for each {@code JobPosting}.
+     * @param jobId the id for the {@code JobPosting}
+     * @param application   the new {@code Application} needed to be added
+     * @return true if and only if this {@code Applicant} does not already have an {@code Application}
+     * for the same {@code JobPosting}
      */
     public boolean addApplication(String jobId, Application application) {
         if (!this.applications.containsKey(jobId)) {
@@ -83,9 +77,9 @@ public class Applicant extends User implements Serializable, ShowAble {
     }
 
     /**
-     * @param application the application needed to be deleted from this applicant
-     * @return true if deleted successfully
-     * @see null
+     * Delete {@code Application} from this {@code Applicant}.
+     * @param application the {@code Application} that should be deleted from this {@code Applicant}
+     * @return true if and only if deleted successfully
      */
     public boolean deleteApplication(Application application) {
         String jobPostingId = application.getJobPostingId();
@@ -99,12 +93,10 @@ public class Applicant extends User implements Serializable, ShowAble {
     }
 
     /**
-     *return a list of interviews of this application
-     * @return a list of interviews of this
-     * @see null
+     * Return a list of interviews this {@code Application} has.
+     * @return a list of interviews this {@code Application} has
      */
     public ArrayList<Interview> getInterviews() {
-        //        application->interview->status
         ArrayList<Interview> interviews = new ArrayList<>();
         for (Application application : this.applications.values()) {
             interviews.addAll(application.getInterviews());
@@ -113,10 +105,12 @@ public class Applicant extends User implements Serializable, ShowAble {
     }
 
     /**
-     * return a string if  # Todo
-     * @return a
-     * @see Employee#getFilterMap()
-     * @see  UserMenu#getCompany()
+     * Override the method in {@code User}. {@code Applicant} does not work for a
+     * company so if this method is called an exception will be thrown.
+     * @return nothing since {@code Applicant} does not have company
+     * @throws NotCompanyWorkerException {@code Applicant} does not work for a company
+     * @see User#getCompanyId()
+     * @see Employee#getCompanyId()
      */
     @Override
     public String getCompanyId() throws NotCompanyWorkerException {
@@ -124,11 +118,9 @@ public class Applicant extends User implements Serializable, ShowAble {
     }
 
     /**
-     * return  a string contains username, realname, email,Employment status,Work experiences
-     * Education background,Major of applicant.
-     * @return a string contains username, realname, email,Employment status,Work experiences
-     * Education background,Major of applicant.
-     * @see   domain.applying.Application#detailedToStringForCompanyWorker(Storage)
+     * Overrides the method in interface {@code ShowAble}.
+     * @return a string that contains basic information about this applicant
+     * @see ShowAble
      */
     @Override
     public String toString() {
