@@ -34,7 +34,7 @@ public class ButtonPanel extends JPanel {
     private Dimension buttonSize;
 
     /**
-     * Create a new ButtonPanel
+     * Create a new {@code ButtonPanel} with given dimension.
      * @param dimension the dimension of buttons
      */
 
