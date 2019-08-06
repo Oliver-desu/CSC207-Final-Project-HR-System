@@ -87,7 +87,7 @@ public class ApplicationScenario extends Scenario {
             Application application = leftFilter.getSelectObject();
             if (application != null) {
                 rightFilter.setFilterContent(application.getDocumentManager().getAllDocuments());
-                setOutputText(application.detailedToStringForCompanyWorker(getMain().getStorage()));
+                setOutputText(application.detailedToStringForEmployee(getMain().getStorage()));
             }
         }
     }
