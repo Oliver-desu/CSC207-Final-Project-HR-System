@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Class {@code Filter} filter through a list of instances(filterable) and calculate the result
+ * Class {@code Filter} filters through a list of objects that implemented {@code Filterable}
+ * and stores the objects after filtration.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.panels.FilterPanel
@@ -14,7 +15,8 @@ import java.util.Collection;
 public class Filter<T extends Filterable> {
 
     /**
-     * The list of instances(filterable) to filter through
+     * The list of instances to filter through. All instances need to implement
+     * {@code Filterable} interface.
      *
      * @see #getHeadings()
      * @see #setFilterContent(ArrayList)
@@ -23,7 +25,7 @@ public class Filter<T extends Filterable> {
     private ArrayList<T> filterContent;
 
     /**
-     * The result list of instances(filterable) after calculation
+     * The resulting list of instances(filterable) after filtration.
      *
      * @see #getResults()
      * @see #getSelectedItem(int)
@@ -32,7 +34,7 @@ public class Filter<T extends Filterable> {
     private ArrayList<T> results = new ArrayList<>();
 
     /**
-     * The string provides keywords for filtering
+     * Keywords for filtering. It has format "(.+;)*(.+)".
      *
      * @see #getFilterValues()
      * @see #setFilterString(String)
@@ -43,6 +45,11 @@ public class Filter<T extends Filterable> {
         this.filterContent = filterContent;
     }
 
+    /**
+     * Separate the string into String[] where each element is a keyword for filtering.
+     *
+     * @return String[] where each element is a keyword for filtering
+     */
     private String[] getFilterValues() {
         return filterString.split("[;]");
     }
@@ -51,10 +58,24 @@ public class Filter<T extends Filterable> {
         this.filterString = filterString;
     }
 
+    /**
+     * Return true if and only if the beginning of {@code value} matches {@code filterValue}.
+     * @param value the value for determining whether match {@code filterValue} or not
+     * @param filterValue   the sample to be filtered against
+     * @return true if and only if the beginning of {@code value} matches {@code filterValue}
+     */
     private boolean isValueMatched(String value, String filterValue) {
         return value.toLowerCase().startsWith(filterValue.toLowerCase());
     }
 
+    /**
+     * Return true if and only if at least one value in the map given by {@code filterable}
+     * matches one of the values in {@code filterString}
+     * @param filterable    a class that implemented {@code Filterable} interface
+     * @return true if and only if at least one value in the map given by {@code filterable}
+     * matches one of the values in {@code filterString}
+     * @see #getFilterValues()
+     */
     private boolean isMatched(T filterable) {
         for (String value : filterable.getFilterMap().values()) {
             for (String filterValue : getFilterValues()) {
@@ -64,6 +85,11 @@ public class Filter<T extends Filterable> {
         return false;
     }
 
+    /**
+     * Filter through all the objects in {@code filterContent} and store those
+     * that matches in {@code result}.
+     * @see #isMatched(Filterable)
+     */
     public void filter() {
         results.clear();
         if (filterContent == null) return;
@@ -80,6 +106,11 @@ public class Filter<T extends Filterable> {
         return results;
     }
 
+    /**
+     * Get headings from objects in {@code filterContent}.
+     * @return headings from objects in {@code filterContent}
+     * @see Filterable#getFilterMap()
+     */
     public String[] getHeadings() {
         if (filterContent.size() != 0) {
             Collection<String> headingCollection = filterContent.get(0).getFilterMap().keySet();
@@ -87,6 +118,13 @@ public class Filter<T extends Filterable> {
         } else return null;
     }
 
+    /**
+     * Get search values from {@code filterable} given headings.
+     * @param filterable    an object that implements {@code Filterable} interface
+     * @param headings  the heading for all the search values needed from {@code Filterable}
+     * @return search values from {@code filterable}
+     * @see Filterable#getFilterMap()
+     */
     public String[] getSearchValues(T filterable, String[] headings) {
         String[] searchValues = new String[headings.length];
         for (int i = 0; i < headings.length; i++) {
