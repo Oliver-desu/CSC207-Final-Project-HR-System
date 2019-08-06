@@ -127,7 +127,9 @@ public class InterviewRoundManager implements Serializable {
      * When the job posting is in the status {@code JobPostingStatus.PROCESSING} and current interview round has a status
      * of {@code InterviewRoundStatus.FINISHED}, we start the next round by calling {@code start} on {@code remainingApplications}.
      * Otherwise, do nothing.
-     *
+     * @exception WrongJobPostingStatusException the posting status is wrong
+     * @exception WrongInterviewRoundStatusException the interview round is wrong
+     * @exception NextRoundDoesNotExistException  the next current does not exits
      * @see gui.scenarios.recruiter.JobManageScenario
      */
     public void nextRound() throws WrongJobPostingStatusException, WrongInterviewRoundStatusException,
