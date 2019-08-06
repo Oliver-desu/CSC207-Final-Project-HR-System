@@ -21,12 +21,56 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class {@code ViewPostingScenario} handles the situation where the hiring manager can view the interview rounds of the applicants
+ * @author group 0120 of CSC207 summer 2019
+ * @see gui.major.MenuPanel
+ */
 public class InterviewRoundScenario extends Scenario {
 
+    /**
+     * The {@code InterviewRound} that is being shown.
+     *
+     * @see HireListener
+     * @see MatchInterviewListener
+     */
     private InterviewRound interviewRound;
+
+    /**
+     * The{@code InterviewRoundManager} that is viewing interview rounds.
+     *
+     * @see HireListener
+     * @see MatchInterviewListener
+     */
     private InterviewRoundManager manager;
+
+    /**
+     * The {@code LeftFilterPanel} in this scenario.
+     *
+     * @see #initComponents()
+     * @see #update()
+     * @see #initLeftFilter()
+     * @see LeftFilterListener
+     * @see HireListener
+     */
     private FilterPanel<Application> leftFilter;
+
+    /**
+     * The {@code RightFilterPanel} in this scenario.
+     *
+     * @see #initComponents()
+     * @see #update()
+     * @see #initRightFilter()
+     *
+     */
     private FilterPanel<Interview> rightFilter;
+
+    /**
+     * Create a new {@code InterviewRoundScenario} that is a {@code Scenario} with title "Interview Round Manager"
+     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param interviewRound Interview Rounds that are concerned.
+     * @param jobPosting JobPostings that are concerned.
+     */
 
     public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
         super(userMenu, "Interview Round Manager");
@@ -49,6 +93,10 @@ public class InterviewRoundScenario extends Scenario {
 
     }
 
+    /**
+     * Override {@code initComponents()} in abstract class {@code Scenario}.
+     */
+
     @Override
     protected void initComponents() {
         initLeftFilter();
@@ -57,6 +105,12 @@ public class InterviewRoundScenario extends Scenario {
         initButton();
     }
 
+    /**
+     * A helper method for {@code initComponents()}.
+     *
+     * @see #initComponents()
+     */
+
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("Match Interview", new MatchInterviewListener());
@@ -64,22 +118,45 @@ public class InterviewRoundScenario extends Scenario {
         add(buttonPanel);
     }
 
+
+    /**
+     * Override {@code update()} in abstract class {@code Scenario}.
+     */
     @Override
     protected void update() {
         leftFilter.setFilterContent(interviewRound.getCurrentRoundApplications());
     }
 
+    /**
+     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
+     *
+     * @see #initComponents()
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "Remaining Applications");
         leftFilter.addSelectionListener(new LeftFilterListener());
         add(leftFilter);
     }
 
+    /**
+     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
+     *
+     * @see #initComponents()
+     */
+
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Interviews");
         addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }
+
+    /**
+     * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     *
+     * @author group 0120 of CSC207 summer 2019
+     * @see #initLeftFilter()
+     * @since 2019-08-05
+     */
 
     class LeftFilterListener implements ListSelectionListener {
         @Override
@@ -92,6 +169,12 @@ public class InterviewRoundScenario extends Scenario {
         }
     }
 
+    /**
+     * Class {@code HireListener} implements ActionListener. It deals with actions related to hiring.
+     *
+     * @author group 0120 of CSC207 summer 2019
+     * @since 2019-08-05
+     */
     class HireListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -108,6 +191,14 @@ public class InterviewRoundScenario extends Scenario {
             }
         }
     }
+
+    /**
+     * Class {@code MatchInterviewListener} implements ActionListener. It deals with matching interviews.
+     *
+     * @author group 0120 of CSC207 summer 2019
+     * @since 2019-08-05
+     *
+     */
 
     class MatchInterviewListener implements ActionListener {
         @Override

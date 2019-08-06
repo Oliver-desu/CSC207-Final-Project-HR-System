@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * Class {@code ApplicationScenario} handles with the situation where the company can view applications from the applicants.
  *
  * @author group 0120 of CSC207 summer 2019
+ * @see gui.major.MenuPanel
  * @since 2019-08-05
  */
 public class ApplicationScenario extends Scenario {
