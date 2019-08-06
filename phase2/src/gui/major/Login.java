@@ -163,6 +163,7 @@ public class Login extends JFrame {
      */
     class LoginListener implements ActionListener {
         /**
+         * overrides the method in interface{@code ActionListener}
          * set up the actionPerformed in this listener , if the password stored in InputInfoPanel matched
          * this user , then login with this user's information
          * @param e the actionEvent
@@ -185,6 +186,7 @@ public class Login extends JFrame {
      */
     class RegisterListener implements ActionListener {
         /**
+         * overrides the method in interface{@code ActionListener}
          *  login with a NullUser in order to register.
          * @param e actionEvent
          */
