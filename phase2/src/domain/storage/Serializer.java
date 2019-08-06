@@ -6,11 +6,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Class {@code Serializer} helps to save {@code Storage} object to a file and then read from that file.
+ */
 public class Serializer {
-    private String filePath;
-    private static final Logger logger = Logger.getLogger(Serializer.class.getName());
-    private Storage Storage = new Storage(); //for test
 
+    /**
+     * The ser file path of the file where the object is stored.
+     */
+    private String filePath;
+
+    /**
+     * Logger instance for logging use.
+     */
+    private static final Logger logger = Logger.getLogger(Serializer.class.getName());
+
+    /**
+     * The object which is read from the file.
+     */
+    private Storage Storage = new Storage();
+
+
+    /**
+     * Create a new Serializer.
+     *
+     * @param filePath the ser file path
+     */
     public Serializer(String filePath) {
         this.filePath = filePath;
 
@@ -24,16 +45,10 @@ public class Serializer {
             e.printStackTrace();
         }
         File file = new File(filePath);
-        if (file.exists()) {
+        if (file.length() > 0) {
             try {
                 readFromFile();
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -43,11 +58,11 @@ public class Serializer {
         return Storage;
     }
 
-    public void setStorage(Storage Storage) {
-        this.Storage = Storage;
-    }
-
-    @SuppressWarnings("unchecked")
+    /**
+     * Read {@code Storage} object from ser file.
+     *
+     * @throws ClassNotFoundException if class can not find when reading object
+     */
     private void readFromFile() throws ClassNotFoundException {
         try {
             InputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(this.filePath));
@@ -61,6 +76,9 @@ public class Serializer {
         }
     }
 
+    /**
+     * Write the storage object to the file.
+     */
     public void writeToFile() {
         try {
             OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(this.filePath));
@@ -74,19 +92,3 @@ public class Serializer {
     }
 }
 
-//    public static void main(String[] args) throws IOException, ClassNotFoundException {
-//        TheSystem theSystem = TheSystem.getInstance();
-//        IOStream ioStream = new IOStream("phase1/Data.ser");
-////        store in the file
-//        ioStream.writeToFile(theSystem);
-////        read from file
-//        TheSystem system = (TheSystem) ioStream.readFromFile();
-//        System.out.println(system.getClass());
-//        System.out.println(system.accountManager.getClass());
-//        System.out.println(system.jobPostingManager.getClass());
-//        System.out.println(system.documentManager.getClass());
-//
-//        System.out.println(system.accountManager.getApplicants());
-//
-//    }
-//
