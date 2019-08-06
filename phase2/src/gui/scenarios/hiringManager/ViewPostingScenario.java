@@ -15,11 +15,42 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 
+/**
+ * Class {@code ViewPostingScenario} handles the situation where the hiring manager want to view job postings in the company.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see #initLeftFilter()
+ * @see #initRightFilter()
+ * @see gui.major.MenuPanel
+ * @since 2019-08-05
+ */
 public class ViewPostingScenario extends Scenario {
 
+    /**
+     * The {@code LeftFilterPanel} in this scenario.
+     *
+     * @see #initLeftFilter()
+     * @see #update()
+     * @see LeftFilterListener
+     */
     private FilterPanel<JobPosting> leftFilter;
+
+    /**
+     * The {@code RightFilterPanel} in this scenario.
+     *
+     * @see #initRightFilter()
+     * @see #update()
+     * @see LeftFilterListener
+     * @see RightFilterListener
+     */
     private FilterPanel<Application> rightFilter;
 
+    /**
+     * Create a new {@code ViewPostingScenario} that is a {@code Scenario} with title "View Company Job Postings".
+     *
+     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @see gui.major.MenuPanel
+     */
     public ViewPostingScenario(UserMenu userMenu) {
         super(userMenu, "View Company Job Postings");
     }
@@ -34,6 +65,9 @@ public class ViewPostingScenario extends Scenario {
         new ViewPostingScenario(userMenu).exampleView();
     }
 
+    /**
+     * Override {@code initComponents} in abstract class {@code Scenario}.
+     */
     @Override
     protected void initComponents() {
         initLeftFilter();
@@ -41,18 +75,31 @@ public class ViewPostingScenario extends Scenario {
         initOutputInfoPanel();
     }
 
+    /**
+     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
+     *
+     * @see #initComponents()
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "All JobPostings");
         leftFilter.addSelectionListener(new ViewPostingScenario.LeftFilterListener());
         add(leftFilter);
     }
 
-    protected void initRightFilter() {
+    /**
+     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
+     *
+     * @see #initComponents()
+     */
+    private void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "JobPosting Applications");
         rightFilter.addSelectionListener(new ViewPostingScenario.RightFilterListener());
         add(rightFilter);
     }
 
+    /**
+     * Override {@code update()} in abstract class {@code Scenario}.
+     */
     @Override
     protected void update() {
         Company company = getUserMenu().getCompany();
@@ -65,7 +112,20 @@ public class ViewPostingScenario extends Scenario {
         }
     }
 
+    /**
+     * Class{@code LeftFilterListener} implements ActionListener. It deals with actions happening on left filter panel.
+     *
+     * @author group 0120 of CSC207 summer 2019
+     * @see #initLeftFilter()
+     * @since 2019-08-05
+     */
     class LeftFilterListener implements ListSelectionListener {
+
+        /**
+         * Override {@code actionPerformed} in interface {@code ActionListener}.
+         *
+         * @param e the action event of selecting from a list
+         */
         @Override
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -76,7 +136,20 @@ public class ViewPostingScenario extends Scenario {
         }
     }
 
+    /**
+     * Class{@code RightFilterListener} implements ActionListener. It deals with actions happening on right filter panel.
+     *
+     * @author group 0120 of CSC207 summer 2019
+     * @see #initRightFilter()
+     * @since 2019-08-05
+     */
     class RightFilterListener implements ListSelectionListener {
+
+        /**
+         * Override {@code actionPerformed} in interface {@code ActionListener}.
+         *
+         * @param e the action event of selecting from a list
+         */
         @Override
         public void valueChanged(ListSelectionEvent e) {
             Application application = rightFilter.getSelectObject();

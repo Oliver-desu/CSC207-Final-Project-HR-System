@@ -39,7 +39,7 @@ public class JobPostingRegister extends Scenario {
     private InputInfoPanel infoPanel;
 
     /**
-     * Create a new {@code JobPostingRegister} that is a {@code userMenu} with title "Create Job Posting".
+     * Create a new {@code JobPostingRegister} that is a {@code Scenario} with title "Create Job Posting".
      *
      * @param userMenu the {@code userMenu} that sets up the gui framework
      * @see MenuPanel
@@ -60,7 +60,7 @@ public class JobPostingRegister extends Scenario {
     }
 
     /**
-     * Override {@code initComponents()} in interface {@code Scenario}.
+     * Override {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -69,7 +69,7 @@ public class JobPostingRegister extends Scenario {
     }
 
     /**
-     * Override {@code update()} in interface {@code Scenario}.
+     * Override {@code update()} in abstract class {@code Scenario}.
      */
     @Override
     protected void update() {
