@@ -138,10 +138,14 @@ public class DocumentManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          * If applicationDocumentManager is null then   add
-         * the file to this applicantDocumentManager. then update GUI and show a massage "Change is made successfully!"
+         * the file to this applicantDocumentManager. then update GUI and show a massage "succeed!"
          *  If applicationDocumentManager is not  null,then when user select a document in the rightFilter ,
-         *  then add it to this application ,
-         *  then update GUI and show a massage "Change is made successfully!"
+         *  then add it to this application , show a massage "succeed!"
+         *  if user didnot slect a ducument and press "add" , the show a message"No document selected!"
+         * @throws CanNotEditDocumentManagerException this document cannot be modified.
+         * @exception EmptyDocumentNameException   this document is empty.
+         * @exception DocumentAlreadyExistsException   the document with same name already exist
+         * @exception NullPointerException
          * @param e ActionEvent
          */
         @Override
