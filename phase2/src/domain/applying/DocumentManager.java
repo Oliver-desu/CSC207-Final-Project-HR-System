@@ -1,8 +1,10 @@
 package domain.applying;
 
+import domain.Exceptions.CanNotEditDocumentManagerException;
+import domain.Exceptions.EmptyDocumentNameException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Class {@code DocumentManager} deals with all the documents for either
@@ -18,7 +20,7 @@ public class DocumentManager implements Serializable {
     private static final long serialVersionUID = -1699054066935007390L;
 
     /**
-     * A hash map where the key is document name and value is the corresponding document.
+     * An array list of documents.
      *
      * @see #getAllDocuments()
      * @see #getAllDocNames()
@@ -26,7 +28,7 @@ public class DocumentManager implements Serializable {
      * @see #findDocument(String)
      * @see #removeDocument(Document)
      */
-    private HashMap<String, Document> documents = new HashMap<>();
+    private ArrayList<Document> documents = new ArrayList<>();
 
     /**
      * True if and only if the holder is able to add/remove document.
@@ -48,24 +50,15 @@ public class DocumentManager implements Serializable {
     }
 
     public Document findDocument(String docName) {
-        return this.documents.get(docName);
+        for (Document document : documents) {
+            if (document.getDocumentName().equals(docName))
+                return document;
+        }
+        return null;
     }
 
     private boolean isEditable() {
         return this.editable;
-    }
-
-    /**
-     * A new document is valid if and only if the name is not empty and it has not
-     * been added to this document manager already.
-     *
-     * @param document a new document for this document manager
-     * @return true if and only if the name is not empty and it has not been added
-     * to this document manager already
-     * @see #addDocument(Document)
-     */
-    private boolean isValid(Document document) {
-        return !document.getDocumentName().equals("") && !documents.values().contains(document);
     }
 
     void setEditable(boolean editable) {
@@ -73,45 +66,41 @@ public class DocumentManager implements Serializable {
     }
 
     /**
-     * Add document if and only if this document is valid and holder is allowed to
+     * Add document if and only if this document's name is not empty and holder is allowed to
      * modify document manager.
      * @param document a new document to add to this manager
-     * @return true if and only if this document is valid and holder is allowed to
-     * modify document manager
+     * @throws CanNotEditDocumentManagerException holder is not allowed to modify document manager
+     * @throws EmptyDocumentNameException document name is empty, can not add
      * @see #isEditable()
-     * @see #isValid(Document)
      */
-    public boolean addDocument(Document document) {
-        if (this.isEditable() && isValid(document)) {
-            this.documents.put(document.getDocumentName(), document);
-            return true;
+    public void addDocument(Document document) throws CanNotEditDocumentManagerException, EmptyDocumentNameException {
+        if (!this.isEditable()) {
+            throw new CanNotEditDocumentManagerException();
+        } else if (document.getDocumentName().equals("")) {
+            throw new EmptyDocumentNameException();
         } else {
-            return false;
+            documents.add(document);
         }
     }
 
     /**
-     * Remove and document and return true if and only if the holder is allowed
-     * to modify the manager and this manager has this document.
+     * Remove the document from document manager.
      * @param document the name of the document wished to remove
-     * @return true if and only if the holder is allowed
-     * to modify the manager and this manager has this document.
      */
-    public boolean removeDocument(Document document) {
-        String docName = document.getDocumentName();
-        if (isEditable() && this.documents.containsKey(docName)) {
-            this.documents.remove(docName);
-            return true;
-        }
-        return false;
+    public void removeDocument(Document document) {
+        documents.remove(document);
     }
 
     public ArrayList<Document> getAllDocuments() {
-        return new ArrayList<>(this.documents.values());
+        return documents;
     }
 
     public ArrayList<String> getAllDocNames() {
-        return new ArrayList<>(this.documents.keySet());
+        ArrayList<String> docNames = new ArrayList<>();
+        for (Document document : documents) {
+            docNames.add(document.getDocumentName());
+        }
+        return docNames;
     }
 
     public int getNumOfDocuments() {
