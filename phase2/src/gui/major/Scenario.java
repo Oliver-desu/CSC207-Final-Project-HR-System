@@ -1,6 +1,10 @@
 package gui.major;
 
+import domain.Enums.UserType;
 import domain.applying.Document;
+import domain.applying.DocumentManager;
+import domain.job.InterviewRound;
+import domain.job.JobPosting;
 import gui.panels.FilterPanel;
 import gui.panels.OutputInfoPanel;
 import main.Main;
@@ -60,11 +64,35 @@ public abstract class Scenario extends JPanel {
      */
     private boolean hasInit;
 
+    /**
+     * create a new {@code UserMenu}with given usermenu{@code UserMenu} and given title
+     *
+     * @param userMenu the giben usermenu need to be passed in
+     * @param title    the title of thie scenario
+     * @see gui.scenarios.applicant.DocumentManageScenario#DocumentManageScenario(UserMenu, DocumentManager)
+     * @see gui.scenarios.applicant.ApplicationManageScenario#ApplicationManageScenario(UserMenu)
+     * @see gui.major.UserRegister#UserRegister(UserMenu, UserType)
+     * @see gui.major.UserRegister#UserRegister(UserMenu)
+     * @see gui.scenarios.applicant.JobSearchingScenario#JobSearchingScenario(UserMenu)
+     * @see gui.scenarios.applicant.ViewInterviewScenario#ViewInterviewScenario(UserMenu)
+     * @see gui.scenarios.hiringManager.JobPostingRegister#JobPostingRegister(UserMenu)
+     * @see gui.scenarios.hiringManager.ViewPostingScenario#ViewPostingScenario(UserMenu)
+     * @see gui.scenarios.interviewer.OngoingInterviewScenario#OngoingInterviewScenario(UserMenu)
+     * @see gui.scenarios.recruiter.ApplicationScenario#ApplicationScenario(UserMenu)
+     * @see gui.scenarios.recruiter.InterviewRoundScenario#InterviewRoundScenario(UserMenu, InterviewRound, JobPosting)
+     * @see gui.scenarios.recruiter.JobManageScenario#JobManageScenario(UserMenu)
+     * @see gui.scenarios.recruiter.MatchInterviewScenario#MatchInterviewScenario(UserMenu, InterviewRound)
+     */
     protected Scenario(UserMenu userMenu, String title) {
         this.userMenu = userMenu;
         setTitle(title);
     }
 
+    /**
+     * setup this scenario with given width and height , and update the information in it
+     *
+     * @see UserMenu#setScenario(Scenario)
+     */
     public void init() {
         if (!hasInit) {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -83,13 +111,20 @@ public abstract class Scenario extends JPanel {
         return new Dimension((int) (WIDTH * horizontalRatio) - 5, (int) (HEIGHT * verticalRatio) - 5);
     }
 
+    /**
+     * add the outputInfoPanel to this Jframe
+     */
     protected void initOutputInfoPanel() {
         add(outputInfoPanel);
     }
 
+    /**
+     * switch to the given scenario through getUserMenu()
+     */
     protected void switchScenario(Scenario scenario) {
         getUserMenu().setScenario(scenario);
     }
+
 
     protected UserMenu getUserMenu() {
         return userMenu;
@@ -99,22 +134,41 @@ public abstract class Scenario extends JPanel {
         return getUserMenu().getMain();
     }
 
+    /**
+     * set the text in the outputInfoPanel to be the given text
+     * @param text the string need to be showed
+     */
     protected void setOutputText(String text) {
         outputInfoPanel.setOutputText(text);
     }
 
+    /**
+     * set the document need to be displayed in the outputInfoPanel to be the given document
+     * @param document the document need to be showed
+     */
     protected void showDocument(Document document) {
         outputInfoPanel.showDocument(document);
     }
 
+    /**
+     * add a new showInfoListener to the given filterPanel.
+     * @param filterPanel the filterPanel need to be added a lnew ShowInfoListener
+     */
     protected void addShowInfoListenerFor(FilterPanel filterPanel) {
         filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 
+    /**
+     * pop up a new Jframe to show the massage
+     * @param message the message need to be showed
+     */
     protected void showMessage(String message) {
         JOptionPane.showMessageDialog(getUserMenu(), message, "Message Dialog", JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * return true if the user press "yes" button
+     */
     protected boolean confirmAction() {
         return 0 == JOptionPane.showConfirmDialog(getUserMenu(), "Are you sure?",
                 "Confirm Dialog", JOptionPane.YES_NO_OPTION);
@@ -133,13 +187,29 @@ public abstract class Scenario extends JPanel {
         frame.setVisible(true);
     }
 
+    /**
+     * Class {@code ShowInfoListener} implements ListSelectionListener, return  the object selected by the user
+     * @see Scenario
+     * @since 2019-08-06
+     */
     private class ShowInfoListener implements ListSelectionListener {
+        /**
+         * the filterpanel need to be add a listener
+         */
         private FilterPanel filterPanel;
 
+        /**
+         * create a new ShowInfoListener with given filterpanel
+         * @param filterPanel the given filterpanel
+         */
         private ShowInfoListener(FilterPanel filterPanel) {
             this.filterPanel = filterPanel;
         }
 
+        /**
+         * get the object select by the user , then  set the object.tostring() to the outputpanel
+         * @param e ListSelectionEvent
+         */
         @Override
         public void valueChanged(ListSelectionEvent e) {
             if (filterPanel.getSelectObject() != null) {

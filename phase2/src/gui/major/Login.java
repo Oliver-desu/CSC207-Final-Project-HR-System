@@ -64,10 +64,8 @@ public class Login extends JFrame {
     private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
 
     /**
-     * set the main to this login
-     *
+     * Constructor for {@code Login}.
      * @param main #Todo : dont know how to describe
-     * @see
      */
     public Login(Main main) {
         this.main = main;

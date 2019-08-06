@@ -56,7 +56,7 @@ public class MenuPanel extends JPanel {
     private Dimension menuSize;
 
     /**
-     * creat a new MenuPanel with given usermenu{@code UserMenu} , with dimension of menuSize and buttonSize
+     * creat a new {@code MenuPanel} with given usermenu{@code UserMenu} , with dimension of menuSize and buttonSize
      *
      * @param userMenu   given UserMenu{@code Usermenu}
      * @param menuSize   dimension of the menuSize

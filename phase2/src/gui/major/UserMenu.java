@@ -72,6 +72,12 @@ public class UserMenu extends JFrame {
     public UserMenu() {
     }
 
+    /**
+     * create a new {@code UserMenu} , and then setup for this menu .
+     *
+     * @param main given java.main
+     * @param user given user
+     */
     public UserMenu(Main main, User user) {
         this.main = main;
         this.user = user;
