@@ -23,14 +23,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * todo
+ * Class {@code OngoingInterviewScenario} handles the situation where interviewer determines
+ * whether an applicant pass an interview or not.
  *
  * @see #initLeftFilter()
  */
 public class OngoingInterviewScenario extends Scenario {
 
     /**
-     * todo
+     * Constructor for {@code OngoingInterviewScenario}.
      *
      * @param userMenu given {@code userMenu}
      * @see gui.major.MenuPanel
