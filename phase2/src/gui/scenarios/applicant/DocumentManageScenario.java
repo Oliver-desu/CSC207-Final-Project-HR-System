@@ -27,12 +27,11 @@ import java.awt.event.ActionListener;
  */
 public class DocumentManageScenario extends Scenario {
     /**
-     * the {@code DocumentManager} of the {@code DocumentManageScenario}
+     * the {@code DocumentManager} for the user
      */
     private DocumentManager applicantDocumentManager;
     /**
-     * the {@code DocumentManager} of the {@code DocumentManageScenario}
-     * #Todo: two attributes are same
+     * the {@code DocumentManager} for a particular application
      */
     private DocumentManager applicationDocumentManager;
     /**

@@ -194,7 +194,11 @@ public class Test {
                 System.out.println(e);
             }
         }
-        applicant.addApplication(jobPosting.getJobId(), application);
+        try {
+            applicant.addApplication(jobPosting.getJobId(), application);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return application;
     }
 
