@@ -181,15 +181,6 @@ public class Test {
         }
     }
 
-    public void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant) {
-        // add application for applicant and submit to jobPosting
-        Application application = new Application(applicant, jobPosting);
-        String docName = this.getRandomDocumentName(applicant.getDocumentManager());
-        application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
-        applicant.addApplication(jobPosting.getJobId(), application);
-        application.apply(storage);
-    }
-
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = new Application(applicant, jobPosting);
         for (String docName : applicant.getDocumentManager().getAllDocNames()) {
@@ -201,8 +192,13 @@ public class Test {
 
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
-        application.apply(storage);
-        return application;
+        try {
+            application.apply(storage);
+            return application;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     public InterviewRound addNewRound(JobPosting jobPosting) {

@@ -5,7 +5,6 @@ import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
 import domain.applying.Application;
 import domain.storage.Storage;
-import jdk.internal.org.objectweb.asm.commons.SerialVersionUIDAdder;
 
 import java.io.Serializable;
 import java.util.ArrayList;

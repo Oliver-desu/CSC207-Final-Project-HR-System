@@ -2,6 +2,9 @@ package domain.applying;
 
 import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewStatus;
+import domain.Exceptions.ApplicationAlreadyExistsException;
+import domain.Exceptions.WrongApplicationStatusException;
+import domain.Exceptions.WrongJobPostingStatusException;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.show.ShowAble;
@@ -105,13 +108,13 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return the {@code Applicant} who holds this application.
-     * @param Storage the {@code Storage} that contains all users
+     * @param storage the {@code Storage} that contains all users
      * @return the {@code Applicant} who holds this application
      * @see Applicant
      * @see Storage
      */
-    public Applicant getApplicant(Storage Storage) {
-        return Storage.getApplicant(this.applicantId);
+    public Applicant getApplicant(Storage storage) {
+        return storage.getApplicant(this.applicantId);
     }
 
     public String getJobPostingId() {
@@ -143,36 +146,36 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Ask the job posting whether it is allowed to apply or not. If allowed, set the document manager
      * to be uneditable and status to be {@code ApplicationStatus.PENDING}. Then return true
      * if and only if the application is submitted successfully.
-     * @param Storage the {@code Storage} that contains information about job postings
+     * @param storage the {@code Storage} that contains information about job postings
      * @return true if and only if the application is submitted successfully
      * @see JobPosting#applicationSubmit(Application, Storage)
      * @see DocumentManager#setEditable(boolean)
      */
-    public boolean apply(Storage Storage) {
-        boolean succeed = Storage.getJobPosting(jobPostingId).applicationSubmit(this, Storage);
-        if (succeed) {
+    public void apply(Storage storage)
+            throws WrongApplicationStatusException, WrongJobPostingStatusException, ApplicationAlreadyExistsException {
+        if (!status.equals(ApplicationStatus.DRAFT)) {
+            throw new WrongApplicationStatusException();
+        } else {
+            storage.getJobPosting(jobPostingId).applicationSubmit(this, storage);
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
         }
-        return succeed;
     }
 
     /**
-     * Cancel the application if and only if the status is {@code ApplicationStatus.PENDING}, then notify
-     * the corresponding job posting and document manager. Return true if and only if application is
-     * successfully cancelled.
-     * @param Storage the {@code Storage} that contains information about job postings
-     * @return true if and only if application is successfully cancelled
+     * Cancel the application, then notify the corresponding job posting and document manager.
+     * @param storage the {@code Storage} that contains information about job postings
      * @see JobPosting#applicationCancel(Application, Storage)
+     * @throws WrongApplicationStatusException status of application has to be {@code PENDING} in
+     * order to be cancelled
      */
-    public boolean cancel(Storage Storage) {
+    public void cancel(Storage storage) throws WrongApplicationStatusException {
         if (this.status.equals(ApplicationStatus.PENDING)) {
-            Storage.getJobPosting(jobPostingId).applicationCancel(this, Storage);
+            storage.getJobPosting(jobPostingId).applicationCancel(this, storage);
             this.documentManager.setEditable(true);
             this.setStatus(ApplicationStatus.DRAFT);
-            return true;
         } else {
-            return false;
+            throw new WrongApplicationStatusException();
         }
     }
 
@@ -190,11 +193,11 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return basic information about this application and detailed information about applicant.
-     * @param Storage the {@code Storage} that contains all users
+     * @param storage the {@code Storage} that contains all users
      * @return basic information about this application and detailed information about applicant
      */
-    public String detailedToStringForEmployee(Storage Storage) {
-        Applicant applicant = Storage.getApplicant(applicantId);
+    public String detailedToStringForEmployee(Storage storage) {
+        Applicant applicant = storage.getApplicant(applicantId);
         return "JobPosting id:" + jobPostingId + "\n" +
                 "Status: " + status + "\n" +
                 "\n" +

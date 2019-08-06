@@ -8,7 +8,6 @@ import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -174,13 +173,12 @@ public class UserRegister extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            UserMenu userMenu = getUserMenu();
             try {
                 createUserAndRegister();
-                JOptionPane.showMessageDialog(userMenu, "Successfully registered!");
+                showMessage("Successfully registered!");
             } catch (UnmatchedPasswordException | WrongEmailFormatException | UserAlreadyExistsException |
                     CompanyAlreadyExistsException | CompanyDoesNotExistException e1) {
-                JOptionPane.showMessageDialog(userMenu, e1.getMessage());
+                showMessage(e1.getMessage());
             }
         }
     }

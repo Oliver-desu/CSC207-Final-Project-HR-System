@@ -1,8 +1,10 @@
 package domain.user;
 
+import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
 import domain.Exceptions.NotEmployeeException;
+import domain.Exceptions.WrongApplicationStatusException;
 import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
@@ -82,17 +84,20 @@ public class Applicant extends User implements Serializable, ShowAble {
     /**
      * Delete {@code Application} from this {@code Applicant}.
      * @param application the {@code Application} that should be deleted from this {@code Applicant}
-     * @return true if and only if deleted successfully
+     * @throws WrongApplicationStatusException the status of this application is not {@code PENDING}, can not delete
      */
-    public boolean deleteApplication(Application application) {
-        String jobPostingId = application.getJobPostingId();
-        for (String jobId : applications.keySet()) {
-            if (jobId.equals(jobPostingId)) {
-                applications.remove(jobPostingId);
-                return true;
+    public void deleteApplication(Application application) throws WrongApplicationStatusException {
+        if (application.getStatus().equals(ApplicationStatus.DRAFT)) {
+            String jobPostingId = application.getJobPostingId();
+            for (String jobId : applications.keySet()) {
+                if (jobId.equals(jobPostingId)) {
+                    applications.remove(jobPostingId);
+                    return;
+                }
             }
+        } else {
+            throw new WrongApplicationStatusException();
         }
-        return false;
     }
 
     /**
