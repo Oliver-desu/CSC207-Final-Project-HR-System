@@ -104,6 +104,7 @@ public class Test {
         try {
             new UserFactory(storage).createUser(values, UserType.HIRING_MANAGER);
         } catch (Exception e) {
+            System.out.println("addCompany");
             System.out.println(e);
         }
         Employee hiringManager = storage.getEmployee(values.get("Username:"), UserType.HIRING_MANAGER);
@@ -180,6 +181,7 @@ public class Test {
             try {
                 documentManager.addDocument(new Document(Integer.toString(i), "Some content"));
             } catch (Exception e) {
+                System.out.println("addDocuments");
                 System.out.println(e);
             }
         }
@@ -197,6 +199,7 @@ public class Test {
         try {
             applicant.addApplication(jobPosting.getJobId(), application);
         } catch (Exception e) {
+            System.out.println("addDraftApplicationForJobPosting");
             System.out.println(e);
         }
         return application;
@@ -208,6 +211,7 @@ public class Test {
             application.apply(storage);
             return application;
         } catch (Exception e) {
+            System.out.println("addSubmittedApplicationForJobPosting");
             System.out.println(e);
             return null;
         }
@@ -253,7 +257,12 @@ public class Test {
     public void hireApplicants(JobPosting jobPosting) {
         InterviewRoundManager manager = jobPosting.getInterviewRoundManager();
         for (Application application : manager.getRemainingApplications()) {
-            manager.hire(application);
+            try {
+                manager.hire(application);
+            } catch (Exception e) {
+                System.out.println("hireApplicants");
+                System.out.println(e);
+            }
         }
         jobPosting.endJobPosting();
     }

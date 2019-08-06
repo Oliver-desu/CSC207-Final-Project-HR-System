@@ -3,6 +3,10 @@ package domain.job;
 import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
+import domain.Exceptions.CurrentRoundUnfinishedException;
+import domain.Exceptions.JobPostingAlreadyFilledException;
+import domain.Exceptions.WrongApplicationStatusException;
+import domain.Exceptions.WrongJobPostingStatusException;
 import domain.applying.Application;
 import domain.storage.Storage;
 
@@ -192,17 +196,22 @@ public class InterviewRoundManager implements Serializable {
      * the job is still vacant.
      *
      * @param application the application to be hired
-     * @return whether the hiring process succeeds
      * @see gui.scenarios.recruiter.InterviewRoundScenario
+     * @throws WrongJobPostingStatusException status of job posting is not {@code PROCESSING}
+     * @throws WrongApplicationStatusException status of application is not {@code PENDING}
      */
-    public boolean hire(Application application) {
-        if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
-                application.getStatus().equals(ApplicationStatus.PENDING) && currentRoundFinished() &&
-                jobPosting.getNumOfPositions() > getHiredApplications().size()) {
-            application.setStatus(ApplicationStatus.HIRED);
-            return true;
+    public void hire(Application application) throws WrongJobPostingStatusException, WrongApplicationStatusException,
+            CurrentRoundUnfinishedException, JobPostingAlreadyFilledException {
+        if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
+            throw new WrongJobPostingStatusException();
+        } else if (!application.getStatus().equals(ApplicationStatus.PENDING)) {
+            throw new WrongApplicationStatusException();
+        } else if (!currentRoundFinished()) {
+            throw new CurrentRoundUnfinishedException();
+        } else if (jobPosting.getNumOfPositions() <= getHiredApplications().size()) {
+            throw new JobPostingAlreadyFilledException();
         } else {
-            return false;
+            application.setStatus(ApplicationStatus.HIRED);
         }
     }
 
