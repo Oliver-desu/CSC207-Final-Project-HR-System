@@ -27,6 +27,8 @@ import java.util.HashMap;
  */
 public class Storage implements Serializable {
 
+    private static final long serialVersionUID = -6864049380257653797L;
+
     /**
      * A hash map whose key is {@code UserType} and value is an array list
      * of the corresponding users.

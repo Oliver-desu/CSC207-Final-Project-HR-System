@@ -23,6 +23,8 @@ import java.util.HashMap;
  */
 public class InterviewRound implements Filterable, Serializable {
 
+    private static final long serialVersionUID = -9079019848528946667L;
+
     /**
      * The name of this interview round.
      *

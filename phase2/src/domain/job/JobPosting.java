@@ -25,6 +25,9 @@ import java.util.HashMap;
  */
 public class JobPosting implements Filterable, Serializable, ShowAble {
 
+    private static final long serialVersionUID = -3212798175590179109L;
+
+
     /**
      * A hash map that contains all the details for this job posting.
      * Keys are fixed and can be found in {@code JobPostingRegister}.

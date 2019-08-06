@@ -22,6 +22,8 @@ import java.util.HashMap;
  */
 public class Applicant extends User implements Serializable, ShowAble {
 
+    private static final long serialVersionUID = 1261711923837944608L;
+
     /**
      * A hash map where the key is applicant's username and value is
      * the application submitted.

@@ -142,6 +142,15 @@ public class MatchInterviewScenario extends Scenario {
      * @since 2019-08-05
      */
     class MatchListener implements ActionListener {
+        /**
+         * override the method in interface {@code ActionListener}
+         * 1 if {@code Application} is not null ,then get the {@code Interview} of this Application ,
+         * 2 if interviews is unmatched then match these interview with interviewer and add them to the application
+         * 3  show a massage "succeed!" and update GUI.
+         * 4 otherwise show a massage""There is no interview to match!""
+         *
+         * @param e ActionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             Employee interviewer = rightFilter.getSelectObject();

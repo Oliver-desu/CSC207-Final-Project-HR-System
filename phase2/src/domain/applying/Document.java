@@ -19,6 +19,8 @@ import java.util.HashMap;
  */
 public class Document implements Filterable, Serializable, ShowAble {
 
+    private static final long serialVersionUID = -5088023589351328127L;
+
     /**
      * The title of the document.
      *
