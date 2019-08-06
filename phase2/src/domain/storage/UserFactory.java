@@ -50,7 +50,13 @@ public class UserFactory implements Serializable {
      * @param infoMap      a hash map that stores all information needed to create a new user
      * @param registerType the user type of the new user being created
      * @return a new {@code User}
+     * @throws UnmatchedPasswordException see method {@code validValues(HashMap, UserType)}
+     * @throws WrongEmailFormatException see method {@code validValues(HashMap, UserType)}
+     * @throws UserAlreadyExistsException see method {@code validValues(HashMap, UserType)}
+     * @throws CompanyAlreadyExistsException see method {@code validValues(HashMap, UserType)}
+     * @throws CompanyDoesNotExistException see method {@code validValues(HashMap, UserType)}
      * @see UserRegister
+     * @see #validValues(HashMap, UserType)
      */
     public User createUser(HashMap<String, String> infoMap, UserType registerType)
             throws UnmatchedPasswordException, WrongEmailFormatException, UserAlreadyExistsException,
@@ -157,11 +163,11 @@ public class UserFactory implements Serializable {
      * @param infoMap the map that consists of basic information about the user
      * @param registerType the type of the new user
      * @see UserFactory#createUser(HashMap, UserType)
-     * @throws UnmatchedPasswordException
-     * @throws WrongEmailFormatException
-     * @throws UserAlreadyExistsException
-     * @throws CompanyAlreadyExistsException
-     * @throws CompanyDoesNotExistException
+     * @throws UnmatchedPasswordException password does not match confirm password
+     * @throws WrongEmailFormatException email format wrong, has to end with .com
+     * @throws UserAlreadyExistsException user already exists, can not override
+     * @throws CompanyAlreadyExistsException company already exists, can not override
+     * @throws CompanyDoesNotExistException can not become an employee of company that does not exist
      */
     private void validValues(HashMap<String, String> infoMap, UserType registerType)
             throws UnmatchedPasswordException, WrongEmailFormatException, UserAlreadyExistsException,
