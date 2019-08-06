@@ -20,7 +20,7 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
 /**
- * Class {@code JobPostingRegister} handles the situation when the hiring manager want to create a new job posting.
+ * Class {@code JobPostingRegister} handles the situation where the hiring manager want to create a new job posting.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.major.MenuPanel
@@ -172,7 +172,7 @@ public class JobPostingRegister extends Scenario {
     }
 
     /**
-     * Class{@code CreateJobPostingListener} implements ActionListener. It deals with the situation when the button
+     * Class{@code CreateJobPostingListener} implements ActionListener. It deals with the situation in which the button
      * "Post job" is clicked.
      *
      * @author group 0120 of CSC207 summer 2019

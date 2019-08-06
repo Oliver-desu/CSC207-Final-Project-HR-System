@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class ViewPostingScenario extends Scenario {
 
     /**
-     * The {@code LeftFilterPanel} in this scenario.
+     * The {@code FilterPanel} located leftmost in the interface. It contains a list of {@code JobPosting}s.
      *
      * @see #initLeftFilter()
      * @see #update()
@@ -36,7 +36,7 @@ public class ViewPostingScenario extends Scenario {
     private FilterPanel<JobPosting> leftFilter;
 
     /**
-     * The {@code RightFilterPanel} in this scenario.
+     * The {@code FilterPanel} located middle in this interface. It contains a list of {@code Application}s.
      *
      * @see #initRightFilter()
      * @see #update()
@@ -66,7 +66,7 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * Override {@code initComponents} in abstract class {@code Scenario}.
+     * Override method {@code initComponents} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -113,7 +113,8 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * Class{@code LeftFilterListener} implements ActionListener. It deals with actions happening on left filter panel.
+     * Class{@code LeftFilterListener} implements ListSelectionListener.
+     * It deals with actions happening on left filter panel.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
@@ -122,7 +123,7 @@ public class ViewPostingScenario extends Scenario {
     class LeftFilterListener implements ListSelectionListener {
 
         /**
-         * Override {@code actionPerformed} in interface {@code ActionListener}.
+         * Override {@code valueChanged} in interface {@code ListSelectionListener}.
          *
          * @param e the action event of selecting from a list
          */
@@ -137,7 +138,8 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * Class{@code RightFilterListener} implements ActionListener. It deals with actions happening on right filter panel.
+     * Class{@code RightFilterListener} implements ListSelectionListener.
+     * It deals with actions happening on right filter panel.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initRightFilter()
@@ -146,7 +148,7 @@ public class ViewPostingScenario extends Scenario {
     class RightFilterListener implements ListSelectionListener {
 
         /**
-         * Override {@code actionPerformed} in interface {@code ActionListener}.
+         * Override {@code ListSelectionEvent} in interface {@code ListSelectionListener}.
          *
          * @param e the action event of selecting from a list
          */
