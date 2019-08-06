@@ -1,6 +1,6 @@
 package gui.scenarios.recruiter;
 
-import domain.Enums.InterviewStatus;
+import domain.Exceptions.WrongInterviewStatusException;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Interview;
@@ -156,18 +156,16 @@ public class MatchInterviewScenario extends Scenario {
             Employee interviewer = rightFilter.getSelectObject();
             Application application = leftFilter.getSelectObject();
             Interview interview;
-            if (application != null) {
+            try {
                 interview = application.getInterviewByRound(interviewRound.getRoundName());
-                if (interview.getStatus().equals(InterviewStatus.UNMATCHED)) {
-                    interview.match(interviewer);
-                    application.addInterview(interviewRound.getRoundName(), interview);
-                    showMessage("Succeed!");
-                    update();
-                } else {
-                    showMessage("Failed!");
-                }
-            } else {
-                showMessage("There is no interview to match!");
+                interview.match(interviewer);
+                application.addInterview(interviewRound.getRoundName(), interview);
+                update();
+                showMessage("Succeed!");
+            } catch (NullPointerException e1) {
+                showMessage("Please select one application and one interviewer!");
+            } catch (WrongInterviewStatusException e1) {
+                showMessage("Status of interview is not UNMATCHED, can not match!");
             }
         }
     }

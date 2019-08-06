@@ -1,6 +1,7 @@
 package domain.applying;
 
 import domain.Enums.InterviewStatus;
+import domain.Exceptions.WrongInterviewStatusException;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
 import domain.storage.Storage;
@@ -78,21 +79,19 @@ public class Interview implements Filterable, Serializable, ShowAble {
     }
 
     /**
-     * Arrange the interview with the given interviewer, and return true if succeeded.
-     * An interview can not be matched if its {@code status} is not {@code UNMATCHED}.
+     * Arrange the interview with the given interviewer.
      * @param interviewer   the interviewer that will do this interview
-     * @return true if and only if the interview is successfully matched
+     * @throws WrongInterviewStatusException the status of interview is not UNMATCHED, can not match
      * @see InterviewStatus
      * @see Employee#addFile(Object)
      */
-    public boolean match(Employee interviewer) {
+    public void match(Employee interviewer) throws WrongInterviewStatusException {
         if (status.equals(InterviewStatus.UNMATCHED)) {
+            interviewer.addFile(this);
             this.interviewer = interviewer;
             setStatus(InterviewStatus.PENDING);
-            interviewer.addFile(this);
-            return true;
         } else {
-            return false;
+            throw new WrongInterviewStatusException();
         }
     }
 
