@@ -2,6 +2,7 @@ package gui.scenarios.interviewer;
 
 import domain.Enums.InterviewStatus;
 import domain.Test;
+import domain.applying.Document;
 import domain.applying.Interview;
 import domain.job.JobPosting;
 import domain.user.Applicant;
@@ -26,6 +27,7 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     private FilterPanel<Interview> leftFilter;
+    private FilterPanel<Document> rightFilter;
     private InputInfoPanel infoPanel;
 
     public static void main(String[] args) {
@@ -47,6 +49,7 @@ public class OngoingInterviewScenario extends Scenario {
     @Override
     protected void initComponents() {
         initLeftFilter();
+        initRightFilter();
         initOutputInfoPanel();
         initInput();
         initButton();
@@ -65,6 +68,12 @@ public class OngoingInterviewScenario extends Scenario {
         add(leftFilter);
     }
 
+    protected void initRightFilter() {
+        rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
+        addShowInfoListenerFor(rightFilter);
+        add(rightFilter);
+    }
+
     @Override
     protected void update() {
         Employee interviewer = (Employee) getUserMenu().getUser();
@@ -75,6 +84,7 @@ public class OngoingInterviewScenario extends Scenario {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("Pass", new SetResultListener(true));
         buttonPanel.addButton("Fail", new SetResultListener(false));
+        buttonPanel.addButton("View document", new ViewDocumentListener());
         add(buttonPanel);
     }
 
@@ -88,6 +98,7 @@ public class OngoingInterviewScenario extends Scenario {
             Interview interview = leftFilter.getSelectObject();
             if (interview != null) {
                 setOutputText(interview.detailedToStringForCompanyWorker(getMain().getStorage()));
+                rightFilter.setFilterContent(interview.getApplication().getDocumentManager().getAllDocuments());
             }
         }
     }
@@ -112,6 +123,18 @@ public class OngoingInterviewScenario extends Scenario {
                 showMessage("Can not change!");
             }
 
+        }
+    }
+
+    class ViewDocumentListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Document document = rightFilter.getSelectObject();
+            if (document != null) {
+                showDocument(document);
+            } else {
+                showMessage("No document selected.");
+            }
         }
     }
 }

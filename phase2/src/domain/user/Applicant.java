@@ -1,5 +1,6 @@
 package domain.user;
 
+import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
 import domain.Exceptions.NotCompanyWorkerException;
 import domain.applying.Application;
@@ -93,13 +94,36 @@ public class Applicant extends User implements Serializable, ShowAble {
     }
 
     /**
-     * Return a list of interviews this {@code Application} has.
-     * @return a list of interviews this {@code Application} has
+     * Return a list of interviews this {@code Application} has finished.
+     * @return a list of interviews this {@code Application} has finished
      */
-    public ArrayList<Interview> getInterviews() {
+    public ArrayList<Interview> getPastInterviews() {
         ArrayList<Interview> interviews = new ArrayList<>();
         for (Application application : this.applications.values()) {
-            interviews.addAll(application.getInterviews());
+            for (Interview interview : application.getInterviews()) {
+                if (interview.getStatus().equals(InterviewStatus.PASS) ||
+                        interview.getStatus().equals(InterviewStatus.FAIL)) {
+                    interviews.add(interview);
+                }
+            }
+        }
+        return interviews;
+    }
+
+    /**
+     * Return a list of interviews this {@code Application} currently has.
+     *
+     * @return a list of interviews this {@code Application} currently has
+     */
+    public ArrayList<Interview> getOngoingInterviews() {
+        ArrayList<Interview> interviews = new ArrayList<>();
+        for (Application application : this.applications.values()) {
+            for (Interview interview : application.getInterviews()) {
+                if (interview.getStatus().equals(InterviewStatus.UNMATCHED) ||
+                        interview.getStatus().equals(InterviewStatus.PENDING)) {
+                    interviews.add(interview);
+                }
+            }
         }
         return interviews;
     }

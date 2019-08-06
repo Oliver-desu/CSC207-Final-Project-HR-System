@@ -57,7 +57,7 @@ public class ApplicationScenario extends Scenario {
 
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
-        rightFilter.addSelectionListener(new ApplicationScenario.RightFilterListener());
+        addShowInfoListenerFor(rightFilter);
         add(rightFilter);
     }
 
@@ -88,16 +88,6 @@ public class ApplicationScenario extends Scenario {
             if (application != null) {
                 rightFilter.setFilterContent(application.getDocumentManager().getAllDocuments());
                 setOutputText(application.detailedToStringForCompanyWorker(getMain().getStorage()));
-            }
-        }
-    }
-
-    class RightFilterListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            Document document = rightFilter.getSelectObject();
-            if (document != null) {
-                setOutputText(document.toString());
             }
         }
     }
