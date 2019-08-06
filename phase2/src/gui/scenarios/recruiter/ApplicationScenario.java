@@ -18,13 +18,39 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Class {@code ApplicationScenario} handles with the situation where the company can view applications from the applicants.
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @since 2019-08-05
+ */
 public class ApplicationScenario extends Scenario {
+
+    /**
+     * Create a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications
+     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @see gui.major.MenuPanel
+     */
 
     public ApplicationScenario(UserMenu userMenu) {
         super(userMenu, "View Company Applications");
     }
 
+    /**
+     * The {@code LeftFilterPanel} in this scenario
+     *
+     * @see #initLeftFilter()
+     * @see #update()
+     * @see LeftFilterListener
+     */
     private FilterPanel<Application> leftFilter;
+    /**
+     * The {@code RightFilterPanel} in this scenario
+     *
+     * @see #initRightFilter()
+     * @see #update()
+     * @see ViewDocumentListener
+     */
     private FilterPanel<Document> rightFilter;
 
     public static void main(String[] args) {
@@ -41,6 +67,9 @@ public class ApplicationScenario extends Scenario {
         new ApplicationScenario(userMenu).exampleView();
     }
 
+    /**
+     * Override {@code initComponents} in abstract class {@code Scenario}.
+     */
     @Override
     protected void initComponents() {
         initLeftFilter();
@@ -49,11 +78,22 @@ public class ApplicationScenario extends Scenario {
         initButton();
     }
 
+    /**
+     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
+     *
+     * @see #initComponents()
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "All Applications");
         leftFilter.addSelectionListener(new ApplicationScenario.LeftFilterListener());
         add(leftFilter);
     }
+
+    /**
+     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
+     *
+     * @see #initComponents()
+     */
 
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
@@ -61,11 +101,21 @@ public class ApplicationScenario extends Scenario {
         add(rightFilter);
     }
 
+    /**
+     * A helper method for {@code initComponents()}.
+     *
+     * @see #initComponents()
+     */
+
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("View Document", new ViewDocumentListener());
         add(buttonPanel);
     }
+
+    /**
+     * Override {@code update()} in abstract class {@code Scenario}.
+     */
 
     @Override
     protected void update() {
@@ -81,6 +131,13 @@ public class ApplicationScenario extends Scenario {
         rightFilter.setFilterContent(documents);
     }
 
+    /**
+     * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     * @author group 0120 of CSC207 summer 2019
+     * @see #initLeftFilter()
+     * @since since 2019-08-05
+     */
+
     class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -92,6 +149,9 @@ public class ApplicationScenario extends Scenario {
         }
     }
 
+    /**
+     * Class {@code ViewDocumentListener} implements ActionListener. It deals with actions happening to document.
+     */
     class ViewDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
