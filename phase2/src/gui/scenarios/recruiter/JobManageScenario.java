@@ -173,7 +173,7 @@ public class JobManageScenario extends Scenario {
      * @see #initLeftFilter()
      * @since 2019-08-05
      */
-    class LeftFilterListener implements ListSelectionListener {
+    private class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -192,7 +192,7 @@ public class JobManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-05
      */
-    class ViewEditListener implements ActionListener {
+    private class ViewEditListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -216,7 +216,7 @@ public class JobManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-05
      */
-    class AddRoundListener implements ActionListener {
+    private class AddRoundListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -238,7 +238,7 @@ public class JobManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-05
      */
-    class NextRoundListener implements ActionListener {
+    private class NextRoundListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -258,7 +258,7 @@ public class JobManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-05
      */
-    class EndJobPostingListener implements ActionListener {
+    private class EndJobPostingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();

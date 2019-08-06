@@ -120,7 +120,7 @@ public class ViewPostingScenario extends Scenario {
      * @see #initLeftFilter()
      * @since 2019-08-05
      */
-    class LeftFilterListener implements ListSelectionListener {
+    private class LeftFilterListener implements ListSelectionListener {
 
         /**
          * Override {@code valueChanged} in interface {@code ListSelectionListener}.
@@ -145,7 +145,7 @@ public class ViewPostingScenario extends Scenario {
      * @see #initRightFilter()
      * @since 2019-08-05
      */
-    class RightFilterListener implements ListSelectionListener {
+    private class RightFilterListener implements ListSelectionListener {
 
         /**
          * Override {@code ListSelectionEvent} in interface {@code ListSelectionListener}.

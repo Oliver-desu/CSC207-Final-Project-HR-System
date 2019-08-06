@@ -179,7 +179,7 @@ public class JobPostingRegister extends Scenario {
      * @see #initButton()
      * @since 2019-08-05
      */
-    class CreateJobPostingListener implements ActionListener {
+    private class CreateJobPostingListener implements ActionListener {
 
         /**
          * Override {@code actionPerformed} in interface {@code ActionListener}.

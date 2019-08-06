@@ -32,7 +32,7 @@ public class OngoingInterviewScenario extends Scenario {
     /**
      * todo
      *
-     * @param userMenu given {@code usermenu}
+     * @param userMenu given {@code userMenu}
      * @see gui.major.MenuPanel
      */
     public OngoingInterviewScenario(UserMenu userMenu) {
@@ -172,7 +172,7 @@ public class OngoingInterviewScenario extends Scenario {
      *
      * @see #initLeftFilter()
      */
-    class LeftFilterListener implements ListSelectionListener {
+    private class LeftFilterListener implements ListSelectionListener {
         /**
          * Override {@code valueChanged} in interface {@code ListSelectionListener}.
          *
@@ -196,11 +196,11 @@ public class OngoingInterviewScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-06
      */
-    class SetResultListener implements ActionListener {
+    private class SetResultListener implements ActionListener {
         private InterviewStatus result;
 
         /**
-         * set this.result to {@code InterviewStatus.PASS}  if ispass is true, otherwise set it to
+         * set this.result to {@code InterviewStatus.PASS}  if isPass is true, otherwise set it to
          *{@code InterviewStatus.FAIL}
          * @param isPass whether it is passed or not
          */
@@ -243,7 +243,7 @@ public class OngoingInterviewScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-06
      */
-    class ViewDocumentListener implements ActionListener {
+    private class ViewDocumentListener implements ActionListener {
 
         /**
          * Override {@code actionPerformed} in interface {@code ActionListener}.

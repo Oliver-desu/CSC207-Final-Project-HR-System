@@ -78,11 +78,11 @@ public class JobSearchingScenario extends Scenario {
     }
 
     /**
-     * Class {@code  CreateApplicationListener} listener used for creat a new application
+     * Class {@code  CreateApplicationListener} listener used for create a new application
      * @see #initButton()
      * @since 2019-08-06
      */
-    class CreateApplicationListener implements ActionListener {
+    private class CreateApplicationListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          * 1 get the {@code JobPosting} selected by user .2 get the {@code Applicant } stored in the

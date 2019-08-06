@@ -1,6 +1,7 @@
 package gui.major;
 
 import domain.Enums.UserType;
+import domain.Exceptions.InvalidInputException;
 import domain.user.NullUser;
 import domain.user.User;
 import gui.panels.ButtonPanel;
@@ -65,7 +66,7 @@ public class Login extends JFrame {
 
     /**
      * Constructor for {@code Login}.
-     * @param main #Todo : dont know how to describe
+     * @param main #Todo : don t know how to describe
      */
     public Login(Main main) {
         this.main = main;
@@ -92,6 +93,7 @@ public class Login extends JFrame {
     private void buttonPanelSetup() {
         buttonPanel.addButton("Login", new LoginListener());
         buttonPanel.addButton("Register", new RegisterListener());
+        buttonPanel.addButton("Save & Restart", new SaveSystemListener());
         add(buttonPanel);
     }
 
@@ -123,8 +125,8 @@ public class Login extends JFrame {
     }
 
     /**
-     * get the User name and User type  stored in the infomap , then ask storage{@code storage} to return a
-     * User with given infomation.
+     * get the User name and User type  stored in the infoMap , then ask storage{@code storage} to return a
+     * User with given information.
      */
     private User getUser() {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
@@ -148,8 +150,8 @@ public class Login extends JFrame {
     }
 
     /**
-     * set this Jframe to be invisible and create a new UserMenu with given user.
-     * @param user the given user  that need to be create with new usermenu.
+     * set this JFrame to be invisible and create a new UserMenu with given user.
+     * @param user the given user  that need to be create with new userMenu.
      */
     private void login(User user) {
         this.setVisible(false);
@@ -161,7 +163,7 @@ public class Login extends JFrame {
      *
      * @see Login {@link #buttonPanelSetup()}
      */
-    class LoginListener implements ActionListener {
+    private class LoginListener implements ActionListener {
         /**
          * overrides the method in interface{@code ActionListener}
          * set up the actionPerformed in this listener , if the password stored in InputInfoPanel matched
@@ -184,7 +186,7 @@ public class Login extends JFrame {
      *
      * @see Login {@link #buttonPanelSetup()}
      */
-    class RegisterListener implements ActionListener {
+    private class RegisterListener implements ActionListener {
         /**
          * overrides the method in interface{@code ActionListener}
          *  login with a NullUser in order to register.
@@ -193,6 +195,20 @@ public class Login extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             login(new NullUser());
+        }
+    }
+
+    private class SaveSystemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Main main = getMain();
+            main.saveSystem();
+            String message = "How many days elapse before restart system";
+            try {
+                Main.setDaysElapse(JOptionPane.showInputDialog(Login.this, message));
+            } catch (InvalidInputException e1) {
+                JOptionPane.showMessageDialog(Login.this, e1.getMessage());
+            }
         }
     }
 }

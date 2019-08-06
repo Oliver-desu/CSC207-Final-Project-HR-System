@@ -123,7 +123,7 @@ public class ApplicationManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-06
      */
-    class ViewDocumentListener implements ActionListener {
+    private class ViewDocumentListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          * show the document which have been  selected
@@ -172,7 +172,7 @@ public class ApplicationManageScenario extends Scenario {
      * @see  #initButton()
      * @since 2019-08-06
      */
-    class ApplyListener implements ActionListener {
+    private class ApplyListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          *  submit the Application if the {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT} ,
@@ -203,7 +203,7 @@ public class ApplicationManageScenario extends Scenario {
      * @see  #initButton()
      * @since 2019-08-06
      */
-    class WithdrawListener implements ActionListener {
+    private class WithdrawListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          *  if {@code Application} is not null and {@code ApplicationStatus} is {@code ApplicationStatus.PENDING},
@@ -233,7 +233,7 @@ public class ApplicationManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-06
      */
-    class DeleteApplicationListener implements ActionListener {
+    private class DeleteApplicationListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          * delete {@code Application} if  {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT},

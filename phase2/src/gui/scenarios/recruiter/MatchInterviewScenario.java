@@ -141,7 +141,7 @@ public class MatchInterviewScenario extends Scenario {
      * @see #initLeftFilter()
      * @since 2019-08-05
      */
-    class MatchListener implements ActionListener {
+    private class MatchListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          * 1 if {@code Application} is not null ,then get the {@code Interview} of this Application ,

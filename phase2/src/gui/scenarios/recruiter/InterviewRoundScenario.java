@@ -162,7 +162,7 @@ public class InterviewRoundScenario extends Scenario {
      * @since 2019-08-05
      */
 
-    class LeftFilterListener implements ListSelectionListener {
+    private class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             Application application = leftFilter.getSelectObject();
@@ -179,7 +179,7 @@ public class InterviewRoundScenario extends Scenario {
      * @author group 0120 of CSC207 summer 2019
      * @since 2019-08-05
      */
-    class HireListener implements ActionListener {
+    private class HireListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (interviewRound == manager.getCurrentInterviewRound()) {
@@ -211,7 +211,7 @@ public class InterviewRoundScenario extends Scenario {
      *
      */
 
-    class MatchInterviewListener implements ActionListener {
+    private class MatchInterviewListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();

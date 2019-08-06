@@ -56,9 +56,9 @@ public class MenuPanel extends JPanel {
     private Dimension menuSize;
 
     /**
-     * creat a new {@code MenuPanel} with given usermenu{@code UserMenu} , with dimension of menuSize and buttonSize
+     * create a new {@code MenuPanel} with given userMenu{@code UserMenu} , with dimension of menuSize and buttonSize
      *
-     * @param userMenu   given UserMenu{@code Usermenu}
+     * @param userMenu   {@code UserMenu}
      * @param menuSize   dimension of the menuSize
      * @param buttonSize dimension of the buttonSize
      * @see null
@@ -96,7 +96,7 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * add "Ongoing Interview" button  and setup a new OngoingInterviewScenario with usermenu.
+     * add "Ongoing Interview" button  and setup a new OngoingInterviewScenario with userMenu.
      * @see #setup()
      */
     private void interviewerMenuSetup() {

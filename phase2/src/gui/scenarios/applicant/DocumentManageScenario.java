@@ -133,7 +133,7 @@ public class DocumentManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-06
      */
-    class AddDocumentListener implements ActionListener {
+    private class AddDocumentListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          * If applicationDocumentManager is null then   add
@@ -164,7 +164,7 @@ public class DocumentManageScenario extends Scenario {
      * @see #initButton()
      * @since 2019-08-06
      */
-    class DeleteDocumentListener implements ActionListener {
+    private class DeleteDocumentListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
          * If applicationDocumentManager is null then   get the file which selected by user and remove it

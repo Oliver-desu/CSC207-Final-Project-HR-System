@@ -139,7 +139,7 @@ public class ApplicationScenario extends Scenario {
      * @since since 2019-08-05
      */
 
-    class LeftFilterListener implements ListSelectionListener {
+    private class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             Application application = leftFilter.getSelectObject();
@@ -153,7 +153,7 @@ public class ApplicationScenario extends Scenario {
     /**
      * Class {@code ViewDocumentListener} implements ActionListener. It deals with actions happening to document.
      */
-    class ViewDocumentListener implements ActionListener {
+    private class ViewDocumentListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Document document = rightFilter.getSelectObject();
