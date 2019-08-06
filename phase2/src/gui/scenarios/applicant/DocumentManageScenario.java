@@ -1,6 +1,7 @@
 package gui.scenarios.applicant;
 
 import domain.Exceptions.CanNotEditDocumentManagerException;
+import domain.Exceptions.DocumentAlreadyExistsException;
 import domain.Exceptions.EmptyDocumentNameException;
 import domain.Test;
 import domain.applying.Application;
@@ -137,21 +138,33 @@ public class DocumentManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          * If applicationDocumentManager is null then   add
-         * the file to this applicantDocumentManager. then update GUI and show a massage "Change is made successfully!"
+         * the file to this applicantDocumentManager. then update GUI and show a massage "succeed!"
          *  If applicationDocumentManager is not  null,then when user select a document in the rightFilter ,
-         *  then add it to this application ,
-         *  then update GUI and show a massage "Change is made successfully!"
+         *  then add it to this application , show a massage "succeed!"
+         *  if user didnot slect a ducument and press "add" , the show a message"No document selected!"
+         * @throws CanNotEditDocumentManagerException this document cannot be modified.
+         * @exception EmptyDocumentNameException   this document is empty.
+         * @exception DocumentAlreadyExistsException   the document with same name already exist
+         * @exception NullPointerException
          * @param e ActionEvent
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            Document document = applicantDocumentManager == null ?
-                    new Document(getSubmitFileName()) : rightFilter.getSelectObject();
+            Document document;
+            DocumentManager manager;
+            if (applicationDocumentManager == null) {
+                document = new Document(getSubmitFileName());
+                manager = applicantDocumentManager;
+            } else {
+                document = rightFilter.getSelectObject();
+                manager = applicationDocumentManager;
+            }
+
             try {
-                applicantDocumentManager.addDocument(document);
+                manager.addDocument(document);
                 update();
                 showMessage("Succeed!");
-            } catch (CanNotEditDocumentManagerException | EmptyDocumentNameException e1) {
+            } catch (CanNotEditDocumentManagerException | EmptyDocumentNameException | DocumentAlreadyExistsException e1) {
                 showMessage(e1.getMessage());
             } catch (NullPointerException e1) {
                 showMessage("No document selected!");
@@ -180,7 +193,7 @@ public class DocumentManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Document document;
             DocumentManager manager;
-            if (applicantDocumentManager == null) {
+            if (applicationDocumentManager == null) {
                 document = rightFilter.getSelectObject();
                 manager = applicantDocumentManager;
             } else {

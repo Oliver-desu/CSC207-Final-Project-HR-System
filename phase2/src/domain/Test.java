@@ -224,7 +224,12 @@ public class Test {
         manager.checkStatus();
         InterviewRound interviewRound = new InterviewRound(Integer.toString(manager.getInterviewRounds().size()));
         manager.addInterviewRound(interviewRound);
-        manager.nextRound();
+        try {
+            manager.nextRound();
+        } catch (Exception e) {
+            System.out.println("addNewRound");
+            System.out.println(e);
+        }
         return interviewRound;
     }
 
@@ -235,7 +240,12 @@ public class Test {
         for (Application application: interviewRound.getUnmatchedApplications()) {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
             interviewer = this.getRandomInterviewer(company);
-            interview.match(interviewer);
+            try {
+                interview.match(interviewer);
+            } catch (Exception e) {
+                System.out.println("addNewRoundAndFinishMatching");
+                System.out.println(e);
+            }
         }
         interviewRound.checkStatus();
     }

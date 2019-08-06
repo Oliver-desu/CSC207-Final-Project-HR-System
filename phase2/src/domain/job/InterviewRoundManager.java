@@ -3,10 +3,7 @@ package domain.job;
 import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
-import domain.Exceptions.CurrentRoundUnfinishedException;
-import domain.Exceptions.JobPostingAlreadyFilledException;
-import domain.Exceptions.WrongApplicationStatusException;
-import domain.Exceptions.WrongJobPostingStatusException;
+import domain.Exceptions.*;
 import domain.applying.Application;
 import domain.storage.Storage;
 
@@ -130,19 +127,23 @@ public class InterviewRoundManager implements Serializable {
      * When the job posting is in the status {@code JobPostingStatus.PROCESSING} and current interview round has a status
      * of {@code InterviewRoundStatus.FINISHED}, we start the next round by calling {@code start} on {@code remainingApplications}.
      * Otherwise, do nothing.
-     *
-     * @return true if interview round of the job is set to the next round; false if nothing is done
+     * @exception WrongJobPostingStatusException the posting status is wrong
+     * @exception WrongInterviewRoundStatusException the interview round is wrong
+     * @exception NextRoundDoesNotExistException  the next current does not exits
      * @see gui.scenarios.recruiter.JobManageScenario
      */
-    public boolean nextRound() {
+    public void nextRound() throws WrongJobPostingStatusException, WrongInterviewRoundStatusException,
+            NextRoundDoesNotExistException {
         InterviewRound currentRound = getCurrentInterviewRound();
-        if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
-                (currentRound == null || currentRound.getStatus().equals(InterviewRoundStatus.FINISHED))) {
+        if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
+            throw new WrongJobPostingStatusException();
+        } else if (currentRound != null && !currentRound.getStatus().equals(InterviewRoundStatus.FINISHED)) {
+            throw new WrongInterviewRoundStatusException();
+        } else if (interviewRounds.size() <= interviewRounds.indexOf(currentRound) + 1) {
+            throw new NextRoundDoesNotExistException();
+        } else {
             InterviewRound nextRound = interviewRounds.get(interviewRounds.indexOf(currentRound) + 1);
             nextRound.start(remainingApplications);
-            return true;
-        } else {
-            return false;
         }
     }
 
