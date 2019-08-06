@@ -1,8 +1,9 @@
 package domain.Exceptions;
 
-public class UserAlreadyExistsException extends RuntimeException {
+public class UserAlreadyExistsException extends Exception {
 
-    /*
-     * Can not register user because user already exists.*/
-
+    @Override
+    public String getMessage() {
+        return "Username has already been used by other users!";
+    }
 }

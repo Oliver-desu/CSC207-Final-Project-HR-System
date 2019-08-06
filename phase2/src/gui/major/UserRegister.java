@@ -1,13 +1,13 @@
 package gui.major;
 
 import domain.Enums.UserType;
+import domain.Exceptions.*;
 import domain.storage.UserFactory;
 import domain.user.User;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -130,7 +130,7 @@ public class UserRegister extends Scenario {
     }
 
     /**
-     * Initial the information that need  {@code Employeee} to be filled , include the position and companyID.
+     * Initial the information that need  {@code Employee} to be filled , include the position and companyID.
      * @param factory the factory that construct the page
      */
     private void initEmployeeInput(ComponentFactory factory) {
@@ -149,11 +149,12 @@ public class UserRegister extends Scenario {
         add(buttonPanel);
     }
 
-
-    private User createUserAndRegister() {
+    private User createUserAndRegister()
+            throws UnmatchedPasswordException, WrongEmailFormatException, UserAlreadyExistsException,
+            CompanyAlreadyExistsException, CompanyDoesNotExistException {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
-        if (registerType == null) registerType = UserType.valueOf(infoMap.get("Position:").toUpperCase());
         infoMap.put("Password:", Arrays.toString(infoPanel.getPassword()));
+        if (registerType == null) registerType = UserType.valueOf(infoMap.get("Position:").toUpperCase());
         return new UserFactory(getMain().getStorage()).createUser(infoMap, registerType);
     }
 
@@ -168,16 +169,16 @@ public class UserRegister extends Scenario {
          * override the method in interface {ActionListener} ,
          * create a new user, if successfully created show a dialog "Successfully registered!" ,
          * if not  show a dialog "Incorrect input or username already used by others!"
-         * @param e Actionevent
+         * @param e ActionEvent
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            User user = createUserAndRegister();
-            UserMenu userMenu = getUserMenu();
-            if (user.isNull()) {
-                JOptionPane.showMessageDialog(userMenu, "Incorrect input or username already used by others!");
-            } else {
-                JOptionPane.showMessageDialog(userMenu, "Successfully registered!");
+            try {
+                createUserAndRegister();
+                showMessage("Successfully registered!");
+            } catch (UnmatchedPasswordException | WrongEmailFormatException | UserAlreadyExistsException |
+                    CompanyAlreadyExistsException | CompanyDoesNotExistException e1) {
+                showMessage(e1.getMessage());
             }
         }
     }

@@ -1,9 +1,7 @@
 package domain.storage;
 
 import domain.Enums.UserType;
-import domain.Exceptions.UnmatchedPasswordException;
-import domain.Exceptions.UserAlreadyExistsException;
-import domain.Exceptions.WrongEmailFormatException;
+import domain.Exceptions.*;
 import domain.user.*;
 import gui.major.UserRegister;
 
@@ -28,22 +26,22 @@ public class UserFactory implements Serializable {
 
 
     /**
-     * The {@code Storage} used to store all the users created.
+     * The {@code storage} used to store all the users created.
      *
      * @see Storage
      * @see #createUser(HashMap, UserType)
      */
-    private Storage Storage;
+    private Storage storage;
 
 
     /**
      * Create a new user factory.
      *
-     * @param userPool the {@code Storage} used to store all users created
+     * @param userPool the {@code storage} used to store all users created
      * @see gui.major.UserRegister
      */
     public UserFactory(Storage userPool) {
-        this.Storage = userPool;
+        this.storage = userPool;
     }
 
     /**
@@ -52,9 +50,17 @@ public class UserFactory implements Serializable {
      * @param infoMap      a hash map that stores all information needed to create a new user
      * @param registerType the user type of the new user being created
      * @return a new {@code User}
+     * @throws UnmatchedPasswordException see method {@code validValues(HashMap, UserType)}
+     * @throws WrongEmailFormatException see method {@code validValues(HashMap, UserType)}
+     * @throws UserAlreadyExistsException see method {@code validValues(HashMap, UserType)}
+     * @throws CompanyAlreadyExistsException see method {@code validValues(HashMap, UserType)}
+     * @throws CompanyDoesNotExistException see method {@code validValues(HashMap, UserType)}
      * @see UserRegister
+     * @see #validValues(HashMap, UserType)
      */
-    public User createUser(HashMap<String, String> infoMap, UserType registerType) {
+    public User createUser(HashMap<String, String> infoMap, UserType registerType)
+            throws UnmatchedPasswordException, WrongEmailFormatException, UserAlreadyExistsException,
+            CompanyAlreadyExistsException, CompanyDoesNotExistException {
         validValues(infoMap, registerType);
         User user;
         if (registerType.equals(UserType.APPLICANT)) user = createApplicant(infoMap);
@@ -64,7 +70,7 @@ public class UserFactory implements Serializable {
         else user = new NullUser();
 
         if (!user.isNull()) {
-            this.Storage.register(user, registerType);
+            this.storage.register(user, registerType);
         }
         return user;
     }
@@ -90,7 +96,7 @@ public class UserFactory implements Serializable {
     private User createRecruiter(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
-            Company company = Storage.getCompany(companyId);
+            Company company = storage.getCompany(companyId);
             company.addRecruiterId(infoMap.get("Username:"));
             return new Employee(infoMap, companyId, UserType.RECRUITER);
         } else {
@@ -108,7 +114,7 @@ public class UserFactory implements Serializable {
     private User createInterviewer(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
-            Company company = Storage.getCompany(companyId);
+            Company company = storage.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
             return new Employee(infoMap, companyId, UserType.INTERVIEWER);
         } else {
@@ -129,7 +135,7 @@ public class UserFactory implements Serializable {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
             values.put("hiringManagerId", infoMap.get("Username:"));
-            this.Storage.registerCompany(new Company(values));
+            this.storage.registerCompany(new Company(values));
             return new Employee(infoMap, companyId, UserType.HIRING_MANAGER);
         } else {
             return new NullUser();
@@ -147,24 +153,36 @@ public class UserFactory implements Serializable {
      * @see UserFactory#createHiringManagerAndCompany(HashMap)
      */
     private boolean companyExists(String companyId) {
-        return Storage.getCompany(companyId) != null;
+        return storage.getCompany(companyId) != null;
     }
 
     /**
      * Check whether the information in {@code InfoMap} is valid to create a new user.
      * It is a helper method for createUser.
      *
-     * @param infoMap      the map that consists of basic information about the user
+     * @param infoMap the map that consists of basic information about the user
      * @param registerType the type of the new user
      * @see UserFactory#createUser(HashMap, UserType)
+     * @throws UnmatchedPasswordException password does not match confirm password
+     * @throws WrongEmailFormatException email format wrong, has to end with .com
+     * @throws UserAlreadyExistsException user already exists, can not override
+     * @throws CompanyAlreadyExistsException company already exists, can not override
+     * @throws CompanyDoesNotExistException can not become an employee of company that does not exist
      */
-    private void validValues(HashMap<String, String> infoMap, UserType registerType) {
+    private void validValues(HashMap<String, String> infoMap, UserType registerType)
+            throws UnmatchedPasswordException, WrongEmailFormatException, UserAlreadyExistsException,
+            CompanyAlreadyExistsException, CompanyDoesNotExistException {
         if (infoMap.get("Password:").equals("[]")) {
             throw new UnmatchedPasswordException();
         } else if (!infoMap.get("Email:").matches(".+@(.+\\.)com")) {
             throw new WrongEmailFormatException();
-        } else if (Storage.getEmployee(infoMap.get("Username:"), registerType) != null) {
+        } else if (!storage.getUser(infoMap.get("Username:"), registerType).isNull()) {
             throw new UserAlreadyExistsException();
+        } else if (companyExists(infoMap.get("Company id:")) && registerType.equals(UserType.HIRING_MANAGER)) {
+            throw new CompanyAlreadyExistsException();
+        } else if (!companyExists(infoMap.get("Company id:")) &&
+                (registerType.equals(UserType.RECRUITER) || registerType.equals(UserType.INTERVIEWER))) {
+            throw new CompanyDoesNotExistException();
         }
     }
 }

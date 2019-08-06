@@ -2,6 +2,8 @@ package domain.job;
 
 import domain.Enums.ApplicationStatus;
 import domain.Enums.JobPostingStatus;
+import domain.Exceptions.ApplicationAlreadyExistsException;
+import domain.Exceptions.WrongJobPostingStatusException;
 import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
@@ -165,14 +167,16 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * @return whether an application is submitted successfully
      * @see Application#apply(Storage)
      */
-    public boolean applicationSubmit(Application application, Storage Storage) {
-        if (!hasApplication(application) && status.equals(JobPostingStatus.OPEN)) {
+    public void applicationSubmit(Application application, Storage Storage)
+            throws ApplicationAlreadyExistsException, WrongJobPostingStatusException {
+        if (hasApplication(application)) {
+            throw new ApplicationAlreadyExistsException();
+        } else if (!status.equals(JobPostingStatus.OPEN)) {
+            throw new WrongJobPostingStatusException();
+        } else {
             Company company = Storage.getCompany(jobDetails.get("Company id:"));
             company.receiveApplication(application);
             this.applications.add(application);
-            return true;
-        } else {
-            return false;
         }
     }
 

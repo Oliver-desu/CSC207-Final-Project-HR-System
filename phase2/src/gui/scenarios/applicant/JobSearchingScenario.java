@@ -1,5 +1,6 @@
 package gui.scenarios.applicant;
 
+import domain.Exceptions.ApplicationAlreadyExistsException;
 import domain.Test;
 import domain.applying.Application;
 import domain.job.JobPosting;
@@ -94,12 +95,14 @@ public class JobSearchingScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             Applicant applicant = (Applicant) getUserMenu().getUser();
-            if (jobPosting != null &&
-                    applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting))) {
+            try {
+                applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting));
                 ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
                 switchScenario(scenario);
-            } else {
-                showMessage("Failed!");
+            } catch (NullPointerException e1) {
+                showMessage("No job posting selected!");
+            } catch (ApplicationAlreadyExistsException e1) {
+                showMessage(e1.getMessage());
             }
         }
     }

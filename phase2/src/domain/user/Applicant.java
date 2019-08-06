@@ -1,8 +1,11 @@
 package domain.user;
 
+import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
+import domain.Exceptions.ApplicationAlreadyExistsException;
 import domain.Exceptions.NotEmployeeException;
+import domain.Exceptions.WrongApplicationStatusException;
 import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
@@ -63,36 +66,36 @@ public class Applicant extends User implements Serializable, ShowAble {
     }
 
     /**
-     * Add the new {@code Application} to this {@code Applicant} and return true if succeeded.
-     * Each {@code Applicant} can only have one {@code Application} for each {@code JobPosting}.
+     * Add the new {@code Application} to this {@code Applicant}.
      * @param jobId the id for the {@code JobPosting}
      * @param application   the new {@code Application} needed to be added
-     * @return true if and only if this {@code Applicant} does not already have an {@code Application}
-     * for the same {@code JobPosting}
+     * @throws ApplicationAlreadyExistsException application has already been created
      */
-    public boolean addApplication(String jobId, Application application) {
+    public void addApplication(String jobId, Application application) throws ApplicationAlreadyExistsException {
         if (!this.applications.containsKey(jobId)) {
             this.applications.put(jobId, application);
-            return true;
         } else {
-            return false;
+            throw new ApplicationAlreadyExistsException();
         }
     }
 
     /**
      * Delete {@code Application} from this {@code Applicant}.
      * @param application the {@code Application} that should be deleted from this {@code Applicant}
-     * @return true if and only if deleted successfully
+     * @throws WrongApplicationStatusException the status of this application is not {@code PENDING}, can not delete
      */
-    public boolean deleteApplication(Application application) {
-        String jobPostingId = application.getJobPostingId();
-        for (String jobId : applications.keySet()) {
-            if (jobId.equals(jobPostingId)) {
-                applications.remove(jobPostingId);
-                return true;
+    public void deleteApplication(Application application) throws WrongApplicationStatusException {
+        if (application.getStatus().equals(ApplicationStatus.DRAFT)) {
+            String jobPostingId = application.getJobPostingId();
+            for (String jobId : applications.keySet()) {
+                if (jobId.equals(jobPostingId)) {
+                    applications.remove(jobPostingId);
+                    return;
+                }
             }
+        } else {
+            throw new WrongApplicationStatusException();
         }
-        return false;
     }
 
     /**

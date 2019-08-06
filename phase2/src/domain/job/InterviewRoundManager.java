@@ -3,9 +3,9 @@ package domain.job;
 import domain.Enums.ApplicationStatus;
 import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
+import domain.Exceptions.*;
 import domain.applying.Application;
 import domain.storage.Storage;
-import jdk.internal.org.objectweb.asm.commons.SerialVersionUIDAdder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -128,18 +128,20 @@ public class InterviewRoundManager implements Serializable {
      * of {@code InterviewRoundStatus.FINISHED}, we start the next round by calling {@code start} on {@code remainingApplications}.
      * Otherwise, do nothing.
      *
-     * @return true if interview round of the job is set to the next round; false if nothing is done
      * @see gui.scenarios.recruiter.JobManageScenario
      */
-    public boolean nextRound() {
+    public void nextRound() throws WrongJobPostingStatusException, WrongInterviewRoundStatusException,
+            NextRoundDoesNotExistException {
         InterviewRound currentRound = getCurrentInterviewRound();
-        if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
-                (currentRound == null || currentRound.getStatus().equals(InterviewRoundStatus.FINISHED))) {
+        if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
+            throw new WrongJobPostingStatusException();
+        } else if (currentRound != null && !currentRound.getStatus().equals(InterviewRoundStatus.FINISHED)) {
+            throw new WrongInterviewRoundStatusException();
+        } else if (interviewRounds.size() <= interviewRounds.indexOf(currentRound) + 1) {
+            throw new NextRoundDoesNotExistException();
+        } else {
             InterviewRound nextRound = interviewRounds.get(interviewRounds.indexOf(currentRound) + 1);
             nextRound.start(remainingApplications);
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -193,17 +195,22 @@ public class InterviewRoundManager implements Serializable {
      * the job is still vacant.
      *
      * @param application the application to be hired
-     * @return whether the hiring process succeeds
      * @see gui.scenarios.recruiter.InterviewRoundScenario
+     * @throws WrongJobPostingStatusException status of job posting is not {@code PROCESSING}
+     * @throws WrongApplicationStatusException status of application is not {@code PENDING}
      */
-    public boolean hire(Application application) {
-        if (jobPosting.getStatus().equals(JobPostingStatus.PROCESSING) &&
-                application.getStatus().equals(ApplicationStatus.PENDING) && currentRoundFinished() &&
-                jobPosting.getNumOfPositions() > getHiredApplications().size()) {
-            application.setStatus(ApplicationStatus.HIRED);
-            return true;
+    public void hire(Application application) throws WrongJobPostingStatusException, WrongApplicationStatusException,
+            CurrentRoundUnfinishedException, JobPostingAlreadyFilledException {
+        if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
+            throw new WrongJobPostingStatusException();
+        } else if (!application.getStatus().equals(ApplicationStatus.PENDING)) {
+            throw new WrongApplicationStatusException();
+        } else if (!currentRoundFinished()) {
+            throw new CurrentRoundUnfinishedException();
+        } else if (jobPosting.getNumOfPositions() <= getHiredApplications().size()) {
+            throw new JobPostingAlreadyFilledException();
         } else {
-            return false;
+            application.setStatus(ApplicationStatus.HIRED);
         }
     }
 

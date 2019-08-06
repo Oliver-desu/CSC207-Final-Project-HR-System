@@ -1,6 +1,7 @@
 package domain.user;
 
 import domain.Enums.UserType;
+import domain.Exceptions.WrongEmployeeTypeException;
 import domain.applying.Interview;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
@@ -78,30 +79,37 @@ public class Employee extends User implements Filterable, Serializable {
      * Return all job postings this {@code Employee} is responsible for.
      * This method is called only when {@code Employee} is a recruiter or a hiring manager.
      * @return all job postings this {@code Employee} is responsible for
+     * @throws WrongEmployeeTypeException type of {@code Employee} is not recruiter or hiring manager
      */
-    public ArrayList<JobPosting> getJobPostings() {
-        ArrayList<JobPosting> jobPostings = new ArrayList<>();
-        if (this.getUserType().equals(UserType.HIRING_MANAGER) || this.getUserType().equals(UserType.RECRUITER)) {
+    public ArrayList<JobPosting> getJobPostings() throws WrongEmployeeTypeException {
+        try {
+            ArrayList<JobPosting> jobPostings = new ArrayList<>();
             for (Object file : files) {
                 jobPostings.add((JobPosting) file);
             }
+
+            return jobPostings;
+        } catch (ClassCastException e) {
+            throw new WrongEmployeeTypeException();
         }
-        return jobPostings;
     }
 
     /**
      * Return all interviews this {@code Employee} is responsible for.
      * This method is called only when {@code Employee} is an interviewer.
      * @return all interviews this {@code Employee} is responsible for
+     * @throws WrongEmployeeTypeException type of {@code Employee} is not interviewer
      */
-    public ArrayList<Interview> getInterviews() {
-        ArrayList<Interview> interviews = new ArrayList<>();
-        if (this.getUserType().equals(UserType.INTERVIEWER)) {
+    public ArrayList<Interview> getInterviews() throws WrongEmployeeTypeException {
+        try {
+            ArrayList<Interview> interviews = new ArrayList<>();
             for (Object file : files) {
                 interviews.add((Interview) file);
             }
+            return interviews;
+        } catch (ClassCastException e) {
+            throw new WrongEmployeeTypeException();
         }
-        return interviews;
     }
 
     public void addFile(Object file) {

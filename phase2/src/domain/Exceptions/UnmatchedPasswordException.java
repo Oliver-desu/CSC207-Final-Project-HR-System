@@ -1,10 +1,9 @@
 package domain.Exceptions;
 
-public class UnmatchedPasswordException extends RuntimeException {
+public class UnmatchedPasswordException extends Exception {
 
-    /*
-     * The password does not match confirm password.
-     * */
-
-
+    @Override
+    public String getMessage() {
+        return "Password not matched!";
+    }
 }

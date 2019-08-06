@@ -1,5 +1,7 @@
 package gui.scenarios.applicant;
 
+import domain.Exceptions.CanNotEditDocumentManagerException;
+import domain.Exceptions.EmptyDocumentNameException;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Document;
@@ -12,7 +14,6 @@ import gui.major.UserMenu;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,12 +27,11 @@ import java.awt.event.ActionListener;
  */
 public class DocumentManageScenario extends Scenario {
     /**
-     * the {@code DocumentManager} of the {@code DocumentManageScenario}
+     * the {@code DocumentManager} for the user
      */
     private DocumentManager applicantDocumentManager;
     /**
-     * the {@code DocumentManager} of the {@code DocumentManageScenario}
-     * #Todo: two attributes are same
+     * the {@code DocumentManager} for a particular application
      */
     private DocumentManager applicationDocumentManager;
     /**
@@ -119,6 +119,7 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * return the path of  file need to be submitted  in the right form.
+     * @see gui.scenarios.applicant.DocumentManageScenario.AddDocumentListener#actionPerformed(ActionEvent)
      * @return a string represent the path of the file .
      */
     private String getSubmitFileName() {
@@ -144,22 +145,17 @@ public class DocumentManageScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (applicationDocumentManager == null) {
-                if (applicantDocumentManager.addDocument(new Document(getSubmitFileName()))) {
-                    update();
-                    showMessage("Change is made successfully!");
-                    return;
-                }
-
-            } else {
-                Document document = rightFilter.getSelectObject();
-                if (document != null && applicationDocumentManager.addDocument(document)) {
-                    update();
-                    showMessage("Change is made successfully!");
-                    return;
-                }
+            Document document = applicantDocumentManager == null ?
+                    new Document(getSubmitFileName()) : rightFilter.getSelectObject();
+            try {
+                applicantDocumentManager.addDocument(document);
+                update();
+                showMessage("Succeed!");
+            } catch (CanNotEditDocumentManagerException | EmptyDocumentNameException e1) {
+                showMessage(e1.getMessage());
+            } catch (NullPointerException e1) {
+                showMessage("No document selected!");
             }
-            showMessage("Sorry! Cannot Add!");
         }
     }
 
@@ -182,22 +178,23 @@ public class DocumentManageScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (applicationDocumentManager == null) {
-                Document document = rightFilter.getSelectObject();
-                if (document != null && applicantDocumentManager.removeDocument(document)) {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
-                    update();
-                    return;
-                }
+            Document document;
+            DocumentManager manager;
+            if (applicantDocumentManager == null) {
+                document = rightFilter.getSelectObject();
+                manager = applicantDocumentManager;
             } else {
-                Document document = leftFilter.getSelectObject();
-                if (document != null && applicationDocumentManager.removeDocument(document)) {
-                    JOptionPane.showMessageDialog(getUserMenu(), "Change is made successfully!");
-                    update();
-                    return;
-                }
+                document = leftFilter.getSelectObject();
+                manager = applicationDocumentManager;
             }
-            JOptionPane.showMessageDialog(getUserMenu(), "Sorry! Cannot delete!");
+
+            if (document == null) {
+                showMessage("No document selected!");
+            } else {
+                manager.removeDocument(document);
+                update();
+                showMessage("Succeed!");
+            }
         }
     }
 }

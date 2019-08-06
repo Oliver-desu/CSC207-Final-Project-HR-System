@@ -1,6 +1,7 @@
 package gui.scenarios.interviewer;
 
 import domain.Enums.InterviewStatus;
+import domain.Exceptions.WrongEmployeeTypeException;
 import domain.Test;
 import domain.applying.Document;
 import domain.applying.Interview;
@@ -19,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * todo
@@ -30,7 +32,7 @@ public class OngoingInterviewScenario extends Scenario {
     /**
      * todo
      *
-     * @param userMenu
+     * @param userMenu given {@code usermenu}
      * @see gui.major.MenuPanel
      */
     public OngoingInterviewScenario(UserMenu userMenu) {
@@ -134,7 +136,11 @@ public class OngoingInterviewScenario extends Scenario {
     @Override
     protected void update() {
         Employee interviewer = (Employee) getUserMenu().getUser();
-        leftFilter.setFilterContent(interviewer.getInterviews());
+        try {
+            leftFilter.setFilterContent(interviewer.getInterviews());
+        } catch (WrongEmployeeTypeException e) {
+            leftFilter.setFilterContent(new ArrayList<>());
+        }
     }
 
     /**
@@ -194,17 +200,21 @@ public class OngoingInterviewScenario extends Scenario {
         private InterviewStatus result;
 
         /**
-         * //todo
-         *
-         * @param isPass
+         * set this.result to {@code InterviewStatus.PASS}  if ispass is true, otherwise set it to
+         *{@code InterviewStatus.FAIL}
+         * @param isPass whether it is passed or not
          */
         SetResultListener(boolean isPass) {
             this.result = isPass ? InterviewStatus.PASS : InterviewStatus.FAIL;
         }
 
         /**
-         * //todo
-         *
+         * override the method in interface{@code ActionListener}
+         *  1 get the {@code Interview} selected by user in the leftFilter
+         *  2 if {@code Interview} 's status is {@code InterviewStatus.PENDING}
+         *  3 then set then {@code Interview}  to the result and set {@code Interview} to recommendation
+         *  4 update GUI and show a massage "Succeed!"
+         *  5 otherwise show a message "Can not change!"
          * @param e the action event of clicking a button
          * @see #update()
          * @see #getRecommendation()

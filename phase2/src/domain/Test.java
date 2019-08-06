@@ -30,12 +30,12 @@ public class Test {
     private int numJobPostings;
 
     private Main main;
-    private Storage Storage;
+    private Storage storage;
 
 
     public Test() {
         this.main = new Main();
-        this.Storage = this.main.getStorage();
+        this.storage = this.main.getStorage();
     }
 
     public static void main(String[] args) {
@@ -47,26 +47,26 @@ public class Test {
     }
 
     public Storage getStorage() {
-        return Storage;
+        return storage;
     }
 
     public Company getRandomCompany() {
-        return Storage.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
+        return storage.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
     public Employee getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return Storage.getEmployee(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
+        return storage.getEmployee(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
     }
 
     public Employee getRandomRecruiter(Company company) {
         ArrayList<String> recruiterIds = company.getRecruiterIds();
-        return Storage.getEmployee(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
+        return storage.getEmployee(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
         ArrayList<String> jobPostingIds = company.getJobPostingIds();
-        return Storage.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
+        return storage.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
     public String getRandomDocumentName(DocumentManager documentManager) {
@@ -84,7 +84,7 @@ public class Test {
         values.put("Email:", "shit@gmail.com");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        Storage.register(applicant, UserType.APPLICANT);
+        storage.register(applicant, UserType.APPLICANT);
         numApplicants++;
         return applicant;
     }
@@ -101,9 +101,14 @@ public class Test {
         values.put("Password:", "[h, o, l, y, s, h, i, t]");
         values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
-        new UserFactory(Storage).createUser(values, UserType.HIRING_MANAGER);
-        Employee generalist = (Employee) Storage.getUser(values.get("Username:"), UserType.HIRING_MANAGER);
-        Company company = Storage.getCompany(generalist.getCompanyId());
+        try {
+            new UserFactory(storage).createUser(values, UserType.HIRING_MANAGER);
+        } catch (Exception e) {
+            System.out.println("addCompany");
+            System.out.println(e);
+        }
+        Employee hiringManager = storage.getEmployee(values.get("Username:"), UserType.HIRING_MANAGER);
+        Company company = storage.getCompany(hiringManager.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
@@ -121,7 +126,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
             interviewer = new Employee(values, company.getId(), UserType.INTERVIEWER);
-            Storage.register(interviewer, UserType.INTERVIEWER);
+            storage.register(interviewer, UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
@@ -137,7 +142,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
             recruiter = new Employee(values, company.getId(), UserType.RECRUITER);
-            Storage.register(recruiter, UserType.RECRUITER);
+            storage.register(recruiter, UserType.RECRUITER);
             company.addRecruiterId(recruiter.getUsername());
             numRecruiters++;
         }
@@ -156,7 +161,7 @@ public class Test {
         values.put("Reference:", "Optional");
         values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting(values);
-        Storage.addJobPosting(jobPosting);
+        storage.addJobPosting(jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomRecruiter(company).addFile(jobPosting);
         numJobPostings++;
@@ -173,32 +178,43 @@ public class Test {
     public void addDocuments(int num, DocumentManager documentManager) {
         int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
-            documentManager.addDocument(new Document(Integer.toString(i), "Some content"));
+            try {
+                documentManager.addDocument(new Document(Integer.toString(i), "Some content"));
+            } catch (Exception e) {
+                System.out.println("addDocuments");
+                System.out.println(e);
+            }
         }
-    }
-
-    public void addApplicationForApplicant(JobPosting jobPosting, Applicant applicant) {
-        // add application for applicant and submit to jobPosting
-        Application application = new Application(applicant, jobPosting);
-        String docName = this.getRandomDocumentName(applicant.getDocumentManager());
-        application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
-        applicant.addApplication(jobPosting.getJobId(), application);
-        application.apply(Storage);
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = new Application(applicant, jobPosting);
         for (String docName : applicant.getDocumentManager().getAllDocNames()) {
-            application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
+            try {
+                application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
-        applicant.addApplication(jobPosting.getJobId(), application);
+        try {
+            applicant.addApplication(jobPosting.getJobId(), application);
+        } catch (Exception e) {
+            System.out.println("addDraftApplicationForJobPosting");
+            System.out.println(e);
+        }
         return application;
     }
 
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
-        application.apply(Storage);
-        return application;
+        try {
+            application.apply(storage);
+            return application;
+        } catch (Exception e) {
+            System.out.println("addSubmittedApplicationForJobPosting");
+            System.out.println(e);
+            return null;
+        }
     }
 
     public InterviewRound addNewRound(JobPosting jobPosting) {
@@ -208,7 +224,12 @@ public class Test {
         manager.checkStatus();
         InterviewRound interviewRound = new InterviewRound(Integer.toString(manager.getInterviewRounds().size()));
         manager.addInterviewRound(interviewRound);
-        manager.nextRound();
+        try {
+            manager.nextRound();
+        } catch (Exception e) {
+            System.out.println("addNewRound");
+            System.out.println(e);
+        }
         return interviewRound;
     }
 
@@ -241,7 +262,12 @@ public class Test {
     public void hireApplicants(JobPosting jobPosting) {
         InterviewRoundManager manager = jobPosting.getInterviewRoundManager();
         for (Application application : manager.getRemainingApplications()) {
-            manager.hire(application);
+            try {
+                manager.hire(application);
+            } catch (Exception e) {
+                System.out.println("hireApplicants");
+                System.out.println(e);
+            }
         }
         jobPosting.endJobPosting();
     }

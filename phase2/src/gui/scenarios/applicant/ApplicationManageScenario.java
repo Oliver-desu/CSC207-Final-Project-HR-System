@@ -1,6 +1,9 @@
 package gui.scenarios.applicant;
 
 import domain.Enums.ApplicationStatus;
+import domain.Exceptions.ApplicationAlreadyExistsException;
+import domain.Exceptions.WrongApplicationStatusException;
+import domain.Exceptions.WrongJobPostingStatusException;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Document;
@@ -152,12 +155,14 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-            if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
+            if (application == null) {
+                showMessage("No application selected!");
+            } else if (!application.getStatus().equals(ApplicationStatus.DRAFT)) {
+                showMessage("Application status is not DRAFT, can not edit!");
+            } else {
                 DocumentManageScenario scenario = new DocumentManageScenario(getUserMenu(),
                         application.getDocumentManager());
                 switchScenario(scenario);
-            } else {
-                showMessage("The application cannot be edited.");
             }
         }
     }
@@ -177,15 +182,18 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-            if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
-                if (application.apply(getMain().getStorage())) {
-                    showMessage("Submission succeeds!");
-                    update();
-                } else {
-                    showMessage("The process failed.");
-                }
-            } else {
-                showMessage("This application has been submitted.");
+            try {
+                application.apply(getMain().getStorage());
+                update();
+                showMessage("Succeed!");
+            } catch (NullPointerException e1) {
+                showMessage("No application selected!");
+            } catch (WrongApplicationStatusException e1) {
+                showMessage("Application status is not DRAFT, can not apply!");
+            } catch (ApplicationAlreadyExistsException e1) {
+                showMessage("You already submitted an application for this job posting!");
+            } catch (WrongJobPostingStatusException e1) {
+                showMessage("The job posting is not open, can not apply!");
             }
         }
     }
@@ -208,18 +216,14 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-//            conditions are checked in cancel()
-            if (application != null && application.getStatus().equals(ApplicationStatus.PENDING)) {
-                if (application.cancel(getMain().getStorage())) {
-                    showMessage("Withdrawal succeeds!");
-                    update();
-                } else {
-                    showMessage("The process failed.");
-                }
-            } else if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
-                showMessage("This application has not yet been submitted.");
-            } else {
-                showMessage("This application can no longer be canceled.");
+            try {
+                application.cancel(getMain().getStorage());
+                showMessage("Withdrawal succeeds!");
+                update();
+            } catch (NullPointerException e1) {
+                showMessage("No application selected!");
+            } catch (WrongApplicationStatusException e1) {
+                showMessage("This application is not pending, can not cancel!");
             }
         }
     }
@@ -240,14 +244,14 @@ public class ApplicationManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
-            if (application != null && application.getStatus().equals(ApplicationStatus.DRAFT)) {
-                if (applicant.deleteApplication(application)) {
-                    showMessage("Successfully deleted!");
-                    update();
-                    return;
-                }
+            try {
+                applicant.deleteApplication(application);
+                update();
+            } catch (NullPointerException e1) {
+                showMessage("No application selected!");
+            } catch (WrongApplicationStatusException e1) {
+                showMessage("Status for this application is not DRAFT, can not delete.");
             }
-            showMessage("Mission failed!");
         }
     }
 }

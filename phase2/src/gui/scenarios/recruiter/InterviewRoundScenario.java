@@ -2,6 +2,10 @@ package gui.scenarios.recruiter;
 
 import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
+import domain.Exceptions.CurrentRoundUnfinishedException;
+import domain.Exceptions.JobPostingAlreadyFilledException;
+import domain.Exceptions.WrongApplicationStatusException;
+import domain.Exceptions.WrongJobPostingStatusException;
 import domain.Test;
 import domain.applying.Application;
 import domain.applying.Interview;
@@ -180,14 +184,21 @@ public class InterviewRoundScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             if (interviewRound == manager.getCurrentInterviewRound()) {
                 Application application = leftFilter.getSelectObject();
-                if (application != null && manager.hire(application)) {
-                    showMessage("Successfully hired!");
+                try {
+                    manager.hire(application);
+                    showMessage("Succeed!");
                     initLeftFilter();
-                } else {
-                    showMessage("Can not hire this applicant!");
+                } catch (NullPointerException e1) {
+                    showMessage("No application selected!");
+                } catch (WrongJobPostingStatusException e1) {
+                    showMessage("The status of JobPosting is not PROCESSING, can not hire!");
+                } catch (WrongApplicationStatusException e1) {
+                    showMessage("The status of Application is not PENDING, can not hire!");
+                } catch (CurrentRoundUnfinishedException | JobPostingAlreadyFilledException e1) {
+                    showMessage(e1.getMessage());
                 }
             } else {
-                showMessage("JobPosting already finished!");
+                showMessage("Can only hire people in the most recent interview round!");
             }
         }
     }
@@ -204,14 +215,12 @@ public class InterviewRoundScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenu menu = getUserMenu();
-            if (manager.getJobPosting().getStatus().equals(JobPostingStatus.PROCESSING)) {
-                if (interviewRound.getStatus().equals(InterviewRoundStatus.MATCHING)) {
-                    menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
-                } else {
-                    showMessage("Sorry, cannot match interview now.");
-                }
-            } else {
+            if (!manager.getJobPosting().getStatus().equals(JobPostingStatus.PROCESSING)) {
                 showMessage("JobPosting already finished!");
+            } else if (!interviewRound.getStatus().equals(InterviewRoundStatus.MATCHING)) {
+                showMessage("Current interview round is not in the matching stage, can not match!");
+            } else {
+                menu.setScenario(new MatchInterviewScenario(menu, interviewRound));
             }
         }
     }
