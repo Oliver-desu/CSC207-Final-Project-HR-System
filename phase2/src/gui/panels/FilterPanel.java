@@ -120,6 +120,7 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         add(label);
     }
 
+
     private void searchSectionSetup(int width) {
         JTextField textField = new JTextField("XXX; XX; XXX");
         textField.setPreferredSize(new Dimension(width - SEARCH_BUTTON_WIDTH - 10, SEARCH_BUTTON_HEIGHT));
@@ -154,6 +155,7 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         getFilter().setFilterContent(filterContent);
         update();
     }
+
 
     private class NotEditableTableModel extends DefaultTableModel {
         @Override
