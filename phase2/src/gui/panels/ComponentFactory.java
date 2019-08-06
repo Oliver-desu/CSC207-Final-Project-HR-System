@@ -86,8 +86,8 @@ public class ComponentFactory {
     /**
      * Create a combo box  and specify what it is for.
      * Set the combo box to be uneditable.
-     * @param name
-     * @param options
+     * @param name The name of what the combo box is for.
+     * @param options The options for the combo box.
      */
     public void addComboBox(String name, String[] options) {
         addComboBox(name, options, null, false);
@@ -96,7 +96,7 @@ public class ComponentFactory {
     /**
      * Create a text area and specify what the area is for.
      * Make the area editable by user.
-     * @param name
+     * @param name The name of what the text area is for.
      */
     public void addTextArea(String name) {
         addTextArea(name, "", true);
@@ -105,7 +105,7 @@ public class ComponentFactory {
 
     /**
      * Return a component from the given component type name
-     * @param name
+     * @param name The name of the component.
      * @return Component from the given component type name.
      */
     public JComponent getLabel(String name) {
@@ -117,10 +117,10 @@ public class ComponentFactory {
     /**
      * Create a combo box with a set of options.
      * Specify what the combo box is for and decide whether it is editable by the boolean it is passed in.
-     * @param name
-     * @param options
+     * @param name The name of the combo box.
+     * @param options The options for the combo box.
      * @param defaultValue
-     * @param editable
+     * @param editable Boolean of whether the combo box is editable
      * @see #infoPanel
      */
     public void addComboBox(String name, String[] options, String defaultValue, boolean editable) {
@@ -133,9 +133,9 @@ public class ComponentFactory {
 
     /**
      * Create a text field.
-     * @param name
-     * @param defaultValue
-     * @param editable
+     * @param name The name of text field.
+     * @param defaultValue Set the output of the text as default value.
+     * @param editable Boolean for whether the textfield is editable.
      * @see #infoPanel
      */
     public void addTextField(String name, String defaultValue, boolean editable) {
@@ -149,7 +149,7 @@ public class ComponentFactory {
 
     /**
      * Create a field for password.
-     * @param name
+     * @param name The name of the field, which would be password.
      * @see #infoPanel
      */
     public void addPasswordField(String name) {
@@ -160,9 +160,9 @@ public class ComponentFactory {
 
     /**
      * Add a  text area with scroll pane.
-     * @param name
-     * @param defaultValue
-     * @param editable
+     * @param name The name of the text area.
+     * @param defaultValue The output of the area, which is default value.
+     * @param editable Boolean of whether the area is editable.
      * @see #infoPanel
      */
 
