@@ -177,14 +177,22 @@ public class Test {
     public void addDocuments(int num, DocumentManager documentManager) {
         int amount = documentManager.getNumOfDocuments();
         for (int i=amount; i<amount+num; i++) {
-            documentManager.addDocument(new Document(Integer.toString(i), "Some content"));
+            try {
+                documentManager.addDocument(new Document(Integer.toString(i), "Some content"));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
     }
 
     public Application addDraftApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = new Application(applicant, jobPosting);
         for (String docName : applicant.getDocumentManager().getAllDocNames()) {
-            application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
+            try {
+                application.getDocumentManager().addDocument(applicant.getDocumentManager().findDocument(docName));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
         applicant.addApplication(jobPosting.getJobId(), application);
         return application;
