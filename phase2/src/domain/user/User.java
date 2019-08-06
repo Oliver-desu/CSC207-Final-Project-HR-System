@@ -2,6 +2,7 @@ package domain.user;
 
 import domain.Enums.UserType;
 import domain.Exceptions.NotEmployeeException;
+import gui.scenarios.user_register.UserRegisterScenario;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -60,10 +61,10 @@ public abstract class User implements Serializable {
     /**
      * Constructor for {@code User}.
      * @param map   a hash map of information needed to create a new {@code User}, the content
-     *              of this map can be found in class {@code UserRegister}
+     *              of this map can be found in class {@code UserRegisterScenario}
      * @param userType  the type of this {@code User}
      * @see UserType
-     * @see gui.major.UserRegister
+     * @see UserRegisterScenario
      */
     public User(HashMap<String, String> map, UserType userType) {
         this.username = map.get("Username:");

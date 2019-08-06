@@ -1,9 +1,11 @@
-package gui.major;
+package gui.scenarios.user_register;
 
 import domain.Enums.UserType;
 import domain.Exceptions.*;
 import domain.storage.UserFactory;
 import domain.user.User;
+import gui.major.Scenario;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
@@ -14,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Class {@code UserRegister} setup a Scenario that deal with user register
+ * Class {@code UserRegisterScenario} setup a Scenario that deal with user register
  *
  * @author group 0120 of CSC207 summer 2019
  * @see UserType
@@ -23,7 +25,7 @@ import java.util.HashMap;
  * @see Scenario
  * @since 2019-08-05
  */
-public class UserRegister extends Scenario {
+public class UserRegisterScenario extends Scenario {
 
     /**
      * The type of user that going to create
@@ -44,23 +46,23 @@ public class UserRegister extends Scenario {
     private InputInfoPanel infoPanel;
 
     /**
-     * Constructor for new {@code UserRegister} ,
+     * Constructor for new {@code UserRegisterScenario} ,
      *
-     * @param userMenu     given usermenu
+     * @param userMenuFrame     given usermenu
      * @param registerType given {@code UserType}
      */
-    public UserRegister(UserMenu userMenu, UserType registerType) {
-        super(userMenu, "User Register");
+    public UserRegisterScenario(UserMenuFrame userMenuFrame, UserType registerType) {
+        super(userMenuFrame, "User Register");
         this.registerType = registerType;
     }
 
     /**
-     * Constructor for new {@code UserRegister}
+     * Constructor for new {@code UserRegisterScenario}
      *
-     * @param userMenu given usermenu
+     * @param userMenuFrame given usermenu
      */
-    public UserRegister(UserMenu userMenu) {
-        super(userMenu, "User Register");
+    public UserRegisterScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "User Register");
     }
 
     /**
@@ -155,13 +157,13 @@ public class UserRegister extends Scenario {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
         infoMap.put("Password:", Arrays.toString(infoPanel.getPassword()));
         if (registerType == null) registerType = UserType.valueOf(infoMap.get("Position:").toUpperCase());
-        return new UserFactory(getMain().getStorage()).createUser(infoMap, registerType);
+        return new UserFactory(getMain().getEmploymentCenter()).createUser(infoMap, registerType);
     }
 
     /**
      * Class {@code CreateUserListener} Listener to register a new user
      *
-     * @see UserRegister
+     * @see UserRegisterScenario
      * @since 2019-08-05
      */
     class CreateUserListener implements ActionListener {

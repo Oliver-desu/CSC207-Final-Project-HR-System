@@ -16,7 +16,7 @@ import domain.user.Applicant;
 import domain.user.Company;
 import domain.user.Employee;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
@@ -71,13 +71,13 @@ public class InterviewRoundScenario extends Scenario {
 
     /**
      * Create a new {@code InterviewRoundScenario} that is a {@code Scenario} with title "Interview Round Manager"
-     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
      * @param interviewRound Interview Rounds that are concerned.
      * @param jobPosting JobPostings that are concerned.
      */
 
-    public InterviewRoundScenario(UserMenu userMenu, InterviewRound interviewRound, JobPosting jobPosting) {
-        super(userMenu, "Interview Round Manager");
+    public InterviewRoundScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound, JobPosting jobPosting) {
+        super(userMenuFrame, "Interview Round Manager");
         this.interviewRound = interviewRound;
         this.manager = jobPosting.getInterviewRoundManager();
     }
@@ -88,12 +88,12 @@ public class InterviewRoundScenario extends Scenario {
         Company company = test.addCompany();
         Employee recruiter = test.getRandomRecruiter(company);
         JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
-        for (Applicant applicant : test.getStorage().getAllApplicants()) {
+        for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
 
-        new InterviewRoundScenario(new UserMenu(test.getMain(), recruiter), jobPosting.getInterviewRoundManager().getCurrentInterviewRound(), jobPosting).exampleView();
+        new InterviewRoundScenario(new UserMenuFrame(test.getMain(), recruiter), jobPosting.getInterviewRoundManager().getCurrentInterviewRound(), jobPosting).exampleView();
 
     }
 
@@ -214,7 +214,7 @@ public class InterviewRoundScenario extends Scenario {
     private class MatchInterviewListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            UserMenu menu = getUserMenu();
+            UserMenuFrame menu = getUserMenuFrame();
             if (!manager.getJobPosting().getStatus().equals(JobPostingStatus.PROCESSING)) {
                 showMessage("JobPosting already finished!");
             } else if (!interviewRound.getStatus().equals(InterviewRoundStatus.MATCHING)) {

@@ -5,7 +5,7 @@ import domain.Enums.InterviewRoundStatus;
 import domain.Enums.JobPostingStatus;
 import domain.Exceptions.*;
 import domain.applying.Application;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -220,7 +220,7 @@ public class InterviewRoundManager implements Serializable {
      * Cancel the application that is passed in as input.
      *
      * @param application the application to be canceled
-     * @see JobPosting#applicationCancel(Application, Storage)
+     * @see JobPosting#applicationCancel(Application, EmploymentCenter)
      */
     void applicationCancel(Application application) {
         remainingApplications.remove(application);

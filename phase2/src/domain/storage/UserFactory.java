@@ -3,7 +3,7 @@ package domain.storage;
 import domain.Enums.UserType;
 import domain.Exceptions.*;
 import domain.user.*;
-import gui.major.UserRegister;
+import gui.scenarios.user_register.UserRegisterScenario;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -26,22 +26,22 @@ public class UserFactory implements Serializable {
 
 
     /**
-     * The {@code storage} used to store all the users created.
+     * The {@code employmentCenter} used to store all the users created.
      *
-     * @see Storage
+     * @see EmploymentCenter
      * @see #createUser(HashMap, UserType)
      */
-    private Storage storage;
+    private EmploymentCenter employmentCenter;
 
 
     /**
      * Create a new user factory.
      *
-     * @param userPool the {@code storage} used to store all users created
-     * @see gui.major.UserRegister
+     * @param userPool the {@code employmentCenter} used to store all users created
+     * @see UserRegisterScenario
      */
-    public UserFactory(Storage userPool) {
-        this.storage = userPool;
+    public UserFactory(EmploymentCenter userPool) {
+        this.employmentCenter = userPool;
     }
 
     /**
@@ -55,7 +55,7 @@ public class UserFactory implements Serializable {
      * @throws UserAlreadyExistsException see method {@code validValues(HashMap, UserType)}
      * @throws CompanyAlreadyExistsException see method {@code validValues(HashMap, UserType)}
      * @throws CompanyDoesNotExistException see method {@code validValues(HashMap, UserType)}
-     * @see UserRegister
+     * @see UserRegisterScenario
      * @see #validValues(HashMap, UserType)
      */
     public User createUser(HashMap<String, String> infoMap, UserType registerType)
@@ -70,7 +70,7 @@ public class UserFactory implements Serializable {
         else user = new NullUser();
 
         if (!user.isNull()) {
-            this.storage.register(user, registerType);
+            this.employmentCenter.register(user, registerType);
         }
         return user;
     }
@@ -96,7 +96,7 @@ public class UserFactory implements Serializable {
     private User createRecruiter(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
-            Company company = storage.getCompany(companyId);
+            Company company = employmentCenter.getCompany(companyId);
             company.addRecruiterId(infoMap.get("Username:"));
             return new Employee(infoMap, companyId, UserType.RECRUITER);
         } else {
@@ -114,7 +114,7 @@ public class UserFactory implements Serializable {
     private User createInterviewer(HashMap<String, String> infoMap) {
         String companyId = infoMap.get("Company id:");
         if (companyExists(companyId)) {
-            Company company = storage.getCompany(companyId);
+            Company company = employmentCenter.getCompany(companyId);
             company.addInterviewerId(infoMap.get("Username:"));
             return new Employee(infoMap, companyId, UserType.INTERVIEWER);
         } else {
@@ -135,7 +135,7 @@ public class UserFactory implements Serializable {
             HashMap<String, String> values = new HashMap<>();
             values.put("id", companyId);
             values.put("hiringManagerId", infoMap.get("Username:"));
-            this.storage.registerCompany(new Company(values));
+            this.employmentCenter.registerCompany(new Company(values));
             return new Employee(infoMap, companyId, UserType.HIRING_MANAGER);
         } else {
             return new NullUser();
@@ -153,7 +153,7 @@ public class UserFactory implements Serializable {
      * @see UserFactory#createHiringManagerAndCompany(HashMap)
      */
     private boolean companyExists(String companyId) {
-        return storage.getCompany(companyId) != null;
+        return employmentCenter.getCompany(companyId) != null;
     }
 
     /**
@@ -176,7 +176,7 @@ public class UserFactory implements Serializable {
             throw new UnmatchedPasswordException();
         } else if (!infoMap.get("Email:").matches(".+@(.+\\.)com")) {
             throw new WrongEmailFormatException();
-        } else if (!storage.getUser(infoMap.get("Username:"), registerType).isNull()) {
+        } else if (!employmentCenter.getUser(infoMap.get("Username:"), registerType).isNull()) {
             throw new UserAlreadyExistsException();
         } else if (companyExists(infoMap.get("Company id:")) && registerType.equals(UserType.HIRING_MANAGER)) {
             throw new CompanyAlreadyExistsException();

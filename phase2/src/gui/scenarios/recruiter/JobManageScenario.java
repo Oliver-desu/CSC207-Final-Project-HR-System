@@ -12,7 +12,7 @@ import domain.user.Applicant;
 import domain.user.Company;
 import domain.user.Employee;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
@@ -36,11 +36,11 @@ public class JobManageScenario extends Scenario {
 
     /**
      * Create a new {@code JobManageScenario} that is a {@code Scenario} with title "Job Manager"
-     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
      * @see gui.major.MenuPanel
      */
-    public JobManageScenario(UserMenu userMenu) {
-        super(userMenu, "Job Manager");
+    public JobManageScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Job Manager");
     }
 
     /**
@@ -81,14 +81,14 @@ public class JobManageScenario extends Scenario {
         Company company = test.addCompany();
         Employee recruiter = test.getRandomRecruiter(company);
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
-            for (Applicant applicant : test.getStorage().getAllApplicants()) {
+        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
+            for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
                 test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             }
             test.addNewRoundAndFinishMatching(jobPosting, company);
         }
 
-        new JobManageScenario(new UserMenu(test.getMain(), recruiter)).exampleView();
+        new JobManageScenario(new UserMenuFrame(test.getMain(), recruiter)).exampleView();
     }
 
     /**
@@ -133,7 +133,7 @@ public class JobManageScenario extends Scenario {
      */
     @Override
     protected void update() {
-        Employee recruiter = (Employee) getUserMenu().getUser();
+        Employee recruiter = (Employee) getUserMenuFrame().getUser();
         try {
             leftFilter.setFilterContent(recruiter.getJobPostings());
         } catch (WrongEmployeeTypeException e) {
@@ -204,7 +204,7 @@ public class JobManageScenario extends Scenario {
                 showMessage("No interviewRound selected!");
             } else {
                 InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(
-                        getUserMenu(), interviewRound, jobPosting);
+                        getUserMenuFrame(), interviewRound, jobPosting);
                 switchScenario(interviewRoundScenario);
             }
         }

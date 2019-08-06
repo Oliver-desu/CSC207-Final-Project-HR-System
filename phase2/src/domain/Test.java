@@ -9,7 +9,7 @@ import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.storage.UserFactory;
 import domain.user.Applicant;
 import domain.user.Company;
@@ -30,12 +30,12 @@ public class Test {
     private int numJobPostings;
 
     private Main main;
-    private Storage storage;
+    private EmploymentCenter employmentCenter;
 
 
     public Test() {
         this.main = new Main();
-        this.storage = this.main.getStorage();
+        this.employmentCenter = this.main.getEmploymentCenter();
     }
 
     public static void main(String[] args) {
@@ -46,27 +46,27 @@ public class Test {
         return main;
     }
 
-    public Storage getStorage() {
-        return storage;
+    public EmploymentCenter getEmploymentCenter() {
+        return employmentCenter;
     }
 
     public Company getRandomCompany() {
-        return storage.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
+        return employmentCenter.getCompany(Integer.toString(new Random().nextInt(numCompanies)));
     }
 
     public Employee getRandomInterviewer(Company company) {
         ArrayList<String> interviewerIds = company.getInterviewerIds();
-        return storage.getEmployee(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
+        return employmentCenter.getEmployee(interviewerIds.get(new Random().nextInt(interviewerIds.size())), UserType.INTERVIEWER);
     }
 
     public Employee getRandomRecruiter(Company company) {
         ArrayList<String> recruiterIds = company.getRecruiterIds();
-        return storage.getEmployee(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
+        return employmentCenter.getEmployee(recruiterIds.get(new Random().nextInt(recruiterIds.size())), UserType.RECRUITER);
     }
 
     public JobPosting getRandomJobPosting(Company company) {
         ArrayList<String> jobPostingIds = company.getJobPostingIds();
-        return storage.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
+        return employmentCenter.getJobPosting(jobPostingIds.get(new Random().nextInt(jobPostingIds.size())));
     }
 
     public String getRandomDocumentName(DocumentManager documentManager) {
@@ -84,7 +84,7 @@ public class Test {
         values.put("Email:", "shit@gmail.com");
         Applicant applicant = new Applicant(values);
         this.addDocuments(5, applicant.getDocumentManager());
-        storage.register(applicant, UserType.APPLICANT);
+        employmentCenter.register(applicant, UserType.APPLICANT);
         numApplicants++;
         return applicant;
     }
@@ -102,13 +102,13 @@ public class Test {
         values.put("Email:", "shit@gmail.com");
         values.put("Company id:", Integer.toString(numCompanies));
         try {
-            new UserFactory(storage).createUser(values, UserType.HIRING_MANAGER);
+            new UserFactory(employmentCenter).createUser(values, UserType.HIRING_MANAGER);
         } catch (Exception e) {
             System.out.println("addCompany");
             System.out.println(e);
         }
-        Employee hiringManager = storage.getEmployee(values.get("Username:"), UserType.HIRING_MANAGER);
-        Company company = storage.getCompany(hiringManager.getCompanyId());
+        Employee hiringManager = employmentCenter.getEmployee(values.get("Username:"), UserType.HIRING_MANAGER);
+        Company company = employmentCenter.getCompany(hiringManager.getCompanyId());
         numCompanies++;
 
         this.addInterviewersForCompany(1, company);
@@ -126,7 +126,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
             interviewer = new Employee(values, company.getId(), UserType.INTERVIEWER);
-            storage.register(interviewer, UserType.INTERVIEWER);
+            employmentCenter.register(interviewer, UserType.INTERVIEWER);
             company.addInterviewerId(interviewer.getUsername());
             numInterviewers ++;
         }
@@ -142,7 +142,7 @@ public class Test {
             values.put("Password:", "[h, o, l, y, s, h, i, t]");
             values.put("Email:", "shit@gmail.com");
             recruiter = new Employee(values, company.getId(), UserType.RECRUITER);
-            storage.register(recruiter, UserType.RECRUITER);
+            employmentCenter.register(recruiter, UserType.RECRUITER);
             company.addRecruiterId(recruiter.getUsername());
             numRecruiters++;
         }
@@ -161,7 +161,7 @@ public class Test {
         values.put("Reference:", "Optional");
         values.put("Extra document:", "Optional");
         JobPosting jobPosting = new JobPosting(values);
-        storage.addJobPosting(jobPosting);
+        employmentCenter.addJobPosting(jobPosting);
         company.addJobPostingId(jobPosting.getJobId());
         this.getRandomRecruiter(company).addFile(jobPosting);
         numJobPostings++;
@@ -208,7 +208,7 @@ public class Test {
     public Application addSubmittedApplicationForJobPosting(Applicant applicant, JobPosting jobPosting) {
         Application application = this.addDraftApplicationForJobPosting(applicant, jobPosting);
         try {
-            application.apply(storage);
+            application.apply(employmentCenter);
             return application;
         } catch (Exception e) {
             System.out.println("addSubmittedApplicationForJobPosting");

@@ -4,11 +4,11 @@ import domain.Exceptions.ApplicationAlreadyExistsException;
 import domain.Test;
 import domain.applying.Application;
 import domain.job.JobPosting;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Applicant;
 import domain.user.Company;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
@@ -29,10 +29,10 @@ public class JobSearchingScenario extends Scenario {
 
     /**
      * constructor for JobSearchingScenario,
-     * @param userMenu given {@code UserMenu}
+     * @param userMenuFrame given {@code UserMenuFrame}
      */
-    public JobSearchingScenario(UserMenu userMenu) {
-        super(userMenu, "Job Searching");
+    public JobSearchingScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Job Searching");
     }
 
     public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class JobSearchingScenario extends Scenario {
         Company company = test.addCompany();
         test.addJobPostings(10, company);
 
-        new JobSearchingScenario(new UserMenu(test.getMain(), applicant)).exampleView();
+        new JobSearchingScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
     }
 
     @Override
@@ -53,12 +53,12 @@ public class JobSearchingScenario extends Scenario {
 
     /**
      * override the method in parent class  {@code scenario}
-     *update the content on the leftFilterPanel  by get the latest version of JobPosting from {@code Storage}
+     *update the content on the leftFilterPanel  by get the latest version of JobPosting from {@code EmploymentCenter}
      */
     @Override
     protected void update() {
-        Storage Storage = getMain().getStorage();
-        leftFilter.setFilterContent(Storage.getOpenJobPostings());
+        EmploymentCenter EmploymentCenter = getMain().getEmploymentCenter();
+        leftFilter.setFilterContent(EmploymentCenter.getOpenJobPostings());
     }
 
     protected void initLeftFilter() {
@@ -86,7 +86,7 @@ public class JobSearchingScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          * 1 get the {@code JobPosting} selected by user .2 get the {@code Applicant } stored in the
-         * {@code UserMenu} 3  if the {@code JobPosing} is not null the add it to the {@code Applicant}
+         * {@code UserMenuFrame} 3  if the {@code JobPosing} is not null the add it to the {@code Applicant}
          * then switch to the {@code ApplicationManageScenario}
          * otherwise show a massage "Failed!".
          * @param e ActionEvent
@@ -94,10 +94,10 @@ public class JobSearchingScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            Applicant applicant = (Applicant) getUserMenu().getUser();
+            Applicant applicant = (Applicant) getUserMenuFrame().getUser();
             try {
                 applicant.addApplication(jobPosting.getJobId(), new Application(applicant, jobPosting));
-                ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenu());
+                ApplicationManageScenario scenario = new ApplicationManageScenario(getUserMenuFrame());
                 switchScenario(scenario);
             } catch (NullPointerException e1) {
                 showMessage("No job posting selected!");

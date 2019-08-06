@@ -1,5 +1,7 @@
 package gui.panels;
 
+import gui.major.LoginFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -11,7 +13,7 @@ import static java.lang.Integer.min;
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.major.Scenario
- * @see gui.major.Login
+ * @see LoginFrame
  * @since 2019-08-05
  */
 public class ButtonPanel extends JPanel {

@@ -8,7 +8,7 @@ import domain.Exceptions.WrongJobPostingStatusException;
 import domain.filter.Filterable;
 import domain.job.JobPosting;
 import domain.show.ShowAble;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Applicant;
 
 import java.io.Serializable;
@@ -43,7 +43,7 @@ public class Application implements Filterable, Serializable, ShowAble {
      * The username of the applicant.
      *
      * @see #getApplicantId()
-     * @see #getApplicant(Storage)
+     * @see #getApplicant(EmploymentCenter)
      */
     private String applicantId;
 
@@ -108,13 +108,13 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return the {@code Applicant} who holds this application.
-     * @param storage the {@code Storage} that contains all users
+     * @param employmentCenter the {@code EmploymentCenter} that contains all users
      * @return the {@code Applicant} who holds this application
      * @see Applicant
-     * @see Storage
+     * @see EmploymentCenter
      */
-    public Applicant getApplicant(Storage storage) {
-        return storage.getApplicant(this.applicantId);
+    public Applicant getApplicant(EmploymentCenter employmentCenter) {
+        return employmentCenter.getApplicant(this.applicantId);
     }
 
     public String getJobPostingId() {
@@ -146,17 +146,17 @@ public class Application implements Filterable, Serializable, ShowAble {
      * Ask the job posting whether it is allowed to apply or not. If allowed, set the document manager
      * to be uneditable and status to be {@code ApplicationStatus.PENDING}. Then return true
      * if and only if the application is submitted successfully.
-     * @param storage the {@code Storage} that contains information about job postings
+     * @param employmentCenter the {@code EmploymentCenter} that contains information about job postings
      * @return true if and only if the application is submitted successfully
-     * @see JobPosting#applicationSubmit(Application, Storage)
+     * @see JobPosting#applicationSubmit(Application, EmploymentCenter)
      * @see DocumentManager#setEditable(boolean)
      */
-    public void apply(Storage storage)
+    public void apply(EmploymentCenter employmentCenter)
             throws WrongApplicationStatusException, WrongJobPostingStatusException, ApplicationAlreadyExistsException {
         if (!status.equals(ApplicationStatus.DRAFT)) {
             throw new WrongApplicationStatusException();
         } else {
-            storage.getJobPosting(jobPostingId).applicationSubmit(this, storage);
+            employmentCenter.getJobPosting(jobPostingId).applicationSubmit(this, employmentCenter);
             this.documentManager.setEditable(false);
             this.setStatus(ApplicationStatus.PENDING);
         }
@@ -164,14 +164,14 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Cancel the application, then notify the corresponding job posting and document manager.
-     * @param storage the {@code Storage} that contains information about job postings
-     * @see JobPosting#applicationCancel(Application, Storage)
+     * @param employmentCenter the {@code EmploymentCenter} that contains information about job postings
+     * @see JobPosting#applicationCancel(Application, EmploymentCenter)
      * @throws WrongApplicationStatusException status of application has to be {@code PENDING} in
      * order to be cancelled
      */
-    public void cancel(Storage storage) throws WrongApplicationStatusException {
+    public void cancel(EmploymentCenter employmentCenter) throws WrongApplicationStatusException {
         if (this.status.equals(ApplicationStatus.PENDING)) {
-            storage.getJobPosting(jobPostingId).applicationCancel(this, storage);
+            employmentCenter.getJobPosting(jobPostingId).applicationCancel(this, employmentCenter);
             this.documentManager.setEditable(true);
             this.setStatus(ApplicationStatus.DRAFT);
         } else {
@@ -193,11 +193,11 @@ public class Application implements Filterable, Serializable, ShowAble {
 
     /**
      * Return basic information about this application and detailed information about applicant.
-     * @param storage the {@code Storage} that contains all users
+     * @param employmentCenter the {@code EmploymentCenter} that contains all users
      * @return basic information about this application and detailed information about applicant
      */
-    public String detailedToStringForEmployee(Storage storage) {
-        Applicant applicant = storage.getApplicant(applicantId);
+    public String detailedToStringForEmployee(EmploymentCenter employmentCenter) {
+        Applicant applicant = employmentCenter.getApplicant(applicantId);
         return "JobPosting id:" + jobPostingId + "\n" +
                 "Status: " + status + "\n" +
                 "\n" +

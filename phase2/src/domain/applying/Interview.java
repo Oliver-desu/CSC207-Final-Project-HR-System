@@ -4,7 +4,7 @@ import domain.Enums.InterviewStatus;
 import domain.Exceptions.WrongInterviewStatusException;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Employee;
 
 import java.io.Serializable;
@@ -147,13 +147,13 @@ public class Interview implements Filterable, Serializable, ShowAble {
 
     /**
      * Return basic information about this interview and detailed information about applicant.
-     * @param Storage   the {@code Storage} that contains all users
+     * @param EmploymentCenter   the {@code EmploymentCenter} that contains all users
      * @return basic information about this interview and detailed information about applicant
      */
-    public String detailedToStringForEmployee(Storage Storage) {
-        return "JobPosting information:\n" + Storage.getJobPosting(application.getJobPostingId()).toString() +
+    public String detailedToStringForEmployee(EmploymentCenter EmploymentCenter) {
+        return "JobPosting information:\n" + EmploymentCenter.getJobPosting(application.getJobPostingId()).toString() +
                 "\n" +
-                "Applicant information:\n" + Storage.getApplicant(application.getApplicantId()).toString();
+                "Applicant information:\n" + EmploymentCenter.getApplicant(application.getApplicantId()).toString();
     }
 
     /**

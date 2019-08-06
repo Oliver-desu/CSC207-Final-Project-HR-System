@@ -5,9 +5,10 @@ import domain.Enums.UserType;
 import domain.applying.Application;
 import domain.job.JobPosting;
 import domain.user.*;
-import gui.major.Login;
-import gui.major.UserMenu;
+import gui.major.LoginFrame;
+import gui.major.UserMenuFrame;
 import gui.scenarios.applicant.JobSearchingScenario;
+import gui.scenarios.hiringManager.JobPostingRegisterScenario;
 import gui.scenarios.hiringManager.ViewPostingScenario;
 import gui.scenarios.recruiter.MatchInterviewScenario;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Class {@code Storage} stores all the {@code User}, {@code Company} and
+ * Class {@code EmploymentCenter} stores all the {@code User}, {@code Company} and
  * {@code JobPosting} for classes who need them.
  *
  * @author group 0120 of CSC207 summer 2019
@@ -25,7 +26,7 @@ import java.util.HashMap;
  * @see JobPosting
  * @since 2019-08-04
  */
-public class Storage implements Serializable {
+public class EmploymentCenter implements Serializable {
 
     private static final long serialVersionUID = -6864049380257653797L;
 
@@ -64,12 +65,12 @@ public class Storage implements Serializable {
 
 
     /**
-     * Create a new {@code Storage}.
+     * Create a new {@code EmploymentCenter}.
      *
      * @see Serializer
      * @see main.Main
      */
-    public Storage() {
+    public EmploymentCenter() {
         users.put(UserType.APPLICANT, new ArrayList<>());
         users.put(UserType.RECRUITER, new ArrayList<>());
         users.put(UserType.HIRING_MANAGER, new ArrayList<>());
@@ -103,9 +104,9 @@ public class Storage implements Serializable {
      * @param userName the username of the user
      * @param userType the type of the user
      * @return the target {@code User}
-     * @see Storage#getApplicant(String)
-     * @see Storage#getEmployee(String, UserType)
-     * @see Login
+     * @see EmploymentCenter#getApplicant(String)
+     * @see EmploymentCenter#getEmployee(String, UserType)
+     * @see LoginFrame
      */
     public User getUser(String userName, UserType userType) {
         for (User user : users.get(userType)) {
@@ -121,9 +122,9 @@ public class Storage implements Serializable {
      *
      * @param username the name of the applicant
      * @return the target {@code Applicant}
-     * @see domain.applying.Application#getApplicant(Storage)
-     * @see domain.applying.Application#detailedToStringForEmployee(Storage)
-     * @see domain.applying.Interview#detailedToStringForEmployee(Storage)
+     * @see domain.applying.Application#getApplicant(EmploymentCenter)
+     * @see domain.applying.Application#detailedToStringForEmployee(EmploymentCenter)
+     * @see domain.applying.Interview#detailedToStringForEmployee(EmploymentCenter)
      */
     public Applicant getApplicant(String username) {
         try {
@@ -138,10 +139,10 @@ public class Storage implements Serializable {
      *
      * @param companyId the id of the company
      * @return the target {@code Company}
-     * @see JobPosting#applicationSubmit(Application, Storage)
-     * @see JobPosting#applicationCancel(Application, Storage)
+     * @see JobPosting#applicationSubmit(Application, EmploymentCenter)
+     * @see JobPosting#applicationCancel(Application, EmploymentCenter)
      * @see UserFactory
-     * @see UserMenu#getCompany()
+     * @see UserMenuFrame#getCompany()
      * @see main.Main#main(String[])
      */
     public Company getCompany(String companyId) {
@@ -159,9 +160,9 @@ public class Storage implements Serializable {
      * @param username the username of the employee
      * @param userType the type of the employee
      * @return the target {@code Employee}
-     * @see Storage#getInterviewers(ArrayList)
+     * @see EmploymentCenter#getInterviewers(ArrayList)
      * @see UserFactory#createUser(HashMap, UserType)
-     * @see gui.scenarios.hiringManager.JobPostingRegister#main(String[])
+     * @see JobPostingRegisterScenario#main(String[])
      * @see gui.scenarios.hiringManager.ViewPostingScenario#main(String[])
      */
     public Employee getEmployee(String username, UserType userType) {
@@ -208,7 +209,7 @@ public class Storage implements Serializable {
      * Get an list of all open job postings.
      *
      * @return {@code ArrayList<JobPosting>} containing all job postings with status {@code JobPostingStatus.OPEN}
-     * @see Storage#updateOpenJobPostings()
+     * @see EmploymentCenter#updateOpenJobPostings()
      * @see JobSearchingScenario
      */
     public ArrayList<JobPosting> getOpenJobPostings() {
@@ -254,9 +255,9 @@ public class Storage implements Serializable {
      *
      * @param id the job id of target job posting
      * @return the target {@code JobPosting}
-     * @see Application#apply(Storage)
-     * @see Application#cancel(Storage)
-     * @see Storage#getJobPostingsByIds(ArrayList)
+     * @see Application#apply(EmploymentCenter)
+     * @see Application#cancel(EmploymentCenter)
+     * @see EmploymentCenter#getJobPostingsByIds(ArrayList)
      */
     public JobPosting getJobPosting(String id) {
         for (JobPosting jobPosting : jobPostings) {
@@ -271,7 +272,7 @@ public class Storage implements Serializable {
      * Add a new job posting to {@code jobPostings}
      *
      * @param jobPosting the {@code JobPosting} to be added
-     * @see gui.scenarios.hiringManager.JobPostingRegister
+     * @see JobPostingRegisterScenario
      */
     public void addJobPosting(JobPosting jobPosting) {
         this.jobPostings.add(jobPosting);
@@ -280,7 +281,7 @@ public class Storage implements Serializable {
     /**
      * Update all open job postings stored here by calling startProcessing() on it
      *
-     * @see gui.major.Login
+     * @see LoginFrame
      */
     public void updateOpenJobPostings() {
         ArrayList<JobPosting> jobPostings = this.getOpenJobPostings();

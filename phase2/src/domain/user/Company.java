@@ -2,7 +2,7 @@ package domain.user;
 
 import domain.Enums.UserType;
 import domain.applying.Application;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -153,7 +153,7 @@ public class Company implements Serializable {
      * Delete the {@code Application} from this company. This only occurs when
      * the {@code Applicant} decides to cancel this {@code Application}.
      * @param  application  the application that need to be deleted
-     * @see domain.job.JobPosting#applicationCancel(Application, Storage)
+     * @see domain.job.JobPosting#applicationCancel(Application, EmploymentCenter)
      */
     public void cancelApplication(Application application) {
         String applicantId = application.getApplicantId();

@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * Class {@code Serializer} helps to save {@code Storage} object to a file and then read from that file.
+ * Class {@code Serializer} helps to save {@code EmploymentCenter} object to a file and then read from that file.
  */
 public class Serializer {
 
@@ -24,7 +24,7 @@ public class Serializer {
     /**
      * The object which is read from the file.
      */
-    private Storage Storage = new Storage();
+    private EmploymentCenter EmploymentCenter = new EmploymentCenter();
 
 
     /**
@@ -54,12 +54,12 @@ public class Serializer {
         }
     }
 
-    public Storage getStorage() {
-        return Storage;
+    public EmploymentCenter getEmploymentCenter() {
+        return EmploymentCenter;
     }
 
     /**
-     * Read {@code Storage} object from ser file.
+     * Read {@code EmploymentCenter} object from ser file.
      *
      * @throws ClassNotFoundException if class can not find when reading object
      */
@@ -70,9 +70,9 @@ public class Serializer {
 
             Object object = input.readObject();
             input.close();
-            this.Storage = (Storage) object;
+            this.EmploymentCenter = (EmploymentCenter) object;
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Fail to read Storage object from ser file", e);
+            logger.log(Level.SEVERE, "Fail to read EmploymentCenter object from ser file", e);
         }
     }
 
@@ -84,10 +84,10 @@ public class Serializer {
             OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(this.filePath));
             ObjectOutput output = new ObjectOutputStream(bufferedOutputStream);
 
-            output.writeObject(this.Storage);
+            output.writeObject(this.EmploymentCenter);
             output.close();
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Fail to write Storage object to ser file", e);
+            logger.log(Level.SEVERE, "Fail to write EmploymentCenter object to ser file", e);
         }
     }
 }

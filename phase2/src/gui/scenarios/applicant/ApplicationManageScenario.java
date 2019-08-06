@@ -12,7 +12,7 @@ import domain.user.Applicant;
 import domain.user.Company;
 import gui.major.MenuPanel;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
@@ -44,13 +44,13 @@ public class ApplicationManageScenario extends Scenario {
     /**
      * constructor of {@code ApplicationManageScenario}
      *
-     * @param userMenu the {@code UserMenu} given
+     * @param userMenuFrame the {@code UserMenuFrame} given
      * @see MenuPanel
      * @see gui.scenarios.applicant.ApplicationManageScenario
      */
-    public ApplicationManageScenario(UserMenu userMenu) {
-        super(userMenu, "Application Manager");
-        this.applicant = (Applicant) getUserMenu().getUser();
+    public ApplicationManageScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Application Manager");
+        this.applicant = (Applicant) getUserMenuFrame().getUser();
     }
 
     public static void main(String[] args) {
@@ -58,11 +58,11 @@ public class ApplicationManageScenario extends Scenario {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
+        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
             test.addDraftApplicationForJobPosting(applicant, jobPosting);
         }
 
-        new ApplicationManageScenario(new UserMenu(test.getMain(), applicant)).exampleView();
+        new ApplicationManageScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
     }
 
     /**
@@ -160,7 +160,7 @@ public class ApplicationManageScenario extends Scenario {
             } else if (!application.getStatus().equals(ApplicationStatus.DRAFT)) {
                 showMessage("Application status is not DRAFT, can not edit!");
             } else {
-                DocumentManageScenario scenario = new DocumentManageScenario(getUserMenu(),
+                DocumentManageScenario scenario = new DocumentManageScenario(getUserMenuFrame(),
                         application.getDocumentManager());
                 switchScenario(scenario);
             }
@@ -183,7 +183,7 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
             try {
-                application.apply(getMain().getStorage());
+                application.apply(getMain().getEmploymentCenter());
                 update();
                 showMessage("Succeed!");
             } catch (NullPointerException e1) {
@@ -217,7 +217,7 @@ public class ApplicationManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             Application application = leftFilter.getSelectObject();
             try {
-                application.cancel(getMain().getStorage());
+                application.cancel(getMain().getEmploymentCenter());
                 showMessage("Withdrawal succeeds!");
                 update();
             } catch (NullPointerException e1) {

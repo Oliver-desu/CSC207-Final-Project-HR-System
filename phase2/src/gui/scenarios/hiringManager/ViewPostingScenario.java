@@ -4,11 +4,11 @@ import domain.Enums.UserType;
 import domain.Test;
 import domain.applying.Application;
 import domain.job.JobPosting;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Company;
 import domain.user.Employee;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.FilterPanel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -48,21 +48,21 @@ public class ViewPostingScenario extends Scenario {
     /**
      * Create a new {@code ViewPostingScenario} that is a {@code Scenario} with title "View Company Job Postings".
      *
-     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
      * @see gui.major.MenuPanel
      */
-    public ViewPostingScenario(UserMenu userMenu) {
-        super(userMenu, "View Company Job Postings");
+    public ViewPostingScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "View Company Job Postings");
     }
 
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
-        Employee hiringManager = test.getStorage().getEmployee(company.getHiringManagerId(), UserType.HIRING_MANAGER);
+        Employee hiringManager = test.getEmploymentCenter().getEmployee(company.getHiringManagerId(), UserType.HIRING_MANAGER);
         test.addJobPostings(10, company);
 
-        UserMenu userMenu = new UserMenu(test.getMain(), hiringManager);
-        new ViewPostingScenario(userMenu).exampleView();
+        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), hiringManager);
+        new ViewPostingScenario(userMenuFrame).exampleView();
     }
 
     /**
@@ -102,9 +102,9 @@ public class ViewPostingScenario extends Scenario {
      */
     @Override
     protected void update() {
-        Company company = getUserMenu().getCompany();
-        Storage Storage = getMain().getStorage();
-        ArrayList<JobPosting> jobPostings = Storage.getJobPostingsByIds(company.getJobPostingIds());
+        Company company = getUserMenuFrame().getCompany();
+        EmploymentCenter EmploymentCenter = getMain().getEmploymentCenter();
+        ArrayList<JobPosting> jobPostings = EmploymentCenter.getJobPostingsByIds(company.getJobPostingIds());
         leftFilter.setFilterContent(jobPostings);
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
@@ -156,7 +156,7 @@ public class ViewPostingScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             Application application = rightFilter.getSelectObject();
             if (application != null) {
-                setOutputText(application.detailedToStringForEmployee(getMain().getStorage()));
+                setOutputText(application.detailedToStringForEmployee(getMain().getEmploymentCenter()));
             }
         }
     }

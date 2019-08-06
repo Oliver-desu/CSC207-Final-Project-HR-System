@@ -8,7 +8,7 @@ import domain.user.Applicant;
 import domain.user.Company;
 import domain.user.Employee;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
@@ -29,12 +29,12 @@ public class ApplicationScenario extends Scenario {
 
     /**
      * Create a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications
-     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
      * @see gui.major.MenuPanel
      */
 
-    public ApplicationScenario(UserMenu userMenu) {
-        super(userMenu, "View Company Applications");
+    public ApplicationScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "View Company Applications");
     }
 
     /**
@@ -60,12 +60,12 @@ public class ApplicationScenario extends Scenario {
         Company company = test.addCompany();
         Employee recruiter = test.getRandomRecruiter(company);
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
+        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
 
-        UserMenu userMenu = new UserMenu(test.getMain(), recruiter);
-        new ApplicationScenario(userMenu).exampleView();
+        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), recruiter);
+        new ApplicationScenario(userMenuFrame).exampleView();
     }
 
     /**
@@ -120,7 +120,7 @@ public class ApplicationScenario extends Scenario {
 
     @Override
     protected void update() {
-        Company company = getUserMenu().getCompany();
+        Company company = getUserMenuFrame().getCompany();
         leftFilter.setFilterContent(company.getAllApplications());
         Application application = leftFilter.getSelectObject();
         ArrayList<Document> documents;
@@ -145,7 +145,7 @@ public class ApplicationScenario extends Scenario {
             Application application = leftFilter.getSelectObject();
             if (application != null) {
                 rightFilter.setFilterContent(application.getDocumentManager().getAllDocuments());
-                setOutputText(application.detailedToStringForEmployee(getMain().getStorage()));
+                setOutputText(application.detailedToStringForEmployee(getMain().getEmploymentCenter()));
             }
         }
     }

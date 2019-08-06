@@ -2,6 +2,7 @@ package domain.user;
 
 import domain.Enums.UserType;
 import domain.Exceptions.NotEmployeeException;
+import domain.storage.EmploymentCenter;
 
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
  *
  * @author group 0120 of CSC207 summer 2019
  * @see domain.storage.UserFactory#createUser(HashMap, UserType)
- * @see domain.storage.Storage#getUser(String, UserType)
+ * @see EmploymentCenter#getUser(String, UserType)
  * @since 2019-08-04
  */
 public class NullUser extends User {

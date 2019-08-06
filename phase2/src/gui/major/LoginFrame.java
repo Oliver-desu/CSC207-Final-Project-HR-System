@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 /**
- * Class {@code Login} setup gui frame for login and deal with user input
+ * Class {@code LoginFrame} setup gui frame for login and deal with user input
  *
  * @author group 0120 of CSC207 summer 2019
  * @see InputInfoPanel
@@ -24,7 +24,7 @@ import java.util.HashMap;
  * @see Main
  * @since 2019-08-05
  */
-public class Login extends JFrame {
+public class LoginFrame extends JFrame {
 
     // Frame size
     private static final int WIDTH = 520;
@@ -34,7 +34,7 @@ public class Login extends JFrame {
     private static final Dimension INPUT_SIZE = new Dimension(WIDTH - 20, HEIGHT - 100);
     private static final Dimension BUTTON_PANEL_SIZE = new Dimension(WIDTH - 20, 50);
 
-    // Login user types
+    // LoginFrame user types
     private static final String[] USER_TYPE = new String[]{"Applicant", "Hiring_Manager", "Recruiter", "Interviewer"};
 
     /**
@@ -65,10 +65,10 @@ public class Login extends JFrame {
     private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
 
     /**
-     * Constructor for {@code Login}.
+     * Constructor for {@code LoginFrame}.
      * @param main #Todo : don t know how to describe
      */
-    public Login(Main main) {
+    public LoginFrame(Main main) {
         this.main = main;
         setup();
     }
@@ -77,7 +77,7 @@ public class Login extends JFrame {
      * setup the title ,size,Layout, infoPanel , buttonPanel , ant set this frame to be visible.
      */
     private void setup() {
-        setTitle("Login");
+        setTitle("LoginFrame");
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
         infoPanelSetup();
@@ -86,12 +86,12 @@ public class Login extends JFrame {
     }
 
     /**
-     * add  "Login" button with new LoginListener and "Register"to buttonPanel  with new RegisterListener.
+     * add  "LoginFrame" button with new LoginListener and "Register"to buttonPanel  with new RegisterListener.
      *
      * @see #setup()
      */
     private void buttonPanelSetup() {
-        buttonPanel.addButton("Login", new LoginListener());
+        buttonPanel.addButton("LoginFrame", new LoginListener());
         buttonPanel.addButton("Register", new RegisterListener());
         buttonPanel.addButton("Save & Restart", new SaveSystemListener());
         add(buttonPanel);
@@ -132,7 +132,7 @@ public class Login extends JFrame {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
         String userType = infoMap.get("UserType:").toUpperCase();
         String userName = infoMap.get("Username:");
-        return getMain().getStorage().getUser(userName, UserType.valueOf(userType));
+        return getMain().getEmploymentCenter().getUser(userName, UserType.valueOf(userType));
     }
 
     /**
@@ -150,18 +150,18 @@ public class Login extends JFrame {
     }
 
     /**
-     * set this JFrame to be invisible and create a new UserMenu with given user.
+     * set this JFrame to be invisible and create a new UserMenuFrame with given user.
      * @param user the given user  that need to be create with new userMenu.
      */
     private void login(User user) {
         this.setVisible(false);
-        new UserMenu(getMain(), user);
+        new UserMenuFrame(getMain(), user);
     }
 
     /**
      * Class {@code LoginListener} setup the LoginListener ,this listener is used for check if the password is matched
      *
-     * @see Login {@link #buttonPanelSetup()}
+     * @see LoginFrame {@link #buttonPanelSetup()}
      */
     private class LoginListener implements ActionListener {
         /**
@@ -175,7 +175,7 @@ public class Login extends JFrame {
             User user = getUser();
             char[] password = getInputInfoPanel().getPassword();
             if (checkUser(user, password)) {
-                getMain().getStorage().updateOpenJobPostings();
+                getMain().getEmploymentCenter().updateOpenJobPostings();
                 login(user);
             }
         }
@@ -184,7 +184,7 @@ public class Login extends JFrame {
     /**
      * Class {@code RegisterListener} setup the RegisterListener .
      *
-     * @see Login {@link #buttonPanelSetup()}
+     * @see LoginFrame {@link #buttonPanelSetup()}
      */
     private class RegisterListener implements ActionListener {
         /**
@@ -205,9 +205,9 @@ public class Login extends JFrame {
             main.saveSystem();
             String message = "How many days elapse before restart system";
             try {
-                Main.setDaysElapse(JOptionPane.showInputDialog(Login.this, message));
+                Main.setDaysElapse(JOptionPane.showInputDialog(LoginFrame.this, message));
             } catch (InvalidInputException e1) {
-                JOptionPane.showMessageDialog(Login.this, e1.getMessage());
+                JOptionPane.showMessageDialog(LoginFrame.this, e1.getMessage());
             }
         }
     }

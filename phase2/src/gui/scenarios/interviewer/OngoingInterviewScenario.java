@@ -10,7 +10,7 @@ import domain.user.Applicant;
 import domain.user.Company;
 import domain.user.Employee;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
@@ -33,11 +33,11 @@ public class OngoingInterviewScenario extends Scenario {
     /**
      * Constructor for {@code OngoingInterviewScenario}.
      *
-     * @param userMenu given {@code userMenu}
+     * @param userMenuFrame given {@code userMenuFrame}
      * @see gui.major.MenuPanel
      */
-    public OngoingInterviewScenario(UserMenu userMenu) {
-        super(userMenu, "Ongoing Interview Manager");
+    public OngoingInterviewScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Ongoing Interview Manager");
     }
 
     /**
@@ -72,13 +72,13 @@ public class OngoingInterviewScenario extends Scenario {
         Employee interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 
-        for (Applicant applicant : test.getStorage().getAllApplicants()) {
+        for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         test.addNewRoundAndFinishMatching(jobPosting, company);
 
-        UserMenu userMenu = new UserMenu(test.getMain(), interviewer);
-        new OngoingInterviewScenario(userMenu).exampleView();
+        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), interviewer);
+        new OngoingInterviewScenario(userMenuFrame).exampleView();
     }
 
     /**
@@ -136,7 +136,7 @@ public class OngoingInterviewScenario extends Scenario {
      */
     @Override
     protected void update() {
-        Employee interviewer = (Employee) getUserMenu().getUser();
+        Employee interviewer = (Employee) getUserMenuFrame().getUser();
         try {
             leftFilter.setFilterContent(interviewer.getInterviews());
         } catch (WrongEmployeeTypeException e) {
@@ -183,7 +183,7 @@ public class OngoingInterviewScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             Interview interview = leftFilter.getSelectObject();
             if (interview != null) {
-                setOutputText(interview.detailedToStringForEmployee(getMain().getStorage()));
+                setOutputText(interview.detailedToStringForEmployee(getMain().getEmploymentCenter()));
                 rightFilter.setFilterContent(interview.getApplication().getDocumentManager().getAllDocuments());
             }
         }

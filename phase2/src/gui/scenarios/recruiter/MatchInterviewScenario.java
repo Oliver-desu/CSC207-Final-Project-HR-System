@@ -6,12 +6,12 @@ import domain.applying.Application;
 import domain.applying.Interview;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Applicant;
 import domain.user.Company;
 import domain.user.Employee;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
@@ -57,11 +57,11 @@ public class MatchInterviewScenario extends Scenario {
 
     /**
      * Create a new {@code MatchInterviewScenario} that is a {@code Scenario} with title "Match Interview"
-     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
      * @param interviewRound Interview Rounds being matched
      */
-    public MatchInterviewScenario(UserMenu userMenu, InterviewRound interviewRound) {
-        super(userMenu, "Match Interview");
+    public MatchInterviewScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound) {
+        super(userMenuFrame, "Match Interview");
         this.interviewRound = interviewRound;
     }
 
@@ -72,12 +72,12 @@ public class MatchInterviewScenario extends Scenario {
         test.addInterviewersForCompany(9, company);
         Employee recruiter = test.getRandomRecruiter(company);
         JobPosting jobPosting = test.addJobPosting(company);
-        for (Applicant applicant : test.getStorage().getAllApplicants()) {
+        for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
         }
         InterviewRound interviewRound = test.addNewRound(jobPosting);
 
-        new MatchInterviewScenario(new UserMenu(test.getMain(), recruiter), interviewRound).exampleView();
+        new MatchInterviewScenario(new UserMenuFrame(test.getMain(), recruiter), interviewRound).exampleView();
     }
 
     /**
@@ -118,9 +118,9 @@ public class MatchInterviewScenario extends Scenario {
     @Override
     protected void update() {
         leftFilter.setFilterContent(interviewRound.getUnmatchedApplications());
-        Storage Storage = getMain().getStorage();
-        Company company = getUserMenu().getCompany();
-        ArrayList<Employee> interviewers = Storage.getInterviewers(company.getInterviewerIds());
+        EmploymentCenter EmploymentCenter = getMain().getEmploymentCenter();
+        Company company = getUserMenuFrame().getCompany();
+        ArrayList<Employee> interviewers = EmploymentCenter.getInterviewers(company.getInterviewerIds());
         rightFilter.setFilterContent(interviewers);
     }
 

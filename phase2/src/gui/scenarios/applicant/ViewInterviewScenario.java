@@ -6,7 +6,7 @@ import domain.job.JobPosting;
 import domain.user.Applicant;
 import domain.user.Company;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.FilterPanel;
 
 /**
@@ -27,10 +27,10 @@ public class ViewInterviewScenario extends Scenario {
 
     /**
      * constructor for a new {@code ViewInterviewScenario}
-     * @param userMenu given {@code UserMenu}
+     * @param userMenuFrame given {@code UserMenuFrame}
      */
-    public ViewInterviewScenario(UserMenu userMenu) {
-        super(userMenu, "View Interview");
+    public ViewInterviewScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "View Interview");
     }
 
     public static void main(String[] args) {
@@ -38,12 +38,12 @@ public class ViewInterviewScenario extends Scenario {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
+        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             test.addNewRoundAndFinishMatching(jobPosting, company);
         }
 
-        new ViewInterviewScenario(new UserMenu(test.getMain(), applicant)).exampleView();
+        new ViewInterviewScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
 
     }
 
@@ -65,7 +65,7 @@ public class ViewInterviewScenario extends Scenario {
      */
     @Override
     protected void update() {
-        Applicant applicant = (Applicant) getUserMenu().getUser();
+        Applicant applicant = (Applicant) getUserMenuFrame().getUser();
         leftFilter.setFilterContent(applicant.getOngoingInterviews());
         rightFilter.setFilterContent(applicant.getPastInterviews());
     }

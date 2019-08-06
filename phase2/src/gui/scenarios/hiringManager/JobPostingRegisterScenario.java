@@ -7,7 +7,7 @@ import domain.user.Company;
 import domain.user.Employee;
 import gui.major.MenuPanel;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
@@ -20,13 +20,13 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
 /**
- * Class {@code JobPostingRegister} handles the situation where the hiring manager want to create a new job posting.
+ * Class {@code JobPostingRegisterScenario} handles the situation where the hiring manager want to create a new job posting.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.major.MenuPanel
  * @since 2019-08-05
  */
-public class JobPostingRegister extends Scenario {
+public class JobPostingRegisterScenario extends Scenario {
 
     /**
      * An {@code InputInfoPanel} that sets up gui in this scenario.
@@ -39,24 +39,24 @@ public class JobPostingRegister extends Scenario {
     private InputInfoPanel infoPanel;
 
     /**
-     * Create a new {@code JobPostingRegister} that is a {@code Scenario} with title "Create Job Posting".
+     * Create a new {@code JobPostingRegisterScenario} that is a {@code Scenario} with title "Create Job Posting".
      *
-     * @param userMenu the {@code userMenu} that sets up the gui framework
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
      * @see MenuPanel
      */
-    public JobPostingRegister(UserMenu userMenu) {
-        super(userMenu, "Create Job Posting");
+    public JobPostingRegisterScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Create Job Posting");
     }
 
     public static void main(String[] args) {
         Test test = new Test();
         Company company = test.addCompany();
         test.addRecruitersForCompany(9, company);
-        Employee hiringManager = test.getStorage().getEmployee(
+        Employee hiringManager = test.getEmploymentCenter().getEmployee(
                 company.getHiringManagerId(), UserType.HIRING_MANAGER);
 
-        UserMenu userMenu = new UserMenu(test.getMain(), hiringManager);
-        new JobPostingRegister(userMenu).exampleView();
+        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), hiringManager);
+        new JobPostingRegisterScenario(userMenuFrame).exampleView();
     }
 
     /**
@@ -84,7 +84,7 @@ public class JobPostingRegister extends Scenario {
     private void initInput() {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
-        String[] recruiters = getUserMenu().getCompany().getRecruiterIds().toArray(new String[0]);
+        String[] recruiters = getUserMenuFrame().getCompany().getRecruiterIds().toArray(new String[0]);
         factory.addComboBox("Recruiter:", recruiters);
         factory.addTextField("Position name:");
         factory.addTextField("Num of positions:");
@@ -114,11 +114,11 @@ public class JobPostingRegister extends Scenario {
      * A helper function for {@code actionPerformed(ActionEvent)} in {@code CreateJobPostingListener}.
      *
      * @return a map that contains the basic information obtained from user interface
-     * @see JobPostingRegister
+     * @see JobPostingRegisterScenario
      */
     private HashMap<String, String> createJobInfoMap() {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
-        Company company = getUserMenu().getCompany();
+        Company company = getUserMenuFrame().getCompany();
         infoMap.put("Post date:", LocalDate.now().toString());
         infoMap.put("Company id:", company.getId());
         infoMap.put("Job id:", company.getId() + "--" + infoMap.get("Position name:") + "--" +
@@ -192,10 +192,10 @@ public class JobPostingRegister extends Scenario {
             HashMap<String, String> values = createJobInfoMap();
             if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);
-                getUserMenu().getCompany().addJobPostingId(jobPosting.getJobId());
-                getMain().getStorage().getEmployee(
+                getUserMenuFrame().getCompany().addJobPostingId(jobPosting.getJobId());
+                getMain().getEmploymentCenter().getEmployee(
                         values.get("Recruiter:"), UserType.RECRUITER).addFile(jobPosting);
-                getMain().getStorage().addJobPosting(jobPosting);
+                getMain().getEmploymentCenter().addJobPosting(jobPosting);
                 showMessage("Successfully post job!");
                 infoPanel.clear();
             } else {

@@ -1,7 +1,7 @@
 package gui.major;
 
 import domain.Exceptions.NotEmployeeException;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Company;
 import domain.user.User;
 import main.Main;
@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code UserMenu} setup gui frame for user menu with common buttons and provide getters of information
+ * Class {@code UserMenuFrame} setup gui frame for user menu with common buttons and provide getters of information
  *
  * @author group 0120 of CSC207 summer 2019
  * @see Main
@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
  * @see Scenario
  * @since 2019-08-05
  */
-public class UserMenu extends JFrame {
+public class UserMenuFrame extends JFrame {
 
     // Frame Size
     private static final int WIDTH = 1200;
@@ -69,16 +69,16 @@ public class UserMenu extends JFrame {
      */
     private Scenario scenario;
 
-    public UserMenu() {
+    public UserMenuFrame() {
     }
 
     /**
-     * create a new {@code UserMenu} , and then setup for this menu .
+     * create a new {@code UserMenuFrame} , and then setup for this menu .
      *
      * @param main given java.main
      * @param user given user
      */
-    public UserMenu(Main main, User user) {
+    public UserMenuFrame(Main main, User user) {
         this.main = main;
         this.user = user;
         setup();
@@ -92,7 +92,7 @@ public class UserMenu extends JFrame {
     /**
      * setup the width and height , set the Layout to flowout and set visible to true
      *
-     * @see #UserMenu(Main, User)
+     * @see #UserMenuFrame(Main, User)
      */
     private void setup() {
         setSize(new Dimension(WIDTH, HEIGHT));
@@ -112,9 +112,9 @@ public class UserMenu extends JFrame {
      * @throws NotEmployeeException if this user is not a Employee.
      */
     public Company getCompany() {
-        Storage storage = getMain().getStorage();
+        EmploymentCenter employmentCenter = getMain().getEmploymentCenter();
         try {
-            return storage.getCompany(user.getCompanyId());
+            return employmentCenter.getCompany(user.getCompanyId());
         } catch (NotEmployeeException e) {
             return null;
         }
@@ -144,7 +144,7 @@ public class UserMenu extends JFrame {
     }
 
     /**
-     * add the LogoutButton to {@code UserMenu}  if the user is not a {@code NullUser} , then ,
+     * add the LogoutButton to {@code UserMenuFrame}  if the user is not a {@code NullUser} , then ,
      * add the LogoutListener to this button
      */
     private void addLogoutButton() {
@@ -158,7 +158,7 @@ public class UserMenu extends JFrame {
     }
 
     /**
-     * set this {@code UserMenu to be invisible and return to login scenario}
+     * set this {@code UserMenuFrame to be invisible and return to login scenario}
      */
     private void logout() {
         this.setVisible(false);
@@ -169,7 +169,7 @@ public class UserMenu extends JFrame {
      * Class {@code LogoutListener} The listener used for logout event
      *
      * @author group 0120 of CSC207 summer 2019
-     * @see UserMenu
+     * @see UserMenuFrame
      * @since 2019-08-05
      */
     private class LogoutListener implements ActionListener {

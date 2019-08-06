@@ -1,5 +1,7 @@
 package gui.panels;
 
+import gui.major.LoginFrame;
+
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
@@ -11,7 +13,7 @@ import java.util.HashMap;
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.major.Scenario
- * @see gui.major.Login
+ * @see LoginFrame
  * @see ComponentFactory
  * @since 2019-08-05
  */

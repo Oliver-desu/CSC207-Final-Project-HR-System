@@ -6,11 +6,12 @@ import gui.scenarios.applicant.ApplicationManageScenario;
 import gui.scenarios.applicant.DocumentManageScenario;
 import gui.scenarios.applicant.JobSearchingScenario;
 import gui.scenarios.applicant.ViewInterviewScenario;
-import gui.scenarios.hiringManager.JobPostingRegister;
+import gui.scenarios.hiringManager.JobPostingRegisterScenario;
 import gui.scenarios.hiringManager.ViewPostingScenario;
 import gui.scenarios.interviewer.OngoingInterviewScenario;
 import gui.scenarios.recruiter.ApplicationScenario;
 import gui.scenarios.recruiter.JobManageScenario;
+import gui.scenarios.user_register.UserRegisterScenario;
 
 import javax.swing.*;
 import javax.swing.event.AncestorListener;
@@ -22,7 +23,7 @@ import java.awt.event.ActionListener;
  * Class {@code MenuPanel} setup gui panel for buttons that varies in different types of user menu.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see UserMenu
+ * @see UserMenuFrame
  * @since 2019-08-05
  */
 public class MenuPanel extends JPanel {
@@ -38,7 +39,7 @@ public class MenuPanel extends JPanel {
      * @see #applicantMenuSetup()
      * @see MenuPanel.SwitchScenarioListener#actionPerformed(ActionEvent)
      */
-    private UserMenu userMenu;
+    private UserMenuFrame userMenuFrame;
 
     /**
      * The dimension of buttons
@@ -56,15 +57,15 @@ public class MenuPanel extends JPanel {
     private Dimension menuSize;
 
     /**
-     * create a new {@code MenuPanel} with given userMenu{@code UserMenu} , with dimension of menuSize and buttonSize
+     * create a new {@code MenuPanel} with given userMenuFrame{@code UserMenuFrame} , with dimension of menuSize and buttonSize
      *
-     * @param userMenu   {@code UserMenu}
+     * @param userMenuFrame   {@code UserMenuFrame}
      * @param menuSize   dimension of the menuSize
      * @param buttonSize dimension of the buttonSize
      * @see null
      */
-    public MenuPanel(UserMenu userMenu, Dimension menuSize, Dimension buttonSize) {
-        this.userMenu = userMenu;
+    public MenuPanel(UserMenuFrame userMenuFrame, Dimension menuSize, Dimension buttonSize) {
+        this.userMenuFrame = userMenuFrame;
         this.menuSize = menuSize;
         this.buttonSize = buttonSize;
         setup();
@@ -73,12 +74,12 @@ public class MenuPanel extends JPanel {
     /**
      * set the menuSize ,setup the layout to FlowLayout ,call the different MenuSetup() depends on the type of User.
      *
-     * @see #MenuPanel(UserMenu, Dimension, Dimension)
+     * @see #MenuPanel(UserMenuFrame, Dimension, Dimension)
      */
     private void setup() {
         setPreferredSize(menuSize);
         setLayout(new FlowLayout());
-        User user = userMenu.getUser();
+        User user = userMenuFrame.getUser();
         if (user.isNull()) registerMenuSetup();
         else if (user.getUserType().equals(UserType.APPLICANT)) applicantMenuSetup();
         else if (user.getUserType().equals(UserType.INTERVIEWER)) interviewerMenuSetup();
@@ -87,20 +88,20 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * add "Applicant" button  and UserMenu with UserType.APPLICANT.
+     * add "Applicant" button  and UserMenuFrame with UserType.APPLICANT.
      * @see #setup()
      */
     private void registerMenuSetup() {
-        addMenuButton("Applicant", new UserRegister(userMenu, UserType.APPLICANT));
-        addMenuButton("Employee", new UserRegister(userMenu));
+        addMenuButton("Applicant", new UserRegisterScenario(userMenuFrame, UserType.APPLICANT));
+        addMenuButton("Employee", new UserRegisterScenario(userMenuFrame));
     }
 
     /**
-     * add "Ongoing Interview" button  and setup a new OngoingInterviewScenario with userMenu.
+     * add "Ongoing Interview" button  and setup a new OngoingInterviewScenario with userMenuFrame.
      * @see #setup()
      */
     private void interviewerMenuSetup() {
-        addMenuButton("Ongoing Interview", new OngoingInterviewScenario(userMenu));
+        addMenuButton("Ongoing Interview", new OngoingInterviewScenario(userMenuFrame));
     }
 
     /**
@@ -109,18 +110,18 @@ public class MenuPanel extends JPanel {
      * @see #setup()
      */
     private void recruiterMenuSetup() {
-        addMenuButton("All Applications", new ApplicationScenario(userMenu));
-        addMenuButton("JobManaging", new JobManageScenario(userMenu));
+        addMenuButton("All Applications", new ApplicationScenario(userMenuFrame));
+        addMenuButton("JobManaging", new JobManageScenario(userMenuFrame));
     }
 
     /**
-     * add "Create Posting" button and "View Posting" button then set up JobPostingRegister and
+     * add "Create Posting" button and "View Posting" button then set up JobPostingRegisterScenario and
      * ViewPostingScenario.
      * @see #setup()
      */
     private void hiringManagerMenuSetup() {
-        addMenuButton("Create Posting", new JobPostingRegister(userMenu));
-        addMenuButton("View Posting", new ViewPostingScenario(userMenu));
+        addMenuButton("Create Posting", new JobPostingRegisterScenario(userMenuFrame));
+        addMenuButton("View Posting", new ViewPostingScenario(userMenuFrame));
     }
 
     /**
@@ -130,10 +131,10 @@ public class MenuPanel extends JPanel {
      * @see #setup()
      */
     private void applicantMenuSetup() {
-        addMenuButton("Upcoming Interviews", new ViewInterviewScenario(userMenu));
-        addMenuButton("Apply Jobs", new JobSearchingScenario(userMenu));
-        addMenuButton("Manage Application", new ApplicationManageScenario(userMenu));
-        addMenuButton("My Documents", new DocumentManageScenario(userMenu, null));
+        addMenuButton("Upcoming Interviews", new ViewInterviewScenario(userMenuFrame));
+        addMenuButton("Apply Jobs", new JobSearchingScenario(userMenuFrame));
+        addMenuButton("Manage Application", new ApplicationManageScenario(userMenuFrame));
+        addMenuButton("My Documents", new DocumentManageScenario(userMenuFrame, null));
     }
 
     /**
@@ -182,7 +183,7 @@ public class MenuPanel extends JPanel {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            userMenu.setScenario(scenario);
+            userMenuFrame.setScenario(scenario);
         }
     }
 }

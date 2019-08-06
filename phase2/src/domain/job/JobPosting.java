@@ -7,8 +7,9 @@ import domain.Exceptions.WrongJobPostingStatusException;
 import domain.applying.Application;
 import domain.filter.Filterable;
 import domain.show.ShowAble;
-import domain.storage.Storage;
+import domain.storage.EmploymentCenter;
 import domain.user.Company;
+import gui.scenarios.hiringManager.JobPostingRegisterScenario;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -32,9 +33,9 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
 
     /**
      * A hash map that contains all the details for this job posting.
-     * Keys are fixed and can be found in {@code JobPostingRegister}.
+     * Keys are fixed and can be found in {@code JobPostingRegisterScenario}.
      *
-     * @see gui.scenarios.hiringManager.JobPostingRegister
+     * @see JobPostingRegisterScenario
      * @see #toString()
      */
     private HashMap<String, String> jobDetails;
@@ -55,8 +56,8 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * An array list that contains all the applications applied for
      * this job posting initially.
      *
-     * @see #applicationSubmit(Application, Storage)
-     * @see #applicationCancel(Application, Storage)
+     * @see #applicationSubmit(Application, EmploymentCenter)
+     * @see #applicationCancel(Application, EmploymentCenter)
      * @see #getApplications()
      */
     private ArrayList<Application> applications;
@@ -120,7 +121,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     /**
      * Create an {@code InterviewRoundManager} if status equals {@code JobPosting.OPEN} and the job should be closed.
      *
-     * @see Storage#updateOpenJobPostings()
+     * @see EmploymentCenter#updateOpenJobPostings()
      */
     public void startProcessing() {
         if (status.equals(JobPostingStatus.OPEN) && shouldClose()) {
@@ -147,7 +148,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      *
      * @param application the application of which existence will be checked
      * @return whether the application already exists in the list of applications: {@code applications}
-     * @see JobPosting#applicationSubmit(Application, Storage)
+     * @see JobPosting#applicationSubmit(Application, EmploymentCenter)
      */
     private boolean hasApplication(Application application) {
         for (Application app : applications) {
@@ -163,18 +164,18 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * Here we need to update {@code applications} as well as notify the company to which the job posting belongs
      *
      * @param application the application that is ready to be submitted
-     * @param Storage     the place where the company information is stored
+     * @param EmploymentCenter     the place where the company information is stored
      * @return whether an application is submitted successfully
-     * @see Application#apply(Storage)
+     * @see Application#apply(EmploymentCenter)
      */
-    public void applicationSubmit(Application application, Storage Storage)
+    public void applicationSubmit(Application application, EmploymentCenter EmploymentCenter)
             throws ApplicationAlreadyExistsException, WrongJobPostingStatusException {
         if (hasApplication(application)) {
             throw new ApplicationAlreadyExistsException();
         } else if (!status.equals(JobPostingStatus.OPEN)) {
             throw new WrongJobPostingStatusException();
         } else {
-            Company company = Storage.getCompany(jobDetails.get("Company id:"));
+            Company company = EmploymentCenter.getCompany(jobDetails.get("Company id:"));
             company.receiveApplication(application);
             this.applications.add(application);
         }
@@ -184,12 +185,12 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * Cancel an application by removing it from {@code applications} and notifying the company and {@code interviewRoundManager}.
      *
      * @param application the application that waits to be canceled
-     * @param Storage     the place where the company information is stored
-     * @see Application#cancel(Storage)
+     * @param EmploymentCenter     the place where the company information is stored
+     * @see Application#cancel(EmploymentCenter)
      */
-    public void applicationCancel(Application application, Storage Storage) {
+    public void applicationCancel(Application application, EmploymentCenter EmploymentCenter) {
         applications.remove(application);
-        Company company = Storage.getCompany(jobDetails.get("Company id:"));
+        Company company = EmploymentCenter.getCompany(jobDetails.get("Company id:"));
         company.cancelApplication(application);
         interviewRoundManager.applicationCancel(application);
     }

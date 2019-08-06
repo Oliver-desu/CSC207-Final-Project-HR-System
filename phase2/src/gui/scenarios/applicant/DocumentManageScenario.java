@@ -11,7 +11,7 @@ import domain.job.JobPosting;
 import domain.user.Applicant;
 import domain.user.Company;
 import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.major.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
 
@@ -48,12 +48,12 @@ public class DocumentManageScenario extends Scenario {
      * constructor for {@code DocumentManageScenario} ,create a new {@code DocumentManageScenario }
      * with given {@code Usermenu} and {@code DocumentManager}
      *
-     * @param userMenu            userMenu  need to create this .
+     * @param userMenuFrame            userMenuFrame  need to create this .
      * @param applicationDocument the {@code} DocumentManager passed in.
      */
-    public DocumentManageScenario(UserMenu userMenu, DocumentManager applicationDocument) {
-        super(userMenu, "Document Manager");
-        Applicant applicant = (Applicant) getUserMenu().getUser();
+    public DocumentManageScenario(UserMenuFrame userMenuFrame, DocumentManager applicationDocument) {
+        super(userMenuFrame, "Document Manager");
+        Applicant applicant = (Applicant) getUserMenuFrame().getUser();
         this.applicantDocumentManager = applicant.getDocumentManager();
         this.applicationDocumentManager = applicationDocument;
         this.applicantDocumentManager.updateAllDocuments();
@@ -66,7 +66,7 @@ public class DocumentManageScenario extends Scenario {
         JobPosting jobPosting = test.addJobPosting(company);
         Application application = test.addDraftApplicationForJobPosting(applicant, jobPosting);
 
-        new DocumentManageScenario(new UserMenu(), application.getDocumentManager()).exampleView();
+        new DocumentManageScenario(new UserMenuFrame(), application.getDocumentManager()).exampleView();
     }
 
     /**
@@ -124,7 +124,7 @@ public class DocumentManageScenario extends Scenario {
      * @return a string represent the path of the file .
      */
     private String getSubmitFileName() {
-        FileDialog fileDialog = new FileDialog(getUserMenu());
+        FileDialog fileDialog = new FileDialog(getUserMenuFrame());
         fileDialog.setVisible(true);
         return fileDialog.getDirectory() + "\\" + fileDialog.getFile();
     }
