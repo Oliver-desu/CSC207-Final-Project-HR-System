@@ -1,9 +1,9 @@
 package domain.Exceptions;
 
-public class WrongEmailFormatException extends RuntimeException {
+public class WrongEmailFormatException extends Exception {
 
-    /*
-     * The format of email is wrong, it should match .+@(.+//.)+com
-     * */
-
+    @Override
+    public String getMessage() {
+        return "Wrong email format! Only accept email addresses ending with .com!";
+    }
 }

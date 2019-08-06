@@ -7,7 +7,7 @@ import domain.user.Company;
 import gui.major.Login;
 
 public class Main {
-    private Storage Storage = new Storage();
+    private Storage storage = new Storage();
     private Login login = new Login(this);
 
     public static void main(String[] args) {
@@ -67,7 +67,7 @@ public class Main {
     }
 
     public Storage getStorage() {
-        return Storage;
+        return storage;
     }
 
     public void returnToLogin() {
