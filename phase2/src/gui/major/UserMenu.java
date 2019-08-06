@@ -1,6 +1,6 @@
 package gui.major;
 
-import domain.Exceptions.NotCompanyWorkerException;
+import domain.Exceptions.NotEmployeeException;
 import domain.storage.Storage;
 import domain.user.Company;
 import domain.user.User;
@@ -104,7 +104,7 @@ public class UserMenu extends JFrame {
         Storage storage = getMain().getStorage();
         try {
             return storage.getCompany(user.getCompanyId());
-        } catch (NotCompanyWorkerException e) {
+        } catch (NotEmployeeException e) {
             return null;
         }
     }

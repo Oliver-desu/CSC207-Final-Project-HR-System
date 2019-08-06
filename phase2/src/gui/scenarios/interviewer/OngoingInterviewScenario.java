@@ -97,7 +97,7 @@ public class OngoingInterviewScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             Interview interview = leftFilter.getSelectObject();
             if (interview != null) {
-                setOutputText(interview.detailedToStringForCompanyWorker(getMain().getStorage()));
+                setOutputText(interview.detailedToStringForEmployee(getMain().getStorage()));
                 rightFilter.setFilterContent(interview.getApplication().getDocumentManager().getAllDocuments());
             }
         }

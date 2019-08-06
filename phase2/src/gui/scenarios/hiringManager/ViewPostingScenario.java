@@ -154,7 +154,7 @@ public class ViewPostingScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             Application application = rightFilter.getSelectObject();
             if (application != null) {
-                setOutputText(application.detailedToStringForCompanyWorker(getMain().getStorage()));
+                setOutputText(application.detailedToStringForEmployee(getMain().getStorage()));
             }
         }
     }

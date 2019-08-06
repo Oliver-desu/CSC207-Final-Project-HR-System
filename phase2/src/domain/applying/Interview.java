@@ -149,8 +149,8 @@ public class Interview implements Filterable, Serializable, ShowAble {
      * @param Storage   the {@code Storage} that contains all users
      * @return basic information about this interview and detailed information about applicant
      */
-    public String detailedToStringForCompanyWorker(Storage Storage) {
-        return "JobPosting id: " + application.getJobPostingId() + "\n" +
+    public String detailedToStringForEmployee(Storage Storage) {
+        return "JobPosting information:\n" + Storage.getJobPosting(application.getJobPostingId()).toString() +
                 "\n" +
                 "Applicant information:\n" + Storage.getApplicant(application.getApplicantId()).toString();
     }

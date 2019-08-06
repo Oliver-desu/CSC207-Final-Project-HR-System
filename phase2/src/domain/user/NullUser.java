@@ -1,7 +1,7 @@
 package domain.user;
 
 import domain.Enums.UserType;
-import domain.Exceptions.NotCompanyWorkerException;
+import domain.Exceptions.NotEmployeeException;
 
 import java.util.HashMap;
 
@@ -15,33 +15,32 @@ import java.util.HashMap;
  * @since 2019-08-04
  */
 public class NullUser extends User {
+
     /**
-     * creat a user with nothing in it
-     *
-     * @see domain.storage.Storage#getUser(String, UserType)
+     * Constructor for {@code NullUser}.
      * @see domain.storage.UserFactory#createUser(HashMap, UserType)
      */
     public NullUser() {
     }
 
     /**
-     * return true if this user is a null user
-     *
-     * @return true if this user is a null user
-     * @see domain.storage.UserFactory#createUser(HashMap, UserType)
+     * Return true because this is a {@code NullUser}.
+     * @return true
+     * @see User#isNull()
      */
     public boolean isNull() {
         return true;
     }
 
     /**
-     * throw a new NotCompanyWorkerExcepation
-     * @return throw a new NotCompanyWorkerExcepation
-     * @exception NotCompanyWorkerException represent this user is a nulluser
-     * @see   Employee#getFilterMap()
+     * Throw a {@code NotEmployeeException} because {@code NullUser} does not work
+     * for company.
+     * @return nothing since it always throw {@code NotEmployeeException}
+     * @exception NotEmployeeException this is not an employee
+     * @see User#getCompanyId()
      */
     @Override
-    public String getCompanyId() throws NotCompanyWorkerException {
-        throw new NotCompanyWorkerException();
+    public String getCompanyId() throws NotEmployeeException {
+        throw new NotEmployeeException();
     }
 }

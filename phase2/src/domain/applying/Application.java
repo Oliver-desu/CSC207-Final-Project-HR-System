@@ -190,7 +190,7 @@ public class Application implements Filterable, Serializable, ShowAble {
      * @param Storage the {@code Storage} that contains all users
      * @return basic information about this application and detailed information about applicant
      */
-    public String detailedToStringForCompanyWorker(Storage Storage) {
+    public String detailedToStringForEmployee(Storage Storage) {
         Applicant applicant = Storage.getApplicant(applicantId);
         return "JobPosting id:" + jobPostingId + "\n" +
                 "Status: " + status + "\n" +

@@ -2,7 +2,7 @@ package domain.user;
 
 import domain.Enums.InterviewStatus;
 import domain.Enums.UserType;
-import domain.Exceptions.NotCompanyWorkerException;
+import domain.Exceptions.NotEmployeeException;
 import domain.applying.Application;
 import domain.applying.DocumentManager;
 import domain.applying.Interview;
@@ -132,13 +132,13 @@ public class Applicant extends User implements Serializable, ShowAble {
      * Override the method in {@code User}. {@code Applicant} does not work for a
      * company so if this method is called an exception will be thrown.
      * @return nothing since {@code Applicant} does not have company
-     * @throws NotCompanyWorkerException {@code Applicant} does not work for a company
+     * @throws NotEmployeeException {@code Applicant} does not work for a company
      * @see User#getCompanyId()
      * @see Employee#getCompanyId()
      */
     @Override
-    public String getCompanyId() throws NotCompanyWorkerException {
-        throw new NotCompanyWorkerException();
+    public String getCompanyId() throws NotEmployeeException {
+        throw new NotEmployeeException();
     }
 
     /**

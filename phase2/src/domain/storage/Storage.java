@@ -3,7 +3,6 @@ package domain.storage;
 import domain.Enums.JobPostingStatus;
 import domain.Enums.UserType;
 import domain.applying.Application;
-import domain.job.InterviewRoundManager;
 import domain.job.JobPosting;
 import domain.user.*;
 import gui.major.Login;
@@ -121,8 +120,8 @@ public class Storage implements Serializable {
      * @param username the name of the applicant
      * @return the target {@code Applicant}
      * @see domain.applying.Application#getApplicant(Storage)
-     * @see domain.applying.Application#detailedToStringForCompanyWorker(Storage)
-     * @see domain.applying.Interview#detailedToStringForCompanyWorker(Storage)
+     * @see domain.applying.Application#detailedToStringForEmployee(Storage)
+     * @see domain.applying.Interview#detailedToStringForEmployee(Storage)
      */
     public Applicant getApplicant(String username) {
         try {
