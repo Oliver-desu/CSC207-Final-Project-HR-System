@@ -58,8 +58,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
 
     /**
      * Create a filter with given dimension and title.
-     * @param dimension
-     * @param title
+     * @param dimension The dimension of the filter.
+     * @param title Title of the filter.
      */
     public FilterPanel(Dimension dimension, String title) {
         setup(dimension, title);
@@ -95,8 +95,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
 
     /**
      * Set up a new filter with given dimension and title of what the filter is for.
-     * @param dimension
-     * @param title
+     * @param dimension Dimension of filter.
+     * @param title Title of filter.
      */
     public void setup(Dimension dimension, String title) {
         setPreferredSize(dimension);
@@ -111,8 +111,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
 
     /**
      * Set up the title for the filter.
-     * @param dimension
-     * @param title
+     * @param dimension Dimension of the filter.
+     * @param title Title of filter.
      */
     private void titleSectionSetup(Dimension dimension, String title) {
         JLabel label = new JLabel(title);

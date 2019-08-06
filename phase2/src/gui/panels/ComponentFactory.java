@@ -51,7 +51,7 @@ public class ComponentFactory {
 
     /**
      * Set the size for the components with the given width.
-     * @param width
+     * @param width The width of the components.
      */
 
     private void setComponentSize(int width) {
@@ -63,7 +63,7 @@ public class ComponentFactory {
 
     /**
      * Return the size of the given component type
-     * @param type
+     * @param type the type of the component.
      * @return The size of the given component type
      */
 
