@@ -119,6 +119,7 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * return the path of  file need to be submitted  in the right form.
+     * @see gui.scenarios.applicant.DocumentManageScenario.AddDocumentListener#actionPerformed(ActionEvent)
      * @return a string represent the path of the file .
      */
     private String getSubmitFileName() {
