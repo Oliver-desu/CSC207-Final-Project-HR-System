@@ -73,8 +73,8 @@ public class ButtonPanel extends JPanel {
      * Add a button to the panel. If the number of button is not over the maximum,
      * add a button with the button name given. Set the size of the button and add
      * action listener to the button.
-     * @param buttonName
-     * @param listener
+     * @param buttonName the name of the button
+     * @param listener listener for action
      */
 
     public void addButton(String buttonName, ActionListener listener) {
