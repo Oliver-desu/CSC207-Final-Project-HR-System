@@ -147,7 +147,6 @@ public class Application implements Filterable, Serializable, ShowAble {
      * to be uneditable and status to be {@code ApplicationStatus.PENDING}. Then return true
      * if and only if the application is submitted successfully.
      * @param employmentCenter the {@code EmploymentCenter} that contains information about job postings
-     * @return true if and only if the application is submitted successfully
      * @see JobPosting#applicationSubmit(Application, EmploymentCenter)
      * @see DocumentManager#setEditable(boolean)
      */
