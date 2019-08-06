@@ -20,6 +20,8 @@ import java.util.HashMap;
  */
 public class Employee extends User implements Filterable, Serializable {
 
+    private static final long serialVersionUID = -351421824333122154L;
+
     /**
      * The name of {@code Company} this {@code Employee} works for.
      *

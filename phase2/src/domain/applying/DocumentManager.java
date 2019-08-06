@@ -15,6 +15,8 @@ import java.util.HashMap;
  */
 public class DocumentManager implements Serializable {
 
+    private static final long serialVersionUID = -1699054066935007390L;
+
     /**
      * A hash map where the key is document name and value is the corresponding document.
      *

@@ -20,6 +20,8 @@ import java.util.HashMap;
  */
 public class Interview implements Filterable, Serializable, ShowAble {
 
+    private static final long serialVersionUID = -1449779786766385357L;
+
     /**
      * The {@code Employee} that will do the interview.
      *

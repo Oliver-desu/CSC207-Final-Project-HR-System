@@ -19,6 +19,8 @@ import java.util.HashMap;
  */
 public abstract class User implements Serializable {
 
+    private static final long serialVersionUID = -9123367478932197170L;
+
     /**
      * The type of the {@code User}.
      *

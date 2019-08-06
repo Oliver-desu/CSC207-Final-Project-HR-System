@@ -24,6 +24,9 @@ import java.util.HashMap;
  */
 public class UserFactory implements Serializable {
 
+    private static final long serialVersionUID = -6178992956146363626L;
+
+
     /**
      * The {@code Storage} used to store all the users created.
      *
