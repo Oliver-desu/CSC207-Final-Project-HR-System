@@ -1,7 +1,7 @@
 package domain.user;
 
 import domain.Enums.UserType;
-import domain.Exceptions.NotCompanyWorkerException;
+import domain.Exceptions.NotEmployeeException;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -132,6 +132,6 @@ public abstract class User implements Serializable {
      * works for if the {@code User} is an {@code Employee}, otherwise throw
      * exception.
      */
-    public abstract String getCompanyId() throws NotCompanyWorkerException;
+    public abstract String getCompanyId() throws NotEmployeeException;
 
 }
