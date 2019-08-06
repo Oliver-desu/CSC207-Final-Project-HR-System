@@ -1,6 +1,7 @@
 package gui.scenarios.interviewer;
 
 import domain.Enums.InterviewStatus;
+import domain.Exceptions.WrongEmployeeTypeException;
 import domain.Test;
 import domain.applying.Document;
 import domain.applying.Interview;
@@ -19,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * todo
@@ -134,7 +136,11 @@ public class OngoingInterviewScenario extends Scenario {
     @Override
     protected void update() {
         Employee interviewer = (Employee) getUserMenu().getUser();
-        leftFilter.setFilterContent(interviewer.getInterviews());
+        try {
+            leftFilter.setFilterContent(interviewer.getInterviews());
+        } catch (WrongEmployeeTypeException e) {
+            leftFilter.setFilterContent(new ArrayList<>());
+        }
     }
 
     /**

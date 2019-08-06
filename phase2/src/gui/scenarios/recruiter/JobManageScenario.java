@@ -1,6 +1,7 @@
 package gui.scenarios.recruiter;
 
 import domain.Enums.JobPostingStatus;
+import domain.Exceptions.WrongEmployeeTypeException;
 import domain.Test;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
@@ -130,7 +131,11 @@ public class JobManageScenario extends Scenario {
     @Override
     protected void update() {
         Employee recruiter = (Employee) getUserMenu().getUser();
-        leftFilter.setFilterContent(recruiter.getJobPostings());
+        try {
+            leftFilter.setFilterContent(recruiter.getJobPostings());
+        } catch (WrongEmployeeTypeException e) {
+            leftFilter.setFilterContent(new ArrayList<>());
+        }
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
