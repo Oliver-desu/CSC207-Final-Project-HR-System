@@ -15,14 +15,31 @@ import java.util.HashMap;
  * @since 2019-08-04
  */
 public class NullUser extends User {
-
+    /**
+     * creat a user with nothing in it
+     *
+     * @see domain.storage.Storage#getUser(String, UserType)
+     * @see domain.storage.UserFactory#createUser(HashMap, UserType)
+     */
     public NullUser() {
     }
 
+    /**
+     * return true if this user is a null user
+     *
+     * @return true if this user is a null user
+     * @see domain.storage.UserFactory#createUser(HashMap, UserType)
+     */
     public boolean isNull() {
         return true;
     }
 
+    /**
+     * throw a new NotCompanyWorkerExcepation
+     * @return throw a new NotCompanyWorkerExcepation
+     * @exception NotCompanyWorkerException represent this user is a nulluser
+     * @see   Employee#getFilterMap()
+     */
     @Override
     public String getCompanyId() throws NotCompanyWorkerException {
         throw new NotCompanyWorkerException();

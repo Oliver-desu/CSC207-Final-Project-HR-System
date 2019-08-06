@@ -63,11 +63,20 @@ public class Login extends JFrame {
      */
     private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
 
+    /**
+     * set the main to this login
+     *
+     * @param main #Todo : dont know how to describe
+     * @see
+     */
     public Login(Main main) {
         this.main = main;
         setup();
     }
 
+    /**
+     * setup the title ,size,Layout, infoPanel , buttonPanel , ant set this frame to be visible.
+     */
     private void setup() {
         setTitle("Login");
         setSize(new Dimension(WIDTH, HEIGHT));
@@ -77,12 +86,20 @@ public class Login extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * add  "Login" button with new LoginListener and "Register"to buttonPanel  with new RegisterListener.
+     *
+     * @see #setup()
+     */
     private void buttonPanelSetup() {
         buttonPanel.addButton("Login", new LoginListener());
         buttonPanel.addButton("Register", new RegisterListener());
         add(buttonPanel);
     }
 
+    /** setup the infoPanel,  add TextField with string"Username" , add a addPasswordField with name "Password",
+     * add a ComboBox with  UserType (defaultValue is Applicant)
+     */
     private void infoPanelSetup() {
         ComponentFactory factory = getInputInfoPanel().getComponentFactory();
         factory.addTextField("Username:");
@@ -91,14 +108,26 @@ public class Login extends JFrame {
         add(getInputInfoPanel());
     }
 
+    /**
+     * @return main of this page
+     */
     public Main getMain() {
         return main;
     }
 
+    /**
+     * @return the inputInfoPanel of this frame.
+     * @see  #infoPanelSetup()
+     * @see #getUser()
+     */
     private InputInfoPanel getInputInfoPanel() {
         return inputInfoPanel;
     }
 
+    /**
+     * get the User name and User type  stored in the infomap , then ask storage{@code storage} to return a
+     * User with given infomation.
+     */
     private User getUser() {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
         String userType = infoMap.get("UserType:").toUpperCase();
@@ -106,6 +135,11 @@ public class Login extends JFrame {
         return getMain().getStorage().getUser(userName, UserType.valueOf(userType));
     }
 
+    /**
+     * check if the user's password matched the given password.
+     * @param user the User want to be check if the passed in password is matched
+     * @param password  the password passed in
+     */
     private boolean checkUser(User user, char[] password) {
         if (!user.isNull() && user.matchPassword(password)) {
             return true;
@@ -115,12 +149,26 @@ public class Login extends JFrame {
         }
     }
 
+    /**
+     * set this Jframe to be invisible and create a new UserMenu with given user.
+     * @param user the given user  that need to be create with new usermenu.
+     */
     private void login(User user) {
         this.setVisible(false);
         new UserMenu(getMain(), user);
     }
 
+    /**
+     * Class {@code LoginListener} setup the LoginListener ,this listener is used for check if the password is matched
+     *
+     * @see Login {@link #buttonPanelSetup()}
+     */
     class LoginListener implements ActionListener {
+        /**
+         * set up the actionPerformed in this listener , if the password stored in InputInfoPanel matched
+         * this user , then login with this user's information
+         * @param e the actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             User user = getUser();
@@ -132,7 +180,16 @@ public class Login extends JFrame {
         }
     }
 
+    /**
+     * Class {@code RegisterListener} setup the RegisterListener .
+     *
+     * @see Login {@link #buttonPanelSetup()}
+     */
     class RegisterListener implements ActionListener {
+        /**
+         *  login with a NullUser in order to register.
+         * @param e actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             login(new NullUser());
