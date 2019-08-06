@@ -224,7 +224,12 @@ public class Test {
         manager.checkStatus();
         InterviewRound interviewRound = new InterviewRound(Integer.toString(manager.getInterviewRounds().size()));
         manager.addInterviewRound(interviewRound);
-        manager.nextRound();
+        try {
+            manager.nextRound();
+        } catch (Exception e) {
+            System.out.println("addNewRound");
+            System.out.println(e);
+        }
         return interviewRound;
     }
 

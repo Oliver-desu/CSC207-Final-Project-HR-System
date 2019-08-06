@@ -1,7 +1,10 @@
 package gui.scenarios.recruiter;
 
 import domain.Enums.JobPostingStatus;
+import domain.Exceptions.NextRoundDoesNotExistException;
 import domain.Exceptions.WrongEmployeeTypeException;
+import domain.Exceptions.WrongInterviewRoundStatusException;
+import domain.Exceptions.WrongJobPostingStatusException;
 import domain.Test;
 import domain.job.InterviewRound;
 import domain.job.JobPosting;
@@ -196,15 +199,13 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            if (jobPosting != null) {
-                InterviewRound interviewRound = rightFilter.getSelectObject();
-                if (interviewRound != null) {
-                    InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(
-                            getUserMenu(), interviewRound, jobPosting);
-                    switchScenario(interviewRoundScenario);
-                } else {
-                    showMessage("Failed.");
-                }
+            InterviewRound interviewRound = rightFilter.getSelectObject();
+            if (interviewRound == null || jobPosting == null) {
+                showMessage("No interviewRound selected!");
+            } else {
+                InterviewRoundScenario interviewRoundScenario = new InterviewRoundScenario(
+                        getUserMenu(), interviewRound, jobPosting);
+                switchScenario(interviewRoundScenario);
             }
         }
     }
@@ -221,12 +222,14 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             String roundName = infoPanel.getInfoMap().get("Round name:");
-            if (jobPosting != null && jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
+            if (jobPosting == null) {
+                showMessage("No job posting selected!");
+            } else if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
+                showMessage("The status of job posting is not PROCESSING, can not add round!");
+            } else {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 showMessage("Succeed!");
                 update();
-            } else {
-                showMessage("Failed!");
             }
         }
     }
@@ -242,11 +245,18 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            if (jobPosting != null && jobPosting.getInterviewRoundManager().nextRound()) {
-                showMessage("Succeeds!");
+            try {
+                jobPosting.getInterviewRoundManager().nextRound();
                 update();
-            } else {
-                showMessage("Failed!");
+                showMessage("Succeeds");
+            } catch (NullPointerException e1) {
+                showMessage("No job posting selected!");
+            } catch (WrongJobPostingStatusException e1) {
+                showMessage("The status of job posting is not PROCESSING, can not start next round!");
+            } catch (WrongInterviewRoundStatusException e1) {
+                showMessage("The status of current round is not FINISHED, can not start next round!");
+            } catch (NextRoundDoesNotExistException e1) {
+                showMessage(e1.getMessage());
             }
         }
     }
@@ -262,12 +272,14 @@ public class JobManageScenario extends Scenario {
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
-            if (jobPosting != null && !jobPosting.getStatus().equals(JobPostingStatus.FINISHED)) {
-                jobPosting.endJobPosting();
-                showMessage("The jobPosting is now closed.");
-                update();
+            if (jobPosting == null) {
+                showMessage("No job posting selected!");
+            } else if (jobPosting.getStatus().equals(JobPostingStatus.FINISHED)) {
+                showMessage("The job posting has already closed!");
             } else {
-                showMessage("Failed.");
+                jobPosting.endJobPosting();
+                update();
+                showMessage("The jobPosting is now closed.");
             }
         }
     }
