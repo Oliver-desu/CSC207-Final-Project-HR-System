@@ -62,7 +62,7 @@ public class InputInfoPanel extends JScrollPane {
     }
 
     /**
-     * Create a panel for input information with given dimension and a boolean of whether it is a vertical panel.
+     * Create a {@code InputInfoPanel} for input information with given dimension and a boolean of whether it is a vertical panel.
      * @param dimension The dimension of the panel.
      * @param vertical Boolean of whether the panel is vertical or not.
      */

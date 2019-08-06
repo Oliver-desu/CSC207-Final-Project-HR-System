@@ -57,7 +57,7 @@ public class FilterPanel<T extends Filterable> extends JPanel {
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
     /**
-     * Create a filter with given dimension and title.
+     * Create a {@code FilterPanel} with given dimension and title.
      * @param dimension The dimension of the filter.
      * @param title Title of the filter.
      */

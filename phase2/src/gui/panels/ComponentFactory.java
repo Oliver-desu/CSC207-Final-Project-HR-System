@@ -76,7 +76,7 @@ public class ComponentFactory {
     /**
      * Create a text field and specify what the textfield is for.
      * Set the textfield to be editable by user.
-     * @param name
+     * @param name Name of the text field.
      */
     public void addTextField(String name) {
         addTextField(name, "", true);
@@ -136,7 +136,6 @@ public class ComponentFactory {
      * @param name The name of text field.
      * @param defaultValue Set the output of the text as default value.
      * @param editable Boolean for whether the textfield is editable.
-     * @see #infoPanel
      */
     public void addTextField(String name, String defaultValue, boolean editable) {
         JTextField textField = new JTextField();
@@ -150,7 +149,6 @@ public class ComponentFactory {
     /**
      * Create a field for password.
      * @param name The name of the field, which would be password.
-     * @see #infoPanel
      */
     public void addPasswordField(String name) {
         JPasswordField passwordField = new JPasswordField();
@@ -163,7 +161,6 @@ public class ComponentFactory {
      * @param name The name of the text area.
      * @param defaultValue The output of the area, which is default value.
      * @param editable Boolean of whether the area is editable.
-     * @see #infoPanel
      */
 
     public void addTextArea(String name, String defaultValue, boolean editable) {
