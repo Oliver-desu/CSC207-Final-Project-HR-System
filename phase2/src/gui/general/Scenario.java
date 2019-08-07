@@ -6,6 +6,7 @@ import gui.scenarios.hiringManager.JobPostingRegisterScenario;
 import gui.scenarios.userRegister.UserRegisterScenario;
 import main.Main;
 import model.enums.UserType;
+import model.exceptions.NotOverrideException;
 import model.job.Document;
 import model.job.DocumentManager;
 import model.job.InterviewRound;
@@ -203,6 +204,42 @@ public abstract class Scenario extends JPanel {
 
     protected void setTitle(String title) {
         getUserMenuFrame().setTitle(title);
+    }
+
+    /**
+     * A method that wishes whenever desired then override with same signature(therefore do not want to make abstract)
+     *
+     * @throws NotOverrideException Children class uses this method without override.
+     */
+    protected void initLeftFilter() throws NotOverrideException {
+        throw new NotOverrideException();
+    }
+
+    /**
+     * A method that wishes whenever desired then override with same signature(therefore do not want to make abstract)
+     *
+     * @throws NotOverrideException Children class uses this method without override.
+     */
+    protected void initRightFilter() throws NotOverrideException {
+        throw new NotOverrideException();
+    }
+
+    /**
+     * A method that wishes whenever desired then override with same signature(therefore do not want to make abstract)
+     *
+     * @throws NotOverrideException Children class uses this method without override.
+     */
+    protected void initButton() throws NotOverrideException {
+        throw new NotOverrideException();
+    }
+
+    /**
+     * A method that wishes whenever desired then override with same signature(therefore do not want to make abstract)
+     *
+     * @throws NotOverrideException Children class uses this method without override.
+     */
+    protected void initInput() throws NotOverrideException {
+        throw new NotOverrideException();
     }
 
     protected void exampleView() {

@@ -91,7 +91,7 @@ public class ViewPostingScenario extends Scenario {
      *
      * @see #initComponents()
      */
-    private void initRightFilter() {
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "JobPosting Applications");
         rightFilter.addSelectionListener(new ViewPostingScenario.RightFilterListener());
         add(rightFilter);
