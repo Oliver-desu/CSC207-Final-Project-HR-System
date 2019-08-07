@@ -36,23 +36,18 @@ public abstract class Scenario extends JPanel {
     protected final Dimension REGISTER_INPUT_SIZE = getDimensionByRatio(1, 0.8);
     protected final Dimension LIST_SIZE = getDimensionByRatio(0.3, 0.5);
     protected final Dimension BUTTON_PANEL_SIZE = getDimensionByRatio(1, 0.2);
-    protected final Dimension OUTPUT_SIZE = getDimensionByRatio(0.4, 0.5);
+    private final Dimension OUTPUT_SIZE = getDimensionByRatio(0.4, 0.5);
 
     /**
-     * The user menu that contains this panel
+     * The {@code UserMenuFrame} that will show in this scenario.
      *
-     * @see UserMenuFrame
      * @see #getUserMenuFrame()
-     * @see #getMain()
-     * @see #showMessage(String)
-     * @see #confirmAction()
      */
     private UserMenuFrame userMenuFrame;
 
     /**
-     * The panel deal with output text to users
+     * The {@code OutputInfoPanel} for this scenario.
      *
-     * @see OutputInfoPanel
      * @see #initOutputInfoPanel()
      * @see #setOutputText(String)
      * @see #showDocument(Document)
@@ -60,17 +55,17 @@ public abstract class Scenario extends JPanel {
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel(OUTPUT_SIZE);
 
     /**
-     * The boolean that check whether this panel has initialized
+     * True only when the scenario has been initialized.
      *
      * @see #init()
      */
     private boolean hasInit;
 
     /**
-     * create a new {@code UserMenuFrame}with given usermenu{@code UserMenuFrame} and given title
+     * create a new {@code UserMenuFrame}with given {@code UserMenuFrame} and given title
      *
-     * @param userMenuFrame the giben usermenu need to be passed in
-     * @param title    the title of thie scenario
+     * @param userMenuFrame the given user menu need to be passed in
+     * @param title    the title of this scenario
      * @see gui.scenarios.applicant.DocumentManageScenario#DocumentManageScenario(UserMenuFrame, DocumentManager)
      * @see gui.scenarios.applicant.ApplicationManageScenario#ApplicationManageScenario(UserMenuFrame)
      * @see UserRegisterScenario#UserRegisterScenario(UserMenuFrame, UserType)
@@ -95,7 +90,7 @@ public abstract class Scenario extends JPanel {
      *
      * @see UserMenuFrame#setScenario(Scenario)
      */
-    public void init() {
+    protected void init() {
         if (!hasInit) {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
             setLayout(new FlowLayout());
@@ -114,7 +109,7 @@ public abstract class Scenario extends JPanel {
     }
 
     /**
-     * add the outputInfoPanel to this Jframe
+     * add the outputInfoPanel to this frame
      */
     protected void initOutputInfoPanel() {
         add(outputInfoPanel);
@@ -161,7 +156,7 @@ public abstract class Scenario extends JPanel {
     }
 
     /**
-     * pop up a new Jframe to interfaces the massage
+     * pop up a new frame to interfaces the massage
      * @param message the message need to be showed
      */
     protected void showMessage(String message) {
