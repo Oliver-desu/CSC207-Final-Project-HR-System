@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import static java.lang.Integer.min;
 
 /**
- * Class {@code ButtonPanel} setup gui panel for buttons in horizontal layout
+ * Class {@code ButtonPanel} setup gui panel for buttons in horizontal layout.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.Scenario
@@ -26,7 +26,7 @@ public class ButtonPanel extends JPanel {
     private static final int VERTICAL_GAP = 5;
 
     /**
-     * The dimension of buttons
+     * The dimension of buttons.
      *
      * @see #getButtonSize()
      * @see #setButtonSize(Dimension)
@@ -46,7 +46,7 @@ public class ButtonPanel extends JPanel {
     }
 
     /**
-     * Return the size of the button
+     * Return the size of the button.
      * @return The size of the button
      */
 
@@ -60,7 +60,7 @@ public class ButtonPanel extends JPanel {
     }
 
     /**
-     * TODO
+     * Set up the panel.
      * @param dimension the dimension of this panel
      */
 

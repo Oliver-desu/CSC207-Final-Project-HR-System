@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Class {@code OutputInfoPanel} setup gui panel to interfaces output text to users
+ * Class {@code OutputInfoPanel} setup gui panel to interfaces output text to users.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.Scenario
@@ -21,7 +21,7 @@ public class OutputInfoPanel extends JPanel {
     private static final Dimension DOCUMENT_FRAME_SIZE = new Dimension(600, 400);
 
     /**
-     * The text area to interfaces text
+     * The text area to interfaces text.
      *
      * @see #setup(Dimension)
      * @see #setOutputText(String)
@@ -40,7 +40,7 @@ public class OutputInfoPanel extends JPanel {
     /**
      * Set up an output info panel.
      * Set the layout and scroll panel for text area.
-     * @param dimension The dimension of output info panel.
+     * @param dimension the dimension of output info panel
      */
     public void setup(Dimension dimension) {
         setPreferredSize(dimension);
@@ -61,7 +61,7 @@ public class OutputInfoPanel extends JPanel {
 
     /**
      * Show the given document on the panel by getting its information from the toString method.
-     * @param document The document needed to be performed.
+     * @param document the document needed to be performed
      */
     public void showDocument(Document document) {
         OutputInfoPanel outputInfo = new OutputInfoPanel(DOCUMENT_FRAME_SIZE);
@@ -70,13 +70,15 @@ public class OutputInfoPanel extends JPanel {
     }
 
     /**
-     * Class {@code DocumentFrame} extends JFrame. It creates a frame to interfaces the information for given document.
+     * Class {@code DocumentFrame} extends JFrame.
+     * It creates a frame to interfaces the information for given document.
      */
     private class DocumentFrame extends JFrame {
 
         /**
-         * @param title The name of the document want to be shown.
-         * @param document The document wanted to be shown.
+         * Constructor for {@code DocumentFrame}.
+         * @param title he name of the document want to be shown
+         * @param document he document wanted to be shown
          */
         DocumentFrame(String title, JPanel document) {
             setTitle(title);

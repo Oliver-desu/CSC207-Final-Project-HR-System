@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 /**
- * Class {@code ComponentFactory} add desired components to InputInfoPanel
+ * Class {@code ComponentFactory} adds desired components to InputInfoPanel.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see InputInfoPanel
@@ -19,7 +19,7 @@ public class ComponentFactory {
     private static final int COMPONENT_HEIGHT = 45;
 
     /**
-     * The destination of all created components is added to
+     * The location where all created components are added to.
      *
      * @see InputInfoPanel
      * @see #addComboBox(String, String[], String, boolean)
@@ -30,7 +30,7 @@ public class ComponentFactory {
     private InputInfoPanel infoPanel;
 
     /**
-     * Stores sizes of all components
+     * Store the sizes of all components.
      *
      * @see #setComponentSize(int)
      * @see #getComponentSize(ComponentType)
@@ -38,7 +38,7 @@ public class ComponentFactory {
     private HashMap<ComponentType, Dimension> sizes = new HashMap<>();
 
     /**
-     * Constructor for {@code ComponentFactory}
+     * Constructor for {@code ComponentFactory}.
      * @param infoPanel the destination of all created components
      * @param width the desired width of each component group(the total width of a JLabel
      *              with another component handle user input )
@@ -51,7 +51,7 @@ public class ComponentFactory {
 
     /**
      * Set the size for the components with the given width.
-     * @param width The width of the components.
+     * @param width the width of the components
      */
     private void setComponentSize(int width) {
         int labelWidth = width / 3;
@@ -63,9 +63,9 @@ public class ComponentFactory {
     }
 
     /**
-     * Return the size of the given component type
-     * @param type the type of the component.
-     * @return The size of the given component type
+     * Return the size of the given component type.
+     * @param type the type of the component
+     * @return the size of the given component type
      */
     private Dimension getComponentSize(ComponentType type) {
         return sizes.get(type);
@@ -76,7 +76,7 @@ public class ComponentFactory {
     /**
      * Create a text field and specify what the textField is for.
      * Set the textField to be editable by user.
-     * @param name Name of the text field.
+     * @param name name of the text field
      */
     public void addTextField(String name) {
         addTextField(name, "", true);
@@ -86,8 +86,8 @@ public class ComponentFactory {
     /**
      * Create a combo box  and specify what it is for.
      * Set the combo box to be uneditable.
-     * @param name The name of what the combo box is for.
-     * @param options The options for the combo box.
+     * @param name the name of what the combo box is for
+     * @param options the options for the combo box
      */
     public void addComboBox(String name, String[] options) {
         addComboBox(name, options, null, false);
@@ -96,7 +96,7 @@ public class ComponentFactory {
     /**
      * Create a text area and specify what the area is for.
      * Make the area editable by user.
-     * @param name The name of what the text area is for.
+     * @param name the name of what the text area is for
      */
     public void addTextArea(String name) {
         addTextArea(name, "", true);
@@ -104,9 +104,9 @@ public class ComponentFactory {
 
 
     /**
-     * Return a component from the given component type name
-     * @param name The name of the component.
-     * @return Component from the given component type name.
+     * Return a component from the given component type name.
+     * @param name the name of the component
+     * @return component from the given component type name
      */
     Component getLabel(String name) {
         JLabel label = new JLabel(name);
@@ -117,10 +117,10 @@ public class ComponentFactory {
     /**
      * Create a combo box with a set of options.
      * Specify what the combo box is for and decide whether it is editable by the boolean it is passed in.
-     * @param name The name of the combo box.
-     * @param options The options in the combo box.
-     * @param defaultValue The default selected value
-     * @param editable Boolean of whether the combo box is editable
+     * @param name the name of the combo box
+     * @param options the options in the combo box
+     * @param defaultValue the default selected value
+     * @param editable boolean of whether the combo box is editable
      * @see #infoPanel
      */
     public void addComboBox(String name, String[] options, String defaultValue, boolean editable) {
@@ -133,9 +133,9 @@ public class ComponentFactory {
 
     /**
      * Create a text field.
-     * @param name The name of text field.
-     * @param defaultValue Set the output of the text as default value.
-     * @param editable Boolean for whether the textField is editable.
+     * @param name the name of text field
+     * @param defaultValue set the output of the text as default value
+     * @param editable boolean for whether the textField is editable
      */
     private void addTextField(String name, String defaultValue, boolean editable) {
         JTextField textField = new JTextField();
@@ -148,7 +148,7 @@ public class ComponentFactory {
 
     /**
      * Create a JPasswordFiled with given name.
-     * @param name The name of the field, which would be password.
+     * @param name the name of the field, which would be password
      */
     public void addPasswordField(String name) {
         JPasswordField passwordField = new JPasswordField();
@@ -158,9 +158,9 @@ public class ComponentFactory {
 
     /**
      * Add a  text area with scroll pane.
-     * @param name The name of the text area.
-     * @param defaultValue The output of the area, which is default value.
-     * @param editable Boolean of whether the area is editable.
+     * @param name the name of the text area
+     * @param defaultValue the output of the area, which is default value
+     * @param editable boolean of whether the area is editable
      */
 
     private void addTextArea(String name, String defaultValue, boolean editable) {
