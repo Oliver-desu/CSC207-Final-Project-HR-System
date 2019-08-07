@@ -136,6 +136,12 @@ public class ApplicationScenario extends Scenario {
      * @since 2019-08-06
      */
     private class LeftFilterListener implements ListSelectionListener {
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * It shows all documents of the selected application on the screen.
+         *
+         * @param e the action event that an application is selected from "All Applications".
+         */
         @Override
         public void valueChanged(ListSelectionEvent e) {
             Application application = leftFilter.getSelectObject();
@@ -154,6 +160,12 @@ public class ApplicationScenario extends Scenario {
      * @see #initButton()
      */
     private class ViewDocumentListener implements ActionListener {
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * It shows the content of the selected document on the screen.
+         *
+         * @param e the action event that a document is chosen on the screen.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             Document document = rightFilter.getSelectObject();
