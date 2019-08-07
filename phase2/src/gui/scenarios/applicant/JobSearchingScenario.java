@@ -16,21 +16,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code  JobSearchingScenario} the page used for Job searching
+ * Class {@code JobSearchingScenario} deals with the scenario when an applicant is doing job searching.
  *
  * @see gui.general.MenuPanel
  * @since 2019-08-06
  */
 public class JobSearchingScenario extends Scenario {
     /**
-     * the {@code FilterPanel} on the left stored the {@code JobPosting}
+     * The {@code FilterPanel} that shows a list of {@code JobPosting}s on upper left of the page.
+     *
+     * @see #update()
+     * @see #initLeftFilter()
      */
     private FilterPanel<JobPosting> leftFilter;
 
     /**
-     * constructor for JobSearchingScenario,
+     * Construct a new {@code JobSearchingScenario}.
      *
-     * @param userMenuFrame given {@code UserMenuFrame}
+     * @param userMenuFrame the {@code UserMenuFrame} for the new {@code JobSearchingScenario}
      */
     public JobSearchingScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Job Searching");
@@ -45,6 +48,9 @@ public class JobSearchingScenario extends Scenario {
         new JobSearchingScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
     }
 
+    /**
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
+     */
     @Override
     protected void initComponents() {
         initLeftFilter();
@@ -53,8 +59,8 @@ public class JobSearchingScenario extends Scenario {
     }
 
     /**
-     * override the method in parent class  {@code scenario}
-     *update the content on the leftFilterPanel  by get the latest version of JobPosting from {@code EmploymentCenter}
+     * Override the method {@code update()} in abstract class {@code Scenario}.
+     * It updates the information showed on the user interface.
      */
     @Override
     protected void update() {
@@ -62,6 +68,11 @@ public class JobSearchingScenario extends Scenario {
         leftFilter.setFilterContent(EmploymentCenter.getOpenJobPostings());
     }
 
+    /**
+     * Initialize the {@code leftFilter} such that it shows all {@code JobPosting}s
+     * that are in {@code JobPostingStatus.OPEN} status.
+     * It is a helper method of {@link #initComponents()}.
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "Open Jobs");
         addShowInfoListenerFor(leftFilter);
@@ -69,8 +80,7 @@ public class JobSearchingScenario extends Scenario {
     }
 
     /**
-     * Initial a button  called "Create Application" with  new {@code CreateApplicationListener},
-     * then add this button to the ButtonPanel
+     * A helper method for {@link #initComponents()} that initializes all buttons showed on the {@code buttonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -79,19 +89,18 @@ public class JobSearchingScenario extends Scenario {
     }
 
     /**
-     * Class {@code  CreateApplicationListener} listener used for create a new application
+     * Class {@code CreateApplicationListener} deals with the situation where "Create Application" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class CreateApplicationListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * 1 get the {@code JobPosting} selected by user .2 get the {@code Applicant } stored in the
-         * {@code UserMenuFrame} 3  if the {@code JobPosing} is not null the add it to the {@code Applicant}
-         * then switch to the {@code ApplicationManageScenario}
-         * otherwise interfaces a massage "Failed!".
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * The application can be created if and only if a job on job listing is selected
+         * and no such application exists.
+         *
+         * @param e the action event that "Create Application" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {

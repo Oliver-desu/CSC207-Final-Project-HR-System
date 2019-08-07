@@ -203,7 +203,7 @@ public class DocumentManageScenario extends Scenario {
          * If the page is entered by clicking "Edit Application" on the page that manages applications,
          * the selected document will be removed from list "Application Document" but it still appears on "My Documents".
          *
-         * @param e the action event that "Add Document" is clicked.
+         * @param e the action event that "Delete Document" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
