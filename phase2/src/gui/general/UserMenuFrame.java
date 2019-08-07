@@ -12,10 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code UserMenuFrame} sets up gui frame for user menu with common buttons and provides getters of information.
- * It is a subclass of {@code JFrame}.
+ * Class {@code UserMenuFrame} setup gui frame for user menu with common buttons and provide getters of information.
  *
  * @author group 0120 of CSC207 summer 2019
+ * @see Main
+ * @see User
+ * @see MenuPanel
  * @see Scenario
  * @since 2019-08-05
  */
@@ -31,7 +33,7 @@ public class UserMenuFrame extends JFrame {
     private static final Dimension BUTTON_SIZE = new Dimension(WIDTH / 6, 50);
 
     /**
-     * //todo
+     * The {@code Main} that the program is based on.
      *
      * @see Main
      * @see #getMain()
@@ -40,8 +42,9 @@ public class UserMenuFrame extends JFrame {
     private Main main;
 
     /**
-     * The {@code User} related to this {@code UserMenuFrame}.
+     * The user.
      *
+     * @see User
      * @see #getUser()
      * @see #getCompany()
      * @see #addLogoutButton()
@@ -49,18 +52,20 @@ public class UserMenuFrame extends JFrame {
     private User user;
 
     /**
-     * The {@code MenuPanel} that contains all buttons in this {@code UserMenuFrame}.
+     * The panel contains all buttons.
      *
+     * @see MenuPanel
      * @see #setup()
      * @see #addLogoutButton()
-     * @see #showColor()
      */
     private MenuPanel menu;
 
     /**
-     * The {@code Scenario} associated with this {@code UserMenuFrame}.
+     * The panel be able to do main operations.
      *
+     * @see Scenario
      * @see #clearScenario()
+     * @see #setScenario(Scenario)
      */
     private Scenario scenario;
 
@@ -68,11 +73,10 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * Construct a new {@code UserMenuFrame}.
+     * Create a new {@code UserMenuFrame}, and then setup for this menu.
      *
-     * @param main the {@code Main} for the frame
-     * @param user the interrelated {@code User} for this frame
-     * @see LoginFrame
+     * @param main given java.main
+     * @param user given user
      */
     public UserMenuFrame(Main main, User user) {
         this.main = main;
@@ -81,17 +85,12 @@ public class UserMenuFrame extends JFrame {
         showColor();
     }
 
-    /**
-     * A helper function that helps the constructor to set background color.
-     *
-     * @see #UserMenuFrame(Main, User)
-     */
     private void showColor() {
         menu.setBackground(Color.BLUE);
     }
 
     /**
-     * A helper function that helps the constructor to set up the gui.
+     * Setup the width and height, set the layout to flow layout and set visible to true.
      *
      * @see #UserMenuFrame(Main, User)
      */
@@ -107,9 +106,9 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * Get the {@code Company} of the {@code user} if he/she is an employee.
+     * Return a {@code Company} that this {@code User} belongs to.
      *
-     * @return the {@code Company} that the {@code user} belongs to; {@code null} only when the user is not an employee
+     * @return a {@code Company} that this {@code User} belongs to
      */
     public Company getCompany() {
         EmploymentCenter employmentCenter = getMain().getEmploymentCenter();
@@ -121,20 +120,12 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * Clear a {@code Scenario} if the field {@code scenario} is not {@code null}.
-     * It is a helper method for {@link #setScenario(Scenario)}.
+     * Remove scenario from JFrame.
      */
     private void clearScenario() {
         if (scenario != null) remove(this.scenario);
     }
 
-    /**
-     * Replace the old {@code Scenario} with a new one.
-     *
-     * @param scenario the new {@code Scenario} to be set
-     * @see MenuPanel
-     * @see Scenario#switchScenario(Scenario)
-     */
     public void setScenario(Scenario scenario) {
         clearScenario();
         this.scenario = scenario;
@@ -152,8 +143,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * It is a helper method for {@link #setup()}
-     * that adds "Back" button for the register page or adds "Logout" button for a user menu.
+     * Add the LogoutButton to {@code UserMenuFrame} if the user is not a {@code NullUser}.
      */
     private void addLogoutButton() {
         String text;
@@ -166,9 +156,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * A helper method that helps to return back to the log in frame.
-     *
-     * @see UserMenuFrame.LogoutListener
+     * Set this {@code UserMenuFrame} to be invisible and return to login scenario.
      */
     private void logout() {
         this.setVisible(false);
@@ -176,8 +164,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * Class {@code LogoutListener} implements {@code ActionListener}.
-     * It deals with the occasion when "Log out" button is clicked.
+     * Class {@code LogoutListener} is the listener used for logout event.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see UserMenuFrame
@@ -185,9 +172,9 @@ public class UserMenuFrame extends JFrame {
      */
     private class LogoutListener implements ActionListener {
         /**
-         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * Log out.
          *
-         * @param e the action event that a button is clicked
+         * @param e the actionEvent
          */
         @Override
         public void actionPerformed(ActionEvent e) {

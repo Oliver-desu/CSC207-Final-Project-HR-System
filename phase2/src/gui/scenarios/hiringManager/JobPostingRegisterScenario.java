@@ -81,7 +81,7 @@ public class JobPostingRegisterScenario extends Scenario {
      *
      * @see #initComponents()
      */
-    private void initInput() {
+    protected void initInput() {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
         String[] recruiters = getUserMenuFrame().getCompany().getRecruiterIds().toArray(new String[0]);
@@ -188,7 +188,7 @@ public class JobPostingRegisterScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!confirmAction()) return;
+            if (withdrawAction()) return;
             HashMap<String, String> values = createJobInfoMap();
             if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);

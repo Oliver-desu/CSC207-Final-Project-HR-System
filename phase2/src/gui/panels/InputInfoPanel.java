@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Class {@code InputInfoPanel} setup gui panel to interfaces output text to users
+ * Class {@code InputInfoPanel} setup gui panel to interfaces output text to users.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.Scenario
@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class InputInfoPanel extends JScrollPane {
 
     /**
-     * The container of showed components
+     * The container of showed components.
      *
      * @see #addComponent(String, JComponent)
      * @see #setup(Dimension, boolean)
@@ -28,7 +28,7 @@ public class InputInfoPanel extends JScrollPane {
     private Container container;
 
     /**
-     * The ComponentFactory that responsible for adding components
+     * The ComponentFactory that responsible for adding components.
      *
      * @see ComponentFactory
      * @see #addComponent(String, JComponent)
@@ -37,7 +37,7 @@ public class InputInfoPanel extends JScrollPane {
     private ComponentFactory componentFactory;
 
     /**
-     * The password fields that handles user entered password
+     * The password fields that handles user entered password.
      *
      * @see #addComponent(String, JComponent)
      * @see #passwordMatched()
@@ -46,7 +46,7 @@ public class InputInfoPanel extends JScrollPane {
     private JPasswordField[] passwordFields = new JPasswordField[2];
 
     /**
-     * The collection of components that handles user input
+     * The collection of components that handles user input.
      *
      * @see #addComponent(String, JComponent)
      * @see #clear()
@@ -57,7 +57,7 @@ public class InputInfoPanel extends JScrollPane {
     /**
      * Create a panel for input information with given dimension.
      *
-     * @param dimension Dimension of the panel.
+     * @param dimension dimension of the panel
      */
     public InputInfoPanel(Dimension dimension) {
         setup(dimension, false);
@@ -65,9 +65,10 @@ public class InputInfoPanel extends JScrollPane {
     }
 
     /**
-     * Create a {@code InputInfoPanel} for input information with given dimension and a boolean of whether it is a vertical panel.
-     * @param dimension The dimension of the panel.
-     * @param vertical Boolean of whether the panel is vertical or not.
+     * Create a {@code InputInfoPanel} for input information with given dimension and
+     * a boolean of whether it is a vertical panel.
+     * @param dimension the dimension of the panel
+     * @param vertical boolean of whether the panel is vertical or not
      */
     public InputInfoPanel(Dimension dimension, boolean vertical) {
         setup(dimension, vertical);
@@ -78,8 +79,8 @@ public class InputInfoPanel extends JScrollPane {
      * Helper function for constructor to create a panel.
      * If the passed in boolean is true, then create a vertical box.
      * If the passed in boolean is false, then create a new panel with the given dimension.
-     * @param dimension The dimension of the panel.
-     * @param vertical Boolean of whether the panel is vertical or not.
+     * @param dimension the dimension of the panel
+     * @param vertical boolean of whether the panel is vertical or not
      */
     public void setup(Dimension dimension, boolean vertical) {
         setPreferredSize(dimension);
@@ -94,8 +95,8 @@ public class InputInfoPanel extends JScrollPane {
 
     /**
      * Create components for the input information panel.
-     * @param dimension Dimension of the panel.
-     * @param vertical Boolean deciding whether it is vertical.
+     * @param dimension dimension of the panel
+     * @param vertical boolean deciding whether it is vertical
      * @see #componentFactory
      */
     private void factorySetup(Dimension dimension, boolean vertical) {
@@ -114,8 +115,8 @@ public class InputInfoPanel extends JScrollPane {
      * Add components to the panel.
      * If the given component is password field, create a field for user to type in the password.
      * If the given component is not password field, create a component of what it is.
-     * @param name The description of the component.
-     * @param component The type of the component.
+     * @param name the description of the component
+     * @param component the type of the component
      * @see #passwordFields
      * @see #componentMap
      */
@@ -135,8 +136,8 @@ public class InputInfoPanel extends JScrollPane {
     /**
      * If given component is text field, return what is typed in the text field.
      * If given component is a combo box, return what is selected.
-     * @param component The type of component.
-     * @return The text in the given component.
+     * @param component the type of component
+     * @return the text in the given component
      */
     private String getText(JComponent component) {
         if (component instanceof JTextComponent) {
@@ -150,7 +151,7 @@ public class InputInfoPanel extends JScrollPane {
 
     /**
      * Check if the passwords in the two fields the user typed in matches.
-     * @return True if the password of two fields matches and false if they don't match.
+     * @return true if the password of two fields matches and false if they don't match
      */
     private boolean passwordMatched() {
         JPasswordField passwordField = passwordFields[0];
@@ -165,7 +166,7 @@ public class InputInfoPanel extends JScrollPane {
     }
 
     /** Return the password the user typed in if the two fields have the same password.
-     * @return The password the user typed in if the two fields have the same password.
+     * @return the password the user typed in if the two fields have the same password
      */
     public char[] getPassword() {
         if (passwordMatched()) return passwordFields[0].getPassword();
@@ -188,7 +189,7 @@ public class InputInfoPanel extends JScrollPane {
     /**
      * Return a HashMap which its key is a string of the name of the component and the value
      * is the text in the correspond component.
-     * @return A HashMap which its key and value are both String.
+     * @return a HashMap which its key and value are both String
      */
     public HashMap<String, String> getInfoMap() {
         HashMap<String, String> infoMap = new HashMap<>();

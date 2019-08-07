@@ -98,7 +98,7 @@ public class OngoingInterviewScenario extends Scenario {
      *
      * @see #initComponents()
      */
-    private void initInput() {
+    protected void initInput() {
         infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
         ComponentFactory factory = infoPanel.getComponentFactory();
         factory.addTextArea("Recommendation:");
@@ -123,7 +123,7 @@ public class OngoingInterviewScenario extends Scenario {
      *
      * @see #initComponents()
      */
-    private void initRightFilter() {
+    protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         addShowInfoListenerFor(rightFilter);
         add(rightFilter);
@@ -223,7 +223,7 @@ public class OngoingInterviewScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!confirmAction()) return;
+            if (withdrawAction()) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
                 interview.setStatus(result);

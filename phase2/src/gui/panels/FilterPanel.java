@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Class {@code FilterPanel} setup gui panel for showing a list of instances(filterable)
- * and be able to search and filter through instances
+ * and be able to search and filter through instances.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.Scenario
@@ -26,7 +26,7 @@ public class FilterPanel<T extends Filterable> extends JPanel {
     private static final int SEARCH_BUTTON_HEIGHT = 30;
 
     /**
-     * The filter that calculate remaining instance
+     * The filter that calculate remaining instance.
      *
      * @see Filter
      * @see SearchListener
@@ -58,8 +58,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
     /**
      * Create a {@code FilterPanel} with given dimension and title.
      *
-     * @param dimension The dimension of the filter.
-     * @param title     Title of the filter.
+     * @param dimension the dimension of the filter
+     * @param title     title of the filter
      */
     public FilterPanel(Dimension dimension, String title) {
         setup(dimension, title);
@@ -78,7 +78,7 @@ public class FilterPanel<T extends Filterable> extends JPanel {
     }
 
     /**
-     *TODO
+     * Update the content of filter panel.
      */
     private void update() {
         getTableModel().setRowCount(0);
@@ -95,8 +95,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
 
     /**
      * Set up a new filter with given dimension and title of what the filter is for.
-     * @param dimension Dimension of filter.
-     * @param title Title of filter.
+     * @param dimension dimension of filter
+     * @param title title of filter
      */
     public void setup(Dimension dimension, String title) {
         setPreferredSize(dimension);
@@ -111,8 +111,8 @@ public class FilterPanel<T extends Filterable> extends JPanel {
 
     /**
      * Set up the title for the filter.
-     * @param dimension Dimension of the filter.
-     * @param title Title of filter.
+     * @param dimension dimension of the filter
+     * @param title title of filter
      */
     private void titleSectionSetup(Dimension dimension, String title) {
         JLabel label = new JLabel(title);
@@ -121,9 +121,9 @@ public class FilterPanel<T extends Filterable> extends JPanel {
     }
 
     /**
-     * add a search section with a new JButton with a new SearchListener in it .
+     * Add a search section with a new JButton with a new SearchListener in it.
      *
-     * @param width the witdh of the searchSection
+     * @param width the width of the searchSection
      * @see #setup(Dimension, String)
      */
     private void searchSectionSetup(int width) {
@@ -138,6 +138,11 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         add(textField);
     }
 
+    /**
+     * Set up the filter table with given dimension.
+     *
+     * @param dimension the size of the filter table
+     */
     private void filterTableSetup(Dimension dimension) {
         JTable filterTable = getFilterTable();
         filterTable.setModel(getTableModel());
@@ -146,6 +151,10 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         add(scrollPane);
     }
 
+    /**
+     * Return the selected object in the filter table, if nothing is selected, return {@code null}.
+     * @return the selected object in the filter table, if nothing is selected, return {@code null}
+     */
     public T getSelectObject() {
         int index = getFilterTable().getSelectedRow();
         if (index == -1) return null;
@@ -161,7 +170,6 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         update();
     }
 
-
     private class NotEditableTableModel extends DefaultTableModel {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -169,6 +177,9 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         }
     }
 
+    /**
+     * Class {@code SearchListener} is the {@code ActionListener} for searching.
+     */
     private class SearchListener implements ActionListener {
 
         private JTextField textField;
