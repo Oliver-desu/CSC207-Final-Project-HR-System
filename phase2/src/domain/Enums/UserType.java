@@ -22,7 +22,7 @@ import java.util.HashMap;
  * @see Company#addRecruiterId(String)
  * @see  Company#getInterviewerIds()
  * @see  Employee#getJobPostings()
- * @see  Employee#getInterviews() 
+ * @see  Employee#getInterviews()
  * @author group 0120 of CSC207 summer 2019
  */
 
