@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code  DocumentManageScenario } the scenario used for managing document
+ * Class {@code DocumentManageScenario} the scenario used for managing document
  *
  * @see gui.general.MenuPanel
  * @see gui.scenarios.applicant
@@ -46,7 +46,7 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * constructor for {@code DocumentManageScenario} ,create a new {@code DocumentManageScenario }
-     * with given {@code Usermenu} and {@code DocumentManager}
+     * with given {@code UserMenu} and {@code DocumentManager}
      *
      * @param userMenuFrame       userMenuFrame  need to create this .
      * @param applicationDocument the {@code} DocumentManager passed in.
@@ -71,7 +71,7 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * override the method in the parent class
-     * initial the components fo this page include LeftFilter,RightFilter,OutputInfoPanel nad BUttonPanel
+     * initial the components fo this page include LeftFilter,RightFilter,OutputInfoPanel nad ButtonPanel
      */
     @Override
     protected void initComponents() {
@@ -96,7 +96,7 @@ public class DocumentManageScenario extends Scenario {
     /**
      * override the method in parent class  {@code Scenario}
      * set the {@code Document} of this applicant to the rightFilter,
-     * set the {@code Document} of this applicantion to the lefttFilter.
+     * set the {@code Document} of this application to the leftFilter.
      */
     @Override
     protected void update() {
@@ -143,11 +143,7 @@ public class DocumentManageScenario extends Scenario {
          * the file to this applicantDocumentManager. then update GUI and interfaces a massage "succeed!"
          *  If applicationDocumentManager is not  null,then when user select a document in the rightFilter ,
          *  then add it to this application , interfaces a massage "succeed!"
-         *  if user didnot slect a ducument and press "add" , the interfaces a message"No document selected!"
-         * @throws CanNotEditDocumentManagerException this document cannot be modified.
-         * @exception EmptyDocumentNameException   this document is empty.
-         * @exception DocumentAlreadyExistsException   the document with same name already exist
-         * @exception NullPointerException
+         *  if user did not select a document and press "add" , the interfaces a message"No document selected!"
          * @param e ActionEvent
          */
         @Override

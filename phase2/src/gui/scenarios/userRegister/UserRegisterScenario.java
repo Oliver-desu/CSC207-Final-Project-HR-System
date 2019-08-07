@@ -48,7 +48,7 @@ public class UserRegisterScenario extends Scenario {
     /**
      * Constructor for new {@code UserRegisterScenario} ,
      *
-     * @param userMenuFrame given usermenu
+     * @param userMenuFrame given UserMenu
      * @param registerType  given {@code UserType}
      */
     public UserRegisterScenario(UserMenuFrame userMenuFrame, UserType registerType) {
@@ -59,7 +59,7 @@ public class UserRegisterScenario extends Scenario {
     /**
      * Constructor for new {@code UserRegisterScenario}
      *
-     * @param userMenuFrame given usermenu
+     * @param userMenuFrame given user menu
      */
     public UserRegisterScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "User Register");
