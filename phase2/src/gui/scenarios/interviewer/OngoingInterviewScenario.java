@@ -223,7 +223,7 @@ public class OngoingInterviewScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!confirmAction()) return;
+            if (withdrawAction()) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
                 interview.setStatus(result);
