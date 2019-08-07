@@ -56,7 +56,7 @@ public class Filter<T extends Filterable> {
         return filterString.split("[;]");
     }
 
-    public void setFilterString(String filterString) {
+    void setFilterString(String filterString) {
         this.filterString = filterString;
     }
 
@@ -100,11 +100,11 @@ public class Filter<T extends Filterable> {
         }
     }
 
-    public T getSelectedItem(int index) {
+    T getSelectedItem(int index) {
         return getResults().get(index);
     }
 
-    public ArrayList<T> getResults() {
+    ArrayList<T> getResults() {
         return results;
     }
 
@@ -113,7 +113,7 @@ public class Filter<T extends Filterable> {
      * @return headings from objects in {@code filterContent}
      * @see Filterable#getFilterMap()
      */
-    public String[] getHeadings() {
+    String[] getHeadings() {
         if (filterContent.size() != 0) {
             Collection<String> headingCollection = filterContent.get(0).getFilterMap().keySet();
             return new ArrayList<>(headingCollection).toArray(new String[0]);
@@ -127,7 +127,7 @@ public class Filter<T extends Filterable> {
      * @return search values from {@code filterable}
      * @see Filterable#getFilterMap()
      */
-    public String[] getSearchValues(T filterable, String[] headings) {
+    String[] getSearchValues(T filterable, String[] headings) {
         String[] searchValues = new String[headings.length];
         for (int i = 0; i < headings.length; i++) {
             searchValues[i] = filterable.getFilterMap().get(headings[i]);

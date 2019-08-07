@@ -196,8 +196,8 @@ public abstract class Scenario extends JPanel {
      * @return //todo
      * @see JobPostingRegisterScenario
      */
-    protected boolean confirmAction() {
-        return 0 == JOptionPane.showConfirmDialog(getUserMenuFrame(), "Are you sure?",
+    protected boolean withdrawAction() {
+        return 0 != JOptionPane.showConfirmDialog(getUserMenuFrame(), "Are you sure?",
                 "Confirm Dialog", JOptionPane.YES_NO_OPTION);
     }
 
