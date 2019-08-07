@@ -95,9 +95,9 @@ public class LoginFrame extends JFrame {
      * @see #setup()
      */
     private void buttonPanelSetup() {
-        buttonPanel.addButton("LoginFrame", new LoginListener());
+        buttonPanel.addButton("Login", new LoginListener());
         buttonPanel.addButton("Register", new RegisterListener());
-        buttonPanel.addButton("Save & Restart", new SaveSystemListener());
+        buttonPanel.addButton("Restart", new SaveSystemListener());
         add(buttonPanel);
     }
 
