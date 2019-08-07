@@ -1,16 +1,16 @@
 package gui.scenarios.recruiter;
 
-import domain.Test;
-import domain.applying.Application;
-import domain.applying.Document;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import domain.user.Employee;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.job.Application;
+import model.job.Document;
+import model.job.JobPosting;
+import model.user.Applicant;
+import model.user.Company;
+import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Class {@code ApplicationScenario} handles with the situation where the company can view applications from the applicants.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @since 2019-08-05
  */
 public class ApplicationScenario extends Scenario {
@@ -30,7 +30,7 @@ public class ApplicationScenario extends Scenario {
     /**
      * Create a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications
      * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
-     * @see gui.major.MenuPanel
+     * @see gui.general.MenuPanel
      */
 
     public ApplicationScenario(UserMenuFrame userMenuFrame) {

@@ -1,16 +1,16 @@
 package gui.scenarios.hiringManager;
 
-import domain.Enums.UserType;
-import domain.Test;
-import domain.job.JobPosting;
-import domain.user.Company;
-import domain.user.Employee;
-import gui.major.MenuPanel;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.MenuPanel;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
+import model.Test;
+import model.enums.UserType;
+import model.job.JobPosting;
+import model.user.Company;
+import model.user.Employee;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +23,7 @@ import java.util.HashMap;
  * Class {@code JobPostingRegisterScenario} handles the situation where the hiring manager want to create a new job posting.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @since 2019-08-05
  */
 public class JobPostingRegisterScenario extends Scenario {
@@ -154,7 +154,7 @@ public class JobPostingRegisterScenario extends Scenario {
 
     /**
      * A helper function for {@code actionPerformed(ActionEvent)} that checks validity and returns a message that will
-     * show on gui indicating that corresponding information.
+     * interfaces on gui indicating that corresponding information.
      *
      * @param map a hash map containing the information entered into gui
      * @return a message about which part of the information is missing; "Good" when the input is valid

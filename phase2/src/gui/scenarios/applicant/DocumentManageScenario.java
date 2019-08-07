@@ -1,19 +1,19 @@
 package gui.scenarios.applicant;
 
-import domain.Exceptions.CanNotEditDocumentManagerException;
-import domain.Exceptions.DocumentAlreadyExistsException;
-import domain.Exceptions.EmptyDocumentNameException;
-import domain.Test;
-import domain.applying.Application;
-import domain.applying.Document;
-import domain.applying.DocumentManager;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.exceptions.CanNotEditDocumentManagerException;
+import model.exceptions.DocumentAlreadyExistsException;
+import model.exceptions.EmptyDocumentNameException;
+import model.job.Application;
+import model.job.Document;
+import model.job.DocumentManager;
+import model.job.JobPosting;
+import model.user.Applicant;
+import model.user.Company;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 /**
  * Class {@code  DocumentManageScenario } the scenario used for managing document
  *
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @see gui.scenarios.applicant
  * @since 2019-08-06
  */
@@ -138,10 +138,10 @@ public class DocumentManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          * If applicationDocumentManager is null then   add
-         * the file to this applicantDocumentManager. then update GUI and show a massage "succeed!"
+         * the file to this applicantDocumentManager. then update GUI and interfaces a massage "succeed!"
          *  If applicationDocumentManager is not  null,then when user select a document in the rightFilter ,
-         *  then add it to this application , show a massage "succeed!"
-         *  if user didnot slect a ducument and press "add" , the show a message"No document selected!"
+         *  then add it to this application , interfaces a massage "succeed!"
+         *  if user didnot slect a ducument and press "add" , the interfaces a message"No document selected!"
          * @throws CanNotEditDocumentManagerException this document cannot be modified.
          * @exception EmptyDocumentNameException   this document is empty.
          * @exception DocumentAlreadyExistsException   the document with same name already exist
@@ -182,11 +182,11 @@ public class DocumentManageScenario extends Scenario {
          * override the method in interface {@code ActionListener}
          * If applicationDocumentManager is null then   get the file which selected by user and remove it
          * from {@code Applicant} document list,
-         * then update GUI and show a massage "Change is made successfully!"
+         * then update GUI and interfaces a massage "Change is made successfully!"
          * If applicationDocumentManager is not null then   get the file which selected by user and remove it
          * from this {@code Application} document list,
-         * then update GUI and show a massage "Change is made successfully!"
-         * otherwise  show a massage "Sorry! Cannot delete!".
+         * then update GUI and interfaces a massage "Change is made successfully!"
+         * otherwise  interfaces a massage "Sorry! Cannot delete!".
          * @param e ActionEvent
          */
         @Override

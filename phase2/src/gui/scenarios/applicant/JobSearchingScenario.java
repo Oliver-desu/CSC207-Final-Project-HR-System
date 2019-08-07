@@ -1,16 +1,16 @@
 package gui.scenarios.applicant;
 
-import domain.Exceptions.ApplicationAlreadyExistsException;
-import domain.Test;
-import domain.applying.Application;
-import domain.job.JobPosting;
-import domain.storage.EmploymentCenter;
-import domain.user.Applicant;
-import domain.user.Company;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.exceptions.ApplicationAlreadyExistsException;
+import model.job.Application;
+import model.job.JobPosting;
+import model.storage.EmploymentCenter;
+import model.user.Applicant;
+import model.user.Company;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 /**
  * Class {@code  JobSearchingScenario} the page used for Job searching
  *
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @since 2019-08-06
  */
 public class JobSearchingScenario extends Scenario {
@@ -88,7 +88,7 @@ public class JobSearchingScenario extends Scenario {
          * 1 get the {@code JobPosting} selected by user .2 get the {@code Applicant } stored in the
          * {@code UserMenuFrame} 3  if the {@code JobPosing} is not null the add it to the {@code Applicant}
          * then switch to the {@code ApplicationManageScenario}
-         * otherwise show a massage "Failed!".
+         * otherwise interfaces a massage "Failed!".
          * @param e ActionEvent
          */
         @Override

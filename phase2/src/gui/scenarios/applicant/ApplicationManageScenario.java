@@ -1,20 +1,20 @@
 package gui.scenarios.applicant;
 
-import domain.Enums.ApplicationStatus;
-import domain.Exceptions.ApplicationAlreadyExistsException;
-import domain.Exceptions.WrongApplicationStatusException;
-import domain.Exceptions.WrongJobPostingStatusException;
-import domain.Test;
-import domain.applying.Application;
-import domain.applying.Document;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import gui.major.MenuPanel;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.MenuPanel;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.enums.ApplicationStatus;
+import model.exceptions.ApplicationAlreadyExistsException;
+import model.exceptions.WrongApplicationStatusException;
+import model.exceptions.WrongJobPostingStatusException;
+import model.job.Application;
+import model.job.Document;
+import model.job.JobPosting;
+import model.user.Applicant;
+import model.user.Company;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
  * Class {@code  ApplicationManageScenario} setup the scenario use for managing application of an applicant
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @see gui.scenarios.applicant
  * @since 2019-08-06
  */
@@ -119,14 +119,14 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code ViewDocumentListener } the listener used for show the document which have been selected
+     * Class {@code ViewDocumentListener } the listener used for interfaces the document which have been selected
      * @see #initButton()
      * @since 2019-08-06
      */
     private class ViewDocumentListener implements ActionListener {
         /**
          * override the method in interface {@code ActionListener}
-         * show the document which have been  selected
+         * interfaces the document which have been  selected
          * @param e ActionEvent
          */
         @Override
@@ -149,7 +149,7 @@ public class ApplicationManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          * edit the selected {@code Application } if the {@code Application} is {@code ApplicationStatus.DRAFT} ,
-         * otherwise show a message with text "The application cannot be edited."
+         * otherwise interfaces a message with text "The application cannot be edited."
          * @param e ActionEvent
          */
         @Override
@@ -176,7 +176,7 @@ public class ApplicationManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          *  submit the Application if the {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT} ,
-         *  and then update the page , otherwise show a massage with text "This application has been submitted."
+         *  and then update the page , otherwise interfaces a massage with text "This application has been submitted."
          * @param e ActionEvent
          */
         @Override
@@ -207,10 +207,10 @@ public class ApplicationManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          *  if {@code Application} is not null and {@code ApplicationStatus} is {@code ApplicationStatus.PENDING},
-         *  withdraw this {@code Application}  and  show a massage "Withdrawal succeeds!" , then update the GUI,
+         *  withdraw this {@code Application}  and  interfaces a massage "Withdrawal succeeds!" , then update the GUI,
          *  if {@code Application} is not null and {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT},
-         *    show a massage "This application has not yet been submitted.",
-         *    otherwise  show a massage "This application can no longer be canceled."
+         *    interfaces a massage "This application has not yet been submitted.",
+         *    otherwise  interfaces a massage "This application can no longer be canceled."
          * @param e ActionEvent
          */
         @Override
@@ -237,8 +237,8 @@ public class ApplicationManageScenario extends Scenario {
         /**
          * override the method in interface {@code ActionListener}
          * delete {@code Application} if  {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT},
-         * then show a massage "Successfully deleted!" and update GUI,
-         * otherwise show a massage "Mission failed!".
+         * then interfaces a massage "Successfully deleted!" and update GUI,
+         * otherwise interfaces a massage "Mission failed!".
          * @param e ActionEvent
          */
         @Override

@@ -1,24 +1,20 @@
 package gui.scenarios.recruiter;
 
-import domain.Enums.InterviewRoundStatus;
-import domain.Enums.JobPostingStatus;
-import domain.Exceptions.CurrentRoundUnfinishedException;
-import domain.Exceptions.JobPostingAlreadyFilledException;
-import domain.Exceptions.WrongApplicationStatusException;
-import domain.Exceptions.WrongJobPostingStatusException;
-import domain.Test;
-import domain.applying.Application;
-import domain.applying.Interview;
-import domain.job.InterviewRound;
-import domain.job.InterviewRoundManager;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import domain.user.Employee;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.enums.InterviewRoundStatus;
+import model.enums.JobPostingStatus;
+import model.exceptions.CurrentRoundUnfinishedException;
+import model.exceptions.JobPostingAlreadyFilledException;
+import model.exceptions.WrongApplicationStatusException;
+import model.exceptions.WrongJobPostingStatusException;
+import model.job.*;
+import model.user.Applicant;
+import model.user.Company;
+import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -28,7 +24,7 @@ import java.awt.event.ActionListener;
 /**
  * Class {@code ViewPostingScenario} handles the situation where the hiring manager can view the interview rounds of the applicants
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  */
 public class InterviewRoundScenario extends Scenario {
 

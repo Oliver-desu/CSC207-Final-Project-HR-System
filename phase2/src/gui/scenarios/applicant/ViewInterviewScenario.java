@@ -1,18 +1,18 @@
 package gui.scenarios.applicant;
 
-import domain.Test;
-import domain.applying.Interview;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.job.Interview;
+import model.job.JobPosting;
+import model.user.Applicant;
+import model.user.Company;
 
 /**
  * Class {@code  ViewInterviewScenario} viewing all interviews scenario
  *
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @since 2019-08-06
  */
 public class ViewInterviewScenario extends Scenario {

@@ -1,18 +1,24 @@
 package main;
 
-import domain.Exceptions.InvalidInputException;
-import domain.Test;
-import domain.job.JobPosting;
-import domain.storage.EmploymentCenter;
-import domain.user.Company;
-import gui.major.LoginFrame;
+import gui.general.LoginFrame;
+import model.Test;
+import model.exceptions.CannotSaveSystemException;
+import model.exceptions.InvalidInputException;
+import model.job.JobPosting;
+import model.storage.EmploymentCenter;
+import model.user.Company;
 
+import java.io.*;
 import java.time.LocalDate;
 
 public class Main {
+
+    private static final String DATA_LOCATION = "\\phase2\\data.ser";
+
     private EmploymentCenter employmentCenter = new EmploymentCenter();
-    private LoginFrame login = new LoginFrame(this);
+    private LoginFrame login;
     private static LocalDate localDate;
+    private boolean successfullyLoaded = true;
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -69,6 +75,11 @@ public class Main {
 //        new Main();
     }
 
+    public Main() {
+        loadSystem();
+        login = new LoginFrame(this);
+    }
+
     public EmploymentCenter getEmploymentCenter() {
         return employmentCenter;
     }
@@ -93,7 +104,33 @@ public class Main {
         }
     }
 
-    public void saveSystem() {
+    private String getPath() {
+        return System.getProperty("user.dir") + DATA_LOCATION;
+    }
 
+    public boolean isSuccessfullyLoaded() {
+        return successfullyLoaded;
+    }
+
+    private void loadSystem() {
+        try {
+            InputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(getPath()));
+            ObjectInput input = new ObjectInputStream(bufferedInputStream);
+            employmentCenter = (EmploymentCenter) input.readObject();
+            input.close();
+        } catch (IOException | ClassNotFoundException e) {
+            successfullyLoaded = false;
+        }
+    }
+
+    public void saveSystem() throws CannotSaveSystemException {
+        try {
+            OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(getPath()));
+            ObjectOutput output = new ObjectOutputStream(bufferedOutputStream);
+            output.writeObject(employmentCenter);
+            output.close();
+        } catch (IOException e) {
+            throw new CannotSaveSystemException();
+        }
     }
 }

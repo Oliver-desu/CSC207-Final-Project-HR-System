@@ -1,15 +1,15 @@
 package gui.panels;
 
-import domain.applying.Document;
+import model.job.Document;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Class {@code OutputInfoPanel} setup gui panel to show output text to users
+ * Class {@code OutputInfoPanel} setup gui panel to interfaces output text to users
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.Scenario
+ * @see gui.general.Scenario
  * @since 2019-08-05
  */
 public class OutputInfoPanel extends JPanel {
@@ -21,7 +21,7 @@ public class OutputInfoPanel extends JPanel {
     private static final Dimension DOCUMENT_FRAME_SIZE = new Dimension(600, 400);
 
     /**
-     * The text area to show text
+     * The text area to interfaces text
      *
      * @see #setup(Dimension)
      * @see #setOutputText(String)
@@ -69,7 +69,7 @@ public class OutputInfoPanel extends JPanel {
     }
 
     /**
-     * Class {@code DocumentFrame} extends JFrame. It creates a frame to show the information for given document.
+     * Class {@code DocumentFrame} extends JFrame. It creates a frame to interfaces the information for given document.
      */
     private class DocumentFrame extends JFrame {
 

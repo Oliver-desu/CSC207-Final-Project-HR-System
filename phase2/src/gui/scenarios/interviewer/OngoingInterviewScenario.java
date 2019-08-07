@@ -1,20 +1,20 @@
 package gui.scenarios.interviewer;
 
-import domain.Enums.InterviewStatus;
-import domain.Exceptions.WrongEmployeeTypeException;
-import domain.Test;
-import domain.applying.Document;
-import domain.applying.Interview;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import domain.user.Employee;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
+import model.Test;
+import model.enums.InterviewStatus;
+import model.exceptions.WrongEmployeeTypeException;
+import model.job.Document;
+import model.job.Interview;
+import model.job.JobPosting;
+import model.user.Applicant;
+import model.user.Company;
+import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -34,7 +34,7 @@ public class OngoingInterviewScenario extends Scenario {
      * Constructor for {@code OngoingInterviewScenario}.
      *
      * @param userMenuFrame given {@code userMenuFrame}
-     * @see gui.major.MenuPanel
+     * @see gui.general.MenuPanel
      */
     public OngoingInterviewScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Ongoing Interview Manager");
@@ -119,7 +119,7 @@ public class OngoingInterviewScenario extends Scenario {
 
     /**
      * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
-     * This panel show a list of documents when choose an interview in the left.
+     * This panel interfaces a list of documents when choose an interview in the left.
      *
      * @see #initComponents()
      */
@@ -214,8 +214,8 @@ public class OngoingInterviewScenario extends Scenario {
          *  1 get the {@code Interview} selected by user in the leftFilter
          *  2 if {@code Interview} 's status is {@code InterviewStatus.PENDING}
          *  3 then set then {@code Interview}  to the result and set {@code Interview} to recommendation
-         *  4 update GUI and show a massage "Succeed!"
-         *  5 otherwise show a message "Can not change!"
+         *  4 update GUI and interfaces a massage "Succeed!"
+         *  5 otherwise interfaces a message "Can not change!"
          * @param e the action event of clicking a button
          * @see #update()
          * @see #getRecommendation()

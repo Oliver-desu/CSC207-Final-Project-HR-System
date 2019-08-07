@@ -1,19 +1,19 @@
 package gui.scenarios.recruiter;
 
-import domain.Exceptions.WrongInterviewStatusException;
-import domain.Test;
-import domain.applying.Application;
-import domain.applying.Interview;
-import domain.job.InterviewRound;
-import domain.job.JobPosting;
-import domain.storage.EmploymentCenter;
-import domain.user.Applicant;
-import domain.user.Company;
-import domain.user.Employee;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.exceptions.WrongInterviewStatusException;
+import model.job.Application;
+import model.job.Interview;
+import model.job.InterviewRound;
+import model.job.JobPosting;
+import model.storage.EmploymentCenter;
+import model.user.Applicant;
+import model.user.Company;
+import model.user.Employee;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *  Class {@code MatchInterviewScenario} handles the situation of matching interview.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @since 2019-08-05
  */
 public class MatchInterviewScenario extends Scenario {
@@ -146,8 +146,8 @@ public class MatchInterviewScenario extends Scenario {
          * override the method in interface {@code ActionListener}
          * 1 if {@code Application} is not null ,then get the {@code Interview} of this Application ,
          * 2 if interviews is unmatched then match these interview with interviewer and add them to the application
-         * 3  show a massage "succeed!" and update GUI.
-         * 4 otherwise show a massage""There is no interview to match!""
+         * 3  interfaces a massage "succeed!" and update GUI.
+         * 4 otherwise interfaces a massage""There is no interview to match!""
          *
          * @param e ActionEvent
          */

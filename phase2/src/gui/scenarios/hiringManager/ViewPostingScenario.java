@@ -1,15 +1,15 @@
 package gui.scenarios.hiringManager;
 
-import domain.Enums.UserType;
-import domain.Test;
-import domain.applying.Application;
-import domain.job.JobPosting;
-import domain.storage.EmploymentCenter;
-import domain.user.Company;
-import domain.user.Employee;
-import gui.major.Scenario;
-import gui.major.UserMenuFrame;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.enums.UserType;
+import model.job.Application;
+import model.job.JobPosting;
+import model.storage.EmploymentCenter;
+import model.user.Company;
+import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author group 0120 of CSC207 summer 2019
  * @see #initLeftFilter()
  * @see #initRightFilter()
- * @see gui.major.MenuPanel
+ * @see gui.general.MenuPanel
  * @since 2019-08-05
  */
 public class ViewPostingScenario extends Scenario {
@@ -49,7 +49,7 @@ public class ViewPostingScenario extends Scenario {
      * Create a new {@code ViewPostingScenario} that is a {@code Scenario} with title "View Company Job Postings".
      *
      * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
-     * @see gui.major.MenuPanel
+     * @see gui.general.MenuPanel
      */
     public ViewPostingScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "View Company Job Postings");

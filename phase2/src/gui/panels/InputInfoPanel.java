@@ -1,6 +1,6 @@
 package gui.panels;
 
-import gui.major.LoginFrame;
+import gui.general.LoginFrame;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Class {@code InputInfoPanel} setup gui panel to show output text to users
+ * Class {@code InputInfoPanel} setup gui panel to interfaces output text to users
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.Scenario
+ * @see gui.general.Scenario
  * @see LoginFrame
  * @see ComponentFactory
  * @since 2019-08-05

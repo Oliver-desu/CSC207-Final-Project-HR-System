@@ -1,6 +1,6 @@
 package gui.panels;
 
-import gui.major.LoginFrame;
+import gui.general.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import static java.lang.Integer.min;
  * Class {@code ButtonPanel} setup gui panel for buttons in horizontal layout
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.Scenario
+ * @see gui.general.Scenario
  * @see LoginFrame
  * @since 2019-08-05
  */

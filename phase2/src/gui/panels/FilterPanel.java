@@ -1,7 +1,6 @@
 package gui.panels;
 
-import domain.filter.Filter;
-import domain.filter.Filterable;
+import model.interfaces.Filterable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  * and be able to search and filter through instances
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.Scenario
+ * @see gui.general.Scenario
  * @since 2019-08-05
  */
 public class FilterPanel<T extends Filterable> extends JPanel {
