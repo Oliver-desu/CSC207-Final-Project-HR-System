@@ -1,15 +1,15 @@
 package gui.panels;
 
-import domain.applying.Document;
+import model.job.Document;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Class {@code OutputInfoPanel} setup gui panel to show output text to users
+ * Class {@code OutputInfoPanel} setup gui panel to interfaces output text to users
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.Scenario
+ * @see gui.general.Scenario
  * @since 2019-08-05
  */
 public class OutputInfoPanel extends JPanel {
@@ -21,17 +21,27 @@ public class OutputInfoPanel extends JPanel {
     private static final Dimension DOCUMENT_FRAME_SIZE = new Dimension(600, 400);
 
     /**
-     * The text area to show text
+     * The text area to interfaces text
      *
      * @see #setup(Dimension)
      * @see #setOutputText(String)
      */
     private JTextArea textArea = new JTextArea();
 
+    /**
+     * Create a new {@code OutputInfoPanel} with given dimension of its size.
+     *
+     * @param dimension Dimension of the output panel.
+     */
     public OutputInfoPanel(Dimension dimension) {
         setup(dimension);
     }
 
+    /**
+     * Set up an output info panel.
+     * Set the layout and scroll panel for text area.
+     * @param dimension The dimension of output info panel.
+     */
     public void setup(Dimension dimension) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -49,14 +59,25 @@ public class OutputInfoPanel extends JPanel {
         textArea.setText(text);
     }
 
+    /**
+     * Show the given document on the panel by getting its information from the toString method.
+     * @param document The document needed to be performed.
+     */
     public void showDocument(Document document) {
         OutputInfoPanel outputInfo = new OutputInfoPanel(DOCUMENT_FRAME_SIZE);
         outputInfo.setOutputText(document.toString());
         new DocumentFrame(document.getDocumentName(), outputInfo);
     }
 
+    /**
+     * Class {@code DocumentFrame} extends JFrame. It creates a frame to interfaces the information for given document.
+     */
     private class DocumentFrame extends JFrame {
 
+        /**
+         * @param title The name of the document want to be shown.
+         * @param document The document wanted to be shown.
+         */
         DocumentFrame(String title, JPanel document) {
             setTitle(title);
             setResizable(false);

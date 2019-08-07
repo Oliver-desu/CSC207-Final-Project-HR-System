@@ -1,7 +1,6 @@
 package gui.panels;
 
-import domain.filter.Filter;
-import domain.filter.Filterable;
+import model.interfaces.Filterable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  * and be able to search and filter through instances
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.major.Scenario
+ * @see gui.general.Scenario
  * @since 2019-08-05
  */
 public class FilterPanel<T extends Filterable> extends JPanel {
@@ -56,6 +55,12 @@ public class FilterPanel<T extends Filterable> extends JPanel {
      */
     private DefaultTableModel tableModel = new NotEditableTableModel();
 
+    /**
+     * Create a {@code FilterPanel} with given dimension and title.
+     *
+     * @param dimension The dimension of the filter.
+     * @param title     Title of the filter.
+     */
     public FilterPanel(Dimension dimension, String title) {
         setup(dimension, title);
     }
@@ -72,6 +77,9 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         return filter;
     }
 
+    /**
+     *TODO
+     */
     private void update() {
         getTableModel().setRowCount(0);
         Filter<T> filter = getFilter();
@@ -85,6 +93,11 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         updateUI();
     }
 
+    /**
+     * Set up a new filter with given dimension and title of what the filter is for.
+     * @param dimension Dimension of filter.
+     * @param title Title of filter.
+     */
     public void setup(Dimension dimension, String title) {
         setPreferredSize(dimension);
         setLayout(new FlowLayout());
@@ -95,11 +108,18 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         filterTableSetup(new Dimension(width, tableHeight));
     }
 
+
+    /**
+     * Set up the title for the filter.
+     * @param dimension Dimension of the filter.
+     * @param title Title of filter.
+     */
     private void titleSectionSetup(Dimension dimension, String title) {
         JLabel label = new JLabel(title);
         label.setPreferredSize(dimension);
         add(label);
     }
+
 
     private void searchSectionSetup(int width) {
         JTextField textField = new JTextField("XXX; XX; XXX");
@@ -135,6 +155,7 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         getFilter().setFilterContent(filterContent);
         update();
     }
+
 
     private class NotEditableTableModel extends DefaultTableModel {
         @Override

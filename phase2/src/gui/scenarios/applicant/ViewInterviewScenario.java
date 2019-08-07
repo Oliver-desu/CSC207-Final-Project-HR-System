@@ -1,21 +1,37 @@
 package gui.scenarios.applicant;
 
-import domain.Test;
-import domain.applying.Interview;
-import domain.job.JobPosting;
-import domain.user.Applicant;
-import domain.user.Company;
-import gui.major.Scenario;
-import gui.major.UserMenu;
+import gui.general.Scenario;
+import gui.general.UserMenuFrame;
 import gui.panels.FilterPanel;
+import model.Test;
+import model.job.Interview;
+import model.job.JobPosting;
+import model.user.Applicant;
+import model.user.Company;
 
+/**
+ * Class {@code  ViewInterviewScenario} viewing all interviews scenario
+ *
+ * @see gui.general.MenuPanel
+ * @since 2019-08-06
+ */
 public class ViewInterviewScenario extends Scenario {
-
+    /**
+     * the {@code FilterPanel} on the left stored the {@code Interview}
+     */
     private FilterPanel<Interview> leftFilter;
+    /**
+     * the {@code FilterPanel} in the middle  stored the {@code Interview}
+     */
     private FilterPanel<Interview> rightFilter;
 
-    public ViewInterviewScenario(UserMenu userMenu) {
-        super(userMenu, "View Interview");
+    /**
+     * constructor for a new {@code ViewInterviewScenario}
+     *
+     * @param userMenuFrame given {@code UserMenuFrame}
+     */
+    public ViewInterviewScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "View Interview");
     }
 
     public static void main(String[] args) {
@@ -23,15 +39,19 @@ public class ViewInterviewScenario extends Scenario {
         Applicant applicant = test.addApplicant();
         Company company = test.addCompany();
         test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getStorage().getJobPostings()) {
+        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             test.addNewRoundAndFinishMatching(jobPosting, company);
         }
 
-        new ViewInterviewScenario(new UserMenu(test.getMain(), applicant)).exampleView();
+        new ViewInterviewScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
 
     }
 
+    /**
+     * override the method in parent class  {@code Scenario}
+     * initial the leftFilter , right Filter and ButtonPanel.
+     */
     @Override
     protected void initComponents() {
         initLeftFilter();
@@ -39,12 +59,16 @@ public class ViewInterviewScenario extends Scenario {
         initOutputInfoPanel();
     }
 
+    /**
+     * override the method in parent class  {@code Scenario}
+     * set the content in the leftFilterPanel  to be the OngoingInterviews of the {@code Applicant}
+     * set the content in the rightFilterPanel  to be the PastInterviews of the {@code Applicant}
+     */
     @Override
     protected void update() {
-        // Todo: need left filter be ongoing interviews, right filter be past interviews
-        Applicant applicant = (Applicant) getUserMenu().getUser();
-        leftFilter.setFilterContent(applicant.getInterviews());
-        rightFilter.setFilterContent(applicant.getInterviews());
+        Applicant applicant = (Applicant) getUserMenuFrame().getUser();
+        leftFilter.setFilterContent(applicant.getOngoingInterviews());
+        rightFilter.setFilterContent(applicant.getPastInterviews());
     }
 
     protected void initLeftFilter() {
