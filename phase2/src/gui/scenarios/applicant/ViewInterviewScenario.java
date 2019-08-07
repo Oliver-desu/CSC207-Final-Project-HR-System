@@ -27,6 +27,7 @@ public class ViewInterviewScenario extends Scenario {
 
     /**
      * constructor for a new {@code ViewInterviewScenario}
+     *
      * @param userMenuFrame given {@code UserMenuFrame}
      */
     public ViewInterviewScenario(UserMenuFrame userMenuFrame) {

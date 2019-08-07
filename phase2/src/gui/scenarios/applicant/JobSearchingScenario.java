@@ -29,6 +29,7 @@ public class JobSearchingScenario extends Scenario {
 
     /**
      * constructor for JobSearchingScenario,
+     *
      * @param userMenuFrame given {@code UserMenuFrame}
      */
     public JobSearchingScenario(UserMenuFrame userMenuFrame) {
@@ -79,6 +80,7 @@ public class JobSearchingScenario extends Scenario {
 
     /**
      * Class {@code  CreateApplicationListener} listener used for create a new application
+     *
      * @see #initButton()
      * @since 2019-08-06
      */

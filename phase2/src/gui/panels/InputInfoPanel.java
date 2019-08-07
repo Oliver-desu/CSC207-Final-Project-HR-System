@@ -56,6 +56,7 @@ public class InputInfoPanel extends JScrollPane {
 
     /**
      * Create a panel for input information with given dimension.
+     *
      * @param dimension Dimension of the panel.
      */
     public InputInfoPanel(Dimension dimension) {

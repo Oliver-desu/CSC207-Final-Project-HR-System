@@ -120,6 +120,7 @@ public class ApplicationManageScenario extends Scenario {
 
     /**
      * Class {@code ViewDocumentListener } the listener used for interfaces the document which have been selected
+     *
      * @see #initButton()
      * @since 2019-08-06
      */
@@ -169,7 +170,8 @@ public class ApplicationManageScenario extends Scenario {
 
     /**
      * Class {@code  ApplyListener} Listener used for apply for a jobPosting
-     * @see  #initButton()
+     *
+     * @see #initButton()
      * @since 2019-08-06
      */
     private class ApplyListener implements ActionListener {
@@ -200,7 +202,8 @@ public class ApplicationManageScenario extends Scenario {
 
     /**
      * Class {@code   WithdrawListener} Listener used for withdraw the {@code Application}
-     * @see  #initButton()
+     *
+     * @see #initButton()
      * @since 2019-08-06
      */
     private class WithdrawListener implements ActionListener {
@@ -230,6 +233,7 @@ public class ApplicationManageScenario extends Scenario {
 
     /**
      * Class {@code   DeleteApplicationListener}
+     *
      * @see #initButton()
      * @since 2019-08-06
      */

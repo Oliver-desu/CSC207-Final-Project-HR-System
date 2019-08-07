@@ -14,6 +14,7 @@ import model.enums.UserType;
 import model.user.User;
 
 import javax.swing.*;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,26 +42,26 @@ public class MenuPanel extends JPanel {
     private UserMenuFrame userMenuFrame;
 
     /**
-     * The {@code Dimension} that represents size of buttons.
+     * The dimension of buttons
      *
      * @see #addMenuButton(String, Scenario)
      */
     private Dimension buttonSize;
 
     /**
-     * The {@code Dimension} that represents size of menus.
+     * The dimension of menu
      *
      * @see #setup()
      */
     private Dimension menuSize;
 
     /**
-     * Create a new {@code MenuPanel}.
+     * create a new {@code MenuPanel} with given userMenuFrame{@code UserMenuFrame} , with dimension of menuSize and buttonSize
      *
      * @param userMenuFrame {@code UserMenuFrame}
      * @param menuSize      dimension of the menuSize
      * @param buttonSize    dimension of the buttonSize
-     * @see UserMenuFrame
+     * @see null
      */
     public MenuPanel(UserMenuFrame userMenuFrame, Dimension menuSize, Dimension buttonSize) {
         this.userMenuFrame = userMenuFrame;
@@ -70,8 +71,7 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * A helper method that sets up the {@code userMenuFrame} according to the user's type.
-     * It sets up the register page if the user is a {@code NullUser}.
+     * set the menuSize ,setup the layout to FlowLayout ,call the different MenuSetup() depends on the type of User.
      *
      * @see #MenuPanel(UserMenuFrame, Dimension, Dimension)
      */
@@ -87,7 +87,7 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * A helper method that sets up the register frame for {@code setup()}.
+     * add "Applicant" button  and UserMenuFrame with UserType.APPLICANT.
      *
      * @see #setup()
      */
@@ -97,7 +97,7 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * A helper method for {@code setup()} that sets up the interviewer menu.
+     * add "Ongoing Interview" button  and setup a new OngoingInterviewScenario with userMenuFrame.
      *
      * @see #setup()
      */
@@ -106,7 +106,8 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * A helper method for {@code setup()} that sets up the recruiter menu.
+     * add "All Applications" button and "JobManaging" button then set up ApplicationScenario and
+     * JobManageScenario.
      *
      * @see #setup()
      */
@@ -116,7 +117,8 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * A helper method for {@code setup()} that sets up the hiring manager menu.
+     * add "Create Posting" button and "View Posting" button then set up JobPostingRegisterScenario and
+     * ViewPostingScenario.
      *
      * @see #setup()
      */
@@ -126,7 +128,9 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * A helper method for {@code setup()} that sets up an applicant menu.
+     * add "Upcoming Interviews","Apply Jobs" ,"Manage Application","My Documents"buttons
+     * then set up ViewInterviewScenario,JobSearchingScenario ,ApplicationManageScenario
+     * and DocumentManageScenario(with no applicationDocument).
      *
      * @see #setup()
      */
@@ -138,11 +142,10 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * Add a new {@code JButton} for the given {@code Scenario}.
-     * The page will be switched to that {@code Scenario} when this new button is clicked.
+     * add a new button to this panel , and add a new SwitchScenarioListener to the button.
      *
-     * @param buttonName a string representing button name
-     * @param scenario   the {@code Scenario} to which the new button is linked
+     * @param buttonName a string represent the name of button.
+     * @param scenario   the page that want to be added
      * @see #registerMenuSetup()
      * @see #interviewerMenuSetup()
      * @see #recruiterMenuSetup()
@@ -157,35 +160,34 @@ public class MenuPanel extends JPanel {
     }
 
     /**
-     * Class {@code SwitchScenarioListener} implements interface {@code ActionListener}.
-     * It is used to switch between different scenarios.
+     * Class {@code SwitchScenarioListener} the actionListener used to switch between different scenario.
      *
      * @author group 0120 of CSC207 summer 2019
-     * @see #addMenuButton(String, Scenario)
+     * @see MenuPanel#addAncestorListener(AncestorListener)
      * @since 2019-08-05
      */
     private class SwitchScenarioListener implements ActionListener {
         /**
-         * The {@code Scenario} to be switched to.
+         * the scenario that want to switch to.
          *
-         * @see #SwitchScenarioListener(Scenario)#actionPerformed(ActionEvent)
+         * @see #SwitchScenarioListener(Scenario)
          */
         private Scenario scenario;
 
         /**
-         * Create a new {@code SwitchScenarioListener}.
+         * set this scenario to the given scenario.
          *
-         * @param scenario the {@code Scenario} to be switched to
-         * @see #addMenuButton(String, Scenario)
+         * @param scenario the scenario need to switch to
+         * @see #addAncestorListener(AncestorListener)
          */
         SwitchScenarioListener(Scenario scenario) {
             this.scenario = scenario;
         }
 
         /**
-         * Override the method {@code actionPerformed} in interface {@code ActionListener}.
+         * overrides the method in interface class{@code ActionListener}
          *
-         * @param e the event of clicking on related button
+         * @param e the ActionEvent that be passed in
          */
         @Override
         public void actionPerformed(ActionEvent e) {

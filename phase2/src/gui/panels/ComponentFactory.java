@@ -118,7 +118,7 @@ public class ComponentFactory {
      * Create a combo box with a set of options.
      * Specify what the combo box is for and decide whether it is editable by the boolean it is passed in.
      * @param name The name of the combo box.
-     * @param options The options for the combo box.
+     * @param options The options in the combo box.
      * @param defaultValue The default selected value
      * @param editable Boolean of whether the combo box is editable
      * @see #infoPanel
@@ -147,7 +147,7 @@ public class ComponentFactory {
 
 
     /**
-     * Create a field for password.
+     * Create a JPasswordFiled with given name.
      * @param name The name of the field, which would be password.
      */
     public void addPasswordField(String name) {

@@ -164,6 +164,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      *
      * @param application      the application that is ready to be submitted
      * @param EmploymentCenter the place where the company information is stored
+     * @return whether an application is submitted successfully
      * @see Application#apply(EmploymentCenter)
      */
     public void applicationSubmit(Application application, EmploymentCenter EmploymentCenter)

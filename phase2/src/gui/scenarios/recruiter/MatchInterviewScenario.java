@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- *  Class {@code MatchInterviewScenario} handles the situation of matching interview.
+ * Class {@code MatchInterviewScenario} handles the situation of matching interview.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.MenuPanel
@@ -57,7 +57,8 @@ public class MatchInterviewScenario extends Scenario {
 
     /**
      * Create a new {@code MatchInterviewScenario} that is a {@code Scenario} with title "Match Interview"
-     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
+     *
+     * @param userMenuFrame  the {@code userMenuFrame} that sets up the gui framework
      * @param interviewRound Interview Rounds being matched
      */
     public MatchInterviewScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound) {

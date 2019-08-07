@@ -48,8 +48,8 @@ public class UserRegisterScenario extends Scenario {
     /**
      * Constructor for new {@code UserRegisterScenario} ,
      *
-     * @param userMenuFrame     given usermenu
-     * @param registerType given {@code UserType}
+     * @param userMenuFrame given usermenu
+     * @param registerType  given {@code UserType}
      */
     public UserRegisterScenario(UserMenuFrame userMenuFrame, UserType registerType) {
         super(userMenuFrame, "User Register");
@@ -76,8 +76,8 @@ public class UserRegisterScenario extends Scenario {
 
     /**
      * overrides the method in parent class{@code Scenario}, clear the text in the text area.
-     * @see  Scenario#init()
      *
+     * @see Scenario#init()
      */
     @Override
     protected void update() {
@@ -102,6 +102,7 @@ public class UserRegisterScenario extends Scenario {
     /**
      * Initial the information that need  {@code User} to be filled , include username , password,
      * first name , last name and email.
+     *
      * @param factory the factory that construct the page
      */
     private void initUserInput(ComponentFactory factory) {
@@ -116,6 +117,7 @@ public class UserRegisterScenario extends Scenario {
     /**
      * Initial the information that need  {@code Applicant} to be filled, include employmentStatus ,
      * working experiences,diplomas amd general
+     *
      * @param factory the factory that construct the page
      */
     private void initApplicantInput(ComponentFactory factory) {
@@ -133,6 +135,7 @@ public class UserRegisterScenario extends Scenario {
 
     /**
      * Initial the information that need  {@code Employee} to be filled , include the position and companyID.
+     *
      * @param factory the factory that construct the page
      */
     private void initEmployeeInput(ComponentFactory factory) {
@@ -143,7 +146,8 @@ public class UserRegisterScenario extends Scenario {
 
     /**
      * initial the buttonPanel and create a new button called "create User" with a new {@code CreateUserListener}
-     * @see  #initComponents()
+     *
+     * @see #initComponents()
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -171,6 +175,7 @@ public class UserRegisterScenario extends Scenario {
          * override the method in interface {ActionListener} ,
          * create a new user, if successfully created interfaces a dialog "Successfully registered!" ,
          * if not  interfaces a dialog "Incorrect input or username already used by others!"
+         *
          * @param e ActionEvent
          */
         @Override

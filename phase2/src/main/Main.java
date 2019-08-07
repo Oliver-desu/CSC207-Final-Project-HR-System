@@ -11,11 +11,15 @@ import java.time.LocalDate;
 public class Main {
 
     private static final String DATA_LOCATION = "\\phase2\\data.ser";
-
+    private static LocalDate localDate;
     private EmploymentCenter employmentCenter = new EmploymentCenter();
     private LoginFrame login;
-    private static LocalDate localDate;
     private boolean successfullyLoaded = true;
+
+    public Main() {
+        loadSystem();
+        login = new LoginFrame(this);
+    }
 
     public static void main(String[] args) {
 //        Test test = new Test();
@@ -72,24 +76,15 @@ public class Main {
         new Main();
     }
 
-    public Main() {
-        loadSystem();
-        login = new LoginFrame(this);
-    }
-
-    public EmploymentCenter getEmploymentCenter() {
-        return employmentCenter;
-    }
-
-    public void returnToLogin() {
-        login.setVisible(true);
-    }
-
     public static LocalDate getLocalDate() {
         if (localDate == null) {
             localDate = LocalDate.now();
         }
         return localDate;
+    }
+
+    public void returnToLogin() {
+        login.setVisible(true);
     }
 
     public static void setDaysElapse(String daysElapse) throws InvalidInputException {
@@ -99,6 +94,10 @@ public class Main {
         } catch (NumberFormatException e) {
             throw new InvalidInputException();
         }
+    }
+
+    public EmploymentCenter getEmploymentCenter() {
+        return employmentCenter;
     }
 
     private String getPath() {

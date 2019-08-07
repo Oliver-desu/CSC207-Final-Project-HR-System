@@ -35,15 +35,6 @@ import java.util.ArrayList;
 public class JobManageScenario extends Scenario {
 
     /**
-     * Create a new {@code JobManageScenario} that is a {@code Scenario} with title "Job Manager"
-     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
-     * @see gui.general.MenuPanel
-     */
-    public JobManageScenario(UserMenuFrame userMenuFrame) {
-        super(userMenuFrame, "Job Manager");
-    }
-
-    /**
      * The {@code LeftFilterPanel} in this scenario.
      *
      * @see #initLeftFilter()
@@ -55,7 +46,6 @@ public class JobManageScenario extends Scenario {
      * @see EndJobPostingListener
      */
     private FilterPanel<JobPosting> leftFilter;
-
     /**
      * The {@code RightFilterPanel} in this scenario.
      *
@@ -65,7 +55,6 @@ public class JobManageScenario extends Scenario {
      * @see ViewEditListener
      */
     private FilterPanel<InterviewRound> rightFilter;
-
     /**
      * An {@code InputInfoPanel} that sets up gui in this scenario.
      *
@@ -74,6 +63,16 @@ public class JobManageScenario extends Scenario {
      * @see AddRoundListener
      */
     private InputInfoPanel infoPanel;
+
+    /**
+     * Create a new {@code JobManageScenario} that is a {@code Scenario} with title "Job Manager"
+     *
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
+     * @see gui.general.MenuPanel
+     */
+    public JobManageScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Job Manager");
+    }
 
     public static void main(String[] args) {
         Test test = new Test();

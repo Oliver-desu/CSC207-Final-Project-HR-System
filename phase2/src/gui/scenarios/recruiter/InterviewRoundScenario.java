@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Class {@code ViewPostingScenario} handles the situation where the hiring manager can view the interview rounds of the applicants
+ *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.MenuPanel
  */
@@ -67,9 +68,10 @@ public class InterviewRoundScenario extends Scenario {
 
     /**
      * Create a new {@code InterviewRoundScenario} that is a {@code Scenario} with title "Interview Round Manager"
-     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
+     *
+     * @param userMenuFrame  the {@code userMenuFrame} that sets up the gui framework
      * @param interviewRound Interview Rounds that are concerned.
-     * @param jobPosting JobPostings that are concerned.
+     * @param jobPosting     JobPostings that are concerned.
      */
 
     public InterviewRoundScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound, JobPosting jobPosting) {
@@ -204,7 +206,6 @@ public class InterviewRoundScenario extends Scenario {
      *
      * @author group 0120 of CSC207 summer 2019
      * @since 2019-08-05
-     *
      */
 
     private class MatchInterviewListener implements ActionListener {

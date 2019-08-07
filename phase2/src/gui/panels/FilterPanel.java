@@ -57,8 +57,9 @@ public class FilterPanel<T extends Filterable> extends JPanel {
 
     /**
      * Create a {@code FilterPanel} with given dimension and title.
+     *
      * @param dimension The dimension of the filter.
-     * @param title Title of the filter.
+     * @param title     Title of the filter.
      */
     public FilterPanel(Dimension dimension, String title) {
         setup(dimension, title);
@@ -119,7 +120,12 @@ public class FilterPanel<T extends Filterable> extends JPanel {
         add(label);
     }
 
-
+    /**
+     * add a search section with a new JButton with a new SearchListener in it .
+     *
+     * @param width the witdh of the searchSection
+     * @see #setup(Dimension, String)
+     */
     private void searchSectionSetup(int width) {
         JTextField textField = new JTextField("XXX; XX; XXX");
         textField.setPreferredSize(new Dimension(width - SEARCH_BUTTON_WIDTH - 10, SEARCH_BUTTON_HEIGHT));

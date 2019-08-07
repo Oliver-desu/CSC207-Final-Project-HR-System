@@ -30,6 +30,7 @@ public class OutputInfoPanel extends JPanel {
 
     /**
      * Create a new {@code OutputInfoPanel} with given dimension of its size.
+     *
      * @param dimension Dimension of the output panel.
      */
     public OutputInfoPanel(Dimension dimension) {

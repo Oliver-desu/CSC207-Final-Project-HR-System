@@ -12,15 +12,13 @@ import java.util.logging.SimpleFormatter;
 public class Serializer {
 
     /**
-     * The ser file path of the file where the object is stored.
-     */
-    private String filePath;
-
-    /**
      * Logger instance for logging use.
      */
     private static final Logger logger = Logger.getLogger(Serializer.class.getName());
-
+    /**
+     * The ser file path of the file where the object is stored.
+     */
+    private String filePath;
     /**
      * The object which is read from the file.
      */

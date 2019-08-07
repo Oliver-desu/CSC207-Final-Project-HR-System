@@ -188,7 +188,7 @@ public class JobPostingRegisterScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (withdrawAction()) return;
+            if (!confirmAction()) return;
             HashMap<String, String> values = createJobInfoMap();
             if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);

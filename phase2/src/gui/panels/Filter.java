@@ -62,8 +62,9 @@ public class Filter<T extends Filterable> {
 
     /**
      * Return true if and only if the beginning of {@code value} matches {@code filterValue}.
-     * @param value the value for determining whether match {@code filterValue} or not
-     * @param filterValue   the sample to be filtered against
+     *
+     * @param value       the value for determining whether match {@code filterValue} or not
+     * @param filterValue the sample to be filtered against
      * @return true if and only if the beginning of {@code value} matches {@code filterValue}
      */
     private boolean isValueMatched(String value, String filterValue) {

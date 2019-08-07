@@ -31,16 +31,6 @@ import java.util.ArrayList;
 public class OngoingInterviewScenario extends Scenario {
 
     /**
-     * Constructor for {@code OngoingInterviewScenario}.
-     *
-     * @param userMenuFrame given {@code userMenuFrame}
-     * @see gui.general.MenuPanel
-     */
-    public OngoingInterviewScenario(UserMenuFrame userMenuFrame) {
-        super(userMenuFrame, "Ongoing Interview Manager");
-    }
-
-    /**
      * The {@code FilterPanel} located leftmost in the interface. It contains a list of {@code Interview}s.
      *
      * @see #initLeftFilter()
@@ -64,6 +54,16 @@ public class OngoingInterviewScenario extends Scenario {
      * @see #getRecommendation()
      */
     private InputInfoPanel infoPanel;
+
+    /**
+     * Constructor for {@code OngoingInterviewScenario}.
+     *
+     * @param userMenuFrame given {@code userMenuFrame}
+     * @see gui.general.MenuPanel
+     */
+    public OngoingInterviewScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "Ongoing Interview Manager");
+    }
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -202,7 +202,8 @@ public class OngoingInterviewScenario extends Scenario {
 
         /**
          * set this.result to {@code InterviewStatus.PASS}  if isPass is true, otherwise set it to
-         *{@code InterviewStatus.FAIL}
+         * {@code InterviewStatus.FAIL}
+         *
          * @param isPass whether it is passed or not
          */
         SetResultListener(boolean isPass) {
@@ -222,7 +223,7 @@ public class OngoingInterviewScenario extends Scenario {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (withdrawAction()) return;
+            if (!confirmAction()) return;
             Interview interview = leftFilter.getSelectObject();
             if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
                 interview.setStatus(result);

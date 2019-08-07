@@ -28,16 +28,6 @@ import java.util.ArrayList;
 public class ApplicationScenario extends Scenario {
 
     /**
-     * Create a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications
-     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
-     * @see gui.general.MenuPanel
-     */
-
-    public ApplicationScenario(UserMenuFrame userMenuFrame) {
-        super(userMenuFrame, "View Company Applications");
-    }
-
-    /**
      * The {@code LeftFilterPanel} in this scenario
      *
      * @see #initLeftFilter()
@@ -53,6 +43,17 @@ public class ApplicationScenario extends Scenario {
      * @see ViewDocumentListener
      */
     private FilterPanel<Document> rightFilter;
+
+    /**
+     * Create a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications
+     *
+     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
+     * @see gui.general.MenuPanel
+     */
+
+    public ApplicationScenario(UserMenuFrame userMenuFrame) {
+        super(userMenuFrame, "View Company Applications");
+    }
 
     public static void main(String[] args) {
         Test test = new Test();
@@ -134,6 +135,7 @@ public class ApplicationScenario extends Scenario {
 
     /**
      * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     *
      * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
      * @since since 2019-08-05

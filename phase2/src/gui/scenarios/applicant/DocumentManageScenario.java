@@ -48,7 +48,7 @@ public class DocumentManageScenario extends Scenario {
      * constructor for {@code DocumentManageScenario} ,create a new {@code DocumentManageScenario }
      * with given {@code Usermenu} and {@code DocumentManager}
      *
-     * @param userMenuFrame            userMenuFrame  need to create this .
+     * @param userMenuFrame       userMenuFrame  need to create this .
      * @param applicationDocument the {@code} DocumentManager passed in.
      */
     public DocumentManageScenario(UserMenuFrame userMenuFrame, DocumentManager applicationDocument) {
@@ -120,8 +120,9 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * return the path of  file need to be submitted  in the right form.
-     * @see gui.scenarios.applicant.DocumentManageScenario.AddDocumentListener#actionPerformed(ActionEvent)
+     *
      * @return a string represent the path of the file .
+     * @see gui.scenarios.applicant.DocumentManageScenario.AddDocumentListener#actionPerformed(ActionEvent)
      */
     private String getSubmitFileName() {
         FileDialog fileDialog = new FileDialog(getUserMenuFrame());
@@ -131,6 +132,7 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * Class {@code  AddDocumentListener}
+     *
      * @see #initButton()
      * @since 2019-08-06
      */
@@ -174,6 +176,7 @@ public class DocumentManageScenario extends Scenario {
 
     /**
      * Class {@code  DeleteDocumentListener} listener used for delete document
+     *
      * @see #initButton()
      * @since 2019-08-06
      */
