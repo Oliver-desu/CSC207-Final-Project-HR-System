@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code UserMenuFrame} setup gui frame for user menu with common buttons and provide getters of information
+ * Class {@code UserMenuFrame} setup gui frame for user menu with common buttons and provide getters of information.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see Main
@@ -33,7 +33,7 @@ public class UserMenuFrame extends JFrame {
     private static final Dimension BUTTON_SIZE = new Dimension(WIDTH / 6, 50);
 
     /**
-     * Todo
+     * The {@code Main} that the program is based on.
      *
      * @see Main
      * @see #getMain()
@@ -42,7 +42,7 @@ public class UserMenuFrame extends JFrame {
     private Main main;
 
     /**
-     * The user
+     * The user.
      *
      * @see User
      * @see #getUser()
@@ -52,7 +52,7 @@ public class UserMenuFrame extends JFrame {
     private User user;
 
     /**
-     * The panel contains all buttons
+     * The panel contains all buttons.
      *
      * @see MenuPanel
      * @see #setup()
@@ -61,7 +61,7 @@ public class UserMenuFrame extends JFrame {
     private MenuPanel menu;
 
     /**
-     * The panel be able to do main operations
+     * The panel be able to do main operations.
      *
      * @see Scenario
      * @see #clearScenario()
@@ -73,7 +73,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * create a new {@code UserMenuFrame} , and then setup for this menu .
+     * Create a new {@code UserMenuFrame}, and then setup for this menu.
      *
      * @param main given java.main
      * @param user given user
@@ -90,7 +90,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * setup the width and height , set the Layout to flowout and set visible to true
+     * Setup the width and height, set the layout to flow layout and set visible to true.
      *
      * @see #UserMenuFrame(Main, User)
      */
@@ -106,10 +106,9 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * return a {@code Company} that this {@code User} belongs to
+     * Return a {@code Company} that this {@code User} belongs to.
      *
-     * @return a {@code Company} that this {@code User}  belongs to
-     * @throws NotEmployeeException if this user is not a Employee.
+     * @return a {@code Company} that this {@code User} belongs to
      */
     public Company getCompany() {
         EmploymentCenter employmentCenter = getMain().getEmploymentCenter();
@@ -121,7 +120,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * remove scenario from Jframe
+     * Remove scenario from JFrame.
      */
     private void clearScenario() {
         if (scenario != null) remove(this.scenario);
@@ -144,8 +143,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * add the LogoutButton to {@code UserMenuFrame}  if the user is not a {@code NullUser} , then ,
-     * add the LogoutListener to this button
+     * Add the LogoutButton to {@code UserMenuFrame} if the user is not a {@code NullUser}.
      */
     private void addLogoutButton() {
         String text;
@@ -158,7 +156,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * set this {@code UserMenuFrame to be invisible and return to login scenario}
+     * Set this {@code UserMenuFrame} to be invisible and return to login scenario.
      */
     private void logout() {
         this.setVisible(false);
@@ -166,7 +164,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * Class {@code LogoutListener} The listener used for logout event
+     * Class {@code LogoutListener} is the listener used for logout event.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see UserMenuFrame
@@ -174,9 +172,9 @@ public class UserMenuFrame extends JFrame {
      */
     private class LogoutListener implements ActionListener {
         /**
-         * overrides the method  in parent class{@code ActionListener}
+         * Log out.
          *
-         * @param e the actionevent
+         * @param e the actionEvent
          */
         @Override
         public void actionPerformed(ActionEvent e) {

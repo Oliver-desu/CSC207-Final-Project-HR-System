@@ -17,7 +17,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 /**
- * Class {@code Scenario} setup the panel where main operation take place and
+ * Class {@code Scenario} setup the panel where main operation takes place and
  * contains useful shared methods that all child classes have
  *
  * @author group 0120 of CSC207 summer 2019
@@ -36,23 +36,18 @@ public abstract class Scenario extends JPanel {
     protected final Dimension REGISTER_INPUT_SIZE = getDimensionByRatio(1, 0.8);
     protected final Dimension LIST_SIZE = getDimensionByRatio(0.3, 0.5);
     protected final Dimension BUTTON_PANEL_SIZE = getDimensionByRatio(1, 0.2);
-    protected final Dimension OUTPUT_SIZE = getDimensionByRatio(0.4, 0.5);
+    private final Dimension OUTPUT_SIZE = getDimensionByRatio(0.4, 0.5);
 
     /**
-     * The user menu that contains this panel
+     * The {@code UserMenuFrame} that will show in this scenario.
      *
-     * @see UserMenuFrame
      * @see #getUserMenuFrame()
-     * @see #getMain()
-     * @see #showMessage(String)
-     * @see #confirmAction()
      */
     private UserMenuFrame userMenuFrame;
 
     /**
-     * The panel deal with output text to users
+     * The {@code OutputInfoPanel} for this scenario.
      *
-     * @see OutputInfoPanel
      * @see #initOutputInfoPanel()
      * @see #setOutputText(String)
      * @see #showDocument(Document)
@@ -60,17 +55,17 @@ public abstract class Scenario extends JPanel {
     private OutputInfoPanel outputInfoPanel = new OutputInfoPanel(OUTPUT_SIZE);
 
     /**
-     * The boolean that check whether this panel has initialized
+     * True only when the scenario has been initialized.
      *
      * @see #init()
      */
     private boolean hasInit;
 
     /**
-     * create a new {@code UserMenuFrame}with given usermenu{@code UserMenuFrame} and given title
+     * create a new {@code UserMenuFrame}with given {@code UserMenuFrame} and given title
      *
-     * @param userMenuFrame the giben usermenu need to be passed in
-     * @param title         the title of thie scenario
+     * @param userMenuFrame the user menu that needs to be passed in
+     * @param title         the title of this scenario
      * @see gui.scenarios.applicant.DocumentManageScenario#DocumentManageScenario(UserMenuFrame, DocumentManager)
      * @see gui.scenarios.applicant.ApplicationManageScenario#ApplicationManageScenario(UserMenuFrame)
      * @see UserRegisterScenario#UserRegisterScenario(UserMenuFrame, UserType)
@@ -91,11 +86,11 @@ public abstract class Scenario extends JPanel {
     }
 
     /**
-     * setup this scenario with given width and height , and update the information in it
+     * Initialize a scenario if it has never been initialized.
      *
      * @see UserMenuFrame#setScenario(Scenario)
      */
-    public void init() {
+    protected void init() {
         if (!hasInit) {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
             setLayout(new FlowLayout());
@@ -105,23 +100,45 @@ public abstract class Scenario extends JPanel {
         update();
     }
 
+    /**
+     * A abstract helper function for {@code init()}.
+     * It is implemented in subclasses of {@code Scenario}.
+     *
+     * @see #init()
+     */
     abstract protected void initComponents();
 
+    /**
+     * A abstract helper function for {@code init()}.
+     * It is implemented in subclasses of {@code Scenario}.
+     *
+     * @see #init()
+     */
     abstract protected void update();
 
+    /**
+     * Set the frame size by ratios.
+     *
+     * @param horizontalRatio the horizontal ratio
+     * @param verticalRatio   the vertical ratio
+     * @return the {@code Dimension} matching the ratios
+     */
     private Dimension getDimensionByRatio(double horizontalRatio, double verticalRatio) {
         return new Dimension((int) (WIDTH * horizontalRatio) - 5, (int) (HEIGHT * verticalRatio) - 5);
     }
 
     /**
-     * add the outputInfoPanel to this Jframe
+     * Add an {@code outputInfoPanel} to this frame.
+     * It can be overridden in its subclasses.
      */
     protected void initOutputInfoPanel() {
         add(outputInfoPanel);
     }
 
     /**
-     * switch to the given scenario through getUserMenuFrame()
+     * Switch to another {@code Scenario}.
+     *
+     * @param scenario the {@code Scenario} that the system will switch to
      */
     protected void switchScenario(Scenario scenario) {
         getUserMenuFrame().setScenario(scenario);
@@ -137,46 +154,50 @@ public abstract class Scenario extends JPanel {
     }
 
     /**
-     * set the text in the outputInfoPanel to be the given text
+     * Show message in the {@code outputInfoPanel}.
      *
-     * @param text the string need to be showed
+     * @param text the string need to be shown
+     * @see ShowInfoListener#valueChanged(ListSelectionEvent)
      */
     protected void setOutputText(String text) {
         outputInfoPanel.setOutputText(text);
     }
 
     /**
-     * set the document need to be displayed in the outputInfoPanel to be the given document
+     * Show content of a certain document in the user interface.
      *
-     * @param document the document need to be showed
+     * @param document the {@code Document} that needs to be shown
      */
     protected void showDocument(Document document) {
         outputInfoPanel.showDocument(document);
     }
 
     /**
-     * add a new showInfoListener to the given filterPanel.
+     * Add a new {@code showInfoListener} to the given {@code filterPanel}.
      *
-     * @param filterPanel the filterPanel need to be added a lnew ShowInfoListener
+     * @param filterPanel the {@code filterPanel} to which a new {@code ShowInfoListener} will be added
      */
     protected void addShowInfoListenerFor(FilterPanel filterPanel) {
         filterPanel.addSelectionListener(new ShowInfoListener(filterPanel));
     }
 
     /**
-     * pop up a new Jframe to interfaces the massage
+     * Display a pop-up message on the screen.
      *
-     * @param message the message need to be showed
+     * @param message the message that needs to be shown
      */
     protected void showMessage(String message) {
         JOptionPane.showMessageDialog(getUserMenuFrame(), message, "Message Dialog", JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
-     * return true if the user press "yes" button
+     * Return whether an action is confirmed.
+     *
+     * @return true if and only if the action is confirmed
+     * @see JobPostingRegisterScenario
      */
-    protected boolean confirmAction() {
-        return 0 == JOptionPane.showConfirmDialog(getUserMenuFrame(), "Are you sure?",
+    protected boolean withdrawAction() {
+        return 0 != JOptionPane.showConfirmDialog(getUserMenuFrame(), "Are you sure?",
                 "Confirm Dialog", JOptionPane.YES_NO_OPTION);
     }
 
@@ -194,31 +215,35 @@ public abstract class Scenario extends JPanel {
     }
 
     /**
-     * Class {@code ShowInfoListener} implements ListSelectionListener, return  the object selected by the user
+     * Class {@code ShowInfoListener} implements {@code ListSelectionListener}.
+     * It handles the situation where related information of the selected value should be shown.
      *
-     * @see Scenario
+     * @see Scenario#addShowInfoListenerFor(FilterPanel)
      * @since 2019-08-06
      */
     private class ShowInfoListener implements ListSelectionListener {
         /**
-         * the filterpanel need to be add a listener
+         * The {@code FilterPanel} containing the list where a selection is made.
+         *
+         * @see #valueChanged(ListSelectionEvent)
          */
         private FilterPanel filterPanel;
 
         /**
-         * create a new ShowInfoListener with given filterpanel
+         * Create a new {@code ShowInfoListener} for the given {@code FilterPanel}.
          *
-         * @param filterPanel the given filterpanel
+         * @param filterPanel the {@code FilterPanel} where selection is made
          */
         private ShowInfoListener(FilterPanel filterPanel) {
             this.filterPanel = filterPanel;
         }
 
         /**
-         * overrides the method in interface{@code ListSelectionListener}
-         * get the object select by the user , then  set the object.tostring() to the outputpanel
+         * Override {@code valueChanged} in interface{@code ListSelectionListener}.
+         * It shows the information of selected object when an action is performed.
          *
-         * @param e ListSelectionEvent
+         * @param e the event of selecting from a list
+         * @see #setOutputText(String)
          */
         @Override
         public void valueChanged(ListSelectionEvent e) {

@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 /**
- * Class {@code LoginFrame} setup gui frame for login and deal with user input
+ * Class {@code LoginFrame} setup gui frame for login and deal with user input.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see InputInfoPanel
@@ -39,7 +39,7 @@ public class LoginFrame extends JFrame {
     private static final String[] USER_TYPE = new String[]{"Applicant", "Hiring_Manager", "Recruiter", "Interviewer"};
 
     /**
-     * Todo
+     * The {@code Main} that the program is based on.
      *
      * @see #getMain()
      * @see #login(User)
@@ -47,7 +47,7 @@ public class LoginFrame extends JFrame {
     private Main main;
 
     /**
-     * The panel deal with all user input
+     * The {@code InputInfoPanel} that contains all text fields in this frame.
      *
      * @see InputInfoPanel
      * @see LoginListener
@@ -58,7 +58,7 @@ public class LoginFrame extends JFrame {
     private InputInfoPanel inputInfoPanel = new InputInfoPanel(INPUT_SIZE, true);
 
     /**
-     * The panel deal with all buttons
+     * The {@code ButtonPanel} that contains all buttons in this frame.
      *
      * @see ButtonPanel
      * @see #buttonPanelSetup()
@@ -66,9 +66,9 @@ public class LoginFrame extends JFrame {
     private ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
 
     /**
-     * Constructor for {@code LoginFrame}.
+     * Construct a new {@code LoginFrame}.
      *
-     * @param main #Todo : don t know how to describe
+     * @param main the {@code Main} that the program is based on
      */
     public LoginFrame(Main main) {
         this.main = main;
@@ -79,7 +79,10 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * setup the title ,size,Layout, infoPanel , buttonPanel , ant set this frame to be visible.
+     * A helper method for the constructor.
+     * Set up the title, size, layout, infoPanel, buttonPanel and visibility of LoginFrame.
+     *
+     * @see #LoginFrame(Main)
      */
     private void setup() {
         setTitle("LoginFrame");
@@ -91,7 +94,7 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * add  "LoginFrame" button with new LoginListener and "Register"to buttonPanel  with new RegisterListener.
+     * A helper method for setup() that adds "Login", "Register", "Restart" buttons to button panel.
      *
      * @see #setup()
      */
@@ -103,8 +106,10 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * setup the infoPanel,  add TextField with string"Username" , add a addPasswordField with name "Password",
-     * add a ComboBox with  UserType (defaultValue is Applicant)
+     * A helper method for setup() that sets up the {@code InputInfoPanel}.
+     * This panel allows a user to choose the user type as well as enter his/her username and password.
+     *
+     * @see #setup()
      */
     private void infoPanelSetup() {
         ComponentFactory factory = getInputInfoPanel().getComponentFactory();
@@ -115,24 +120,30 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * @return main of this page
+     * Get the {@code Main}.
+     *
+     * @return {@code main}
+     * @see #LoginFrame(Main)
+     * @see #getUser()
+     * @see #login(User)
+     * @see LoginListener
+     * @see SaveSystemListener
      */
     public Main getMain() {
         return main;
     }
 
-    /**
-     * @return the inputInfoPanel of this frame.
-     * @see #infoPanelSetup()
-     * @see #getUser()
-     */
+
     private InputInfoPanel getInputInfoPanel() {
         return inputInfoPanel;
     }
 
     /**
-     * get the User name and User type  stored in the infoMap , then ask storage{@code storage} to return a
-     * User with given information.
+     * A helper function for {@code actionPerformed} in LoginListener.
+     * It searches and returns the {@code User} whose username and user type
+     * match inputs of text fields behind "UserType:" and "Username:".
+     *
+     * @see LoginListener#actionPerformed(ActionEvent)
      */
     private User getUser() {
         HashMap<String, String> infoMap = getInputInfoPanel().getInfoMap();
@@ -142,10 +153,12 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * check if the user's password matched the given password.
+     * A helper function for {@code actionPerformed} in LoginListener.
+     * Check and return whether a user is entering correct password.
      *
-     * @param user     the User want to be check if the passed in password is matched
-     * @param password the password passed in
+     * @param user     the {@code User} whose password is waiting to be checked
+     * @param password the {@code char[]} that the user enters as the password
+     * @see LoginListener#actionPerformed(ActionEvent)
      */
     private boolean checkUser(User user, char[] password) {
         if (!user.isNull() && user.matchPassword(password)) {
@@ -157,9 +170,11 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * set this JFrame to be invisible and create a new UserMenuFrame with given user.
+     * A helper method that hides the log in page and shows a new {@code UserMenuFrame} for the {@code User}.
      *
-     * @param user the given user  that need to be create with new userMenu.
+     * @param user the {@code User} who is logging in
+     * @see LoginListener#actionPerformed(ActionEvent)
+     * @see RegisterListener#actionPerformed(ActionEvent)
      */
     private void login(User user) {
         this.setVisible(false);
@@ -167,17 +182,16 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * Class {@code LoginListener} setup the LoginListener ,this listener is used for check if the password is matched
+     * Class {@code LoginListener} implements {@code ActionListener}.
+     * It deals with the case when "Login" button is clicked.
      *
-     * @see LoginFrame {@link #buttonPanelSetup()}
+     * @see LoginFrame#buttonPanelSetup()
      */
     private class LoginListener implements ActionListener {
         /**
-         * overrides the method in interface{@code ActionListener}
-         * set up the actionPerformed in this listener , if the password stored in InputInfoPanel matched
-         * this user , then login with this user's information
+         * Override the method {@code actionPerformed} in interface {@code ActionListener}.
          *
-         * @param e the actionEvent
+         * @param e the {@code ActionEvent} of clicking on button "Log in"
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -191,16 +205,17 @@ public class LoginFrame extends JFrame {
     }
 
     /**
-     * Class {@code RegisterListener} setup the RegisterListener .
+     * Class {@code RegisterListener} implements {@code ActionListener}.
+     * It deals with the situation where "Register" button is clicked.
      *
-     * @see LoginFrame {@link #buttonPanelSetup()}
+     * @see LoginFrame#buttonPanelSetup()
      */
     private class RegisterListener implements ActionListener {
         /**
-         * overrides the method in interface{@code ActionListener}
-         * login with a NullUser in order to register.
+         * Override the method {@code actionPerformed} in interface {@code ActionListener}.
+         * A {@code NullUser} is created when action occurs.
          *
-         * @param e actionEvent
+         * @param e the {@code ActionEvent} of clicking on button "Register"
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -208,7 +223,20 @@ public class LoginFrame extends JFrame {
         }
     }
 
+    /**
+     * Class {@code SaveSystemListener} implements {@code ActionListener}.
+     * It deals with the situation where "Restart" button is clicked.
+     *
+     * @see LoginFrame#buttonPanelSetup()
+     */
     private class SaveSystemListener implements ActionListener {
+        /**
+         * Override the method {@code actionPerformed} in interface {@code ActionListener}.
+         * When clicking "Restart", the system saves data generated from this round and allows users to reset the date.
+         *
+         * @param e the {@code ActionEvent} of clicking on button "Restart"
+         */
+
         @Override
         public void actionPerformed(ActionEvent e) {
             Main main = getMain();
