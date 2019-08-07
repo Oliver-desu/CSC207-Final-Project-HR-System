@@ -36,7 +36,7 @@ public class ApplicationManageScenario extends Scenario {
      */
     private Applicant applicant;
     /**
-     * The {@code FilterPanel} that shows a list of applications on upper left of the page.
+     * The {@code FilterPanel} that shows a list of {@code Application}s on upper left of the page.
      *
      * @see #initLeftFilter()
      * @see #update()
@@ -47,7 +47,7 @@ public class ApplicationManageScenario extends Scenario {
      */
     private FilterPanel<Application> leftFilter;
     /**
-     * The {@code FilterPanel} that shows a list of documents in the top middle of the page.
+     * The {@code FilterPanel} that shows a list of {@code Document}s in the top middle of the page.
      *
      * @see #update()
      * @see #initRightFilter()
@@ -102,7 +102,7 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Override the method {@code update()} in abstract class{@code Scenario}.
+     * Override the method {@code update()} in abstract class {@code Scenario}.
      * It updates the information showed on the user interface.
      *
      * @see ApplyListener

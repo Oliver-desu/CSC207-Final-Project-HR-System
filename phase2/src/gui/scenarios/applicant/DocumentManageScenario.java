@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code DocumentManageScenario} the scenario used for managing document
+ * Class {@code DocumentManageScenario} deals with document managing.
  *
  * @see gui.general.MenuPanel
  * @see gui.scenarios.applicant
@@ -28,28 +28,38 @@ import java.awt.event.ActionListener;
  */
 public class DocumentManageScenario extends Scenario {
     /**
-     * the {@code DocumentManager} for the user
+     * The {@code DocumentManager} for the {@code applicant}.
+     *
+     * @see #DocumentManageScenario(UserMenuFrame, DocumentManager)
+     * @see #update()
+     * @see AddDocumentListener
+     * @see DeleteDocumentListener
      */
     private DocumentManager applicantDocumentManager;
     /**
-     * the {@code DocumentManager} for a particular application
+     * The {@code DocumentManager} for an {@code application}.
+     *
+     * @see #update()
+     * @see AddDocumentListener
+     * @see DeleteDocumentListener
      */
     private DocumentManager applicationDocumentManager;
     /**
-     * the {@code FilterPanel} on the left stored a list of {@code Application} {@code Document}
+     * The {@code FilterPanel} that shows a list of {@code Document}s on upper left of the page.
      */
     private FilterPanel<Document> leftFilter; // contains application document
     /**
-     * the {@code FilterPanel} on the middle stored a list of {@code Applicant} {@code Document}
+     * The {@code FilterPanel} that shows a list of {@code Document}s in the top middle of the page.
      */
     private FilterPanel<Document> rightFilter; // contains applicant document
 
     /**
-     * constructor for {@code DocumentManageScenario} ,create a new {@code DocumentManageScenario }
-     * with given {@code UserMenu} and {@code DocumentManager}
+     * Construct a new {@code DocumentManageScenario}.
      *
-     * @param userMenuFrame       userMenuFrame  need to create this .
-     * @param applicationDocument the {@code} DocumentManager passed in.
+     * @param userMenuFrame       the {@code UserMenuFrame} for the new {@code DocumentManageScenario}
+     * @param applicationDocument the {@code DocumentManager} that manages all documents for an application
+     * @see gui.general.MenuPanel
+     * @see ApplicationManageScenario.EditApplicationListener
      */
     public DocumentManageScenario(UserMenuFrame userMenuFrame, DocumentManager applicationDocument) {
         super(userMenuFrame, "Document Manager");
@@ -70,8 +80,7 @@ public class DocumentManageScenario extends Scenario {
     }
 
     /**
-     * override the method in the parent class
-     * initial the components fo this page include LeftFilter,RightFilter,OutputInfoPanel nad ButtonPanel
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -81,12 +90,20 @@ public class DocumentManageScenario extends Scenario {
         initButton();
     }
 
+    /**
+     * Initialize the {@code leftFilter} such that it shows all documents of a certain {@code application}.
+     * It is a helper method of {@link #initComponents()}.
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
+    /**
+     * Initialize the {@code rightFilter} such that it shows all documents of the {@code applicant}.
+     * It is a helper method of {@link #initComponents()}.
+     */
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "My Documents");
         addShowInfoListenerFor(rightFilter);
@@ -94,9 +111,11 @@ public class DocumentManageScenario extends Scenario {
     }
 
     /**
-     * override the method in parent class  {@code Scenario}
-     * set the {@code Document} of this applicant to the rightFilter,
-     * set the {@code Document} of this application to the leftFilter.
+     * Override the method {@code update()} in abstract class {@code Scenario}.
+     * It updates the information showed on the user interface.
+     *
+     * @see AddDocumentListener
+     * @see DeleteDocumentListener
      */
     @Override
     protected void update() {
@@ -107,8 +126,7 @@ public class DocumentManageScenario extends Scenario {
     }
 
     /**
-     * Initial two button , "Add" button with  new AddDocumentListener,
-     * "Delete" button with new DeleteDocumentListener , and them to the {@code ButtonPanel}
+     * A helper method for {@link #initComponents()} that initializes all buttons showed on the {@code buttonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -119,10 +137,10 @@ public class DocumentManageScenario extends Scenario {
 
 
     /**
-     * return the path of  file need to be submitted  in the right form.
+     * A helper function of {@link AddDocumentListener#actionPerformed(ActionEvent)}.
+     * It gets the name of a chosen file.
      *
-     * @return a string represent the path of the file .
-     * @see gui.scenarios.applicant.DocumentManageScenario.AddDocumentListener#actionPerformed(ActionEvent)
+     * @return a string representing the path of the chosen file .
      */
     private String getSubmitFileName() {
         FileDialog fileDialog = new FileDialog(getUserMenuFrame());
@@ -130,21 +148,22 @@ public class DocumentManageScenario extends Scenario {
         return fileDialog.getDirectory() + "\\" + fileDialog.getFile();
     }
 
+
     /**
-     * Class {@code  AddDocumentListener}
+     * Class {@code AddDocumentListener} deals with the situation where "Add Document" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class AddDocumentListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * If applicationDocumentManager is null then   add
-         * the file to this applicantDocumentManager. then update GUI and interfaces a massage "succeed!"
-         *  If applicationDocumentManager is not  null,then when user select a document in the rightFilter ,
-         *  then add it to this application , interfaces a massage "succeed!"
-         *  if user did not select a document and press "add" , the interfaces a message"No document selected!"
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * If the document-managing page is entered from clicking "My Documents" on {@code MenuPanel},
+         * the system will allow the user to upload a file from local.
+         * If the page is entered by clicking "Edit Application" on the page that manages applications,
+         * the document selected from "My Documents" list will be added to the list "Application Documents".
+         *
+         * @param e the action event that "Add Document" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -171,22 +190,20 @@ public class DocumentManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code  DeleteDocumentListener} listener used for delete document
+     * Class {@code DeleteDocumentListener } deals with the situation where "Delete Document" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class DeleteDocumentListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * If applicationDocumentManager is null then   get the file which selected by user and remove it
-         * from {@code Applicant} document list,
-         * then update GUI and interfaces a massage "Change is made successfully!"
-         * If applicationDocumentManager is not null then   get the file which selected by user and remove it
-         * from this {@code Application} document list,
-         * then update GUI and interfaces a massage "Change is made successfully!"
-         * otherwise  interfaces a massage "Sorry! Cannot delete!".
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * If the document-managing page is entered from clicking "My Documents" on {@code MenuPanel},
+         * the system will delete a document from list "My Documents" when the button is clicked.
+         * If the page is entered by clicking "Edit Application" on the page that manages applications,
+         * the selected document will be removed from list "Application Document" but it still appears on "My Documents".
+         *
+         * @param e the action event that "Add Document" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
