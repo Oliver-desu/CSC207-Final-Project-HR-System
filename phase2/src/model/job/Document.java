@@ -1,5 +1,6 @@
 package model.job;
 
+import main.Main;
 import model.interfaces.Filterable;
 import model.interfaces.ShowAble;
 
@@ -106,18 +107,6 @@ public class Document implements Filterable, Serializable, ShowAble {
         return content.toString();
     }
 
-    /**
-     * A helper function that returns the current date.
-     *
-     * @return the current date
-     * @see #update()
-     * @see #shouldDelete()
-     */
-    // Get current date. Can rewrite by a self designed Date Time System if desired.
-    private LocalDate getCurrentDate() {
-        return LocalDate.now();
-    }
-
     public String getDocumentName() {
         return documentName;
     }
@@ -157,7 +146,7 @@ public class Document implements Filterable, Serializable, ShowAble {
     public void update() {
         if (isUsed) {
             clearUsage();
-            lastUsedDate = getCurrentDate();
+            lastUsedDate = Main.getCurrentDate();
         }
     }
 
@@ -168,7 +157,7 @@ public class Document implements Filterable, Serializable, ShowAble {
      * @see DocumentManager#updateAllDocuments()
      */
     boolean shouldDelete() {
-        return getLastUsedDate().plusDays(30).isBefore(getCurrentDate());
+        return getLastUsedDate().plusDays(30).isBefore(Main.getCurrentDate());
     }
 
 

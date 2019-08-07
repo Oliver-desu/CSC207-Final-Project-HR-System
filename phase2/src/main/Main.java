@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Main {
 
     private static final String DATA_LOCATION = "\\phase2\\data.ser";
-    private static LocalDate localDate;
+    private static LocalDate currentDate;
     private EmploymentCenter employmentCenter = new EmploymentCenter();
     private LoginFrame login;
     private boolean successfullyLoaded = true;
@@ -76,11 +76,11 @@ public class Main {
         new Main();
     }
 
-    public static LocalDate getLocalDate() {
-        if (localDate == null) {
-            localDate = LocalDate.now();
+    public static LocalDate getCurrentDate() {
+        if (currentDate == null) {
+            currentDate = LocalDate.now();
         }
-        return localDate;
+        return currentDate;
     }
 
     public void returnToLogin() {
@@ -90,7 +90,7 @@ public class Main {
     public static void setDaysElapse(String daysElapse) throws InvalidInputException {
         try {
             int days = Integer.parseInt(daysElapse);
-            localDate = getLocalDate().plusDays(days);
+            currentDate = getCurrentDate().plusDays(days);
         } catch (NumberFormatException e) {
             throw new InvalidInputException();
         }

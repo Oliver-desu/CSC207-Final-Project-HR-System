@@ -1,6 +1,7 @@
 package model.job;
 
 import gui.scenarios.hiringManager.JobPostingRegisterScenario;
+import main.Main;
 import model.enums.ApplicationStatus;
 import model.enums.JobPostingStatus;
 import model.exceptions.ApplicationAlreadyExistsException;
@@ -114,7 +115,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         } catch (DateTimeParseException e) {
             return false;
         }
-        return !closeDate.isBefore(LocalDate.now());
+        return !closeDate.isBefore(Main.getCurrentDate());
     }
 
     /**
@@ -164,7 +165,6 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      *
      * @param application      the application that is ready to be submitted
      * @param EmploymentCenter the place where the company information is stored
-     * @return whether an application is submitted successfully
      * @see Application#apply(EmploymentCenter)
      */
     public void applicationSubmit(Application application, EmploymentCenter EmploymentCenter)

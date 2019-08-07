@@ -124,7 +124,7 @@ public class Interview implements Filterable, Serializable, ShowAble {
      * @see InterviewStatus
      * @see model.job.InterviewRound
      */
-    public void cancel() {
+    void cancel() {
         if (status.equals(InterviewStatus.PENDING)) {
             interviewer.removeFile(this);
             setStatus(InterviewStatus.FAIL);
