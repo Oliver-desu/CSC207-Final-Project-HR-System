@@ -61,7 +61,7 @@ public class ButtonPanel extends JPanel {
 
     /**
      * TODO
-     * @param dimension
+     * @param dimension the dimension of this panel
      */
 
     public void setup(Dimension dimension) {

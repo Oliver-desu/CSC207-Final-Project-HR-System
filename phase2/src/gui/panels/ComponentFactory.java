@@ -39,13 +39,12 @@ public class ComponentFactory {
 
     /**
      * Constructor for {@code ComponentFactory}
-     *
-     * @param infoPanel
-     * @param width
+     * @param infoPanel the destination of all created components
+     * @param width the desired width of each component group(the total width of a JLabel
+     *              with another component handle user input )
      * @see InputInfoPanel
      */
-
-    public ComponentFactory(InputInfoPanel infoPanel, int width) {
+    ComponentFactory(InputInfoPanel infoPanel, int width) {
         this.infoPanel = infoPanel;
         setComponentSize(width);
     }
@@ -54,12 +53,13 @@ public class ComponentFactory {
      * Set the size for the components with the given width.
      * @param width The width of the components.
      */
-
     private void setComponentSize(int width) {
-        sizes.put(ComponentType.LABEL, new Dimension(width / 3, COMPONENT_HEIGHT));
-        sizes.put(ComponentType.COMBO_BOX, new Dimension(width * 3 / 5, COMPONENT_HEIGHT));
-        sizes.put(ComponentType.FIELD, new Dimension(width * 3 / 5, COMPONENT_HEIGHT));
-        sizes.put(ComponentType.AREA, new Dimension(width * 3 / 4, COMPONENT_HEIGHT * 2));
+        int labelWidth = width / 3;
+        int inputComponentWidth = width * 3 / 5;
+        sizes.put(ComponentType.LABEL, new Dimension(labelWidth, COMPONENT_HEIGHT));
+        sizes.put(ComponentType.COMBO_BOX, new Dimension(inputComponentWidth, COMPONENT_HEIGHT));
+        sizes.put(ComponentType.FIELD, new Dimension(inputComponentWidth, COMPONENT_HEIGHT));
+        sizes.put(ComponentType.AREA, new Dimension(inputComponentWidth, COMPONENT_HEIGHT * 2));
     }
 
     /**
@@ -67,7 +67,6 @@ public class ComponentFactory {
      * @param type the type of the component.
      * @return The size of the given component type
      */
-
     private Dimension getComponentSize(ComponentType type) {
         return sizes.get(type);
 
@@ -75,8 +74,8 @@ public class ComponentFactory {
 
 
     /**
-     * Create a text field and specify what the textfield is for.
-     * Set the textfield to be editable by user.
+     * Create a text field and specify what the textField is for.
+     * Set the textField to be editable by user.
      * @param name Name of the text field.
      */
     public void addTextField(String name) {
@@ -109,7 +108,7 @@ public class ComponentFactory {
      * @param name The name of the component.
      * @return Component from the given component type name.
      */
-    public JComponent getLabel(String name) {
+    Component getLabel(String name) {
         JLabel label = new JLabel(name);
         label.setPreferredSize(getComponentSize(ComponentType.LABEL));
         return label;
@@ -119,8 +118,8 @@ public class ComponentFactory {
      * Create a combo box with a set of options.
      * Specify what the combo box is for and decide whether it is editable by the boolean it is passed in.
      * @param name The name of the combo box.
-     * @param options The options for the combo box.
-     * @param defaultValue
+     * @param options The options in the combo box.
+     * @param defaultValue The default selected value
      * @param editable Boolean of whether the combo box is editable
      * @see #infoPanel
      */
@@ -136,9 +135,9 @@ public class ComponentFactory {
      * Create a text field.
      * @param name The name of text field.
      * @param defaultValue Set the output of the text as default value.
-     * @param editable Boolean for whether the textfield is editable.
+     * @param editable Boolean for whether the textField is editable.
      */
-    public void addTextField(String name, String defaultValue, boolean editable) {
+    private void addTextField(String name, String defaultValue, boolean editable) {
         JTextField textField = new JTextField();
         textField.setText(defaultValue);
         textField.setEditable(editable);
@@ -148,7 +147,7 @@ public class ComponentFactory {
 
 
     /**
-     * Create a field for password.
+     * Create a JPasswordFiled with given name.
      * @param name The name of the field, which would be password.
      */
     public void addPasswordField(String name) {
@@ -164,7 +163,7 @@ public class ComponentFactory {
      * @param editable Boolean of whether the area is editable.
      */
 
-    public void addTextArea(String name, String defaultValue, boolean editable) {
+    private void addTextArea(String name, String defaultValue, boolean editable) {
         JTextArea textArea = new JTextArea();
         textArea.setFont(OutputInfoPanel.FONT);
         textArea.setLineWrap(true);
