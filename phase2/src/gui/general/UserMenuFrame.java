@@ -90,7 +90,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * setup the width and height , set the Layout to flowout and set visible to true
+     * setup the width and height , set the layout to flow layout and set visible to true
      *
      * @see #UserMenuFrame(Main, User)
      */
@@ -109,7 +109,6 @@ public class UserMenuFrame extends JFrame {
      * return a {@code Company} that this {@code User} belongs to
      *
      * @return a {@code Company} that this {@code User}  belongs to
-     * @throws NotEmployeeException if this user is not a Employee.
      */
     public Company getCompany() {
         EmploymentCenter employmentCenter = getMain().getEmploymentCenter();
@@ -121,7 +120,7 @@ public class UserMenuFrame extends JFrame {
     }
 
     /**
-     * remove scenario from Jframe
+     * remove scenario from JFrame
      */
     private void clearScenario() {
         if (scenario != null) remove(this.scenario);
@@ -176,7 +175,7 @@ public class UserMenuFrame extends JFrame {
         /**
          * overrides the method  in parent class{@code ActionListener}
          *
-         * @param e the actionevent
+         * @param e the actionEvent
          */
         @Override
         public void actionPerformed(ActionEvent e) {
