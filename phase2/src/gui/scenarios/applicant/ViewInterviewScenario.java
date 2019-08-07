@@ -10,25 +10,34 @@ import model.user.Applicant;
 import model.user.Company;
 
 /**
- * Class {@code  ViewInterviewScenario} viewing all interviews scenario
+ * Class {@code ViewInterviewScenario} deals with the case when an applicant wants to view all his/her interviews.
  *
  * @see gui.general.MenuPanel
  * @since 2019-08-06
  */
 public class ViewInterviewScenario extends Scenario {
+
     /**
-     * the {@code FilterPanel} on the left stored the {@code Interview}
+     * The {@code FilterPanel} that shows a list of ongoing {@code Interview}s on upper left of the page.
+     *
+     * @see #update()
+     * @see #initLeftFilter()
      */
     private FilterPanel<Interview> leftFilter;
+
     /**
-     * the {@code FilterPanel} in the middle  stored the {@code Interview}
+     * The {@code FilterPanel} that shows a list of past {@code Interview}s in the top middle of the page.
+     *
+     * @see #update()
+     * @see #initRightFilter()
      */
     private FilterPanel<Interview> rightFilter;
 
     /**
-     * constructor for a new {@code ViewInterviewScenario}
+     * Construct a new {@code ViewInterviewScenario}.
      *
-     * @param userMenuFrame given {@code UserMenuFrame}
+     * @param userMenuFrame the {@code UserMenuFrame} for the new {@code JobSearchingScenario}
+     * @see gui.general.MenuPanel
      */
     public ViewInterviewScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "View Interview");
@@ -43,14 +52,11 @@ public class ViewInterviewScenario extends Scenario {
             test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
             test.addNewRoundAndFinishMatching(jobPosting, company);
         }
-
         new ViewInterviewScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
-
     }
 
     /**
-     * override the method in parent class  {@code Scenario}
-     * initial the leftFilter , right Filter and ButtonPanel.
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -60,9 +66,8 @@ public class ViewInterviewScenario extends Scenario {
     }
 
     /**
-     * override the method in parent class  {@code Scenario}
-     * set the content in the leftFilterPanel  to be the OngoingInterviews of the {@code Applicant}
-     * set the content in the rightFilterPanel  to be the PastInterviews of the {@code Applicant}
+     * Override the method {@code update()} in abstract class {@code Scenario}.
+     * It updates the information showed on the user interface.
      */
     @Override
     protected void update() {
@@ -71,12 +76,20 @@ public class ViewInterviewScenario extends Scenario {
         rightFilter.setFilterContent(applicant.getPastInterviews());
     }
 
+    /**
+     * Initialize the {@code leftFilter} such that it shows all ongoing {@code Interviews}s of the {@code applicant}.
+     * It is a helper method of {@link #initComponents()}.
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "My Ongoing Interviews");
         addShowInfoListenerFor(leftFilter);
         add(leftFilter);
     }
 
+    /**
+     * Initialize the {@code rightFilter} such that it shows all past {@code Interviews}s of the {@code applicant}.
+     * It is a helper method of {@link #initComponents()}.
+     */
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "My Past Interviews");
         addShowInfoListenerFor(rightFilter);
