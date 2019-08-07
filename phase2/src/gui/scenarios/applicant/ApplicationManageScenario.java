@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code  ApplicationManageScenario} setup the scenario use for managing application of an applicant
+ * Class {@code  ApplicationManageScenario} sets up the scenario use for managing application of an applicant.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.MenuPanel
@@ -29,24 +29,39 @@ import java.awt.event.ActionListener;
  */
 public class ApplicationManageScenario extends Scenario {
     /**
-     * which {@code Applicant} need to be managing he application
+     * The {@code Applicant} whose applications are managed in this scenario.
+     *
+     * @see #update()
+     * @see DeleteApplicationListener
      */
     private Applicant applicant;
     /**
-     * the {@code FilterPanel}at the leftmost of the page
+     * The {@code FilterPanel} that shows a list of applications on upper left of the page.
+     *
+     * @see #initLeftFilter()
+     * @see #update()
+     * @see ApplyListener
+     * @see DeleteApplicationListener
+     * @see EditApplicationListener
+     * @see WithdrawListener
      */
     private FilterPanel<Application> leftFilter;
     /**
-     * the {@code FilterPanel} at the middle of the page
+     * The {@code FilterPanel} that shows a list of documents in the top middle of the page.
+     *
+     * @see #update()
+     * @see #initRightFilter()
+     * @see ViewDocumentListener
      */
     private FilterPanel<Document> rightFilter;
 
     /**
-     * constructor of {@code ApplicationManageScenario}
+     * Construct a new {@code ApplicationManageScenario}.
      *
-     * @param userMenuFrame the {@code UserMenuFrame} given
+     * @param userMenuFrame the {@code UserMenuFrame} for the new {@code ApplicationManageScenario}
      * @see MenuPanel
      * @see gui.scenarios.applicant.ApplicationManageScenario
+     * @see JobSearchingScenario
      */
     public ApplicationManageScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Application Manager");
@@ -66,8 +81,7 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * override the method in the parent class
-     * initial the components fo this page include LeftFilter,RightFilter,OutputInfoPanel nad ButtonPanel
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -77,6 +91,10 @@ public class ApplicationManageScenario extends Scenario {
         initButton();
     }
 
+    /**
+     * Initialize the {@code leftFilter} such that it shows all applications of the attribute {@code applicant}.
+     * It is a helper method of {@link #initComponents()}.
+     */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "My Applications");
         addShowInfoListenerFor(leftFilter);
@@ -84,11 +102,12 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * override the method in parent class
-     * add all {@code Applications} to the leftFilterPanel , and add all {@code Document} of this {@code Applicant}
-     * to the rightFilterPanel
+     * Override the method {@code update()} in abstract class{@code Scenario}.
+     * It updates the information showed on the user interface.
      *
-     * @see Scenario#init()
+     * @see ApplyListener
+     * @see DeleteApplicationListener
+     * @see WithdrawListener
      */
     @Override
     protected void update() {
@@ -96,17 +115,17 @@ public class ApplicationManageScenario extends Scenario {
         rightFilter.setFilterContent(applicant.getDocumentManager().getAllDocuments());
     }
 
+    /**
+     * A helper function for {@link #initComponents()}
+     * that initializes the {@code rightFilter} and names it as "Application Documents".
+     */
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         add(rightFilter);
     }
 
     /**
-     * initial five buttons , "Edit Application" button with new EditApplicationListener ,
-     * "Delete Application" button with  new DeleteApplicationListener,
-     * "Apply" button with new ApplyListener,
-     * "Withdraw" button with new WithdrawListener,
-     * "View Document" button with new ViewDocumentListener. then add them to the buttonPanel
+     * A helper method for {@link #initComponents()} that initializes all buttons showed on the {@code buttonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -119,16 +138,17 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code ViewDocumentListener } the listener used for interfaces the document which have been selected
+     * Class {@code ViewDocumentListener } deals with the situation where "View Document" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class ViewDocumentListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * interfaces the document which have been  selected
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * It shows the content of the selected document on the screen.
+         *
+         * @param e the action event that "View Document" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -142,16 +162,18 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code  EditApplicationListener} listener used for edit the {@code Application }
+     * Class {@code  EditApplicationListener} deals with the case when "Edit Application" is clicked.
+     *
      * @see #initButton()
      * @since 2019-08-06
      */
     class EditApplicationListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * edit the selected {@code Application } if the {@code Application} is {@code ApplicationStatus.DRAFT} ,
-         * otherwise interfaces a message with text "The application cannot be edited."
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * The page is switched to {@code DocumentManageScenario}
+         * only when the selected application is of status {@code ApplicationStatus.DRAFT}.
+         *
+         * @param e the action event that "Edit Application" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -169,17 +191,19 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code  ApplyListener} Listener used for apply for a jobPosting
+     * Class {@code ApplyListener } deals with the situation where "Apply" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class ApplyListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         *  submit the Application if the {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT} ,
-         *  and then update the page , otherwise interfaces a massage with text "This application has been submitted."
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * The selected application can be submitted if and only if
+         * it is an {@code ApplicationStatus.DRAFT} application to an open job posting and
+         * the {@code applicant} has never applied to the job before.
+         *
+         * @param e the action event that "Apply" is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -201,20 +225,18 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code   WithdrawListener} Listener used for withdraw the {@code Application}
+     * Class {@code WithdrawListener } deals with the situation where "Withdraw" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class WithdrawListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         *  if {@code Application} is not null and {@code ApplicationStatus} is {@code ApplicationStatus.PENDING},
-         *  withdraw this {@code Application}  and  interfaces a massage "Withdrawal succeeds!" , then update the GUI,
-         *  if {@code Application} is not null and {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT},
-         *    interfaces a massage "This application has not yet been submitted.",
-         *    otherwise  interfaces a massage "This application can no longer be canceled."
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * The selected application can be withdrawn if and only if
+         * it is an application of status {@code ApplicationStatus.PENDING}.
+         *
+         * @param e the action event that "Withdraw" button is clicked.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -232,18 +254,15 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code   DeleteApplicationListener}
+     * Class {@code DeleteApplicationListener } deals with the situation where "Delete Application" button is clicked.
      *
      * @see #initButton()
      * @since 2019-08-06
      */
     private class DeleteApplicationListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * delete {@code Application} if  {@code ApplicationStatus} is {@code ApplicationStatus.DRAFT},
-         * then interfaces a massage "Successfully deleted!" and update GUI,
-         * otherwise interfaces a massage "Mission failed!".
-         * @param e ActionEvent
+         * Override the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * The selected application can be deleted only when its status is {@code ApplicationStatus.DRAFT}.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
