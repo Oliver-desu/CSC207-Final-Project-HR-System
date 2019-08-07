@@ -67,7 +67,7 @@ public class ApplicationManageScenario extends Scenario {
 
     /**
      * override the method in the parent class
-     * initial the components fo this page include LeftFilter,RightFilter,OutputInfoPanel nad BUttonPanel
+     * initial the components fo this page include LeftFilter,RightFilter,OutputInfoPanel nad ButtonPanel
      */
     @Override
     protected void initComponents() {
