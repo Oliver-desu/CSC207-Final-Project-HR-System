@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * Class {@code ApplicationScenario} handles with the situation where the company can view applications from the applicants.
+ * Class {@code ApplicationScenario} handles the situation where the recruiter view applications of an applicant.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.MenuPanel
@@ -28,15 +28,16 @@ import java.util.ArrayList;
 public class ApplicationScenario extends Scenario {
 
     /**
-     * The {@code LeftFilterPanel} in this scenario
+     * The {@code FilterPanel} that shows a list of {@code Application}s on upper left of the page.
      *
      * @see #initLeftFilter()
      * @see #update()
      * @see LeftFilterListener
      */
     private FilterPanel<Application> leftFilter;
+
     /**
-     * The {@code RightFilterPanel} in this scenario
+     * The {@code FilterPanel} that shows a list of {@code Document}s in the top middle of the page.
      *
      * @see #initRightFilter()
      * @see #update()
@@ -45,12 +46,11 @@ public class ApplicationScenario extends Scenario {
     private FilterPanel<Document> rightFilter;
 
     /**
-     * Create a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications
+     * Construct a new {@code ApplicationScenario} that is a {@code Scenario} with title "View Company Applications     *
      *
-     * @param userMenuFrame the {@code userMenuFrame} that sets up the gui framework
+     * @param userMenuFrame the {@code UserMenuFrame} for the new {@code ApplicationScenario}
      * @see gui.general.MenuPanel
      */
-
     public ApplicationScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "View Company Applications");
     }
@@ -70,7 +70,7 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * Override {@code initComponents} in abstract class {@code Scenario}.
+     * Override {@code initComponents} in the abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -81,9 +81,8 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
-     *
-     * @see #initComponents()
+     * Initialize the {@code leftFilter} such that it shows all applications of the company.
+     * It is a helper method of {@link #initComponents()}.
      */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "All Applications");
@@ -92,11 +91,9 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
-     *
-     * @see #initComponents()
+     * Initialize the {@code rightFilter} such that it will show all {@code Document}s of selected {@code Application}.
+     * It is a helper method of {@link #initComponents()}.
      */
-
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Documents");
         addShowInfoListenerFor(rightFilter);
@@ -104,11 +101,8 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()}.
-     *
-     * @see #initComponents()
+     * A helper method for {@link #initComponents()} that initializes all buttons showed on the {@code buttonPanel}.
      */
-
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("View Document", new ViewDocumentListener());
@@ -116,9 +110,10 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * Override {@code update()} in abstract class {@code Scenario}.
+     * Override the method {@code update()} in abstract class {@code Scenario}.
+     * It updates the information showed on the user interface and is called when an {@code Application} is
+     * selected/deselected on list "All Documents".
      */
-
     @Override
     protected void update() {
         Company company = getUserMenuFrame().getCompany();
@@ -134,13 +129,12 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     * Class {@code LeftFilterListener} implements the interface {@code ListSelectionListener}.
+     * It deals with the situation where an {@code Application} is selected on left {@code FilterPanel}.
      *
-     * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
-     * @since since 2019-08-05
+     * @since 2019-08-06
      */
-
     private class LeftFilterListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -153,7 +147,11 @@ public class ApplicationScenario extends Scenario {
     }
 
     /**
-     * Class {@code ViewDocumentListener} implements ActionListener. It deals with actions happening to document.
+     * Class {@code ViewDocumentListener} implements {@code ActionListener}.
+     * The content will be shown by clicking "View Document" button
+     * if an document on list "Application Documents' is selected.
+     *
+     * @see #initButton()
      */
     private class ViewDocumentListener implements ActionListener {
         @Override
@@ -166,5 +164,4 @@ public class ApplicationScenario extends Scenario {
             }
         }
     }
-
 }
