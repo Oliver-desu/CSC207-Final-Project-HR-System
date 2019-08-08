@@ -43,7 +43,6 @@ public class InterviewRoundManager implements Serializable {
     /**
      * All the remaining {@code Application} that has not been rejected.
      *
-     * @see #getRemainingApplications()
      * @see #getHiredApplications()
      * @see #applicationCancel(Application)
      */
@@ -55,7 +54,6 @@ public class InterviewRoundManager implements Serializable {
      * @param jobPosting   the job posting that is related to
      * @param applications applications which will be processed in this round
      * @see JobPosting#startProcessing()
-     * @see JobPosting#setInterviewRoundManager()
      */
     InterviewRoundManager(JobPosting jobPosting, ArrayList<Application> applications) {
         this.jobPosting = jobPosting;
@@ -71,19 +69,16 @@ public class InterviewRoundManager implements Serializable {
         return interviewRounds;
     }
 
-    public ArrayList<Application> getRemainingApplications() {
-        return remainingApplications;
-    }
-
 
     /**
      * Get current interview round by searching the first {@code InterviewRound} that is not {@code InterviewRoundStatus.EMPTY}.
      *
      * @return current {@code InterviewRound}
-     * @see InterviewRoundManager#nextRound()
-     * @see InterviewRoundManager#checkStatus()
-     * @see InterviewRoundManager#applicationCancel(Application)
-     * @see gui.scenarios.recruiter.InterviewRoundScenario#main(String[])
+     * @see #nextRound()
+     * @see #checkStatus()
+     * @see #applicationCancel(Application)
+     * @see #currentRoundFinished()
+     * @see #endApplication(Application)
      */
     public InterviewRound getCurrentInterviewRound() {
         InterviewRound currInterviewRound = null;

@@ -57,7 +57,6 @@ public class EmploymentCenter implements Serializable {
      *
      * @see JobPosting
      * @see #getJobPosting(String)
-     * @see #getJobPostings()
      * @see #getJobPostingsByIds(ArrayList)
      * @see #getOpenJobPostings()
      * @see #addJobPosting(JobPosting)
@@ -84,7 +83,7 @@ public class EmploymentCenter implements Serializable {
      * @param userType type of the new user
      * @see UserFactory#createUser(HashMap, UserType)
      */
-    public void register(User user, UserType userType) {
+    void register(User user, UserType userType) {
         this.users.get(userType).add(user);
     }
 
@@ -161,9 +160,7 @@ public class EmploymentCenter implements Serializable {
      * @param userType the type of the employee
      * @return the target {@code Employee}
      * @see EmploymentCenter#getInterviewers(ArrayList)
-     * @see UserFactory#createUser(HashMap, UserType)
-     * @see JobPostingRegisterScenario#main(String[])
-     * @see gui.scenarios.hiringManager.ViewPostingScenario#main(String[])
+     * @see JobPostingRegisterScenario
      */
     public Employee getEmployee(String username, UserType userType) {
         try {
@@ -171,23 +168,6 @@ public class EmploymentCenter implements Serializable {
         } catch (ClassCastException e) {
             return null;
         }
-    }
-
-    /**
-     * Get all applicants stored in the storage.
-     *
-     * @return {@code ArrayList<Applicant>} that contains all applicants
-     * @see gui.scenarios.interviewer.OngoingInterviewScenario#main(String[])
-     * @see gui.scenarios.recruiter.InterviewRoundScenario#main(String[])
-     * @see gui.scenarios.recruiter.JobManageScenario#main(String[])
-     * @see gui.scenarios.recruiter.MatchInterviewScenario#main(String[])
-     */
-    public ArrayList<Applicant> getAllApplicants() {
-        ArrayList<Applicant> applicants = new ArrayList<>();
-        for (User user : users.get(UserType.APPLICANT)) {
-            applicants.add((Applicant) user);
-        }
-        return applicants;
     }
 
     /**
@@ -220,19 +200,6 @@ public class EmploymentCenter implements Serializable {
             }
         }
         return openJobPostings;
-    }
-
-    /**
-     * Get all job postings.
-     *
-     * @return {@code ArrayList<JobPosting>} consisting of all job postings.
-     * @see gui.scenarios.applicant.ApplicationManageScenario#main(String[])
-     * @see gui.scenarios.applicant.ViewInterviewScenario#main(String[])
-     * @see gui.scenarios.recruiter.JobManageScenario#main(String[])
-     * @see gui.scenarios.recruiter.ApplicationScenario#main(String[])
-     */
-    public ArrayList<JobPosting> getJobPostings() {
-        return new ArrayList<>(this.jobPostings);
     }
 
     /**

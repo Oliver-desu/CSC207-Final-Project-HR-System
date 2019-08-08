@@ -142,7 +142,7 @@ public class Application implements Filterable, Serializable, ShowAble {
      * @param round     the round name
      * @param interview the interview corresponds to round name
      */
-    public void addInterview(String round, Interview interview) {
+    void addInterview(String round, Interview interview) {
         this.interviews.put(round, interview);
     }
 

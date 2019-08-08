@@ -93,7 +93,7 @@ public class Filter<T extends Filterable> {
      * that matches in {@code result}.
      * @see #isMatched(Filterable)
      */
-    public void filter() {
+    void filter() {
         results.clear();
         if (filterContent == null) return;
         for (T filterable : filterContent) {

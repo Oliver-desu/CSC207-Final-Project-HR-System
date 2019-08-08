@@ -114,7 +114,7 @@ public class InterviewRound implements Filterable, Serializable {
      *
      * @see InterviewRoundManager#checkStatus()
      */
-    public void checkStatus() {
+    void checkStatus() {
         ArrayList<Interview> interviews = this.getInterviews();
         boolean finished = true;
         for (Interview interview : interviews) {

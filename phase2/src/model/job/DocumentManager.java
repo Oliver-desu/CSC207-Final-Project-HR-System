@@ -24,9 +24,7 @@ public class DocumentManager implements Serializable {
      * An array list of documents.
      *
      * @see #getAllDocuments()
-     * @see #getAllDocNames()
      * @see #addDocument(Document)
-     * @see #findDocument(String)
      * @see #removeDocument(Document)
      */
     private ArrayList<Document> documents = new ArrayList<>();
@@ -49,14 +47,6 @@ public class DocumentManager implements Serializable {
      */
     public DocumentManager(boolean editable) {
         this.editable = editable;
-    }
-
-    public Document findDocument(String docName) {
-        for (Document document : documents) {
-            if (document.getDocumentName().equals(docName))
-                return document;
-        }
-        return null;
     }
 
     private boolean isEditable() {
@@ -101,18 +91,6 @@ public class DocumentManager implements Serializable {
 
     public ArrayList<Document> getAllDocuments() {
         return documents;
-    }
-
-    public ArrayList<String> getAllDocNames() {
-        ArrayList<String> docNames = new ArrayList<>();
-        for (Document document : documents) {
-            docNames.add(document.getDocumentName());
-        }
-        return docNames;
-    }
-
-    public int getNumOfDocuments() {
-        return this.documents.size();
     }
 
     /**

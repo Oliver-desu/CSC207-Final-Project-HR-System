@@ -86,16 +86,6 @@ public class Company implements Serializable {
     }
 
     /**
-     * Return the id of {@code HIRING_MANAGER} of this company. Note that each company
-     * has only one {@code HIRING_MANAGER}.
-     *
-     * @return the id of the {@code HIRING_MANAGER}
-     */
-    public String getHiringManagerId() {
-        return this.workerIds.get(UserType.HIRING_MANAGER).get(0);
-    }
-
-    /**
      * Return the ids for all {@code RECRUITER} in this company.
      *
      * @return the ids for all {@code RECRUITER} in this company
