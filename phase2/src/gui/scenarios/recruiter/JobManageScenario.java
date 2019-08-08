@@ -124,10 +124,6 @@ public class JobManageScenario extends Scenario {
     /**
      * Override the method {@code update()} in abstract class {@code Scenario}.
      * It updates the information shown on the user interface.
-     *
-     * @see AddRoundListener
-     * @see EndJobPostingListener
-     * @see NextRoundListener
      */
     @Override
     protected void update() {
@@ -137,6 +133,16 @@ public class JobManageScenario extends Scenario {
         } catch (WrongEmployeeTypeException e) {
             leftFilter.setFilterContent(new ArrayList<>());
         }
+    }
+
+    /**
+     * Update the right filter when left filter is selected
+     *
+     * @see AddRoundListener
+     * @see EndJobPostingListener
+     * @see NextRoundListener
+     */
+    private void updateRightFilter() {
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
@@ -184,9 +190,11 @@ public class JobManageScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null) {
-                jobPosting.getInterviewRoundManager().checkStatus();
-                rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
                 setOutputText(jobPosting.toString());
+                if (!jobPosting.isOpen()) {
+                    jobPosting.getInterviewRoundManager().checkStatus();
+                    rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
+                }
             }
         }
     }
@@ -250,7 +258,7 @@ public class JobManageScenario extends Scenario {
             } else {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 showMessage("Succeed!");
-                update();
+                updateRightFilter();
             }
         }
     }
@@ -279,7 +287,7 @@ public class JobManageScenario extends Scenario {
             JobPosting jobPosting = leftFilter.getSelectObject();
             try {
                 jobPosting.getInterviewRoundManager().nextRound();
-                update();
+                updateRightFilter();
                 showMessage("Succeeds");
             } catch (NullPointerException e1) {
                 showMessage("No job posting selected!");
@@ -320,7 +328,7 @@ public class JobManageScenario extends Scenario {
                 showMessage("The job posting has already closed!");
             } else {
                 jobPosting.endJobPosting();
-                update();
+                updateRightFilter();
                 showMessage("The jobPosting is now closed.");
             }
         }

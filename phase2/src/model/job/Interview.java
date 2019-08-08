@@ -154,9 +154,10 @@ public class Interview implements Filterable, Serializable, ShowAble {
      * @return basic information about this interview and detailed information about applicant
      */
     public String detailedToStringForEmployee(EmploymentCenter EmploymentCenter) {
-        return "JobPosting information:\n" + EmploymentCenter.getJobPosting(application.getJobPostingId()).toString() +
-                "\n" +
-                "Applicant information:\n" + EmploymentCenter.getApplicant(application.getApplicantId()).toString();
+        String jobInfo = EmploymentCenter.getJobPosting(application.getJobPostingId()).toString();
+        String applicantInfo = EmploymentCenter.getApplicant(application.getApplicantId()).toString();
+        return getInfoString("JobPosting information", "\n" + jobInfo) +
+                getInfoString("Applicant information", "\n" + applicantInfo);
     }
 
     /**

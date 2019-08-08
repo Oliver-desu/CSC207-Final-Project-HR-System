@@ -205,23 +205,29 @@ public class Application implements Filterable, Serializable, ShowAble {
      */
     public String detailedToStringForEmployee(EmploymentCenter employmentCenter) {
         Applicant applicant = employmentCenter.getApplicant(applicantId);
-        return "JobPosting id:" + jobPostingId + "\n" +
-                "Status: " + status + "\n" +
-                "\n" +
-                "Applicant information:\n" + applicant.toString();
+        return getBasicInfo() + "\n" +
+                getInfoString("Applicant information", "\n" + applicant.toString());
+    }
+
+    /**
+     * Return basic information about this application
+     *
+     * @return a string that contains basic information about this application
+     */
+    private String getBasicInfo() {
+        return getInfoString("JobPosting", jobPostingId) +
+                getInfoString("Status", status.toString());
     }
 
     /**
      * Overrides the method in interface {@code ShowAble}.
      *
-     * @return a string that contains basic information about this application
+     * @return a string that contains basic information about this application and its own id
      * @see ShowAble
      */
     @Override
     public String toString() {
-        return getInfoString("Applicant", applicantId) +
-                getInfoString("JobPosting", jobPostingId) +
-                getInfoString("Status", status.toString());
+        return getInfoString("Applicant", applicantId) + getBasicInfo();
     }
 
     /**
