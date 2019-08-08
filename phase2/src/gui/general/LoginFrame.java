@@ -178,7 +178,11 @@ public class LoginFrame extends JFrame {
      */
     private void login(User user) {
         this.setVisible(false);
-        new UserMenuFrame(getMain(), user);
+        JFrame frame = new UserMenuFrame(getMain(), user);
+        String message = user.getMessage();
+        if (!message.equals("")) {
+            JOptionPane.showMessageDialog(frame, message);
+        }
     }
 
     /**

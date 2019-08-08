@@ -54,8 +54,23 @@ public abstract class User implements Serializable {
      */
     private HashMap<String, String> userDetail;
 
+    /**
+     * Messages show to a user when it login
+     *
+     * @see #getMessage()
+     * @see #receiveMessage(String)
+     */
+    private String message = "";
 
+    /**
+     * Constructor for {@code User} if you do not want to enter any information, it is also for NullUser constructor.
+     *
+     * @see NullUser
+     */
     public User() {
+        username = "NullUser";
+        password = new char[0];
+        userDetail = new HashMap<>();
     }
 
     /**
@@ -133,6 +148,16 @@ public abstract class User implements Serializable {
      */
     public boolean isNull() {
         return false;
+    }
+
+    public void receiveMessage(String message) {
+        this.message += message + "\n";
+    }
+
+    public String getMessage() {
+        String message = this.message;
+        this.message = "";
+        return message;
     }
 
     /**

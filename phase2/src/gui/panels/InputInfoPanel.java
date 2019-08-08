@@ -128,6 +128,8 @@ public class InputInfoPanel extends JScrollPane {
         if (component instanceof JPasswordField) {
             if (passwordFields[0] == null) passwordFields[0] = (JPasswordField) component;
             else if (passwordFields[1] == null) passwordFields[1] = (JPasswordField) component;
+        } else if (component instanceof JScrollPane) {
+            componentMap.put(name, (JComponent) ((JScrollPane) component).getViewport().getView());
         } else {
             componentMap.put(name, component);
         }
@@ -141,7 +143,7 @@ public class InputInfoPanel extends JScrollPane {
      */
     private String getText(JComponent component) {
         if (component instanceof JTextComponent) {
-            return ((JTextField) component).getText();
+            return ((JTextComponent) component).getText();
         } else if (component instanceof JComboBox) {
             Object object = ((JComboBox) component).getSelectedItem();
             if (object instanceof String) return (String) object;

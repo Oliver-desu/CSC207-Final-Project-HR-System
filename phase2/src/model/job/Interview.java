@@ -91,6 +91,7 @@ public class Interview implements Filterable, Serializable, ShowAble {
             interviewer.addFile(this);
             this.interviewer = interviewer;
             setStatus(InterviewStatus.PENDING);
+            interviewer.receiveMessage("You got an new interview!");
         } else {
             throw new WrongInterviewStatusException();
         }

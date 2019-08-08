@@ -195,6 +195,7 @@ public class UserRegisterScenario extends Scenario {
             try {
                 createUserAndRegister();
                 showMessage("Successfully registered!");
+                getUserMenuFrame().setVisible(false);
                 getMain().returnToLogin();
             } catch (UnmatchedPasswordException | WrongEmailFormatException | UserAlreadyExistsException |
                     CompanyAlreadyExistsException | CompanyDoesNotExistException e1) {
