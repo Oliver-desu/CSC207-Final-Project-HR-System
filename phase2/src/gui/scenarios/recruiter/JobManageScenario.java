@@ -137,6 +137,9 @@ public class JobManageScenario extends Scenario {
         } catch (WrongEmployeeTypeException e) {
             leftFilter.setFilterContent(new ArrayList<>());
         }
+    }
+
+    private void updateRightFilter() {
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
@@ -184,9 +187,11 @@ public class JobManageScenario extends Scenario {
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null) {
-                jobPosting.getInterviewRoundManager().checkStatus();
-                rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
                 setOutputText(jobPosting.toString());
+                if (!jobPosting.isOpen()) {
+                    jobPosting.getInterviewRoundManager().checkStatus();
+                    rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
+                }
             }
         }
     }
@@ -250,7 +255,7 @@ public class JobManageScenario extends Scenario {
             } else {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 showMessage("Succeed!");
-                update();
+                updateRightFilter();
             }
         }
     }
@@ -279,7 +284,7 @@ public class JobManageScenario extends Scenario {
             JobPosting jobPosting = leftFilter.getSelectObject();
             try {
                 jobPosting.getInterviewRoundManager().nextRound();
-                update();
+                updateRightFilter();
                 showMessage("Succeeds");
             } catch (NullPointerException e1) {
                 showMessage("No job posting selected!");
@@ -320,7 +325,7 @@ public class JobManageScenario extends Scenario {
                 showMessage("The job posting has already closed!");
             } else {
                 jobPosting.endJobPosting();
-                update();
+                updateRightFilter();
                 showMessage("The jobPosting is now closed.");
             }
         }
