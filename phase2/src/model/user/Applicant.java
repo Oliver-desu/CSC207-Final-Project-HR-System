@@ -10,6 +10,7 @@ import model.interfaces.ShowAble;
 import model.job.Application;
 import model.job.DocumentManager;
 import model.job.Interview;
+import model.job.InterviewRound;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,7 +38,10 @@ public class Applicant extends User implements Serializable, ShowAble {
      * @see #deleteApplication(Application)
      */
     private HashMap<String, Application> applications;
-
+    /**
+     * the message need the applicant to be notified stored in here
+     */
+    private ArrayList<String> mailbox = new ArrayList<String>();
     /**
      * The document manager that manages all the documents.
      *
@@ -166,5 +170,23 @@ public class Applicant extends User implements Serializable, ShowAble {
                 getInfoString("Work experiences", getUserDetail().get("Work experiences:")) +
                 getInfoString("Education background", getUserDetail().get("Education background:")) +
                 getInfoString("Major in", getUserDetail().get("Major in:"));
+    }
+
+    public void addmessage(InterviewRound interviewRound) {
+        this.mailbox.add(interviewRound.getRoundName());
+
+    }
+
+    public String getMessage() {
+        String stringMail = "";
+        if (mailbox.size() == 0) {
+            return stringMail;
+        }
+        for (String mail : mailbox
+        ) {
+            stringMail += mail;
+            stringMail += "\n";
+        }
+        return stringMail;
     }
 }

@@ -7,6 +7,7 @@ import main.Main;
 import model.enums.UserType;
 import model.exceptions.CannotSaveSystemException;
 import model.exceptions.InvalidInputException;
+import model.user.Applicant;
 import model.user.NullUser;
 import model.user.User;
 
@@ -181,6 +182,16 @@ public class LoginFrame extends JFrame {
         new UserMenuFrame(getMain(), user);
     }
 
+    public void notifyApplicant(User user) {
+        if (user.getUserType().equals(UserType.APPLICANT)) {
+            Applicant applicant = (Applicant) user;
+            String message = applicant.getMessage();
+            if (message != "") {
+                JOptionPane.showMessageDialog(this, applicant.getMessage());
+            }
+        }
+    }
+
     /**
      * Class {@code LoginListener} implements {@code ActionListener}.
      * It deals with the case when "Login" button is clicked.
@@ -199,11 +210,11 @@ public class LoginFrame extends JFrame {
             char[] password = getInputInfoPanel().getPassword();
             if (checkUser(user, password)) {
                 getMain().getEmploymentCenter().updateOpenJobPostings();
+                notifyApplicant(user);
                 login(user);
             }
         }
     }
-
     /**
      * Class {@code RegisterListener} implements {@code ActionListener}.
      * It deals with the situation where "Register" button is clicked.

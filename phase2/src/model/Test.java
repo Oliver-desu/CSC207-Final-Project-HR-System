@@ -80,6 +80,7 @@ public class Test {
         this.addDocuments(5, applicant.getDocumentManager());
         employmentCenter.register(applicant, UserType.APPLICANT);
         numApplicants++;
+        applicant.addmessage(new InterviewRound("welcome"));
         return applicant;
     }
 
@@ -148,8 +149,8 @@ public class Test {
         values.put("Company id:", company.getId());
         values.put("Position name:", "Boss");
         values.put("Num of positions:", Integer.toString(2));
-        values.put("Close date:", LocalDate.now().plusDays(10).toString());
-        values.put("Post date:", LocalDate.now().toString());
+        values.put("Close date:", LocalDate.now().minusDays(3).toString());
+        values.put("Post date:", LocalDate.now().minusDays(2).toString());
         values.put("CV:", "Optional");
         values.put("Cover letter:", "Optional");
         values.put("Reference:", "Optional");
@@ -219,7 +220,7 @@ public class Test {
         InterviewRound interviewRound = new InterviewRound(Integer.toString(manager.getInterviewRounds().size()));
         manager.addInterviewRound(interviewRound);
         try {
-            manager.nextRound();
+            manager.nextRound(getEmploymentCenter());
         } catch (Exception e) {
             System.out.println("addNewRound");
             System.out.println(e);
