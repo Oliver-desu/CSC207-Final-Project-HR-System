@@ -65,7 +65,7 @@ public class OutputInfoPanel extends JPanel {
      */
     public void showDocument(Document document) {
         OutputInfoPanel outputInfo = new OutputInfoPanel(DOCUMENT_FRAME_SIZE);
-        outputInfo.setOutputText(document.toString());
+        outputInfo.setOutputText(document.getContent());
         new DocumentFrame(document.getDocumentName(), outputInfo);
     }
 

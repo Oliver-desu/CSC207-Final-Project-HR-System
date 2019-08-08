@@ -203,7 +203,7 @@ public abstract class Scenario extends JPanel {
     }
 
     protected void setTitle(String title) {
-        getUserMenuFrame().setTitle(title);
+        getUserMenuFrame().setTitle(title + Main.getCurrentDate().toString());
     }
 
     /**

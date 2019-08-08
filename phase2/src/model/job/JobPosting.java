@@ -195,6 +195,10 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         interviewRoundManager.applicationCancel(application);
     }
 
+    public boolean isOpen() {
+        return status == JobPostingStatus.OPEN;
+    }
+
     /**
      * Overrides the method {@code toString}
      *
@@ -233,10 +237,6 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     // The following methods are only for testing!
     public void close() {
         status = JobPostingStatus.PROCESSING;
-    }
-
-    public boolean isOpen() {
-        return status == JobPostingStatus.OPEN;
     }
 
     public void setInterviewRoundManager() {

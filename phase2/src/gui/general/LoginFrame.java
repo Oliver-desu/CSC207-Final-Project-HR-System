@@ -86,7 +86,7 @@ public class LoginFrame extends JFrame {
      * @see #LoginFrame(Main)
      */
     private void setup() {
-        setTitle("LoginFrame");
+        setTitle("LoginFrame" + Main.getCurrentDate().toString());
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
         infoPanelSetup();
