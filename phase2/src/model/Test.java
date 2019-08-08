@@ -144,7 +144,7 @@ public class Test {
 
     public JobPosting addJobPosting(Company company) {
         HashMap<String, String> values = new HashMap<>();
-        values.put("Job id:", Integer.toString(numJobPostings));
+        values.put("Job id:", numJobPostings + "--" + "something" + "--" + "date");
         values.put("Company id:", company.getId());
         values.put("Position name:", "Boss");
         values.put("Num of positions:", Integer.toString(2));

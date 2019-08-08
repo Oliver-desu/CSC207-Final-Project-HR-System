@@ -2,6 +2,7 @@ package model.job;
 
 import model.enums.ApplicationStatus;
 import model.enums.InterviewRoundStatus;
+import model.enums.InterviewStatus;
 import model.enums.JobPostingStatus;
 import model.exceptions.*;
 import model.storage.EmploymentCenter;
@@ -112,7 +113,7 @@ public class InterviewRoundManager implements Serializable {
      * @see InterviewRoundManager#checkStatus()
      * @see JobPosting#endJobPosting()
      */
-    void updateRemainingApplications() {
+    private void updateRemainingApplications() {
         ArrayList<Application> tempApplications = new ArrayList<>();
         for (Application application : remainingApplications) {
             if (!application.getStatus().equals(ApplicationStatus.REJECTED)) {
@@ -185,7 +186,7 @@ public class InterviewRoundManager implements Serializable {
      */
     private boolean currentRoundFinished() {
         InterviewRound currentRound = getCurrentInterviewRound();
-        return currentRound == null || currentRound.getStatus().equals(InterviewRoundStatus.EMPTY);
+        return currentRound == null || currentRound.getStatus().equals(InterviewRoundStatus.FINISHED);
     }
 
     /**
@@ -228,4 +229,20 @@ public class InterviewRoundManager implements Serializable {
         if (interviewRound != null) interviewRound.applicationCancel(application);
     }
 
+    void end() {
+        for (Application application : remainingApplications) {
+            if (application.getStatus().equals(ApplicationStatus.PENDING)) {
+                endApplication(application);
+            }
+        }
+        updateRemainingApplications();
+    }
+
+    private void endApplication(Application application) {
+        application.setStatus(ApplicationStatus.REJECTED);
+        Interview interview = application.getInterviewByRound(getCurrentInterviewRound().getRoundName());
+        if (interview != null && interview.getStatus().equals(InterviewStatus.PENDING)) {
+            interview.setStatus(InterviewStatus.FAIL);
+        }
+    }
 }

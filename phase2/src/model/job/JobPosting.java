@@ -2,7 +2,6 @@ package model.job;
 
 import gui.scenarios.hiringManager.JobPostingRegisterScenario;
 import main.Main;
-import model.enums.ApplicationStatus;
 import model.enums.JobPostingStatus;
 import model.exceptions.ApplicationAlreadyExistsException;
 import model.exceptions.WrongJobPostingStatusException;
@@ -126,7 +125,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     public void startProcessing() {
         if (isOpen() && shouldClose()) {
             status = JobPostingStatus.PROCESSING;
-            this.interviewRoundManager = new InterviewRoundManager(this, applications);
+            interviewRoundManager = new InterviewRoundManager(this, applications);
         }
     }
 
@@ -137,11 +136,8 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * @see gui.scenarios.recruiter.JobManageScenario
      */
     public void endJobPosting() {
-        this.status = JobPostingStatus.FINISHED;
-        for (Application application : interviewRoundManager.getRemainingApplications()) {
-            application.setStatus(ApplicationStatus.REJECTED);
-        }
-        interviewRoundManager.updateRemainingApplications();
+        status = JobPostingStatus.FINISHED;
+        if (interviewRoundManager != null) interviewRoundManager.end();
     }
 
     /**
@@ -165,17 +161,17 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * Here we need to update {@code applications} as well as notify the company to which the job posting belongs
      *
      * @param application      the application that is ready to be submitted
-     * @param EmploymentCenter the place where the company information is stored
+     * @param employmentCenter the place where the company information is stored
      * @see Application#apply(EmploymentCenter)
      */
-    public void applicationSubmit(Application application, EmploymentCenter EmploymentCenter)
+    public void applicationSubmit(Application application, EmploymentCenter employmentCenter)
             throws ApplicationAlreadyExistsException, WrongJobPostingStatusException {
         if (hasApplication(application)) {
             throw new ApplicationAlreadyExistsException();
         } else if (!isOpen()) {
             throw new WrongJobPostingStatusException(JobPostingStatus.OPEN);
         } else {
-            Company company = EmploymentCenter.getCompany(jobDetails.get("Company id:"));
+            Company company = employmentCenter.getCompany(jobDetails.get("Company id:"));
             company.receiveApplication(application);
             this.applications.add(application);
         }
@@ -185,14 +181,14 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * Cancel an application by removing it from {@code applications} and notifying the company and {@code interviewRoundManager}.
      *
      * @param application      the application that waits to be canceled
-     * @param EmploymentCenter the place where the company information is stored
+     * @param employmentCenter the place where the company information is stored
      * @see Application#cancel(EmploymentCenter)
      */
-    public void applicationCancel(Application application, EmploymentCenter EmploymentCenter) {
+    public void applicationCancel(Application application, EmploymentCenter employmentCenter) {
         applications.remove(application);
-        Company company = EmploymentCenter.getCompany(jobDetails.get("Company id:"));
+        Company company = employmentCenter.getCompany(jobDetails.get("Company id:"));
         company.cancelApplication(application);
-        interviewRoundManager.applicationCancel(application);
+        if (interviewRoundManager != null) interviewRoundManager.applicationCancel(application);
     }
 
     public void notifyAllFailedApplicant(EmploymentCenter employmentCenter) {
