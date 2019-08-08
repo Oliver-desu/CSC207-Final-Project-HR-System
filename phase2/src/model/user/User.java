@@ -151,7 +151,7 @@ public abstract class User implements Serializable {
     }
 
     public void receiveMessage(String message) {
-        this.message += message + "\n";
+        if (!this.message.contains(message)) this.message += message + "\n";
     }
 
     public String getMessage() {

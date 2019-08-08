@@ -85,12 +85,17 @@ public class LoginFrame extends JFrame {
      * @see #LoginFrame(Main)
      */
     private void setup() {
-        setTitle("LoginFrame" + Main.getCurrentDate().toString());
+        setTitle();
+        setResizable(false);
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
         infoPanelSetup();
         buttonPanelSetup();
         setVisible(true);
+    }
+
+    private void setTitle() {
+        setTitle("LoginFrame" + Main.getCurrentDate().toString());
     }
 
     /**
@@ -252,6 +257,7 @@ public class LoginFrame extends JFrame {
                 JOptionPane.showMessageDialog(LoginFrame.this, e1.getMessage());
             }
             JOptionPane.showMessageDialog(LoginFrame.this, Main.getCurrentDate());
+            setTitle("LoginFrame" + Main.getCurrentDate().toString());
         }
     }
 }

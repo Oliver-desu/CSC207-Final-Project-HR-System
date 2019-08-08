@@ -78,14 +78,6 @@ public class Document implements Filterable, Serializable, ShowAble {
         }
     }
 
-    public static void main(String[] args) {
-        // todo: warning, path not complete.
-        Document document = new Document("CV.txt");
-        System.out.println(document.getContent());
-        Document document1 = new Document("Cover.txt");
-        System.out.println(document1.getContent());
-    }
-
     /**
      * Read the content of a given file.
      *

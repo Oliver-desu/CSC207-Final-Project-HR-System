@@ -97,6 +97,7 @@ public class UserMenuFrame extends JFrame {
     private void setup() {
         setSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new FlowLayout());
+        setResizable(false);
         menu = new MenuPanel(this, MENU_SIZE, BUTTON_SIZE);
         menu.setBackground(Color.BLUE);
         addLogoutButton();
@@ -160,7 +161,7 @@ public class UserMenuFrame extends JFrame {
      */
     private void logout() {
         this.setVisible(false);
-        getMain().returnToLogin();
+        getMain().returnToLogin(this);
     }
 
     /**

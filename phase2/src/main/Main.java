@@ -5,17 +5,62 @@ import model.exceptions.CannotSaveSystemException;
 import model.exceptions.InvalidInputException;
 import model.storage.EmploymentCenter;
 
+import javax.swing.*;
 import java.io.*;
 import java.time.LocalDate;
 
+/**
+ * Class {@code Main} handles loading, saving, timing and provide {@code EmploymentCenter} to other class,
+ * Also, system start at this point and create a new {@code LoginFrame}
+ *
+ * @author group 0120 of CSC207 summer 2019
+ * @see LoginFrame
+ * @see EmploymentCenter
+ * @since 2019-08-08
+ */
 public class Main {
 
+    // The location of where serialize file stores
     private static final String DATA_LOCATION = "\\phase2\\data.ser";
+
+    /**
+     * The Current Date, for testing purpose or if you want more authority to control time
+     */
     private static LocalDate currentDate;
-    private EmploymentCenter employmentCenter = new EmploymentCenter();
+
+    /**
+     * The {@code EmploymentCenter} that stores all employment related data,
+     * in this class also do its loading and saving
+     *
+     * @see EmploymentCenter
+     * @see #loadSystem()
+     * @see #saveSystem()
+     * @see #getEmploymentCenter()
+     */
+    private EmploymentCenter employmentCenter;
+
+    /**
+     * The login frame that when system runs, it shows up to use
+     *
+     * @see LoginFrame
+     * @see #returnToLogin(JFrame)
+     */
     private LoginFrame login;
+
+    /**
+     * The boolean of whether data is successfully loaded
+     *
+     * @see #isSuccessfullyLoaded()
+     * @see #loadSystem()
+     */
     private boolean successfullyLoaded = true;
 
+    /**
+     * Load system and create a new LoginFrame for user
+     *
+     * @see #loadSystem()
+     * @see LoginFrame
+     */
     public Main() {
         loadSystem();
         login = new LoginFrame(this);
@@ -25,6 +70,9 @@ public class Main {
         new Main();
     }
 
+    /**
+     * Get current date, if it does not set, use real life date
+     */
     public static LocalDate getCurrentDate() {
         if (currentDate == null) {
             currentDate = LocalDate.now();
@@ -32,7 +80,13 @@ public class Main {
         return currentDate;
     }
 
-    public void returnToLogin() {
+    /**
+     * Make login frame visible again
+     *
+     * @param frame the frame that is currently viewing
+     */
+    public void returnToLogin(JFrame frame) {
+        frame.setVisible(false);
         login.setVisible(true);
     }
 
@@ -64,6 +118,7 @@ public class Main {
             employmentCenter = (EmploymentCenter) input.readObject();
             input.close();
         } catch (IOException | ClassNotFoundException e) {
+            employmentCenter = new EmploymentCenter();
             successfullyLoaded = false;
         }
     }
