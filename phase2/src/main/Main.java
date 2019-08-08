@@ -2,7 +2,7 @@ package main;
 
 import gui.general.LoginFrame;
 import model.exceptions.CannotSaveSystemException;
-import model.exceptions.InvalidInputException;
+import model.exceptions.NotIntegerException;
 import model.storage.EmploymentCenter;
 
 import javax.swing.*;
@@ -90,12 +90,18 @@ public class Main {
         login.setVisible(true);
     }
 
-    public static void setDaysElapse(String daysElapse) throws InvalidInputException {
+    /**
+     * Make current day elapse with desired days
+     *
+     * @param daysElapse user input of how many days desired to elapse before restart
+     * @throws NotIntegerException User is not pass in an correct correct int to elapse time
+     */
+    public static void setDaysElapse(String daysElapse) throws NotIntegerException {
         try {
             int days = Integer.parseInt(daysElapse);
             currentDate = getCurrentDate().plusDays(days);
         } catch (NumberFormatException e) {
-            throw new InvalidInputException();
+            throw new NotIntegerException();
         }
     }
 
@@ -111,6 +117,9 @@ public class Main {
         return successfullyLoaded;
     }
 
+    /**
+     * Load {@code EmploymentCenter} from serialize file and if something wrong happened set successfulLoaded be false
+     */
     private void loadSystem() {
         try {
             InputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(getPath()));
@@ -123,6 +132,11 @@ public class Main {
         }
     }
 
+    /**
+     * Save{@code EmploymentCenter} to serialize file and if something wrong happened throw exception
+     *
+     * @throws CannotSaveSystemException Something wrong happened during saving therefore cannot save
+     */
     public void saveSystem() throws CannotSaveSystemException {
         try {
             OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(getPath()));

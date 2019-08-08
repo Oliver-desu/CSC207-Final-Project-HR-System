@@ -13,6 +13,8 @@ import model.job.Application;
 import model.job.Document;
 import model.user.Applicant;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -97,7 +99,17 @@ public class ApplicationManageScenario extends Scenario {
     @Override
     protected void update() {
         leftFilter.setFilterContent(applicant.getApplications());
-        rightFilter.setFilterContent(applicant.getDocumentManager().getAllDocuments());
+    }
+
+    /**
+     * Update right filter according to left filter selected application
+     *
+     * @see LeftFilterListener
+     */
+    private void updateRightFilter() {
+        Application application = leftFilter.getSelectObject();
+        if (application == null) return;
+        rightFilter.setFilterContent(application.getDocumentManager().getAllDocuments());
     }
 
     /**
@@ -260,6 +272,19 @@ public class ApplicationManageScenario extends Scenario {
             } catch (WrongApplicationStatusException e1) {
                 showMessage("Status for this application is not DRAFT, can not delete.");
             }
+        }
+    }
+
+    /**
+     * Class {@code LeftFilterListener } deals with the situation where left filter is being selected to some value.
+     *
+     * @see #updateRightFilter()
+     * @since 2019-08-08
+     */
+    private class LeftFilterListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            updateRightFilter();
         }
     }
 }
