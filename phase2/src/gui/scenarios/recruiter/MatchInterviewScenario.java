@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class MatchInterviewScenario extends Scenario {
 
     /**
-     * An {@code InterviewRound}
+     * An {@code InterviewRound} for this scenario.
      *
      * @see #update()
      * @see MatchListener
@@ -56,10 +56,10 @@ public class MatchInterviewScenario extends Scenario {
     private FilterPanel<Employee> rightFilter;
 
     /**
-     * Create a new {@code MatchInterviewScenario} that is a {@code Scenario} with title "Match Interview"
+     * Create a new {@code MatchInterviewScenario} that is a {@code Scenario} with title "Match Interview".
      *
      * @param userMenuFrame  the {@code userMenuFrame} that sets up the gui framework
-     * @param interviewRound Interview Rounds being matched
+     * @param interviewRound interview round that is matching
      */
     public MatchInterviewScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound) {
         super(userMenuFrame, "Match Interview");
@@ -93,7 +93,7 @@ public class MatchInterviewScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes and add the new {@code ButtonPanel}
+     * A helper method for {@code initComponents()} that initializes and add the new {@code ButtonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -144,11 +144,7 @@ public class MatchInterviewScenario extends Scenario {
      */
     private class MatchListener implements ActionListener {
         /**
-         * override the method in interface {@code ActionListener}
-         * 1 if {@code Application} is not null ,then get the {@code Interview} of this Application ,
-         * 2 if interviews is unmatched then match these interview with interviewer and add them to the application
-         * 3  interfaces a massage "succeed!" and update GUI.
-         * 4 otherwise interfaces a massage""There is no interview to match!""
+         * Match the application with a corresponding interviewer.
          *
          * @param e ActionEvent
          */

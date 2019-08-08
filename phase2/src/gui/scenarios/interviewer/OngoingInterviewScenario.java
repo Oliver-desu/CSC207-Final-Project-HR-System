@@ -170,7 +170,8 @@ public class OngoingInterviewScenario extends Scenario {
     }
 
     /**
-     * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     * Class{@code LeftFilterListener} implements ListSelectionListener.
+     * It deals with actions happening on left filter panel.
      *
      * @see #initLeftFilter()
      */
@@ -212,12 +213,8 @@ public class OngoingInterviewScenario extends Scenario {
         }
 
         /**
-         * override the method in interface{@code ActionListener}
-         *  1 get the {@code Interview} selected by user in the leftFilter
-         *  2 if {@code Interview} 's status is {@code InterviewStatus.PENDING}
-         *  3 then set then {@code Interview}  to the result and set {@code Interview} to recommendation
-         *  4 update GUI and interfaces a massage "Succeed!"
-         *  5 otherwise interfaces a message "Can not change!"
+         * Set the result for interview by interviewer.
+         *
          * @param e the action event of clicking a button
          * @see #update()
          * @see #getRecommendation()
@@ -249,7 +246,7 @@ public class OngoingInterviewScenario extends Scenario {
     private class ViewDocumentListener implements ActionListener {
 
         /**
-         * Override {@code actionPerformed} in interface {@code ActionListener}.
+         * View the content of the document in a new window.
          *
          * @param e the action event of clicking on a button
          */

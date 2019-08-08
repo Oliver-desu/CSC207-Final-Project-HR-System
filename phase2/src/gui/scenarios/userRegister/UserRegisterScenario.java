@@ -46,7 +46,7 @@ public class UserRegisterScenario extends Scenario {
     private InputInfoPanel infoPanel;
 
     /**
-     * Constructor for new {@code UserRegisterScenario} ,
+     * Constructor for new {@code UserRegisterScenario}.
      *
      * @param userMenuFrame given UserMenu
      * @param registerType  given {@code UserType}
@@ -57,7 +57,7 @@ public class UserRegisterScenario extends Scenario {
     }
 
     /**
-     * Constructor for new {@code UserRegisterScenario}
+     * Constructor for new {@code UserRegisterScenario}.
      *
      * @param userMenuFrame given user menu
      */
@@ -65,31 +65,17 @@ public class UserRegisterScenario extends Scenario {
         super(userMenuFrame, "User Register");
     }
 
-    /**
-     * overrides the method in parent class{@code Scenario}, initial the inputInfoPanel and ButtonPanel
-     */
     @Override
     protected void initComponents() {
         initInput();
         initButton();
     }
 
-    /**
-     * overrides the method in parent class{@code Scenario}, clear the text in the text area.
-     *
-     * @see Scenario#init()
-     */
     @Override
     protected void update() {
         infoPanel.clear();
     }
 
-    /**
-     * initial InputInfoPanel with given size , then initial all the components in the page ,
-     * then if registerType is null , initial the register page for {@code Employee} , otherwise
-     * initial the register page for {@code Applicant} , lastly add the page just initialed to
-     * this frame
-     */
     protected void initInput() {
         infoPanel = new InputInfoPanel(REGISTER_INPUT_SIZE, true);
         ComponentFactory factory = infoPanel.getComponentFactory();
@@ -99,12 +85,6 @@ public class UserRegisterScenario extends Scenario {
         add(infoPanel);
     }
 
-    /**
-     * Initial the information that need  {@code User} to be filled , include username , password,
-     * first name , last name and email.
-     *
-     * @param factory the factory that construct the page
-     */
     private void initUserInput(ComponentFactory factory) {
         factory.addTextField("Username:");
         factory.addPasswordField("Password:");
@@ -115,8 +95,8 @@ public class UserRegisterScenario extends Scenario {
     }
 
     /**
-     * Initial the information that need  {@code Applicant} to be filled, include employmentStatus ,
-     * working experiences,diplomas amd general
+     * Initial the information that need to be filled by {@code Applicant} in order to
+     * create a new {@code Applicant}.
      *
      * @param factory the factory that construct the page
      */
@@ -134,7 +114,8 @@ public class UserRegisterScenario extends Scenario {
     }
 
     /**
-     * Initial the information that need  {@code Employee} to be filled , include the position and companyID.
+     * Initial the information that need to be filled by {@code Employee} in order to
+     * create a new {@code Employee}.
      *
      * @param factory the factory that construct the page
      */
@@ -145,7 +126,7 @@ public class UserRegisterScenario extends Scenario {
     }
 
     /**
-     * initial the buttonPanel and create a new button called "create User" with a new {@code CreateUserListener}
+     * Initial the buttonPanel and create a new button called "Create User" with a new {@code CreateUserListener}.
      *
      * @see #initComponents()
      */
@@ -158,12 +139,12 @@ public class UserRegisterScenario extends Scenario {
     /**
      * Create user and try to register, throw exceptions if something goes wrong
      *
-     * @throws UnmatchedPasswordException    Password is not matched
-     * @throws WrongEmailFormatException     Email is not in correct format
-     * @throws UserAlreadyExistsException    Create an user that already exist
-     * @throws CompanyAlreadyExistsException If this worker is the Recruiter of company,
+     * @throws UnmatchedPasswordException  password is not matched
+     * @throws WrongEmailFormatException   email is not in correct format
+     * @throws UserAlreadyExistsException  create an user that already exist
+     * @throws CompanyAlreadyExistsException if this worker is the hiring manager of company,
      *                                       cannot create an account with pre-exist company id
-     * @throws CompanyDoesNotExistException  If this worker is other worker rather than Recruiter,
+     * @throws CompanyDoesNotExistException  if this worker is other worker rather than hiring manager,
      *                                       should register into a pre-exist company
      * @see CreateUserListener
      */
@@ -177,16 +158,14 @@ public class UserRegisterScenario extends Scenario {
     }
 
     /**
-     * Class {@code CreateUserListener} Listener to register a new user
+     * Class {@code CreateUserListener} Listener to register a new user.
      *
      * @see UserRegisterScenario
      * @since 2019-08-05
      */
     private class CreateUserListener implements ActionListener {
         /**
-         * override the method in interface {ActionListener} ,
-         * create a new user, if successfully created interfaces a dialog "Successfully registered!" ,
-         * if not  interfaces a dialog "Incorrect input or username already used by others!"
+         * Create a user given input values.
          *
          * @param e ActionEvent
          */
