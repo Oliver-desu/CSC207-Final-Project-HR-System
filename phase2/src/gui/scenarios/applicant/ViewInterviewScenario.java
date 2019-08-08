@@ -67,7 +67,7 @@ public class ViewInterviewScenario extends Scenario {
 
     /**
      * Override the method {@code update()} in abstract class {@code Scenario}.
-     * It updates the information showed on the user interface.
+     * It updates the information shown on the user interface.
      */
     @Override
     protected void update() {

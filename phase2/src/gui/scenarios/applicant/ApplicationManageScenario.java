@@ -103,7 +103,7 @@ public class ApplicationManageScenario extends Scenario {
 
     /**
      * Override the method {@code update()} in abstract class {@code Scenario}.
-     * It updates the information showed on the user interface.
+     * It updates the information shown on the user interface.
      *
      * @see ApplyListener
      * @see DeleteApplicationListener
@@ -125,7 +125,7 @@ public class ApplicationManageScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@link #initComponents()} that initializes all buttons showed on the {@code buttonPanel}.
+     * A helper method for {@link #initComponents()} that initializes all buttons shown on the {@code buttonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);

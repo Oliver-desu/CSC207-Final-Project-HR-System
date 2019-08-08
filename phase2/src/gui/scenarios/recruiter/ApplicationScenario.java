@@ -111,7 +111,7 @@ public class ApplicationScenario extends Scenario {
 
     /**
      * Override the method {@code update()} in abstract class {@code Scenario}.
-     * It updates the information showed on the user interface and is called when an {@code Application} is
+     * It updates the information shown on the user interface and is called when an {@code Application} is
      * selected/deselected on list "All Documents".
      */
     @Override
@@ -132,12 +132,13 @@ public class ApplicationScenario extends Scenario {
      * Class {@code LeftFilterListener} implements the interface {@code ListSelectionListener}.
      * It deals with the situation where an {@code Application} is selected on left {@code FilterPanel}.
      *
+     * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
      * @since 2019-08-06
      */
     private class LeftFilterListener implements ListSelectionListener {
         /**
-         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * Implement the method {@code valueChanged} in the interface {@code ListSelectionListener}.
          * It shows all documents of the selected application on the screen.
          *
          * @param e the action event that an application is selected from "All Applications".
@@ -157,7 +158,9 @@ public class ApplicationScenario extends Scenario {
      * The content will be shown by clicking "View Document" button
      * if an document on list "Application Documents' is selected.
      *
+     * @author group 0120 of CSC207 summer 2019
      * @see #initButton()
+     * @since 2019-08-06
      */
     private class ViewDocumentListener implements ActionListener {
         /**
