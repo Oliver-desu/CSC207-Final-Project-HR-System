@@ -124,10 +124,6 @@ public class JobManageScenario extends Scenario {
     /**
      * Override the method {@code update()} in abstract class {@code Scenario}.
      * It updates the information shown on the user interface.
-     *
-     * @see AddRoundListener
-     * @see EndJobPostingListener
-     * @see NextRoundListener
      */
     @Override
     protected void update() {
@@ -139,6 +135,13 @@ public class JobManageScenario extends Scenario {
         }
     }
 
+    /**
+     * Update the right filter when left filter is selected
+     *
+     * @see AddRoundListener
+     * @see EndJobPostingListener
+     * @see NextRoundListener
+     */
     private void updateRightFilter() {
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
