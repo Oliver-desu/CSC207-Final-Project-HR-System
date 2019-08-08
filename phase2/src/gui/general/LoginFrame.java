@@ -6,7 +6,7 @@ import gui.panels.InputInfoPanel;
 import main.Main;
 import model.enums.UserType;
 import model.exceptions.CannotSaveSystemException;
-import model.exceptions.InvalidInputException;
+import model.exceptions.NotIntegerException;
 import model.user.NullUser;
 import model.user.User;
 
@@ -253,7 +253,7 @@ public class LoginFrame extends JFrame {
             try {
                 main.saveSystem();
                 Main.setDaysElapse(JOptionPane.showInputDialog(LoginFrame.this, message));
-            } catch (CannotSaveSystemException | InvalidInputException e1) {
+            } catch (CannotSaveSystemException | NotIntegerException e1) {
                 JOptionPane.showMessageDialog(LoginFrame.this, e1.getMessage());
             }
             JOptionPane.showMessageDialog(LoginFrame.this, Main.getCurrentDate());
