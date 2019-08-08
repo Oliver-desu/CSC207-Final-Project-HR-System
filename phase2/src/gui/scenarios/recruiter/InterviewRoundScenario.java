@@ -111,7 +111,7 @@ public class InterviewRoundScenario extends Scenario {
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
-        buttonPanel.addButton("Match Interview", new MatchInterviewListener());
+        buttonPanel.addButton("Start Matching", new MatchInterviewListener());
         buttonPanel.addButton("Hire", new HireListener());
         add(buttonPanel);
     }

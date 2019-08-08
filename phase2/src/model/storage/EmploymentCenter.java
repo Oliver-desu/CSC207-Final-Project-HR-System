@@ -68,7 +68,6 @@ public class EmploymentCenter implements Serializable {
     /**
      * Create a new {@code EmploymentCenter}.
      *
-     * @see Serializer
      * @see main.Main
      */
     public EmploymentCenter() {

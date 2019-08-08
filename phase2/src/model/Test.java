@@ -235,7 +235,7 @@ public class Test {
             interview = application.getInterviewByRound(interviewRound.getRoundName());
             interviewer = this.getRandomInterviewer(company);
             try {
-                interview.match(interviewer);
+                interview.match(interviewer, interviewRound.getRoundName());
             } catch (Exception e) {
                 System.out.println("addNewRoundAndFinishMatching");
                 System.out.println(e);

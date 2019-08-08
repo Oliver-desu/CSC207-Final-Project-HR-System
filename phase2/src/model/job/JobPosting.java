@@ -2,6 +2,7 @@ package model.job;
 
 import gui.scenarios.hiringManager.JobPostingRegisterScenario;
 import main.Main;
+import model.enums.ApplicationStatus;
 import model.enums.JobPostingStatus;
 import model.exceptions.ApplicationAlreadyExistsException;
 import model.exceptions.WrongJobPostingStatusException;
