@@ -155,6 +155,18 @@ public class UserRegisterScenario extends Scenario {
         add(buttonPanel);
     }
 
+    /**
+     * Create user and try to register, throw exceptions if something goes wrong
+     *
+     * @throws UnmatchedPasswordException    Password is not matched
+     * @throws WrongEmailFormatException     Email is not in correct format
+     * @throws UserAlreadyExistsException    Create an user that already exist
+     * @throws CompanyAlreadyExistsException If this worker is the Recruiter of company,
+     *                                       cannot create an account with pre-exist company id
+     * @throws CompanyDoesNotExistException  If this worker is other worker rather than Recruiter,
+     *                                       should register into a pre-exist company
+     * @see CreateUserListener
+     */
     private User createUserAndRegister()
             throws UnmatchedPasswordException, WrongEmailFormatException, UserAlreadyExistsException,
             CompanyAlreadyExistsException, CompanyDoesNotExistException {
@@ -170,7 +182,7 @@ public class UserRegisterScenario extends Scenario {
      * @see UserRegisterScenario
      * @since 2019-08-05
      */
-    class CreateUserListener implements ActionListener {
+    private class CreateUserListener implements ActionListener {
         /**
          * override the method in interface {ActionListener} ,
          * create a new user, if successfully created interfaces a dialog "Successfully registered!" ,
@@ -183,6 +195,7 @@ public class UserRegisterScenario extends Scenario {
             try {
                 createUserAndRegister();
                 showMessage("Successfully registered!");
+                getMain().returnToLogin();
             } catch (UnmatchedPasswordException | WrongEmailFormatException | UserAlreadyExistsException |
                     CompanyAlreadyExistsException | CompanyDoesNotExistException e1) {
                 showMessage(e1.getMessage());
