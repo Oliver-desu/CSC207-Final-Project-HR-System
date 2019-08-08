@@ -53,14 +53,6 @@ public class Document implements Filterable, Serializable, ShowAble {
      */
     private boolean isUsed;
 
-    // For testing purpose
-    public Document(String docName, String content) {
-        this.documentName = docName;
-        this.content = content;
-        this.lastUsedDate = LocalDate.now();
-        this.isUsed = false;
-    }
-
     /**
      * Create a new {@code Document} from the file path.
      *
