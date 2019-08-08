@@ -100,9 +100,11 @@ public class DocumentManager implements Serializable {
      * @see Document#shouldDelete()
      */
     public void updateAllDocuments() {
+        ArrayList<Document> temp = new ArrayList<>();
         for (Document document : getAllDocuments()) {
             document.update();
-            if (document.shouldDelete()) removeDocument(document);
+            if (!document.shouldDelete()) temp.add(document);
         }
+        documents = temp;
     }
 }
