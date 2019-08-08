@@ -3,6 +3,7 @@ package main;
 import gui.general.LoginFrame;
 import model.exceptions.CannotSaveSystemException;
 import model.exceptions.NotIntegerException;
+import model.job.Document;
 import model.storage.EmploymentCenter;
 
 import javax.swing.*;
@@ -72,6 +73,8 @@ public class Main {
 
     /**
      * Get current date, if it does not set, use real life date
+     * @see  #setDaysElapse(String)
+     * @see  Document#update()
      */
     public static LocalDate getCurrentDate() {
         if (currentDate == null) {
@@ -119,6 +122,7 @@ public class Main {
 
     /**
      * Load {@code EmploymentCenter} from serialize file and if something wrong happened set successfulLoaded be false
+     * @see  Main()
      */
     private void loadSystem() {
         try {
