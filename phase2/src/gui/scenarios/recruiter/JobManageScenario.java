@@ -89,7 +89,7 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * Override method {@link #initComponents()} in abstract class {@code Scenario}.
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
