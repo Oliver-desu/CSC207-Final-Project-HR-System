@@ -115,7 +115,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         } catch (DateTimeParseException e) {
             return false;
         }
-        return !closeDate.isBefore(Main.getCurrentDate());
+        return closeDate.isBefore(Main.getCurrentDate());
     }
 
     /**
@@ -124,7 +124,8 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
      * @see EmploymentCenter#updateOpenJobPostings()
      */
     public void startProcessing() {
-        if (status.equals(JobPostingStatus.OPEN) && shouldClose()) {
+        if (isOpen() && shouldClose()) {
+            status = JobPostingStatus.PROCESSING;
             this.interviewRoundManager = new InterviewRoundManager(this, applications);
         }
     }
@@ -171,7 +172,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
             throws ApplicationAlreadyExistsException, WrongJobPostingStatusException {
         if (hasApplication(application)) {
             throw new ApplicationAlreadyExistsException();
-        } else if (!status.equals(JobPostingStatus.OPEN)) {
+        } else if (!isOpen()) {
             throw new WrongJobPostingStatusException();
         } else {
             Company company = EmploymentCenter.getCompany(jobDetails.get("Company id:"));
@@ -232,6 +233,10 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
     // The following methods are only for testing!
     public void close() {
         status = JobPostingStatus.PROCESSING;
+    }
+
+    public boolean isOpen() {
+        return status == JobPostingStatus.OPEN;
     }
 
     public void setInterviewRoundManager() {
