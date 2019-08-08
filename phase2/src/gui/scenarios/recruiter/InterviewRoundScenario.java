@@ -22,23 +22,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class {@code ViewPostingScenario} handles the situation where the hiring manager can view the interview rounds of the applicants
+ * Class {@code ViewPostingScenario} handles the situation where the hiring manager can view the interview rounds of
+ * the applicants.
  *
  * @author group 0120 of CSC207 summer 2019
- * @see gui.general.MenuPanel
+ * @see JobManageScenario
  */
 public class InterviewRoundScenario extends Scenario {
 
     /**
-     * The {@code InterviewRound} that is being shown.
+     * The {@code InterviewRound} that is being shown in this scenario.
      *
+     * @see #update()
      * @see HireListener
      * @see MatchInterviewListener
      */
     private InterviewRound interviewRound;
 
     /**
-     * The{@code InterviewRoundManager} that is viewing interview rounds.
+     * The {@code InterviewRoundManager} that manages this {@code InterviewRound}.
      *
      * @see HireListener
      * @see MatchInterviewListener
@@ -46,9 +48,8 @@ public class InterviewRoundScenario extends Scenario {
     private InterviewRoundManager manager;
 
     /**
-     * The {@code LeftFilterPanel} in this scenario.
+     * The {@code FilterPanel} that shows a list of {@code Application}s on upper left of the page.
      *
-     * @see #initComponents()
      * @see #update()
      * @see #initLeftFilter()
      * @see LeftFilterListener
@@ -57,23 +58,21 @@ public class InterviewRoundScenario extends Scenario {
     private FilterPanel<Application> leftFilter;
 
     /**
-     * The {@code RightFilterPanel} in this scenario.
+     * The {@code FilterPanel} that shows a list of {@code Interviews}s in the top middle of the page.
      *
-     * @see #initComponents()
      * @see #update()
-     * @see #initRightFilter()
-     *
+     * @see LeftFilterListener
      */
     private FilterPanel<Interview> rightFilter;
 
     /**
-     * Create a new {@code InterviewRoundScenario} that is a {@code Scenario} with title "Interview Round Manager"
+     * Create a new {@code InterviewRoundScenario} that is a {@code Scenario} with title "Interview Round Manager".
      *
      * @param userMenuFrame  the {@code userMenuFrame} that sets up the gui framework
-     * @param interviewRound Interview Rounds that are concerned.
-     * @param jobPosting     JobPostings that are concerned.
+     * @param interviewRound the {@code InterviewRound} that is concerned
+     * @param jobPosting     the {@code JobPosting} that is concerned
+     * @see JobManageScenario
      */
-
     public InterviewRoundScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound, JobPosting jobPosting) {
         super(userMenuFrame, "Interview Round Manager");
         this.interviewRound = interviewRound;
@@ -95,10 +94,10 @@ public class InterviewRoundScenario extends Scenario {
 
     }
 
-    /**
-     * Override {@code initComponents()} in abstract class {@code Scenario}.
-     */
 
+    /**
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
+     */
     @Override
     protected void initComponents() {
         initLeftFilter();
@@ -108,11 +107,8 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()}.
-     *
-     * @see #initComponents()
+     * A helper method for {@link #initComponents()} that initializes all buttons shown on the {@code buttonPanel}.
      */
-
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
         buttonPanel.addButton("Match Interview", new MatchInterviewListener());
@@ -122,7 +118,8 @@ public class InterviewRoundScenario extends Scenario {
 
 
     /**
-     * Override {@code update()} in abstract class {@code Scenario}.
+     * Override the method {@code update()} in abstract class {@code Scenario}.
+     * It updates the information shown on the user interface.
      */
     @Override
     protected void update() {
@@ -130,9 +127,12 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
+     * Initialize the {@code leftFilter} such that it shows all remaining applications of the company.
+     * It is a helper method of {@link #initComponents()}.
+     * <p>
+     * An application will be shown only when it's not of status {@code ApplicationStatus.REJECTED}.
      *
-     * @see #initComponents()
+     * @see HireListener
      */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "Remaining Applications");
@@ -141,11 +141,10 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
-     *
-     * @see #initComponents()
+     * A helper function for {@link #initComponents()}
+     * that initializes the {@code rightFilter}.
+     * It enables the {@code rightFilter} to show a list of interviews that relates to a selected {@code Application}.
      */
-
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Application Interviews");
         addShowInfoListenerFor(rightFilter);
@@ -153,14 +152,20 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     /**
-     * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     * Class{@code LeftFilterListener} implements {@code ListSelectionListener}.
+     * It deals with the situation where an {@code Application} is selected on left {@code FilterPanel}.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
      * @since 2019-08-05
      */
-
     private class LeftFilterListener implements ListSelectionListener {
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * It shows all interviews of the selected application on the screen.
+         *
+         * @param e the action event that an application is selected from "Remaining Applications".
+         */
         @Override
         public void valueChanged(ListSelectionEvent e) {
             Application application = leftFilter.getSelectObject();
@@ -172,12 +177,22 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     /**
-     * Class {@code HireListener} implements ActionListener. It deals with actions related to hiring.
+     * Class {@code HireListener} implements the interface {@code ActionListener}.
+     * It handles the situation where a recruiter is going to hire an applicant and click "Hire" button.
      *
      * @author group 0120 of CSC207 summer 2019
+     * @see #initButton()
      * @since 2019-08-05
      */
     private class HireListener implements ActionListener {
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * <p>
+         * The hiring request can be processed only when the selected {@code Application} is of status
+         * {@code ApplicationStatus.PENDING} and the job posting is {@code JobPostingStatus.PROCESSING}.
+         *
+         * @param e the action event that "Hire" is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             if (interviewRound == manager.getCurrentInterviewRound()) {
@@ -202,13 +217,24 @@ public class InterviewRoundScenario extends Scenario {
     }
 
     /**
-     * Class {@code MatchInterviewListener} implements ActionListener. It deals with matching interviews.
+     * Class {@code HireListener} implements the interface {@code ActionListener}.
+     * It handles the situation where a recruiter is going to match an interview with an interviewer and click on
+     * "Match Interview" button.
      *
      * @author group 0120 of CSC207 summer 2019
+     * @see #initButton()
      * @since 2019-08-05
      */
-
     private class MatchInterviewListener implements ActionListener {
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * <p>
+         * The matching request can be approved only when the job is {@code JobPostingStatus.PROCESSING} and the
+         * {@code interviewRound} has status {@code InterviewRoundStatus.MATCHING}.
+         * The system will switch to {@code MatchInterviewScenario} if the request is approved.
+         *
+         * @param e the action event that "Match Interview" is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             UserMenuFrame menu = getUserMenuFrame();

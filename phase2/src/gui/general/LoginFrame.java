@@ -258,6 +258,7 @@ public class LoginFrame extends JFrame {
             } catch (CannotSaveSystemException | InvalidInputException e1) {
                 JOptionPane.showMessageDialog(LoginFrame.this, e1.getMessage());
             }
+            JOptionPane.showMessageDialog(LoginFrame.this, Main.getCurrentDate());
         }
     }
 }

@@ -25,40 +25,38 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * Class {@code JobManageScenario} handles with the situation of managing jobs.
+ * Class {@code JobManageScenario} handles the case when a recruiter is managing jobs.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.MenuPanel
  * @since 2019-08-05
  */
-
 public class JobManageScenario extends Scenario {
 
     /**
-     * The {@code LeftFilterPanel} in this scenario.
+     * The {@code FilterPanel} that shows a list of {@code JobPosting}s on upper left of the page.
      *
      * @see #initLeftFilter()
-     * @see #initComponents()
      * @see #update()
      * @see ViewEditListener
      * @see AddRoundListener
      * @see NextRoundListener
      * @see EndJobPostingListener
+     * @see LeftFilterListener
      */
     private FilterPanel<JobPosting> leftFilter;
     /**
-     * The {@code RightFilterPanel} in this scenario.
+     * The {@code FilterPanel} that shows a list of {@code InterviewRound}s in the top middle of the page.
      *
      * @see #initRightFilter()
-     * @see #initComponents()
      * @see #update()
      * @see ViewEditListener
+     * @see LeftFilterListener
      */
     private FilterPanel<InterviewRound> rightFilter;
     /**
-     * An {@code InputInfoPanel} that sets up gui in this scenario.
+     * The {@code InputInfoPanel} that allows typing on the screen.
      *
-     * @see #update()
      * @see #initInput()
      * @see AddRoundListener
      */
@@ -91,7 +89,7 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * Override {@code initComponents()} in abstract class {@code Scenario}.
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -103,11 +101,10 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes the {@code infoPanel}.
-     *
-     * @see #initComponents()
+     * A helper method for {@link #initComponents()} that initializes the {@code infoPanel}.
+     * <p>
+     * The user can enter the name of a new {@code InterviewRound} in the text field.
      */
-
     protected void initInput() {
         infoPanel = new InputInfoPanel(REGULAR_INPUT_SIZE);
         ComponentFactory factory = infoPanel.getComponentFactory();
@@ -116,19 +113,17 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
-     *
-     * @see #initComponents()
+     * A helper method for {@link #initComponents()} that initializes {@code leftFilter}.
      */
-
     protected void initLeftFilter() {
-        leftFilter = new FilterPanel<>(LIST_SIZE, "Jobs I Responsible to");
+        leftFilter = new FilterPanel<>(LIST_SIZE, "Jobs I Responsible to:");
         leftFilter.addSelectionListener(new JobManageScenario.LeftFilterListener());
         add(leftFilter);
     }
 
     /**
-     * Override {@code update()} in abstract class {@code Scenario}.
+     * Override the method {@code update()} in abstract class {@code Scenario}.
+     * It updates the information shown on the user interface.
      */
     @Override
     protected void update() {
@@ -138,6 +133,16 @@ public class JobManageScenario extends Scenario {
         } catch (WrongEmployeeTypeException e) {
             leftFilter.setFilterContent(new ArrayList<>());
         }
+    }
+
+    /**
+     * Update the right filter when left filter is selected
+     *
+     * @see AddRoundListener
+     * @see EndJobPostingListener
+     * @see NextRoundListener
+     */
+    private void updateRightFilter() {
         JobPosting jobPosting = leftFilter.getSelectObject();
         if (jobPosting != null) {
             rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
@@ -147,9 +152,7 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
-     *
-     * @see #initComponents()
+     * A helper method for {@link #initComponents()} that initializes {@code rightFilter}.
      */
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "Job Interview Rounds");
@@ -157,7 +160,7 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes and add the new {@code ButtonPanel}.
+     * A helper method for {@link #initComponents()} that initializes all buttons shown on the {@code buttonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -169,32 +172,49 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * Class{@code LeftFilterListener} implements ListSelectionListener. It deals with actions happening on left filter panel.
+     * Class{@code LeftFilterListener} implements ListSelectionListener.
+     * It deals with the situation where a {@code JobPosting} is selected on list "Jobs I Responsible to:".
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
      * @since 2019-08-05
      */
     private class LeftFilterListener implements ListSelectionListener {
+        /**
+         * Implement the method {@code valueChanged} in the interface {@code ListSelectionListener}.
+         * It shows all {@code InterviewRound}s of the job posting selected on the screen.
+         *
+         * @param e the action event that a {@code jobPosting} is selected from "Jobs I Responsive to:".
+         */
         @Override
         public void valueChanged(ListSelectionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             if (jobPosting != null) {
-                jobPosting.getInterviewRoundManager().checkStatus();
-                rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
                 setOutputText(jobPosting.toString());
+                if (!jobPosting.isOpen()) {
+                    jobPosting.getInterviewRoundManager().checkStatus();
+                    rightFilter.setFilterContent(jobPosting.getInterviewRoundManager().getInterviewRounds());
+                }
             }
         }
     }
 
     /**
-     * Class {@code ViewEditListener} implements ActionListener. It deals with edits happening to the filters.
+     * Class {@code ViewEditListener} implements {@code ActionListener}.
+     * It handles the situation when "View/Edit" is clicked.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initButton()
      * @since 2019-08-05
      */
     private class ViewEditListener implements ActionListener {
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * <p>
+         * The user can view and edit the selected {@code InterviewRound}.
+         *
+         * @param e the action event that "View/Edit" is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -210,13 +230,23 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code AddRoundListener} implements ActionListener. It deals with situations of adding interview rounds
+     * Class {@code AddRoundListener} implements {@code ActionListener}.
+     * It deals with situation where "Add Round" is clicked.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initButton()
      * @since 2019-08-05
      */
     private class AddRoundListener implements ActionListener {
+
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * <p>
+         * A new {@code InterviewRound} can be added to the selected job if and only if the job has status
+         * {@code JobPostingStatus.PROCESSING}.
+         *
+         * @param e the action event that "Add Round" is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -228,25 +258,36 @@ public class JobManageScenario extends Scenario {
             } else {
                 jobPosting.getInterviewRoundManager().addInterviewRound(new InterviewRound(roundName));
                 showMessage("Succeed!");
-                update();
+                updateRightFilter();
             }
         }
     }
 
     /**
-     * Class {@code AddRoundListener} implements ActionListener. It deals with situations of going to next round.
+     * Class {@code NextRoundListener} implements {@code ActionListener}.
+     * It handles the case when the recruiter wants to proceed a job to the next {@code InterviewRound} and thus
+     * clicks on "Next Round" button.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initButton()
      * @since 2019-08-05
      */
     private class NextRoundListener implements ActionListener {
+
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * <p>
+         * The request can be proceeded only when the job selected is {@code JobPostingStatus.PROCESSING} and current
+         * {@code InterviewRound} is {@code InterviewRoundStatus.FINISHED}.
+         *
+         * @param e the action event that "Next Round" is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             try {
                 jobPosting.getInterviewRoundManager().nextRound(getMain().getEmploymentCenter());
-                update();
+                updateRightFilter();
                 showMessage("Succeeds");
             } catch (NullPointerException e1) {
                 showMessage("No job posting selected!");
@@ -261,13 +302,23 @@ public class JobManageScenario extends Scenario {
     }
 
     /**
-     * Class {@code EndJobPostingListener} implements ActionListener. It deals with closing job postings.
+     * Class {@code EndJobPostingListener} implements {@code ActionListener}.
+     * It handles the case when the recruiter wants to end the recruiting process for the job and thus
+     * clicks on "End JobPosting" button.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initButton()
      * @since 2019-08-05
      */
     private class EndJobPostingListener implements ActionListener {
+
+        /**
+         * Implement the method {@code actionPerformed} in the interface {@code ActionListener}.
+         * <p>
+         * Close a job if the selected job is not of status {@code JobPostingStatus.FINISHED}.
+         *
+         * @param e the action event that "End JobPosting" is clicked.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
@@ -277,7 +328,7 @@ public class JobManageScenario extends Scenario {
                 showMessage("The job posting has already closed!");
             } else {
                 jobPosting.endJobPosting();
-                update();
+                updateRightFilter();
                 showMessage("The jobPosting is now closed.");
             }
         }
