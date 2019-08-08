@@ -91,7 +91,7 @@ public class Employee extends User implements Filterable, Serializable {
 
             return jobPostings;
         } catch (ClassCastException e) {
-            throw new WrongEmployeeTypeException();
+            throw new WrongEmployeeTypeException("JobPosting");
         }
     }
 
@@ -110,7 +110,7 @@ public class Employee extends User implements Filterable, Serializable {
             }
             return interviews;
         } catch (ClassCastException e) {
-            throw new WrongEmployeeTypeException();
+            throw new WrongEmployeeTypeException("Interview");
         }
     }
 
