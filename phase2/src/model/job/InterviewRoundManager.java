@@ -5,7 +5,6 @@ import model.enums.InterviewRoundStatus;
 import model.enums.JobPostingStatus;
 import model.exceptions.*;
 import model.storage.EmploymentCenter;
-import model.user.Applicant;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class InterviewRoundManager implements Serializable {
      * Get current interview round by searching the first {@code InterviewRound} that is not {@code InterviewRoundStatus.EMPTY}.
      *
      * @return current {@code InterviewRound}
-     * @see InterviewRoundManager#nextRound(EmploymentCenter)
+     * @see InterviewRoundManager#nextRound()
      * @see InterviewRoundManager#checkStatus()
      * @see InterviewRoundManager#applicationCancel(Application)
      * @see gui.scenarios.recruiter.InterviewRoundScenario#main(String[])
@@ -133,7 +132,7 @@ public class InterviewRoundManager implements Serializable {
      * @throws NextRoundDoesNotExistException     the next current does not exits
      * @see gui.scenarios.recruiter.JobManageScenario
      */
-    public void nextRound(EmploymentCenter employmentCenter) throws WrongJobPostingStatusException, WrongInterviewRoundStatusException,
+    public void nextRound() throws WrongJobPostingStatusException, WrongInterviewRoundStatusException,
             NextRoundDoesNotExistException {
         InterviewRound currentRound = getCurrentInterviewRound();
         if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
@@ -145,16 +144,6 @@ public class InterviewRoundManager implements Serializable {
         } else {
             InterviewRound nextRound = interviewRounds.get(interviewRounds.indexOf(currentRound) + 1);
             nextRound.start(remainingApplications);
-            notifyAllApplicant(nextRound, remainingApplications, employmentCenter);
-        }
-    }
-
-    public void notifyAllApplicant(InterviewRound nextround, ArrayList<Application> remainingApplications, EmploymentCenter employmentCenter) {
-        for (Application application : remainingApplications
-        ) {
-            Applicant applicant = application.getApplicant(employmentCenter);
-            applicant.addmessage(nextround);
-
         }
     }
 

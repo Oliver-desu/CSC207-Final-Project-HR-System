@@ -151,7 +151,7 @@ public class InterviewRound implements Filterable, Serializable {
      * the field {@code this.applications} and will be added a new interview on.
      *
      * @param applications the applications that wait for a new interview
-     * @see InterviewRoundManager#nextRound(model.storage.EmploymentCenter)
+     * @see InterviewRoundManager#nextRound()
      */
     void start(ArrayList<Application> applications) {
         this.setStatus(InterviewRoundStatus.MATCHING);

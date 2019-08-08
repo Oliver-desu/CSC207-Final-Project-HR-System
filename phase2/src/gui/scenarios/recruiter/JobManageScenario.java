@@ -286,7 +286,7 @@ public class JobManageScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             JobPosting jobPosting = leftFilter.getSelectObject();
             try {
-                jobPosting.getInterviewRoundManager().nextRound(getMain().getEmploymentCenter());
+                jobPosting.getInterviewRoundManager().nextRound();
                 updateRightFilter();
                 showMessage("Succeeds");
             } catch (NullPointerException e1) {
