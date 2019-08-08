@@ -136,7 +136,7 @@ public class InterviewRoundManager implements Serializable {
             NextRoundDoesNotExistException {
         InterviewRound currentRound = getCurrentInterviewRound();
         if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
-            throw new WrongJobPostingStatusException();
+            throw new WrongJobPostingStatusException(JobPostingStatus.PROCESSING);
         } else if (currentRound != null && !currentRound.getStatus().equals(InterviewRoundStatus.FINISHED)) {
             throw new WrongInterviewRoundStatusException();
         } else if (interviewRounds.size() <= interviewRounds.indexOf(currentRound) + 1) {
@@ -204,7 +204,7 @@ public class InterviewRoundManager implements Serializable {
     public void hire(Application application) throws WrongJobPostingStatusException, WrongApplicationStatusException,
             CurrentRoundUnfinishedException, JobPostingAlreadyFilledException {
         if (!jobPosting.getStatus().equals(JobPostingStatus.PROCESSING)) {
-            throw new WrongJobPostingStatusException();
+            throw new WrongJobPostingStatusException(JobPostingStatus.PROCESSING);
         } else if (!application.getStatus().equals(ApplicationStatus.PENDING)) {
             throw new WrongApplicationStatusException();
         } else if (!currentRoundFinished()) {

@@ -173,7 +173,7 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         if (hasApplication(application)) {
             throw new ApplicationAlreadyExistsException();
         } else if (!isOpen()) {
-            throw new WrongJobPostingStatusException();
+            throw new WrongJobPostingStatusException(JobPostingStatus.OPEN);
         } else {
             Company company = EmploymentCenter.getCompany(jobDetails.get("Company id:"));
             company.receiveApplication(application);
