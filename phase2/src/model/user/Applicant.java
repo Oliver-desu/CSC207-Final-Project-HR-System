@@ -41,7 +41,7 @@ public class Applicant extends User implements Serializable, ShowAble {
     /**
      * the message need the applicant to be notified stored in here
      */
-    private ArrayList<String> mailbox = new ArrayList<String>();
+    private ArrayList<String> mailbox = new ArrayList<>();
     /**
      * The document manager that manages all the documents.
      *
@@ -186,6 +186,7 @@ public class Applicant extends User implements Serializable, ShowAble {
         ) {
             stringMail += mail;
             stringMail += "\n";
+            mailbox.remove(mail);
         }
         return stringMail;
     }
