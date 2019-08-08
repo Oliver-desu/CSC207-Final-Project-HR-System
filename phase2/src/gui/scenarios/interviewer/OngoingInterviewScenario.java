@@ -69,6 +69,7 @@ public class OngoingInterviewScenario extends Scenario {
         Test test = new Test();
         test.addApplicants(10);
         Company company = test.addCompany();
+        test.addJobPosting(company);
         Employee interviewer = test.getRandomInterviewer(company);
         JobPosting jobPosting = test.getRandomJobPosting(company);
 

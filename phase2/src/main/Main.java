@@ -22,6 +22,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        // The following code was for testing ----------------------------------------------------------------------
 //        Test test = new Test();
 //        Company company;
 //        JobPosting jobPosting;

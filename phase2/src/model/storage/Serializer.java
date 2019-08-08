@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * Class {@code Serializer} helps to save {@code EmploymentCenter} object to a file and then read from that file.
+ * Class {@code Serializer} helps to save {@code employmentCenter} object to a file and then read from that file.
  */
 public class Serializer {
 
@@ -22,7 +22,7 @@ public class Serializer {
     /**
      * The object which is read from the file.
      */
-    private EmploymentCenter EmploymentCenter = new EmploymentCenter();
+    private EmploymentCenter employmentCenter = new EmploymentCenter();
 
 
     /**
@@ -53,11 +53,11 @@ public class Serializer {
     }
 
     public EmploymentCenter getEmploymentCenter() {
-        return EmploymentCenter;
+        return employmentCenter;
     }
 
     /**
-     * Read {@code EmploymentCenter} object from ser file.
+     * Read {@code employmentCenter} object from ser file.
      *
      * @throws ClassNotFoundException if class can not find when reading object
      */
@@ -68,9 +68,9 @@ public class Serializer {
 
             Object object = input.readObject();
             input.close();
-            this.EmploymentCenter = (EmploymentCenter) object;
+            this.employmentCenter = (EmploymentCenter) object;
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Fail to read EmploymentCenter object from ser file", e);
+            logger.log(Level.SEVERE, "Fail to read employmentCenter object from ser file", e);
         }
     }
 
@@ -82,10 +82,10 @@ public class Serializer {
             OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(this.filePath));
             ObjectOutput output = new ObjectOutputStream(bufferedOutputStream);
 
-            output.writeObject(this.EmploymentCenter);
+            output.writeObject(this.employmentCenter);
             output.close();
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Fail to write EmploymentCenter object to ser file", e);
+            logger.log(Level.SEVERE, "Fail to write employmentCenter object to ser file", e);
         }
     }
 }

@@ -151,12 +151,12 @@ public class Interview implements Filterable, Serializable, ShowAble {
     /**
      * Return basic information about this interview and detailed information about applicant.
      *
-     * @param EmploymentCenter the {@code EmploymentCenter} that contains all users
+     * @param employmentCenter the {@code EmploymentCenter} that contains all users
      * @return basic information about this interview and detailed information about applicant
      */
-    public String detailedToStringForEmployee(EmploymentCenter EmploymentCenter) {
-        String jobInfo = EmploymentCenter.getJobPosting(application.getJobPostingId()).toString();
-        String applicantInfo = EmploymentCenter.getApplicant(application.getApplicantId()).toString();
+    public String detailedToStringForEmployee(EmploymentCenter employmentCenter) {
+        String jobInfo = employmentCenter.getJobPosting(application.getJobPostingId()).toString();
+        String applicantInfo = employmentCenter.getApplicant(application.getApplicantId()).toString();
         return getInfoString("JobPosting information", "\n" + jobInfo) +
                 getInfoString("Applicant information", "\n" + applicantInfo);
     }
@@ -169,7 +169,8 @@ public class Interview implements Filterable, Serializable, ShowAble {
      */
     @Override
     public String toString() {
-        return getInfoString("JobPosting", application.getJobPostingId()) +
+        String jobPostingId = application.getJobPostingId();
+        return getInfoString("JobPosting", jobPostingId.substring(0, jobPostingId.lastIndexOf("--"))) +
                 getInfoString("Applicant", application.getApplicantId()) +
                 getInfoString("Interviewer",
                         status.equals(InterviewStatus.UNMATCHED) ? "N/A" : interviewer.getUsername()) +

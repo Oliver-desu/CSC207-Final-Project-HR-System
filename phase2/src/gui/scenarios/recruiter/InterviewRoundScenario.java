@@ -200,7 +200,7 @@ public class InterviewRoundScenario extends Scenario {
                 try {
                     manager.hire(application);
                     showMessage("Succeed!");
-                    initLeftFilter();
+                    update();
                 } catch (NullPointerException e1) {
                     showMessage("No application selected!");
                 } catch (WrongJobPostingStatusException e1) {
