@@ -3,11 +3,8 @@ package gui.scenarios.applicant;
 import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.job.Interview;
-import model.job.JobPosting;
 import model.user.Applicant;
-import model.user.Company;
 
 /**
  * Class {@code ViewInterviewScenario} deals with the case when an applicant wants to view all his/her interviews.
@@ -41,18 +38,6 @@ public class ViewInterviewScenario extends Scenario {
      */
     public ViewInterviewScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "View Interview");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Applicant applicant = test.addApplicant();
-        Company company = test.addCompany();
-        test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
-            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-            test.addNewRoundAndFinishMatching(jobPosting, company);
-        }
-        new ViewInterviewScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
     }
 
     /**

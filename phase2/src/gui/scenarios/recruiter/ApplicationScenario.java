@@ -4,13 +4,9 @@ import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.job.Application;
 import model.job.Document;
-import model.job.JobPosting;
-import model.user.Applicant;
 import model.user.Company;
-import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -53,20 +49,6 @@ public class ApplicationScenario extends Scenario {
      */
     public ApplicationScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "View Company Applications");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Applicant applicant = test.addApplicant();
-        Company company = test.addCompany();
-        Employee recruiter = test.getRandomRecruiter(company);
-        test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
-            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-        }
-
-        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), recruiter);
-        new ApplicationScenario(userMenuFrame).exampleView();
     }
 
     /**

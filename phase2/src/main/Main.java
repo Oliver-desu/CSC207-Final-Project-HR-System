@@ -22,58 +22,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // The following code was for testing ----------------------------------------------------------------------
-//        Test test = new Test();
-//        Company company;
-//        JobPosting jobPosting;
-//        test.addApplicants(50);
-//        for (int numCompanies = 0; numCompanies < 2; numCompanies++) {
-//            company = test.addCompany();
-//            test.addInterviewersForCompany(4, company);
-//        }
-//
-//        company = test.getEmploymentCenter().getCompany("0");
-//        jobPosting = test.addJobPosting(company);
-//        test.addDraftApplicationForJobPosting(test.getEmploymentCenter().getApplicant("0"), jobPosting);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("1"), jobPosting);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("2"), jobPosting);
-//        test.addNewRound(jobPosting);
-//
-//        jobPosting = test.addJobPosting(company);
-//        test.addDraftApplicationForJobPosting(test.getEmploymentCenter().getApplicant("0"), jobPosting);
-//        test.addDraftApplicationForJobPosting(test.getEmploymentCenter().getApplicant("1"), jobPosting);
-//        test.addNewRound(jobPosting);
-//
-//        jobPosting = test.addJobPosting(company);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("0"), jobPosting);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("3"), jobPosting);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("4"), jobPosting);
-//
-//        jobPosting = test.addJobPosting(company);
-//        for (int i = 0; i < 20; i++) {
-//            if (i % 3 == 0) {
-//                test.addDraftApplicationForJobPosting(test.getEmploymentCenter().getApplicant(Integer.toString(i)), jobPosting);
-//            } else {
-//                test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant(Integer.toString(i)), jobPosting);
-//            }
-//        }
-//        test.addNewRoundAndFinishMatching(jobPosting, company);
-//        test.endCurrentRound(jobPosting);
-//        test.addNewRoundAndFinishMatching(jobPosting, company);
-//        test.endCurrentRound(jobPosting);
-//        test.addNewRound(jobPosting);
-//
-//        jobPosting = test.addJobPosting(company);
-//        test.addDraftApplicationForJobPosting(test.getEmploymentCenter().getApplicant("0"), jobPosting);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("1"), jobPosting);
-//        test.addSubmittedApplicationForJobPosting(test.getEmploymentCenter().getApplicant("2"), jobPosting);
-//        test.addNewRoundAndFinishMatching(jobPosting, company);
-//        test.endCurrentRound(jobPosting);
-//        test.hireApplicants(jobPosting);
-//
-//        test.addJobPostings(5, company);
-
-
         new Main();
     }
 

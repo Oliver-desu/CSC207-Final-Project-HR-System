@@ -4,13 +4,11 @@ import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.exceptions.ApplicationAlreadyExistsException;
 import model.job.Application;
 import model.job.JobPosting;
 import model.storage.EmploymentCenter;
 import model.user.Applicant;
-import model.user.Company;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,15 +35,6 @@ public class JobSearchingScenario extends Scenario {
      */
     public JobSearchingScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Job Searching");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Applicant applicant = test.addApplicant();
-        Company company = test.addCompany();
-        test.addJobPostings(10, company);
-
-        new JobSearchingScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
     }
 
     /**

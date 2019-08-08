@@ -6,14 +6,10 @@ import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
-import model.Test;
 import model.enums.InterviewStatus;
 import model.exceptions.WrongEmployeeTypeException;
 import model.job.Document;
 import model.job.Interview;
-import model.job.JobPosting;
-import model.user.Applicant;
-import model.user.Company;
 import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
@@ -63,23 +59,6 @@ public class OngoingInterviewScenario extends Scenario {
      */
     public OngoingInterviewScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Ongoing Interview Manager");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        test.addApplicants(10);
-        Company company = test.addCompany();
-        test.addJobPosting(company);
-        Employee interviewer = test.getRandomInterviewer(company);
-        JobPosting jobPosting = test.getRandomJobPosting(company);
-
-        for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
-            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-        }
-        test.addNewRoundAndFinishMatching(jobPosting, company);
-
-        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), interviewer);
-        new OngoingInterviewScenario(userMenuFrame).exampleView();
     }
 
     /**

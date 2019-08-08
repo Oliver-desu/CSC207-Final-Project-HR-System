@@ -4,12 +4,10 @@ import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.exceptions.WrongInterviewStatusException;
 import model.job.Application;
 import model.job.Interview;
 import model.job.InterviewRound;
-import model.job.JobPosting;
 import model.storage.EmploymentCenter;
 import model.user.Applicant;
 import model.user.Company;
@@ -64,21 +62,6 @@ public class MatchInterviewScenario extends Scenario {
     public MatchInterviewScenario(UserMenuFrame userMenuFrame, InterviewRound interviewRound) {
         super(userMenuFrame, "Match Interview");
         this.interviewRound = interviewRound;
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        test.addApplicants(10);
-        Company company = test.addCompany();
-        test.addInterviewersForCompany(9, company);
-        Employee recruiter = test.getRandomRecruiter(company);
-        JobPosting jobPosting = test.addJobPosting(company);
-        for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
-            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-        }
-        InterviewRound interviewRound = test.addNewRound(jobPosting);
-
-        new MatchInterviewScenario(new UserMenuFrame(test.getMain(), recruiter), interviewRound).exampleView();
     }
 
     /**

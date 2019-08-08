@@ -238,13 +238,4 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         map.put("close date", jobDetails.get("Close date:"));
         return map;
     }
-
-    // The following methods are only for testing!
-    public void close() {
-        status = JobPostingStatus.PROCESSING;
-    }
-
-    public void setInterviewRoundManager() {
-        this.interviewRoundManager = new InterviewRoundManager(this, applications);
-    }
 }

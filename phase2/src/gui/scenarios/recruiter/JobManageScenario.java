@@ -6,7 +6,6 @@ import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.FilterPanel;
 import gui.panels.InputInfoPanel;
-import model.Test;
 import model.enums.JobPostingStatus;
 import model.exceptions.NextRoundDoesNotExistException;
 import model.exceptions.WrongEmployeeTypeException;
@@ -14,8 +13,6 @@ import model.exceptions.WrongInterviewRoundStatusException;
 import model.exceptions.WrongJobPostingStatusException;
 import model.job.InterviewRound;
 import model.job.JobPosting;
-import model.user.Applicant;
-import model.user.Company;
 import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
@@ -70,22 +67,6 @@ public class JobManageScenario extends Scenario {
      */
     public JobManageScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Job Manager");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        test.addApplicants(10);
-        Company company = test.addCompany();
-        Employee recruiter = test.getRandomRecruiter(company);
-        test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
-            for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
-                test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-            }
-            test.addNewRoundAndFinishMatching(jobPosting, company);
-        }
-
-        new JobManageScenario(new UserMenuFrame(test.getMain(), recruiter)).exampleView();
     }
 
     /**

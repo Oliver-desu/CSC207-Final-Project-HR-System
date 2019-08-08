@@ -4,16 +4,12 @@ import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.exceptions.CanNotEditDocumentManagerException;
 import model.exceptions.DocumentAlreadyExistsException;
 import model.exceptions.EmptyDocumentNameException;
-import model.job.Application;
 import model.job.Document;
 import model.job.DocumentManager;
-import model.job.JobPosting;
 import model.user.Applicant;
-import model.user.Company;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -67,16 +63,6 @@ public class DocumentManageScenario extends Scenario {
         this.applicantDocumentManager = applicant.getDocumentManager();
         this.applicationDocumentManager = applicationDocument;
         this.applicantDocumentManager.updateAllDocuments();
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Applicant applicant = test.addApplicant();
-        Company company = test.addCompany();
-        JobPosting jobPosting = test.addJobPosting(company);
-        Application application = test.addDraftApplicationForJobPosting(applicant, jobPosting);
-
-        new DocumentManageScenario(new UserMenuFrame(), application.getDocumentManager()).exampleView();
     }
 
     /**

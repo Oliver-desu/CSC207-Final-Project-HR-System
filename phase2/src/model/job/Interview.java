@@ -82,6 +82,7 @@ public class Interview implements Filterable, Serializable, ShowAble {
      * Arrange the interview with the given interviewer.
      *
      * @param interviewer the interviewer that will do this interview
+     * @param round the interview round this interview is in
      * @throws WrongInterviewStatusException the status of interview is not UNMATCHED, can not match
      * @see InterviewStatus
      * @see Employee#addFile(Object)

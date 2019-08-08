@@ -4,7 +4,6 @@ import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.enums.InterviewRoundStatus;
 import model.enums.JobPostingStatus;
 import model.exceptions.CurrentRoundUnfinishedException;
@@ -13,8 +12,6 @@ import model.exceptions.WrongApplicationStatusException;
 import model.exceptions.WrongJobPostingStatusException;
 import model.job.*;
 import model.user.Applicant;
-import model.user.Company;
-import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -78,22 +75,6 @@ public class InterviewRoundScenario extends Scenario {
         this.interviewRound = interviewRound;
         this.manager = jobPosting.getInterviewRoundManager();
     }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        test.addApplicants(10);
-        Company company = test.addCompany();
-        Employee recruiter = test.getRandomRecruiter(company);
-        JobPosting jobPosting = test.getRandomJobPosting(test.getRandomCompany());
-        for (Applicant applicant : test.getEmploymentCenter().getAllApplicants()) {
-            test.addSubmittedApplicationForJobPosting(applicant, jobPosting);
-        }
-        test.addNewRoundAndFinishMatching(jobPosting, company);
-
-        new InterviewRoundScenario(new UserMenuFrame(test.getMain(), recruiter), jobPosting.getInterviewRoundManager().getCurrentInterviewRound(), jobPosting).exampleView();
-
-    }
-
 
     /**
      * Override method {@code initComponents()} in abstract class {@code Scenario}.

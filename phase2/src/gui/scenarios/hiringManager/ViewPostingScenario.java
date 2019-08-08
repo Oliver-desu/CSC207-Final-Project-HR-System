@@ -3,13 +3,10 @@ package gui.scenarios.hiringManager;
 import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.FilterPanel;
-import model.Test;
-import model.enums.UserType;
 import model.job.Application;
 import model.job.JobPosting;
 import model.storage.EmploymentCenter;
 import model.user.Company;
-import model.user.Employee;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -54,16 +51,6 @@ public class ViewPostingScenario extends Scenario {
      */
     public ViewPostingScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "View Company Job Postings");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Company company = test.addCompany();
-        Employee hiringManager = test.getEmploymentCenter().getEmployee(company.getHiringManagerId(), UserType.HIRING_MANAGER);
-        test.addJobPostings(10, company);
-
-        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), hiringManager);
-        new ViewPostingScenario(userMenuFrame).exampleView();
     }
 
     /**

@@ -6,7 +6,7 @@ import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.ComponentFactory;
 import gui.panels.InputInfoPanel;
-import model.Test;
+import main.Main;
 import model.enums.UserType;
 import model.job.JobPosting;
 import model.storage.EmploymentCenter;
@@ -47,17 +47,6 @@ public class JobPostingRegisterScenario extends Scenario {
      */
     public JobPostingRegisterScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Create Job Posting");
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Company company = test.addCompany();
-        test.addRecruitersForCompany(9, company);
-        Employee hiringManager = test.getEmploymentCenter().getEmployee(
-                company.getHiringManagerId(), UserType.HIRING_MANAGER);
-
-        UserMenuFrame userMenuFrame = new UserMenuFrame(test.getMain(), hiringManager);
-        new JobPostingRegisterScenario(userMenuFrame).exampleView();
     }
 
     /**
@@ -117,7 +106,7 @@ public class JobPostingRegisterScenario extends Scenario {
     private HashMap<String, String> createJobInfoMap() {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
         Company company = getUserMenuFrame().getCompany();
-        infoMap.put("Post date:", LocalDate.now().toString());
+        infoMap.put("Post date:", Main.getCurrentDate().toString());
         infoMap.put("Company id:", company.getId());
         infoMap.put("Job id:", company.getId() + "--" + infoMap.get("Position name:") + "--" +
                 LocalDateTime.now());

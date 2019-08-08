@@ -5,16 +5,13 @@ import gui.general.Scenario;
 import gui.general.UserMenuFrame;
 import gui.panels.ButtonPanel;
 import gui.panels.FilterPanel;
-import model.Test;
 import model.enums.ApplicationStatus;
 import model.exceptions.ApplicationAlreadyExistsException;
 import model.exceptions.WrongApplicationStatusException;
 import model.exceptions.WrongJobPostingStatusException;
 import model.job.Application;
 import model.job.Document;
-import model.job.JobPosting;
 import model.user.Applicant;
-import model.user.Company;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,18 +63,6 @@ public class ApplicationManageScenario extends Scenario {
     public ApplicationManageScenario(UserMenuFrame userMenuFrame) {
         super(userMenuFrame, "Application Manager");
         this.applicant = (Applicant) getUserMenuFrame().getUser();
-    }
-
-    public static void main(String[] args) {
-        Test test = new Test();
-        Applicant applicant = test.addApplicant();
-        Company company = test.addCompany();
-        test.addJobPostings(10, company);
-        for (JobPosting jobPosting : test.getEmploymentCenter().getJobPostings()) {
-            test.addDraftApplicationForJobPosting(applicant, jobPosting);
-        }
-
-        new ApplicationManageScenario(new UserMenuFrame(test.getMain(), applicant)).exampleView();
     }
 
     /**

@@ -91,7 +91,7 @@ public abstract class Scenario extends JPanel {
      *
      * @see UserMenuFrame#setScenario(Scenario)
      */
-    protected void init() {
+    void init() {
         if (!hasInit) {
             setPreferredSize(new Dimension(WIDTH, HEIGHT));
             setLayout(new FlowLayout());
@@ -240,15 +240,6 @@ public abstract class Scenario extends JPanel {
      */
     protected void initInput() throws NotOverrideException {
         throw new NotOverrideException();
-    }
-
-    protected void exampleView() {
-        init();
-        JFrame frame = new JFrame();
-        frame.setLayout(new FlowLayout());
-        frame.setSize(new Dimension(1000, 600));
-        frame.add(this);
-        frame.setVisible(true);
     }
 
     /**
