@@ -9,6 +9,7 @@ import gui.panels.InputInfoPanel;
 import model.Test;
 import model.enums.UserType;
 import model.job.JobPosting;
+import model.storage.EmploymentCenter;
 import model.user.Company;
 import model.user.Employee;
 
@@ -187,12 +188,15 @@ public class JobPostingRegisterScenario extends Scenario {
         public void actionPerformed(ActionEvent e) {
             if (withdrawAction()) return;
             HashMap<String, String> values = createJobInfoMap();
+            EmploymentCenter employmentCenter = getMain().getEmploymentCenter();
+            Employee employee = employmentCenter.getEmployee(values.get("Recruiter:"), UserType.RECRUITER);
+            Company company = getUserMenuFrame().getCompany();
             if (isValidJobInfoMap(values).equals("Good")) {
                 JobPosting jobPosting = new JobPosting(values);
-                getUserMenuFrame().getCompany().addJobPostingId(jobPosting.getJobId());
-                getMain().getEmploymentCenter().getEmployee(
-                        values.get("Recruiter:"), UserType.RECRUITER).addFile(jobPosting);
-                getMain().getEmploymentCenter().addJobPosting(jobPosting);
+                employmentCenter.addJobPosting(jobPosting);
+                company.addJobPostingId(jobPosting.getJobId());
+                employee.addFile(jobPosting);
+                employee.receiveMessage("You got a new Job Posting to manage!");
                 showMessage("Successfully post job!");
                 infoPanel.clear();
             } else {

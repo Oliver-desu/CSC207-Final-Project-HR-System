@@ -199,7 +199,9 @@ public class InterviewRoundScenario extends Scenario {
                 Application application = leftFilter.getSelectObject();
                 try {
                     manager.hire(application);
+                    Applicant applicant = application.getApplicant(getMain().getEmploymentCenter());
                     showMessage("Succeed!");
+                    applicant.receiveMessage("You got hired by a job!");
                     initLeftFilter();
                 } catch (NullPointerException e1) {
                     showMessage("No application selected!");

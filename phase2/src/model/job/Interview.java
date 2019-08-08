@@ -29,7 +29,7 @@ public class Interview implements Filterable, Serializable, ShowAble {
      * @see Employee
      * @see model.enums.UserType
      * @see #getInterviewer()
-     * @see #match(Employee)
+     * @see #match(Employee, String)
      */
     private Employee interviewer;
 
@@ -86,11 +86,12 @@ public class Interview implements Filterable, Serializable, ShowAble {
      * @see InterviewStatus
      * @see Employee#addFile(Object)
      */
-    public void match(Employee interviewer) throws WrongInterviewStatusException {
+    public void match(Employee interviewer, String round) throws WrongInterviewStatusException {
         if (status.equals(InterviewStatus.UNMATCHED)) {
             interviewer.addFile(this);
             this.interviewer = interviewer;
             setStatus(InterviewStatus.PENDING);
+            application.addInterview(round, this);
             interviewer.receiveMessage("You got an new interview!");
         } else {
             throw new WrongInterviewStatusException();

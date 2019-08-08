@@ -155,7 +155,9 @@ public abstract class User implements Serializable {
     }
 
     public String getMessage() {
-        String message = this.message;
+        String message;
+        if (this.message == null) message = "";
+        else message = this.message;
         this.message = "";
         return message;
     }

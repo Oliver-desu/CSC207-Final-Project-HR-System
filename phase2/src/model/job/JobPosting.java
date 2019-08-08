@@ -195,6 +195,14 @@ public class JobPosting implements Filterable, Serializable, ShowAble {
         interviewRoundManager.applicationCancel(application);
     }
 
+    public void notifyAllFailedApplicant(EmploymentCenter employmentCenter) {
+        for (Application application : applications) {
+            if (application.getStatus() == ApplicationStatus.REJECTED) {
+                application.getApplicant(employmentCenter).receiveMessage("Sorry! You are rejected by a Job Posting!");
+            }
+        }
+    }
+
     public boolean isOpen() {
         return status == JobPostingStatus.OPEN;
     }

@@ -159,10 +159,11 @@ public class MatchInterviewScenario extends Scenario {
             Interview interview;
             try {
                 interview = application.getInterviewByRound(interviewRound.getRoundName());
-                interview.match(interviewer);
-                application.addInterview(interviewRound.getRoundName(), interview);
-                update();
+                interview.match(interviewer, interviewRound.getRoundName());
+                Applicant applicant = application.getApplicant(getMain().getEmploymentCenter());
+                applicant.receiveMessage("You received a new interview!");
                 showMessage("Succeed!");
+                update();
             } catch (NullPointerException e1) {
                 showMessage("Please select one application and one interviewer!");
             } catch (WrongInterviewStatusException e1) {

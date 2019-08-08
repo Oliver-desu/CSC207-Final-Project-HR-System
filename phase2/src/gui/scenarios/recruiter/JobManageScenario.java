@@ -328,6 +328,7 @@ public class JobManageScenario extends Scenario {
                 showMessage("The job posting has already closed!");
             } else {
                 jobPosting.endJobPosting();
+                jobPosting.notifyAllFailedApplicant(getMain().getEmploymentCenter());
                 updateRightFilter();
                 showMessage("The jobPosting is now closed.");
             }
