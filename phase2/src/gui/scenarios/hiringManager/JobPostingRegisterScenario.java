@@ -20,7 +20,7 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
 /**
- * Class {@code JobPostingRegisterScenario} handles the situation where the hiring manager want to create a new job posting.
+ * Class {@code JobPostingRegisterScenario} handles the situation where the hiring manager wants to create a new job posting.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see gui.general.MenuPanel
@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class JobPostingRegisterScenario extends Scenario {
 
     /**
-     * An {@code InputInfoPanel} that sets up gui in this scenario.
+     * An {@code InputInfoPanel} that allows text input in this scenario.
      *
      * @see #update()
      * @see #initInput()
@@ -60,7 +60,7 @@ public class JobPostingRegisterScenario extends Scenario {
     }
 
     /**
-     * Override {@code initComponents()} in abstract class {@code Scenario}.
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -99,9 +99,7 @@ public class JobPostingRegisterScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes and add the new {@code ButtonPanel}.
-     *
-     * @see #initComponents()
+     * A helper method for {@link #initComponents()} that initializes all buttons shown on the {@code buttonPanel}.
      */
     protected void initButton() {
         ButtonPanel buttonPanel = new ButtonPanel(BUTTON_PANEL_SIZE);
@@ -110,11 +108,10 @@ public class JobPostingRegisterScenario extends Scenario {
     }
 
     /**
-     * Create a map that contains basic job information obtained from gui.
-     * A helper function for {@code actionPerformed(ActionEvent)} in {@code CreateJobPostingListener}.
+     * A helper function for {@link  CreateJobPostingListener#actionPerformed(ActionEvent)} that
+     * creates a map which contains basic job information obtained from gui.
      *
-     * @return a map that contains the basic information obtained from user interface
-     * @see JobPostingRegisterScenario
+     * @return a map that contains the basic job information obtained from the user interface
      */
     private HashMap<String, String> createJobInfoMap() {
         HashMap<String, String> infoMap = infoPanel.getInfoMap();
@@ -128,10 +125,10 @@ public class JobPostingRegisterScenario extends Scenario {
 
     /**
      * Check and return whether an integer is valid, that is, whether it starts from a non-zero digit.
+     * It is a helper method for {@link #isValidJobInfoMap(HashMap)}.
      *
      * @param integer the integer to be checked
      * @return true if and only if the integer does not begin with zero
-     * @see #isValidJobInfoMap(HashMap)
      */
     private boolean isValidInt(String integer) {
         return integer.matches("[1-9][0-9]*");
@@ -139,10 +136,10 @@ public class JobPostingRegisterScenario extends Scenario {
 
     /**
      * Check and return whether a date is valid, that is return whether the date is today or after today.
+     * It is a helper method for {@link #isValidJobInfoMap(HashMap)}.
      *
      * @param date the date to be checked
      * @return true only when the date passed in is no earlier than now
-     * @see #isValidJobInfoMap(HashMap)
      */
     private boolean isValidDate(String date) {
         try {
@@ -153,12 +150,11 @@ public class JobPostingRegisterScenario extends Scenario {
     }
 
     /**
-     * A helper function for {@code actionPerformed(ActionEvent)} that checks validity and returns a message that will
-     * interfaces on gui indicating that corresponding information.
+     * A helper method for {@link CreateJobPostingListener#actionPerformed(ActionEvent)} that checks validity
+     * and returns a message that will be shown on gui indicating corresponding information.
      *
      * @param map a hash map containing the information entered into gui
      * @return a message about which part of the information is missing; "Good" when the input is valid
-     * @see CreateJobPostingListener
      */
     private String isValidJobInfoMap(HashMap<String, String> map) {
         if (map.containsValue("")) {
@@ -172,8 +168,8 @@ public class JobPostingRegisterScenario extends Scenario {
     }
 
     /**
-     * Class{@code CreateJobPostingListener} implements ActionListener. It deals with the situation in which the button
-     * "Post job" is clicked.
+     * Class{@code CreateJobPostingListener} implements {@code ActionListener}.
+     * It deals with the situation in which the button "Post job" is clicked.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initButton()
@@ -183,8 +179,9 @@ public class JobPostingRegisterScenario extends Scenario {
 
         /**
          * Override {@code actionPerformed} in interface {@code ActionListener}.
+         * A job will be successfully posted when all required information is filled.
          *
-         * @param e the action event of clicking a button
+         * @param e the action event of clicking "Post Job"
          */
         @Override
         public void actionPerformed(ActionEvent e) {

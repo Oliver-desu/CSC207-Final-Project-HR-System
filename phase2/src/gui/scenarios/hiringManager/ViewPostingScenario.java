@@ -16,7 +16,8 @@ import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 
 /**
- * Class {@code ViewPostingScenario} handles the situation where the hiring manager want to view job postings in the company.
+ * Class {@code ViewPostingScenario} handles the situation where the hiring manager wants to view job postings
+ * of the company.
  *
  * @author group 0120 of CSC207 summer 2019
  * @see #initLeftFilter()
@@ -66,7 +67,7 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * Override method {@code initComponents} in abstract class {@code Scenario}.
+     * Override method {@code initComponents()} in abstract class {@code Scenario}.
      */
     @Override
     protected void initComponents() {
@@ -76,9 +77,8 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code leftFilter}.
-     *
-     * @see #initComponents()
+     * Initialize the {@code leftFilter} such that it shows all job postings in the company.
+     * It is a helper method of {@link #initComponents()}.
      */
     protected void initLeftFilter() {
         leftFilter = new FilterPanel<>(LIST_SIZE, "All JobPostings");
@@ -87,9 +87,9 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * A helper method for {@code initComponents()} that initializes {@code rightFilter}.
-     *
-     * @see #initComponents()
+     * Initialize the {@code rightFilter} such that it shows all applications of the {@code JobPosting} selected
+     * on the left {@code FilterPanel}.
+     * It is a helper method of {@link #initComponents()}.
      */
     protected void initRightFilter() {
         rightFilter = new FilterPanel<>(LIST_SIZE, "JobPosting Applications");
@@ -114,7 +114,7 @@ public class ViewPostingScenario extends Scenario {
 
     /**
      * Class{@code LeftFilterListener} implements ListSelectionListener.
-     * It deals with actions happening on left filter panel.
+     * It deals with the case when a job posting is selected on the list "All JobPostings" shown on left filter panel.
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initLeftFilter()
@@ -124,8 +124,9 @@ public class ViewPostingScenario extends Scenario {
 
         /**
          * Override {@code valueChanged} in interface {@code ListSelectionListener}.
+         * All applications of the job posting will be shown on the right {@code FilterPanel} when a job is selected.
          *
-         * @param e the action event of selecting from a list
+         * @param e the action event of selecting an object from list "All JobPostings".
          */
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -138,8 +139,8 @@ public class ViewPostingScenario extends Scenario {
     }
 
     /**
-     * Class{@code RightFilterListener} implements ListSelectionListener.
-     * It deals with actions happening on right filter panel.
+     * Class{@code RightFilterListener} implements {@code ListSelectionListener}.
+     * It deals with the occasion when an {@code Application} is selected from list "JobPosting Applications".
      *
      * @author group 0120 of CSC207 summer 2019
      * @see #initRightFilter()
@@ -149,8 +150,9 @@ public class ViewPostingScenario extends Scenario {
 
         /**
          * Override {@code ListSelectionEvent} in interface {@code ListSelectionListener}.
+         * The detailed information about the selected {@code Application} will be shown on top right of the page.
          *
-         * @param e the action event of selecting from a list
+         * @param e the action event of selecting an application from "JobPosting Applications"
          */
         @Override
         public void valueChanged(ListSelectionEvent e) {
