@@ -3,6 +3,7 @@ package model.user;
 import gui.scenarios.userRegister.UserRegisterScenario;
 import model.enums.UserType;
 import model.exceptions.NotEmployeeException;
+import model.storage.EmploymentCenter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -150,6 +151,12 @@ public abstract class User implements Serializable {
         return false;
     }
 
+    /**
+     * add message to the this.message
+     * @param message  the message will receive
+     * @see model.job.Interview#match(Employee, String)
+     * @see model.job.JobPosting#notifyAllFailedApplicant(EmploymentCenter)
+     */
     public void receiveMessage(String message) {
         if (!this.message.contains(message)) this.message += message + "\n";
     }
