@@ -1,6 +1,6 @@
 About
 
-We include the link to our uml and flow chart here, use a Google account to log in and view:
+We include the link to our uml and flow chart here, please use a Google account to log in and view:
 gui chart: https://drive.google.com/file/d/1OMYzXn9bgOBj3qtc7cwVGy_bkqMWp9wM/view?usp=sharing
 class chart: https://drive.google.com/file/d/1olBhbXteK5Ii97GUlC200ge9a3coki8F/view?usp=sharing
 
@@ -68,26 +68,26 @@ Time and load/save:
 4. When you finish using the program, remember to log out and then click "Restart" to save all the changes you made,
     then enter "0" days or simply close the program, otherwise the program would not save what you did.
 
-There are several small mistakes we found after 8/8 11:00 am and here is our report and reflection:
+There are several small mistakes we found after 8/8 11:00 am, here is our report and reflection:
 1. In class InterviewRoundScenario line 186: should call update() rather than initLeftFilter()
-    This is caused by communication misunderstanding between members and called the wrong method.
+    We called the wrong method, it is caused by misunderstanding between members.
     Consequence: After hiring, the gui view is not update properly,
         you will be able to see changes by return to job managing and goes to view/edit again.
 2. In class JobPostingRegisterScenario line 136: should use Main.getCurrentDate rather than LocalDate.now()
-    We added time system at very end, forgot to change this line of code.
+    We added time system at very end and forgot to change this line of code.
     Consequence: It will be funny that after you set the date to year 2021 and still can create job closed in 2020.
 3. In class Filter line 55 and line 82: method getFilterValues() and isMatched() is not implemented perfectly.
     We forgot to do more test on filtering, usually just one keyword but bad things happened when there are two or more.
-    Consequence: getFilterValues() not implement well so the regex is strictly XX;XXX;XX, not allowed spaces in between.
-    When due with multiple keywords, isMatched() is actually doing "or" relationship for matching which is wired.
+    Consequence: getFilterValues() works properly when the regex is strictly XX;XXX;XX, with not spaces in between.
+    When dealing with multiple keywords, isMatched() is actually doing "or" relationship for matching which is wired.
 4. In class ApplicationManageScenario line 85: In method initLeftFilter() should add a line;
     leftFilter.addSelectionListener(new LeftFilterListener());
     For this part, we have added documentation before finished coding, therefore inner class LeftFilterListener dose not
-    showed color grey to indicate it is not used, and we just simply forgot.
+    showed color grey to indicate it is not used. Then we just simply forgot to add this line of code.
     Consequence: In ApplicationManageScenario, clicking on applications in left side list will not show its application
     documents on right side list.
 
-A final note: When adding documents as an applicant, it seems like Mac system does not work.
+One last note: When adding documents as an applicant, it seems like Mac system does not work.
     We used the same code on Windows and Mac to add the same file, and it failed on Mac.
 
 Thank you!
